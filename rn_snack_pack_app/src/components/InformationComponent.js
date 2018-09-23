@@ -1,0 +1,2 @@
+// Information Component
+// @author - Meriem
