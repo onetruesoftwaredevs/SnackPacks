@@ -1,14 +1,16 @@
-// snackpacks.js
+// SnackPackComponent.js
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import SnackPackComponent from './components/SnackPackComponent'
 
-export default class SnackPacks extends Component {
+export default class SnackPackComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <SnackPackComponent name={"snack-packs-test-0"}></SnackPackComponent>
-                <SnackPackComponent name={"snack-packs-test-1"}></SnackPackComponent>
+                <Text style={styles.name}>{this.props.name}</Text>
             </View>
         );
     }
@@ -19,6 +21,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
     },
+    name: {
+        flex: 1,
+        justifyContent: 'center',
+        color: 'blue',
+        fontSize: 30,
+    }
 });
