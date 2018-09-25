@@ -4,6 +4,7 @@
 
 //Required libraries
 var SnackPack = require('./snackpack');
+var SnackUser = require('./snackUser')
 var mysql = require('mysql');
 
 //snackConnector constructor
@@ -32,6 +33,28 @@ snackConnector.prototype.getSnackPacks(){
 	});
 
 	return list_snackpacks;
+}
+
+//Method to create a user in the database
+//Returns a SnackUser datatype
+snackConnector.prototype.createUser(name, address, rewardsPoints, paymentInfo){
+	var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+	var id_num;
+	connection.connect(function(err) {
+		if (err) throw err;
+		console.log("Connected!");
+		connection.query("SELECT COUNT(*) FROM snackpacks.users", function(err, result, fields){
+			if(err) throw err;
+			id_num = result;
+		});
+		var query = "INSERT INTO snackpacks.users VALUES (" + id_num + "," + name + "," + address + ", null, 0, \"payment\")";
+		connection.query(query, function(err, result, fields){
+			if (err) throw err;
+			console.log("success");
+		});
+	});
+
+	return SnackUser(id_num, name, address, null, 0, "payment");
 }
 
 //Allows module to be exposed
