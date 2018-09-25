@@ -8,13 +8,13 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import SnackPacks from "./src/snackpacks";
+import PriceView from "./src/components/PriceView";
 
 export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <SnackPacks/>
+          <PriceView price={10.99}/>
       </View>
     );
   }
