@@ -1,14 +1,14 @@
 // snackpacks.js
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import SnackPackComponent from './components/SnackPackComponent'
+import SnackPackView from './components/SnackPackView'
 
 export default class SnackPacks extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <SnackPackComponent name={"snack-packs-test-0"}></SnackPackComponent>
-                <SnackPackComponent name={"snack-packs-test-1"}></SnackPackComponent>
+                <SnackPackView name={"snack-packs-test-0"}></SnackPackView>
+                <SnackPackView name={"snack-packs-test-1"}></SnackPackView>
             </View>
         );
     }
