@@ -8,8 +8,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 
 export default class PriceView extends Component {
-    /* the value price to be displayed */
-    price;
+    price; // the value of the price to be displayed
 
     render() {
         return (
@@ -21,7 +20,6 @@ export default class PriceView extends Component {
 }
 
 const styles = StyleSheet.create({
-    // style of the container displaying price
     container: {
         flex: 0,
         padding: 16,
