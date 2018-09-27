@@ -22,14 +22,14 @@ export default class PriceView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 0,
-        padding: 16,
+        padding: 2,
         backgroundColor: '#008844'
     },
 
     // style of the text displaying the price
     price_style: {
         color: '#ffffff',
-        fontSize: 16,
+        fontSize: 12,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
