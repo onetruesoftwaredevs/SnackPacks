@@ -14,6 +14,14 @@ import Rating from "./src/components/Rating";
 import NutritionView from "./src/components/NutritionView";
 import SnackPackView from "./src/components/SnackPackView";
 
+//ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
+import Amplify, {API, Analytics,Storage} from 'aws-amplify';
+import {withAuthenticator} from 'aws-amplify-react-native';
+import aws_exports from './src/aws-exports';
+
+//Allow analytics & other aws backend to connect to mobile hub
+Amplify.configure(aws_exports);
+
 export default class App extends Component {
   render() {
     return (
