@@ -1,2 +1,0 @@
-// Review Component
-// @author - Stephen
