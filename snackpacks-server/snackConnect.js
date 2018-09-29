@@ -35,9 +35,13 @@ snackConnector.prototype.getSnackPacks(){
 	return list_snackpacks;
 }
 
+snackConnector.prototype.createSnackPack(name, contents, allergens, image_path, reviews, cost){
+	
+}
+
 //Method to create a user in the database
 //Returns a SnackUser datatype
-snackConnector.prototype.createUser(name, address, rewardsPoints, paymentInfo){
+snackConnector.prototype.createUser(name, password, address, rewardsPoints, paymentInfo){
 	var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 	var id_num;
 	connection.connect(function(err) {
@@ -55,6 +59,22 @@ snackConnector.prototype.createUser(name, address, rewardsPoints, paymentInfo){
 	});
 
 	return SnackUser(id_num, name, address, null, 0, "payment");
+}
+
+snackConnector.prototype.getUser(name, password){
+	var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+	var ret;
+	connection.connect(function(err) {
+		if (err) throw err;
+		console.log("Connected!");
+		var query = "SELECT * FROM snackpacks.users where name = " + name + " password = " + password;
+		connection.query(query, function(err, result, fields) {
+			if (err) throw err;
+			ret = result[0];
+			console.log("success");
+		});
+	});
+	return SnackUser(ret.iduser, ret.name, ret.addresses, ret.prevOrders, ret.rewardsPoints, ret.paymentInfo);
 }
 
 //Allows module to be exposed

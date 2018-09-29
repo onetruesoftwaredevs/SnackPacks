@@ -3,9 +3,10 @@
 //Purpose: define the SnackPack data type
 
 //Constructor
-function SnackUser(id, name, addresses, prevOrders, rewardsPoints, paymentInfo){
+function SnackUser(id, name, password, addresses, prevOrders, rewardsPoints, paymentInfo){
     this.id = id;
     this.name = name;
+    this.password = password;
     this.addresses = addresses;
     this.prevOrders = prevOrders;
     this.rewardsPoints = rewardsPoints;
