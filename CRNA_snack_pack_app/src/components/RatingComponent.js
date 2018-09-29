@@ -1,3 +1,0 @@
-// Rating Component
-// @author - Meriem
-
