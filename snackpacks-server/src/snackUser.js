@@ -2,8 +2,8 @@
 //ES6
 //Purpose: define the SnackPack data type
 
-//Constructor
-module.exports = class SnackUser{
+//Class
+class SnackUser{
 	constructor(id, name, password, addresses, prevOrders, rewardsPoints, paymentInfo){
 	    this.id = id;
 	    this.name = name;
@@ -14,3 +14,5 @@ module.exports = class SnackUser{
 	    this.paymentInfo = paymentInfo;
 	}
 }
+
+module.exports = SnackUser;
