@@ -18,29 +18,21 @@ class SnackPack{
 	}
 
 	//Return SnackPack object as JSON
-	get json(){
-		return JSON.stringify({id: this.id, name: this.name, contents: this.contents, allergens: this.allergens, image_path: this.image_path, reviews: this.reviews, cost: this.cost});
-	}
+	//SnackPack.prototype.json = function() {
+	//    return JSON.stringify({id: this.id, name: this._name, contents: this.contents, allergens: this.allergens, image_path: this.image_path, reviews: this.reviews, cost: this.cost});
+	//}
 
-	//Return ID of SnackPack as integer
-	get ID(){
-		return this.id;
-	}
+	get id(){ return this._id }
+    set id(value){ this._id = value }
+    
+	get name(){ return this._name }
+    set name(value){ this._name = value }
 
-	//Return name of SnackPack as String
-	get name(){
-		return this.name;
-	}
+	get contents(){ return this._contents }
+    set contents(value){ this._contents = value }
 
-	//Return allergens variable as Javascript list
-	get contents(){
-		return this.contents;
-	}
-
-	//Return allergens variable as Javascript list
-	get allergens(){
-		return allegens;
-	}
+	get allergens(){ return this._allergens }
+    set allergens(value){ this._allergens = value }
 };
 
 module.exports = SnackPack;
