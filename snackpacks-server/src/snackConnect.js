@@ -57,14 +57,14 @@ class snackConnector{
 			connection.query("SELECT COUNT(*) FROM snackpacks.snackpacks", function(err, count_result, fields){
 				if(err) throw err;
 				//Structure query then submit
-				connection.query(("INSERT INTO snackpacks.snackpacks VALUES (3,\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost + ")"), function(err, result, fields){
+				connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost + ")"), function(err, result, fields){
 					connection.end(function (err){
 						if(err){
 							throw err;
 						}
-						console.log(count_result);
+						console.log(count_result[0]['COUNT(*)']);
 						var ret = true;
-						callback(null, ret)
+						callback(null, ret);
 					});
 				});
 			});
@@ -73,24 +73,24 @@ class snackConnector{
 
 	//Method to create a user in the database
 	//Returns a SnackUser datatype if success, returns false if error at any point
-	createUser(name, password, address, rewardsPoints, paymentInfo){
+	createUser(name, password, address, rewardsPoints, paymentInfo, callback){
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 		var id_num;
 		connection.connect(function(err) {
 			if (err) throw err;
 			console.log("Connected!");
-			connection.query("SELECT COUNT(*) FROM snackpacks.users", function(err, result, fields){
+			connection.query("SELECT COUNT(*) FROM snackpacks.users", function(err, count_result, fields){
 				if(err) throw err;
-				id_num = result;
-			});
-			var query = "INSERT INTO snackpacks.users VALUES (" + id_num + "," + name + "," + address + ", null, 0, \"payment\")";
-			connection.query(query, function(err, result, fields){
-				if (err) throw err;
-				console.log("success");
+				connection.query(("INSERT INTO snackpacks.users VALUES (" + count_result[0]['COUNT(*)'] + "," + name + "," + address + ", null, 0, \"payment\")"), function(err, result, fields){
+					if (err) throw err;
+					console.log("success");
+					var ret = new SnackUser(id_num, name, address, null, 0, "payment");
+					callback(null, ret);
+				});
 			});
 		});
 
-		return SnackUser(id_num, name, address, null, 0, "payment");
+		// return SnackUser(id_num, name, address, null, 0, "payment");
 	}
 
 	//Accessor method to get a certain user by name and password
