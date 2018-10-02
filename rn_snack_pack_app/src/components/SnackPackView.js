@@ -11,6 +11,7 @@ import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-nati
 import NutritionView from "./NutritionView";
 import PriceView from "./PriceView";
 import Rating from "./Rating";
+import QuantityComponent from "./QuantityComponent";
 
 export default class SnackPackView extends Component {
     spname;   // the name of the snack-pack
@@ -54,17 +55,13 @@ export default class SnackPackView extends Component {
                     </View>
                 </View>
                 <View style={styles.information_bar}>
-
                     <View style={styles.information_bar}>
                         <NutritionView allergy='Peanuts'/>
                         <NutritionView allergy='Soy'/>
                     </View>
-
                     <PriceView price={this.props.spprice}/>
                 </View>
-                <TouchableOpacity onPress={this._onAddToCartPressed}>
-                    <Text style={styles.add_to_cart_style}>Add to Cart</Text>
-                </TouchableOpacity>
+                <QuantityComponent/>
             </View>
         );
     }
@@ -75,7 +72,6 @@ const styles = StyleSheet.create({
         padding: 4,
         width: '90%',
         borderWidth: 0,
-        //backgroundColor: 'blue',
     },
 
     image_style: {
@@ -86,7 +82,7 @@ const styles = StyleSheet.create({
     information_bar: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: '#EEEEEE'
+        backgroundColor: '#EEEEEE',
     },
 
     name_style: {
