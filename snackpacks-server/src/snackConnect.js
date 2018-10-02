@@ -43,6 +43,33 @@ class snackConnector{
 		});
 	}
 
+	getSnackPackByID(id, callback){
+		//callback to initiate connection to AWS RDS
+		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+		connection.connect(function(err) {
+			if (err) throw err;
+			//callback to send query
+			connection.query(`SELECT * FROM snackpacks.snackpacks where idsnackpacks=${id}`, function(err, result, fields){
+				if (err) throw err;
+				//callback to end connection
+				connection.end(function(err) {
+					if (err) {
+						return console.log('error:' + err.message);
+					}
+					var count = 0;
+					var list_snackpacks=[];
+					for(var r in result){
+						var pack = result[r];
+						// console.log(list_snackpacks);
+						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
+						count++;
+					}
+					callback(null, list_snackpacks[0]);
+				});
+			});
+		});
+	}
+
 	//createSnackPack
 	//returns true if successful, otherwise returns false
 	//todo add check
