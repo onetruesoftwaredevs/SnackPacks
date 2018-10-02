@@ -33,7 +33,7 @@ class snackConnector{
 					var list_snackpacks=[];
 					for(var r in result){
 						var pack = result[r];
-						console.log(list_snackpacks);
+						// console.log(list_snackpacks);
 						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
 						count++;
 					}
