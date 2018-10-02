@@ -30,20 +30,18 @@ export default class NutritionView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 0,
-        padding: 2,
+        padding: 4,
         backgroundColor: '#ff4444',
 
     },
 
     nutrition_style: {
         color: '#ffffff',
-        fontSize: 12,
+        fontSize: 14,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
         textDecorationLine: 'none',
-        // different for ios and android research proper way to use before implementing
-        //fontFamily: 'normal',
         textAlignVertical: 'center',
         textTransform: 'none',
     }
