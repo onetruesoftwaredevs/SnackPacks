@@ -7,16 +7,17 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
+import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
 import NutritionView from "./NutritionView";
 import PriceView from "./PriceView";
 import Rating from "./Rating";
 import QuantityComponent from "./QuantityComponent";
 
 export default class SnackPackView extends Component {
-    spname;   // the name of the snack-pack
-    sprating; // the rating of the snack-pack
-    spprice;  // the price of the snack-pack
+    spname;         // the name of the snack-pack
+    sprating;       // the rating of the snack-pack
+    spprice;        // the price of the snack-pack
+    spallergylist;  // a the list of allergies contained in this snack-pack
 
     _onImagePressed() {
         Alert.alert('image was pressed', 'test')
@@ -55,10 +56,11 @@ export default class SnackPackView extends Component {
                     </View>
                 </View>
                 <View style={styles.information_bar}>
-                    <View style={styles.information_bar}>
-                        <NutritionView allergy='Peanuts'/>
-                        <NutritionView allergy='Soy'/>
-                    </View>
+                    <FlatList
+                        horizontal={true}
+                        data={this.props.spallergylist}
+                        renderItem={({item}) => <NutritionView allergy={item.key}/>}
+                    />
                     <PriceView price={this.props.spprice}/>
                 </View>
                 <QuantityComponent/>
