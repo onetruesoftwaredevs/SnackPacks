@@ -35,6 +35,14 @@ class Cart{
 		}
 	}
 	
+	getSnackPacksInCart(){
+		var SnackPacks = new Array();
+		for (var i=0; i < Cart.length; i++) {
+			SnackPacks.push(Cart[i].SnackPack);
+		}
+		return SnackPacks;
+	}
+	
 	getSnackPack(indexInCart){
 		return Cart[indexInCart].SnackPack;
 	}
