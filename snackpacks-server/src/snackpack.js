@@ -7,7 +7,7 @@
 
 //Allows module to be exposed
 class SnackPack{
-	constructor(id, name, contents, allergens, image_path, reviews, cost){
+	constructor(id, name, contents, allergens, image_path, reviews, cost, rating){
 		this.id = id;
 		this.name = name;
 		this.contents = contents.split(",");
@@ -15,6 +15,7 @@ class SnackPack{
 		this.image_path = image_path;
 		this.reviews = reviews;
 		this.cost = cost;
+		this.rating = rating;
 	}
 
 	//Return SnackPack object as JSON
