@@ -34,7 +34,7 @@ class SnackConnector{
 					for(var r in result){
 						var pack = result[r];
 						// console.log(list_snackpacks);
-						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
+						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost, pack.rating));
 						count++;
 					}
 					callback(null, list_snackpacks);
@@ -61,7 +61,7 @@ class SnackConnector{
 					for(var r in result){
 						var pack = result[r];
 						// console.log(list_snackpacks);
-						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
+						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost, pack.rating));
 						count++;
 					}
 					callback(null, list_snackpacks[0]);
@@ -73,7 +73,7 @@ class SnackConnector{
 	//createSnackPack
 	//returns true if successful, otherwise returns false
 	//todo add check
-	createSnackPack(name, contents, allergens, image_path, reviews, cost, callback){
+	createSnackPack(name, contents, allergens, image_path, reviews, cost, rating, callback){
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 		connection.connect(function(err){
 			if (err) throw err;
@@ -83,7 +83,7 @@ class SnackConnector{
 				if(err) throw err;
 				connection.query(`SELECT * FROM snackpacks.users WHERE name=${name}`, function(err, found_result, fields){;
 					//Structure query then submit
-					connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost + ")"), function(err, result, fields){
+					connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\",\"" + cost + "\"," + rating + ")"), function(err, result, fields){
 						connection.end(function (err){
 							if(found_result){
 								callback(null, false);
