@@ -70,12 +70,11 @@ export default class SnackPackView extends Component {
 const styles = StyleSheet.create({
     container: {
         padding: 4,
-        width: '90%',
         borderWidth: 0,
     },
 
     image_style: {
-        width: 316,
+        width: 308,
         height: 200,
     },
 
