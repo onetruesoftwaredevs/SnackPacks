@@ -70,9 +70,8 @@ export default class PaymentView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
+        flex: 1,
         padding: 4,
-        width: '90%',
     },
 
     horizontal_container: {

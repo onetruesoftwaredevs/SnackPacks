@@ -30,7 +30,7 @@ export default class OrderItemView extends Component {
                         </View>
                         <View style={styles.horizontal_container}>
                             <Text style={styles.information_style}>Price: </Text>
-                            <Text style={styles.information_style}>${roundedPrice}</Text>
+                            <Text style={styles.information_style}>${this.props.spprice}</Text>
                         </View>
                     </View>
                 </View>
@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 0,
         padding: 4,
-        width: '90%',
     },
 
     horizontal_container: {
