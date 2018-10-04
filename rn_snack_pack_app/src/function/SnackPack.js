@@ -1,25 +1,29 @@
 
 
 class SnackPack{
-		
-	constructor(givenSP){		
-		this.id = givenSP._id;
-		this.name = givenSP._name;
-		this.contents = givenSP._contents;
-		this.allergens = givenSP._allergens;
-		this.image_path = givenSP.image_path;
-		this.reviews = givenSP.reviews;
-		this.cost = givenSP.cost;
-		this.rating = givenSP.rating;
+	
+	constructor(id, name, contents, allergens, image_path, reviews, cost, rating){
+		this.id = id;   // int
+		this.name = name;   // string
+		this.contents = contents;  // array
+		this.allergens = allergens;  // array
+		this.image_path = image_path;   // string (url)
+		this.reviews = reviews;  // string
+		this.cost = cost;   // number
+		this.rating = rating;   // int
 	}
 
 	get id(){ return this.id }
+    set id(value){ this._id = value }
     
 	get name(){ return this.name }
+    set name(value){ this._name = value }
 
 	get contents(){ return this.contents }
+    set contents(value){ this._contents = value }
 
 	get allergens(){ return this.allergens }
+    set allergens(value){ this._allergens = value }
 	
 	get image_path(){ return this.image_path }
 	
