@@ -18,23 +18,22 @@ export default class SnackPackMenuView extends Component {
                 <Text style={styles.title_style}>Snack Packs</Text>
                 <FlatList
                     style={styles.flatlist_style}
-                    data = {[
-                        {key: 'sp1', spprice: 5.99, sprating: 2},
-                        {key: 'sp2', spprice: 6.99, sprating: 3},
-                        {key: 'sp3', spprice: 7.99, sprating: 4},
-                        {key: 'sp4', spprice: 8.99, sprating: 5},
-                        {key: 'sp5', spprice: 9.99, sprating: 1.5},
-                        {key: 'sp6', spprice: 10.99, sprating: 2.5},
-                        {key: 'sp7', spprice: 2.99, sprating: 3.5},
-                        {key: 'sp1', spprice: 5.99, sprating: 2},
-                        {key: 'sp2', spprice: 6.99, sprating: 3},
-                        {key: 'sp3', spprice: 7.99, sprating: 4},
-                        {key: 'sp4', spprice: 8.99, sprating: 5},
-                        {key: 'sp5', spprice: 9.99, sprating: 1.5},
-                        {key: 'sp6', spprice: 10.99, sprating: 2.5},
-                        {key: 'sp7', spprice: 2.99, sprating: 3.5},
+                    data={[
+                        {key: 'sp1', spprice: 5.99, sprating: 2, spallergylist: [{key: 'Peanuts'}, {key: 'Soy'}]},
+                        {key: 'sp2', spprice: 6.99, sprating: 3, spallergylist: [{key: 'Peanuts'}]},
+                        {key: 'sp3', spprice: 7.99, sprating: 4, spallergylist: [{key: 'Soy'}]},
+                        {key: 'sp4', spprice: 8.99, sprating: 5, spallergylist: []},
+                        {key: 'sp5', spprice: 9.99, sprating: 1.5, spallergylist: [{key: 'Peanuts'}, {key: 'Soy'}]},
+                        {key: 'sp6', spprice: 10.99, sprating: 2.5, spallergylist: [{key: 'Peanuts'}]},
+                        {key: 'sp7', spprice: 2.99, sprating: 3.5, spallergylist: [{key: 'Soy'}]},
+
                     ]}
-                    renderItem={({item}) => <SnackPackView spname={item.key} spprice={item.spprice} sprating={item.sprating}/>}
+                    renderItem={({item}) => <SnackPackView
+                        spname={item.key}
+                        spprice={item.spprice}
+                        sprating={item.sprating}
+                        spallergylist={item.spallergylist}
+                    />}
                 />
             </View>
         );
