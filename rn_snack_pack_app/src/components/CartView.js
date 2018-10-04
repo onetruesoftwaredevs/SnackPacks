@@ -47,12 +47,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 4,
-        width: '90%'
+        width: '90%',
         //backgroundColor: '#008844'
     },
 
     flatlist_style: {
-        height: '50%'
+        height: '55%'
     },
 
     title_style: {

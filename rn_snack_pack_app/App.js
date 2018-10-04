@@ -22,6 +22,7 @@ import PaymentView from "./src/components/PaymentView";
 import OrderItemView from "./src/components/OrderItemView";
 import CartView from "./src/components/CartView";
 import SnackPackMenuView from "./src/components/SnackPackMenuView";
+import SnackPacks from "./src/snackpacks";
 
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
@@ -30,7 +31,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <SnackPackMenuView data={[]}/>
+          <SnackPacks/>
       </View>
     );
   }
