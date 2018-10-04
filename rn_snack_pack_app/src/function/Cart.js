@@ -1,13 +1,18 @@
 
 
+var SnackPack = require('./SnackPack');
+
 class Cart{
+	
+	constructor(){
+		this.url = 'https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/test';
+		this.Cart = new Array();
+	}
 	
 	function Item(SnackPack, quantity) {
 		this.SnackPack = SnackPack;
 		this.quantity = quantity;
 	}
-	
-	var Cart = [];
 
 	addToCart(SnackPack){
 		Cart.push(new Item(SnackPack, 1));
@@ -36,6 +41,26 @@ class Cart{
 	
 	getQuantity(indexInCart){
 		return Cart[indexInCart].quantity;
+	}
+	
+	checkout(){
+		// Upload Cart as a POST request to a different link
+		// Format: an array of ID, quantity pairs
+		var IDs = new Array(Cart.length);
+		var quantities = new Array(Cart.length);
+		for (var i=0; i < Cart.length; i++) {
+			IDs.push(getSnackPack(i).id);
+			quantities.push(getQuantity(i));
+		}
+		var cartData = [IDs, quantities];
+		fetch(this.url, {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({"IDsAndQuantities":cartData}),
+	});
 	}
     
 };
