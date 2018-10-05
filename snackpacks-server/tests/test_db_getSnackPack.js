@@ -10,7 +10,8 @@ console.log("Success\n------------\n")
 console.log("Test 2:");
 console.log("Getting a snackpacks.");
 var snackConnector = new snackDB();
-var x;
-snackConnector.getSnackPackByID(1, function(error, result){
-	console.log(result.name);
+snackConnector.getSnackPackByID(1, function (err, result) {
+	console.log("Result:");
+	console.log(result);
+	console.log("Success\n------------\n");
 });
