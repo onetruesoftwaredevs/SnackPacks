@@ -10,9 +10,6 @@ console.log("Success\n------------\n")
 console.log("Test 2:");
 console.log("Getting all snackpacks.");
 var snackConnector = new snackDB();
-
-snackConnector.retRetVal();
-
 snackConnector.getSnackPacks(function (err, result) {
 	console.log("Result:");
 	for(var x in result){

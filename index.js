@@ -29,30 +29,25 @@ exports.handler = function(event, context, callback){
             } else if(command.localeCompare("cart") == 0){
                 var SnackConnector = new SnackConnect();
                 var cart = JSON.parse(event.body);
-                
+                // for(var i in cart){
+                //     cart[i] = cart[i][0];
+                // }
                 console.log(cart);
                 
-                var totalCost = 0;
-                for(var i = 0; i < cart.length; i++){
-                    var sp = SnackConnector.getSnackPackByID(cart[i][0], function(error, result){
-                        console.log("Cost");
-                        console.log(result.cost);
-                    });
-                    console.log(sp);
-                    totalCost += sp.cost * cart[i][1];
-                }
-                
-                console.log(totalCost);
-                
-                var response = {
-                    "statusCode": 200,
-                    "headers": {
+                SnackConnector.getCartCost(cart, function(error, result){
+
+                    var response = {
+                        "statusCode": 200,
+                        "headers": {
                         "my_header": "my_value"
-                    },
-                    "body": JSON.stringify("Received cart"),
-                    "isBase64Encoded": false
-                };
-                callback(null, response);
+                        },
+                        "body": JSON.stringify(result),
+                        "isBase64Encoded": false
+                    };
+                    console.log(response);
+                    callback(null, response);
+                    console.log("Callback sent");
+                });
            
             } else {
             var response = {
