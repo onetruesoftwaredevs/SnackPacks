@@ -1,76 +1,78 @@
-var SnackPack = require('./SnackPack');
+let SnackPack = require('./SnackPack');
 
-class Cart {
-
-    static instance = null;
-
-    constructor() {
-        this.url = 'https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/test';
-        this.cart = new Array();
-    }
-
-    static getInstance() {
-        if (Cart.instance === null) {
-            Cart.instance = new Cart();
-        }
-
-        return Cart.instance;
-    }
-
-    function
-
-    Item(SnackPack, quantity) {
+class Item {
+    constructor(SnackPack, quantity) {
         this.SnackPack = SnackPack;
         this.quantity = quantity;
     }
+}
+
+class Cart {
+
+    constructor() {
+        if (!Cart.instance)
+        {
+            this.url = 'https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/test';
+            this.cart = new Array();
+            Cart.instance = this;
+        }
+        return Cart.instance;
+    }
+
+    static getInstance() {
+        if (!Cart.instance) {
+            Cart.instance = new Cart();
+        }
+        return Cart.instance;
+    }
 
     addToCart(SnackPack) {
-        cart.push(new Item(SnackPack, 1));
+        this.cart.push(new Item(SnackPack, 1));
     }
 
     removeFromCart(name) {
-        for (var i = 0; i < cart.length; i++) {
-            if (cart[i].SnackPack.name === name) {
-                cart.splice(i, 1);
+        for (let i = 0; i < this.cart.length; i++) {
+            if (this.cart[i].SnackPack.name === name) {
+                this.cart.splice(i, 1);
             }
         }
     }
 
     changeQuantity(name, quantity) {
-        for (var i = 0; i < cart.length; i++) {
-            if (cart[i].SnackPack.name === name) {
-                cart[i].quantity = quantity;
+        for (let i = 0; i < this.cart.length; i++) {
+            if (this.cart[i].SnackPack.name === name) {
+                this.cart[i].quantity = quantity;
                 return;
             }
         }
     }
 
     getSnackPacksInCart() {
-        var SnackPacks = new Array();
-        for (var i = 0; i < cart.length; i++) {
-            SnackPacks.push(cart[i].SnackPack);
+        let SnackPacks = new Array();
+        for (let i = 0; i < this.cart.length; i++) {
+            SnackPacks.push(this.cart[i].SnackPack);
         }
         return SnackPacks;
     }
 
     getSnackPack(name) {
-        return cart[indexInCart].SnackPack;
+        return this.cart[indexInCart].SnackPack;
     }
 
     getQuantity(name) {
-        return cart[indexInCart].quantity;
+        return this.cart[indexInCart].quantity;
     }
 
     checkout() {
         // Upload cart as a POST request to a different link
         // Format: an array of ID, quantity pairs
-        var IDs = new Array(cart.length);
-        var quantities = new Array(cart.length);
-        for (var i = 0; i < cart.length; i++) {
-            IDs.push(getSnackPack(i).id);
-            quantities.push(getQuantity(i));
+        let IDs = new Array(this.cart.length);
+        let quantities = new Array(this.cart.length);
+        for (let i = 0; i < this.cart.length; i++) {
+            IDs.push(this.getSnackPack(i).id);
+            quantities.push(this.getQuantity(i));
         }
-        var cartData = [IDs, quantities];
+        let cartData = [IDs, quantities];
         fetch(this.url, {
             method: 'POST',
             headers: {
