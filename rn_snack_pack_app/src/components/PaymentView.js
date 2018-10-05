@@ -61,7 +61,7 @@ export default class PaymentView extends Component {
                     />
                 </View>
                 <TouchableOpacity onPress={this._handlePayment} style={styles.button_style}>
-                    <Text style={styles.button_text_style}>Pay</Text>
+                    <Text style={styles.button_text_style}>Checkout</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
+        padding: 2,
     },
 
 

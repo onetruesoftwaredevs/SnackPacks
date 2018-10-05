@@ -6,15 +6,24 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 
 export default class OrderItemView extends Component {
     spname;     // the name of the snack-pack
     spprice;    // the value of the price
-    spquantity; // the quantity of the snack-pack
+
+    constructor(props) {
+        super(props);
+        this.state = {spquantity: 0}
+        this.setQuantity = this.setQuantity.bind(this);
+    }
+
+    setQuantity = (q) => {
+        this.setState({spquantity: q});
+    }
 
     render() {
-        let roundedPrice = Number(`${this.props.spprice * this.props.spquantity}`).toFixed(2);
+        let roundedPrice = Number(`${this.props.spprice * this.state.spquantity}`).toFixed(2);
 
         return (
             <View style={styles.container}>
@@ -23,14 +32,26 @@ export default class OrderItemView extends Component {
                         <Text style={styles.name_style}>{this.props.spname}</Text>
                         <Text/>
                     </View>
-                    <View>
-                        <View style={styles.horizontal_container}>
-                            <Text style={styles.information_style}>Quantity: </Text>
-                            <Text style={styles.information_style}>{this.props.spquantity}</Text>
+                    <View style={styles.horizontal_container}>
+                        <View>
+                            <View style={styles.horizontal_container}>
+                                <Text style={styles.information_style}>Quantity: </Text>
+                                <Text style={styles.information_style}>{this.state.spquantity}</Text>
+                            </View>
+                            <View style={styles.horizontal_container}>
+                                <Text style={styles.information_style}>Price: </Text>
+                                <Text style={styles.information_style}>${this.props.spprice}</Text>
+                            </View>
                         </View>
-                        <View style={styles.horizontal_container}>
-                            <Text style={styles.information_style}>Price: </Text>
-                            <Text style={styles.information_style}>${this.props.spprice}</Text>
+                        <View>
+                            <TouchableOpacity style={styles.quantity_button}
+                                              onPress={() => this.setQuantity(this.state.spquantity + 1)}>
+                                <Text style={styles.quantity_button_text}> + </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.quantity_button}
+                                              onPress={() => this.setQuantity(this.state.spquantity - 1)}>
+                                <Text style={styles.quantity_button_text}> - </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -74,7 +95,22 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textTransform: 'none',
         padding: 2,
+    },
 
+    quantity_button: {
+        backgroundColor: '#4488AA'
+    },
+
+    quantity_button_text: {
+        color: '#FFF',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4,
     }
 
 });

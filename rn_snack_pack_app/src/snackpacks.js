@@ -9,7 +9,7 @@ export default class SnackPacks extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            screen: 1
+            screen: 2
         };
     }
 
