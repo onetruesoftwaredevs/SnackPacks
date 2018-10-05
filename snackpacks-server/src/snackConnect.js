@@ -128,27 +128,64 @@ class snackConnector{
 
 	getCartCost(cart, callback){
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
-		var cartString = "(";
-		for(var x in cart){
-			cartString += `\"${cart[x]}\",`;
-		}
-		cartString = cartString.substr(0, cartString.length-1);
-		cartString += ")";
-		console.log(cartString);
+		
+		//sanitize input
+		//checking for duplicates + if 0
 
-		connection.connect(function(err) {
-			if (err) throw err;
-			//callback to send query
-			connection.query(`SELECT SUM(cost) FROM snackpacks.snackpacks WHERE idsnackpacks IN ${cartString}`, function(err, result, fields){
-				if (err) throw err;
-				//callback to end connection
-				connection.end(function(err) {
-					total_cost = result[0]['SUM(cost)'];
-					console.log(total_cost);
-					callback(null, total_cost);
-				});
-			});
-		});
+
+		//Create the cart string used for the SQL command
+		var cartString = "(";
+		var newCart_dict = {};
+
+		for(var x in cart){
+			if(cart[x][1] != 0){
+				if(newCart_dict[cart[x][0]]){
+					newCart_dict[cart[x][0]]++;
+				}else{
+					newCart_dict[cart[x][0]] = 1;
+				}
+			}
+		}
+
+		console.log(newCart_dict);
+
+		var newCart;
+
+		for(var x in newCart_dict){
+			console.log(x, newCart_dict[x]);
+		}
+
+		// cart = newCart;
+
+		// for(var x in cart){
+		// 	for(var y = 1; y <= cart[x][1]; y++){
+		// 		cartString += `\"${cart[x][0]}\",`;
+		// 	}
+		// }
+		// cartString = cartString.substr(0, cartString.length-1);
+		// cartString += ")";
+		// console.log(cartString);
+
+		// //Start the descent into callback hell
+		// connection.connect(function(err) {
+		// 	if (err) throw err;
+		// 	//callback to send query
+		// 	//Instead of trying to iterate thru an array
+		// 	connection.query(`SELECT cost FROM snackpacks.snackpacks WHERE idsnackpacks IN ${cartString}`, function(err, result, fields){
+		// 		if (err) throw err;
+		// 		//callback to end connection
+		// 		connection.end(function(err) {
+		// 			var total_cost = 0;
+		// 			for(var x in result){
+		// 				console.log(`${result[x]['cost']} * ${cart[x][1]}`)
+		// 				total_cost += (result[x]['cost'] * cart[x][1]);
+		// 			}
+		// 			// total_cost = result[0]['SUM(cost)'];
+		// 			console.log(total_cost);
+		// 			callback(null, total_cost);
+		// 		});
+		// 	});
+		// });
 	}
 }
 //Allows module to be exposed
