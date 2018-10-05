@@ -18,6 +18,8 @@ export default class SnackPackView extends Component {
     sprating;       // the rating of the snack-pack
     spprice;        // the price of the snack-pack
     spallergylist;  // a the list of allergies contained in this snack-pack
+    spquantity;
+    spimage;
 
     _onImagePressed() {
         Alert.alert('image was pressed', 'test')
@@ -59,7 +61,7 @@ export default class SnackPackView extends Component {
                     />
                     <PriceView price={this.props.spprice}/>
                 </View>
-                <QuantityComponent spname={this.props.spname} spprice={this.props.spprice}/>
+                <QuantityComponent spname={this.props.spname} spprice={this.props.spprice} spquantity={this.props.spquantity}/>
             </View>
         );
     }

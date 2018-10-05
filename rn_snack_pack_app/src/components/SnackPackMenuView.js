@@ -23,6 +23,7 @@ export default class SnackPackMenuView extends Component {
                         spprice={item._cost}
                         sprating={3}
                         spallergylist={item._allergens}
+                        spimage={item.image_path}
                     />}
                     keyExtractor={(item, index) => index.toString()}
                 />
