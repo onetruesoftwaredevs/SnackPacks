@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
 
     flatlist_style: {
-        height: '55%'
+        height: '50%'
     },
 
     title_style: {
