@@ -9,6 +9,7 @@
   "dependencies": {
     "aws-amplify": "^1.1.4",
     "aws-amplify-react-native": "^2.0.4",
+    "mysql": "^2.16.0",
     "react": "16.5.0",
     "react-format-currency": "^0.1.1",
     "react-native": "0.57.0",
