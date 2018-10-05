@@ -59,7 +59,7 @@ export default class SnackPackView extends Component {
                     />
                     <PriceView price={this.props.spprice}/>
                 </View>
-                <QuantityComponent/>
+                <QuantityComponent spname={this.props.spname}/>
             </View>
         );
     }

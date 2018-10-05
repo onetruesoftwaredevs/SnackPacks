@@ -5,10 +5,8 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import SnackPackView from "./SnackPackView";
-import SnackConnector from '../function/SnackConnector.js'
-import SnackPack from '../function/SnackPack'
 
 export default class SnackPackMenuView extends Component {
 
@@ -41,7 +39,7 @@ export default class SnackPackMenuView extends Component {
                     data={this.state.dataSource}
                     renderItem={({item}) => <SnackPackView
                         spname={item._name}
-                        spprice={item.cost}
+                        spprice={item._cost}
                         sprating={3}
                         spallergylist={item._allergens}
                     />}
