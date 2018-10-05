@@ -11,9 +11,10 @@ export default class PriceView extends Component {
     price; // the value of the price to be displayed
 
     render() {
+        let price = Number(this.props.price).toFixed(2);
         return (
             <View style={styles.container}>
-                <Text style={styles.price_style}>${this.props.price}</Text>
+                <Text style={styles.price_style}>${price}</Text>
             </View>
         );
     }

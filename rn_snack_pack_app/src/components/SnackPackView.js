@@ -18,6 +18,8 @@ export default class SnackPackView extends Component {
     sprating;       // the rating of the snack-pack
     spprice;        // the price of the snack-pack
     spallergylist;  // a the list of allergies contained in this snack-pack
+    spquantity;
+    spimage;
 
     _onImagePressed() {
         Alert.alert('image was pressed', 'test')
@@ -25,10 +27,6 @@ export default class SnackPackView extends Component {
 
     _onRatingPressed() {
         Alert.alert('rating was pressed', 'test')
-    }
-
-    _onAddToCartPressed() {
-        Alert.alert('added to cart was pressed', 'test')
     }
 
     _onNutritionPressed() {
@@ -59,11 +57,11 @@ export default class SnackPackView extends Component {
                     <FlatList
                         horizontal={true}
                         data={this.props.spallergylist}
-                        renderItem={({item}) => <NutritionView allergy={item.key}/>}
+                        renderItem={({item}) => <NutritionView allergy={item}/>}
                     />
                     <PriceView price={this.props.spprice}/>
                 </View>
-                <QuantityComponent/>
+                <QuantityComponent spname={this.props.spname} spprice={this.props.spprice} spquantity={this.props.spquantity}/>
             </View>
         );
     }
