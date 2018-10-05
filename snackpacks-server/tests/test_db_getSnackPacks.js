@@ -17,4 +17,3 @@ snackConnector.getSnackPacks(function (err, result) {
 	}
 	console.log("Success\n------------\n");
 });
-// console.log(u)
