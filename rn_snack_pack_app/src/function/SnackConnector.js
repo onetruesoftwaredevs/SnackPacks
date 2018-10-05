@@ -9,7 +9,8 @@ class SnackConnector{
 
 	static getSnackPacks(){
 		var url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks";
-		var jsonSnackPacks = fetch(url);
+		var json = fetch(url);
+		var jsonSnackPacks = JSON.parse(json);
 		var SnackPacks = new Array();
 		if (jsonSnackPacks === undefined) { return []; }
 		for(var i=0; i<jsonSnackPacks.length; i++){
