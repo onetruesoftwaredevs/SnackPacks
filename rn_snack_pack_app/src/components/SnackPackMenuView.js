@@ -7,11 +7,12 @@
 import React, {Component} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import SnackPackView from "./SnackPackView";
-import SnackConnector from '../function/SnackConnector'
+import SnackConnector from '../function/SnackConnector.js'
 
 export default class SnackPackMenuView extends Component {
     // TODO change this method to populate with actual data
     render() {
+        let spdata = SnackConnector.getSnackPacks();
         return (
             <View style={styles.container}>
                 <Text style={styles.title_style}>Snack Packs</Text>
@@ -27,9 +28,9 @@ export default class SnackPackMenuView extends Component {
                         {key: 'sp7', spprice: 2.99, sprating: 3.5, spallergylist: [{key: 'Soy'}]},
 
                     ]}*/
-                    data={SnackConnector.getSnackPacks()}
+                    data={spdata}
                     renderItem={({item}) => <SnackPackView
-                        spname={item.key}
+                        spname={item.spname}
                         spprice={item.spprice}
                         sprating={item.sprating}
                         spallergylist={item.spallergylist}

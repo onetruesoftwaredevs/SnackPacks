@@ -6,6 +6,7 @@
 
 import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
+import Cart from '../function/Cart.js'
 
 export default class QuantityComponent extends Component {
     spname; // the name of the snack-pack
@@ -19,11 +20,23 @@ export default class QuantityComponent extends Component {
 
     incrementQuantity = () => {
         this.setState(prevState => ({quantity: prevState.quantity + 1}));
+        if (this.state.quantity === 1) {
+            // add to cart
+            //Cart.getInstance().addTocart(spname);
+        }
+        else
+        {
+            // update quantity in cart
+            //Cart.getInstance().changeQuantity(spname, this.state.quantity);
+        }
     }
 
     decrementQuantity = () => {
         if (this.state.quantity > 0) {
             this.setState(prevState => ({quantity: prevState.quantity - 1}));
+        }
+        if (this.state.quantity === 0) {
+            // remove from cart
         }
     }
 
