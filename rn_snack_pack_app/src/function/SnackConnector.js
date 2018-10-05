@@ -5,13 +5,13 @@
 //Required libraries
 var SnackPack = require('./SnackPack');
 
-class SnackConnector{
+class SnackConnector {
 
 	static getSnackPacks(){
-		var url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks";
+		var url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list";
 		var jsonSnackPacks = fetch(url);
 		var SnackPacks = new Array();
-		if (jsonSnackPacks === undefined) { return []; }
+		console.log(jsonSnackPacks.length);
 		for(var i=0; i<jsonSnackPacks.length; i++){
 			SnackPacks.push(new SnackPack(jsonSnackPacks[i]));
 		}
@@ -21,10 +21,12 @@ class SnackConnector{
 			for(var j=0; j < SnackPacks[i].allergens.length; j++){
 				formattedAllergens.push({key: SnackPacks[i].allergens[j]});
 			}
-			formattedSPs.push({key: SnackPacks[i].id, spprice: SnackPacks[i].cost, sprating: SnackPacks[i].rating, spallergylist: formattedAllergens});
+			formattedSPs.push({key: SnackPacks[i].id, spname: SnackPacks[i].name, spprice: SnackPacks[i].cost, sprating: SnackPacks[i].rating, spallergylist: formattedAllergens});
 		}
 		return formattedSPs;	
 	}
 }
 //Allows module to be exposed
 module.exports = SnackConnector;
+
+SnackConnector.getSnackPacks();
