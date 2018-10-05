@@ -52,7 +52,7 @@ class SnackConnector{
 		});
 	}
 
-	getSnackPackByID(id, callback){
+	static getSnackPackByID(id, callback){
 		//callback to initiate connection to AWS RDS
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 		connection.connect(function(err) {
@@ -83,7 +83,7 @@ class SnackConnector{
 	//createSnackPack
 	//returns true if successful, otherwise returns false
 	//todo add check
-	createSnackPack(name, contents, allergens, image_path, reviews, cost, rating, callback){
+	static createSnackPack(name, contents, allergens, image_path, reviews, cost, rating, callback){
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 		connection.connect(function(err){
 			if (err) throw err;
