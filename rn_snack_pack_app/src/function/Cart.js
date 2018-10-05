@@ -33,6 +33,15 @@ class Cart {
             }
         }
     }
+	
+	changeQuantity(name, quantity){
+		for (var i = 0; i < cart.length; i++) {
+            if (cart[i].SnackPack.name === name) {
+                cart[i].quantity = quantity;
+                return;
+            }
+        }
+	}
 
     changeQuantity(SnackPack, quantity) {
         for (var i = 0; i < cart.length; i++) {
