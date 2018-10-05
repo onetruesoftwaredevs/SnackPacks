@@ -8,7 +8,7 @@ var SnackUser = require('./SnackUser');
 var mysql = require('mysql');
 class SnackConnector{
 	//SnackConnector constructor
-	constructor(callback){
+	static init(){
 		this.host = "snackpacksdb.cawigtgndeba.us-east-2.rds.amazonaws.com";
 		this.user = "snackpacks";
 		this.password = "e7p$yYzRa&RR_46u";
@@ -16,7 +16,7 @@ class SnackConnector{
 	}
 
 	//get method to return array of SnackPacks
-	getSnackPacks(callback){
+	static getSnackPacks(callback){
 		//callback to initiate connection to AWS RDS
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 		connection.connect(function(err) {
