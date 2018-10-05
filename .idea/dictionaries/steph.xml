@@ -2,9 +2,12 @@
   <dictionary name="steph">
     <words>
       <w>fcff</w>
+      <w>flatlist</w>
       <w>meriem</w>
+      <w>spallergylist</w>
       <w>spname</w>
       <w>spprice</w>
+      <w>spquantity</w>
       <w>sprating</w>
     </words>
   </dictionary>
