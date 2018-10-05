@@ -3,15 +3,15 @@
 //Purpose: abstract the process of working with the server
 
 //Required libraries
+import React from 'react'
 var SnackPack = require('./SnackPack');
 
 class SnackConnector {
 
 	static getSnackPacks(){
 		var url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list";
-		var jsonSnackPacks = fetch(url);
+		var jsonSnackPacks = fetch(url, {method: 'GET'});
 		var SnackPacks = new Array();
-		console.log(jsonSnackPacks.length);
 		for(var i=0; i<jsonSnackPacks.length; i++){
 			SnackPacks.push(new SnackPack(jsonSnackPacks[i]));
 		}
