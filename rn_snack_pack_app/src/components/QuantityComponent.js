@@ -5,11 +5,12 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
-import Cart from '../function/Cart.js'
+import {TouchableOpacity, StyleSheet, Text, View, Image} from 'react-native';
+import Cart from '../function/Cart'
 
 export default class QuantityComponent extends Component {
     spname; // the name of the snack-pack
+    spprice; // the price of the snack-pack
 
     constructor(props) {
         super(props);
@@ -20,25 +21,23 @@ export default class QuantityComponent extends Component {
 
     incrementQuantity = () => {
         this.setState(prevState => ({quantity: prevState.quantity + 1}));
-        if (this.state.quantity === 1) {
+        if (this.state.quantity === 0) {
             // add to cart
-            //Cart.getInstance().addTocart(spname);
+            Cart.getInstance().addToCart(this.props.spname, this.props.spprice);
         }
-        else
-        {
-            // update quantity in cart
-            //Cart.getInstance().changeQuantity(spname, this.state.quantity);
-        }
-    }
+        Cart.getInstance().setQuantity(this.props.spname, this.state.quantity + 1);
+    };
 
     decrementQuantity = () => {
         if (this.state.quantity > 0) {
             this.setState(prevState => ({quantity: prevState.quantity - 1}));
         }
-        if (this.state.quantity === 0) {
+        Cart.getInstance().setQuantity(this.props.spname, this.state.quantity);
+        if (this.state.quantity === 1) {
             // remove from cart
+            Cart.getInstance().removeFromCart(this.props.spname);
         }
-    }
+    };
 
     render() {
         if (this.state.quantity <= 0) {
@@ -56,10 +55,10 @@ export default class QuantityComponent extends Component {
                         <Text style={styles.quantity_text_style}>Quantity: {this.state.quantity}</Text>
                         <View style={styles.information_bar}>
                             <TouchableOpacity onPress={this.decrementQuantity} style={styles.button_style}>
-                                <Text style={styles.button_text_style}>     -     </Text>
+                                <Text style={styles.button_text_style}> - </Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={this.incrementQuantity} style={styles.button_style}>
-                                <Text style={styles.button_text_style}>     +     </Text>
+                                <Text style={styles.button_text_style}> + </Text>
                             </TouchableOpacity>
                         </View>
                     </View>

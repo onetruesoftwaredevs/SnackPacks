@@ -1,85 +1,142 @@
-var SnackPack = require('./SnackPack');
+let CartItem = require('./CartItem');
 
 class Cart {
-
-    static instance = null;
-
     constructor() {
-        this.url = 'https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/test';
-        this.cart = new Array();
-    }
-
-    static getInstance() {
-        if (Cart.instance === null) {
-            Cart.instance = new Cart();
+        if (!Cart.instance) {
+            this.cart = new Array();
+            this.total_cost = 0;
+            Cart.instance = this;
         }
 
         return Cart.instance;
     }
 
-    function
+    static getInstance() {
+        if (!Cart.instance) {
+            Cart.instance = new Cart();
+        }
+        return Cart.instance;
+    }
 
-    Item(SnackPack, quantity) {
+    addToCart(name, price) {
+        let item = new CartItem(name, price);
+        this.cart.push(item);
+        this.total_cost = this.total_cost + price;
+    }
+
+    setQuantity(name, quantity) {
+        for (let i = 0; i < this.cart.length; i++) {
+            let item = this.cart[i];
+            if (item.spname === name) {
+                this.total_cost = this.total_cost + (quantity - item.spquantity) * item.spprice;
+                item.spquantity = quantity;
+                return;
+            }
+        }
+    }
+
+    removeFromCart(name) {
+        for (let i = 0; i < this.cart.length; i++) {
+            let item = this.cart[i];
+            if (item.spname === name) {
+                this.cart.splice(i, 1);
+                this.total_cost = this.total_cost - item.spprice * item.spquantity;
+            }
+        }
+    }
+
+    getItemsInCart() {
+        return this.cart;
+    }
+}
+
+module.exports = Cart;
+
+
+// legacy code
+/*
+let SnackPack = require('./SnackPack');
+
+class Item {
+    constructor(SnackPack, quantity) {
         this.SnackPack = SnackPack;
         this.quantity = quantity;
     }
+}
 
-    addTocart(SnackPack) {
-        cart.push(new Item(SnackPack, 1));
+class Cart {
+
+    constructor() {
+        if (!Cart.instance) {
+            this.url = 'https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/test';
+            this.cart = new Array();
+            this.total_cost = 0;
+            Cart.instance = this;
+        }
+        return Cart.instance;
     }
 
-    removeFromcart(SnackPack) {
-        for (var i = 0; i < cart.length; i++) {
-            if (cart[i].SnackPack === SnackPack) {
-                cart.splice(i, 1);
+    static getInstance() {
+        if (!Cart.instance) {
+            Cart.instance = new Cart();
+        }
+        return Cart.instance;
+    }
+
+    addToCart(name) {
+        this.cart.push(new Item(sp, 1));
+        this.total_cost = this.total_cost + sp.cost;
+    }
+
+    removeFromCart(name) {
+        for (let i = 0; i < this.cart.length; i++) {
+            let cart = this.cart[i];
+            if (cart.SnackPack.name === name) {
+                this.cart.splice(i, 1);
+                this.total_cost = this.total_cost - cart.SnackPack.cost;
             }
         }
     }
 
     changeQuantity(name, quantity) {
-        for (var i = 0; i < cart.length; i++) {
-            if (cart[i].SnackPack.name === name) {
-                cart[i].quantity = quantity;
+        for (let i = 0; i < this.cart.length; i++) {
+            let cart = this.cart[i];
+            if (cart.SnackPack.name === name) {
+                this.total_cost = this.total_cost + (cart.quantity - quantity) * cart.SnackPack.cost;
+                cart.quantity = quantity;
                 return;
             }
         }
     }
 
-    changeQuantitySP(SnackPack, quantity) {
-        for (var i = 0; i < cart.length; i++) {
-            if (cart[i].SnackPack === SnackPack) {
-                cart[i].quantity = quantity;
-                return;
-            }
-        }
-    }
-
-    getSnackPacksIncart() {
-        var SnackPacks = new Array();
-        for (var i = 0; i < cart.length; i++) {
-            SnackPacks.push(cart[i].SnackPack);
+    getSnackPacksInCart() {
+        let SnackPacks = new Array();
+        for (let i = 0; i < this.cart.length; i++) {
+            let cart = this.cart[i];
+            let sp = cart.SnackPack;
+            SnackPacks.push({spname: sp.name, spprice: sp.cost, spquantity: cart.quantity});
         }
         return SnackPacks;
     }
 
-    getSnackPack(indexIncart) {
-        return cart[indexIncart].SnackPack;
+    getSnackPack(name) {
+        return this.cart[indexInCart].SnackPack;
     }
 
-    getQuantity(indexIncart) {
-        return cart[indexIncart].quantity;
+    getQuantity(name) {
+        return this.cart[indexInCart].quantity;
     }
 
     checkout() {
         // Upload cart as a POST request to a different link
         // Format: an array of ID, quantity pairs
-        var IDs = new Array(cart.length);
-        var quantities = new Array(cart.length);
-        for (var i = 0; i < cart.length; i++) {
-            IDs.push(getSnackPack(i).id);
-            quantities.push(getQuantity(i));
+        let IDs = new Array(this.cart.length);
+        let quantities = new Array(this.cart.length);
+        for (let i = 0; i < this.cart.length; i++) {
+            IDs.push(this.getSnackPack(i).id);
+            quantities.push(this.getQuantity(i));
         }
-        var cartData = [IDs, quantities];
+        let cartData = [IDs, quantities];
         fetch(this.url, {
             method: 'POST',
             headers: {
@@ -92,4 +149,4 @@ class Cart {
 
 };
 
-module.exports = Cart;
+module.exports = Cart;*/

@@ -7,34 +7,25 @@
 import React, {Component} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import SnackPackView from "./SnackPackView";
-import SnackConnector from '../function/SnackConnector.js'
 
 export default class SnackPackMenuView extends Component {
-    // TODO change this method to populate with actual data
+    spdata; // the snack-pack data json object
+
     render() {
-        let spdata = SnackConnector.getSnackPacks();
         return (
             <View style={styles.container}>
                 <Text style={styles.title_style}>Snack Packs</Text>
                 <FlatList
                     style={styles.flatlist_style}
-                    /*data={[
-                        {key: 'sp1', spprice: 5.99, sprating: 2, spallergylist: [{key: 'Peanuts'}, {key: 'Soy'}]},
-                        {key: 'sp2', spprice: 6.99, sprating: 3, spallergylist: [{key: 'Peanuts'}]},
-                        {key: 'sp3', spprice: 7.99, sprating: 4, spallergylist: [{key: 'Soy'}]},
-                        {key: 'sp4', spprice: 8.99, sprating: 5, spallergylist: []},
-                        {key: 'sp5', spprice: 9.99, sprating: 1.5, spallergylist: [{key: 'Peanuts'}, {key: 'Soy'}]},
-                        {key: 'sp6', spprice: 10.99, sprating: 2.5, spallergylist: [{key: 'Peanuts'}]},
-                        {key: 'sp7', spprice: 2.99, sprating: 3.5, spallergylist: [{key: 'Soy'}]},
-
-                    ]}*/
-                    data={spdata}
+                    data={this.props.spdata}
                     renderItem={({item}) => <SnackPackView
-                        spname={item.spname}
-                        spprice={item.spprice}
-                        sprating={item.sprating}
-                        spallergylist={item.spallergylist}
+                        spname={item._name}
+                        spprice={item._cost}
+                        sprating={3}
+                        spallergylist={item._allergens}
+                        spimage={item.image_path}
                     />}
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </View>
         );
