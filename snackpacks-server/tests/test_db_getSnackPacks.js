@@ -13,7 +13,8 @@ var snackConnector = new snackDB();
 snackConnector.getSnackPacks(function (err, result) {
 	console.log("Result:");
 	for(var x in result){
-		console.log(result);
+		console.log(result[x].name);
 	}
 	console.log("Success\n------------\n");
 });
+// console.log(u)

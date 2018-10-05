@@ -1,11 +1,18 @@
-var SnackPack = require('./snackpack');
-var SnackUser = require('./snackUser');
+var SnackPack = require('./snackpacks-server/src/snackpack.js');
+var SnackConnect = require('./snackpacks-server/src/snackConnect.js');
+var SnackUser = require('./snackpacks-server/src/snackUser.js');
 
-exports.handler = async (event) => {
-    var sp = new SnackPack(1, "Testing SnackPack", ["Food"], ["Allergens"], "", "", 20)
-    const response = {
-        statusCode: 200,
-        body: sp.json();
-    };
-    return response;
+exports.handler = function(event, context, callback){
+   var SnackConnector = new SnackConnect();
+   SnackConnector.getSnackPacks(function(error, result){
+
+       console.log("T1");
+
+       var response = {
+           statusCode: 200,
+           body: result
+       };
+
+       callback(null, response);
+   });
 };

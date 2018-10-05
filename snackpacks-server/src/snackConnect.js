@@ -64,8 +64,7 @@ class snackConnector{
 						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
 						count++;
 					}
-					return list_snackpacks[0];
-					callback(null, list_snackpacks[0]);
+					return callback(null, list_snackpacks[0]);
 				});
 			});
 		});
