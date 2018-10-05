@@ -10,8 +10,6 @@ import SnackPackView from "./SnackPackView";
 import SnackConnector from '../function/SnackConnector'
 
 export default class SnackPackMenuView extends Component {
-    data;
-
     // TODO change this method to populate with actual data
     render() {
         return (
@@ -29,7 +27,7 @@ export default class SnackPackMenuView extends Component {
                         {key: 'sp7', spprice: 2.99, sprating: 3.5, spallergylist: [{key: 'Soy'}]},
 
                     ]}*/
-                    data={SnackConnector.getSnackPacks(null)}
+                    data={SnackConnector.getSnackPacks()}
                     renderItem={({item}) => <SnackPackView
                         spname={item.key}
                         spprice={item.spprice}

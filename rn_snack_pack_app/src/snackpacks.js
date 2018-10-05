@@ -12,8 +12,6 @@ export default class SnackPacks extends Component {
         this.state = {
             screen: 1
         };
-
-        SnackConnector.init();
     }
 
     setMenuScreen = () => {

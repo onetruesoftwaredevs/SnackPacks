@@ -8,6 +8,8 @@ import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
 
 export default class QuantityComponent extends Component {
+    spname; // the name of the snack-pack
+
     constructor(props) {
         super(props);
         this.state = {

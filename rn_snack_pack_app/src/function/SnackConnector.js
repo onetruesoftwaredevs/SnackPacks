@@ -6,12 +6,10 @@
 var SnackPack = require('./SnackPack');
 
 class SnackConnector{
-	var url;
-	var jsonData;
 
 	static getSnackPacks(){
-		url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks";
-		fetchAndLog();
+		var url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks";
+		var jsonData = SnackConnector.fetchAndLog();
 		var jsonSnackPacks = jsonData.SnackPacks;
 		var SnackPacks = new Array();
 		for(var i=0; i<jsonSnackPacks.length; i++){
@@ -28,10 +26,13 @@ class SnackConnector{
 		return formattedSPs;	
 	}
 	
-	const fetchAndLog = async () => {
+	const
+    static fetchAndLog = async () => {
+        var url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks";
 		const response = await fetch(url);
 		const json = await response.json();
-		jsonData = JSON.parse(json);
+		var jsonData = JSON.parse(json);
+		return jsonData;
 	}
 }
 //Allows module to be exposed
