@@ -7,6 +7,7 @@
 
 import React, {Component} from 'react';
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import Cart from '../function/Cart.js'
 
 export default class OrderItemView extends Component {
     spname;     // the name of the snack-pack
@@ -18,8 +19,9 @@ export default class OrderItemView extends Component {
         this.setQuantity = this.setQuantity.bind(this);
     }
 
-    setQuantity = (q) => {
+    setQuantity = (name, q) => {
         this.setState({spquantity: q});
+        Cart.getInstance().changeQuantity(name, q)
     }
 
     render() {
