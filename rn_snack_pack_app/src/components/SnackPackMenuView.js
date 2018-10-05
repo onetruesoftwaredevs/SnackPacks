@@ -7,6 +7,7 @@
 import React, {Component} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import SnackPackView from "./SnackPackView";
+import SnackConnector from '../function/SnackConnector'
 
 export default class SnackPackMenuView extends Component {
     data;
@@ -18,7 +19,7 @@ export default class SnackPackMenuView extends Component {
                 <Text style={styles.title_style}>Snack Packs</Text>
                 <FlatList
                     style={styles.flatlist_style}
-                    data={[
+                    /*data={[
                         {key: 'sp1', spprice: 5.99, sprating: 2, spallergylist: [{key: 'Peanuts'}, {key: 'Soy'}]},
                         {key: 'sp2', spprice: 6.99, sprating: 3, spallergylist: [{key: 'Peanuts'}]},
                         {key: 'sp3', spprice: 7.99, sprating: 4, spallergylist: [{key: 'Soy'}]},
@@ -27,7 +28,8 @@ export default class SnackPackMenuView extends Component {
                         {key: 'sp6', spprice: 10.99, sprating: 2.5, spallergylist: [{key: 'Peanuts'}]},
                         {key: 'sp7', spprice: 2.99, sprating: 3.5, spallergylist: [{key: 'Soy'}]},
 
-                    ]}
+                    ]}*/
+                    data={SnackConnector.getSnackPacks()}
                     renderItem={({item}) => <SnackPackView
                         spname={item.key}
                         spprice={item.spprice}

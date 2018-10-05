@@ -9,7 +9,7 @@ var mysql = require('mysql');
 class SnackConnector{
 	//SnackConnector constructor
 	static init(){
-		this.host = "snackpacksdb.cawigtgndeba.us-east-2.rds.amazonaws.com";
+		this.host = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks";
 		this.user = "snackpacks";
 		this.password = "e7p$yYzRa&RR_46u";
 		this.port = 3306;

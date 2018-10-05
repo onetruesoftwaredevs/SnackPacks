@@ -2,21 +2,23 @@ var SnackPack = require('./SnackPack');
 
 class Cart {
 
+    static instance = null;
+
     constructor() {
         this.url = 'https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/test';
         this.cart = new Array();
-        this.instance = null;
     }
 
     static getInstance() {
-        if (instance === null) {
-            let instance = new Cart();
+        if (Cart.instance === null) {
+            Cart.instance = new Cart();
         }
 
-        return instance;
+        return Cart.instance;
     }
 
     function
+
     Item(SnackPack, quantity) {
         this.SnackPack = SnackPack;
         this.quantity = quantity;
@@ -33,17 +35,17 @@ class Cart {
             }
         }
     }
-	
-	changeQuantity(name, quantity){
-		for (var i = 0; i < cart.length; i++) {
+
+    changeQuantity(name, quantity) {
+        for (var i = 0; i < cart.length; i++) {
             if (cart[i].SnackPack.name === name) {
                 cart[i].quantity = quantity;
                 return;
             }
         }
-	}
+    }
 
-    changeQuantity(SnackPack, quantity) {
+    changeQuantitySP(SnackPack, quantity) {
         for (var i = 0; i < cart.length; i++) {
             if (cart[i].SnackPack === SnackPack) {
                 cart[i].quantity = quantity;
