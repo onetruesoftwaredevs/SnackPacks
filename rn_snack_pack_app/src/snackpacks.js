@@ -10,7 +10,7 @@ export default class SnackPacks extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            screen: 2
+            screen: 1
         };
 
         SnackConnector.init();

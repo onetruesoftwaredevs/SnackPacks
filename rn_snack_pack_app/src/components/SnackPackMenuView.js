@@ -29,7 +29,7 @@ export default class SnackPackMenuView extends Component {
                         {key: 'sp7', spprice: 2.99, sprating: 3.5, spallergylist: [{key: 'Soy'}]},
 
                     ]}*/
-                    data={SnackConnector.getSnackPacks()}
+                    data={SnackConnector.getSnackPacks(null)}
                     renderItem={({item}) => <SnackPackView
                         spname={item.key}
                         spprice={item.spprice}

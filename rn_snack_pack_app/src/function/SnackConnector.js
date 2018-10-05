@@ -3,9 +3,10 @@
 //Purpose: abstract the process of working with the database
 
 //Required libraries
-var SnackPack = require('./Snackpack');
+var SnackPack = require('./SnackPack');
 var SnackUser = require('./SnackUser');
 var mysql = require('mysql');
+
 class SnackConnector{
 	//SnackConnector constructor
 	static init(){
