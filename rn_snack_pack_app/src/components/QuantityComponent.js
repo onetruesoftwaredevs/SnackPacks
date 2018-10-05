@@ -33,7 +33,7 @@ export default class QuantityComponent extends Component {
             this.setState(prevState => ({quantity: prevState.quantity - 1}));
         }
         Cart.getInstance().setQuantity(this.props.spname, this.state.quantity);
-        if (this.state.quantity === 0) {
+        if (this.state.quantity === 1) {
             // remove from cart
             Cart.getInstance().removeFromCart(this.props.spname);
         }
