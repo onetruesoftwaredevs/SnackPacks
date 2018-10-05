@@ -4,14 +4,26 @@ import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 import SnackPackView from './components/SnackPackView'
 import SnackPackMenuView from "./components/SnackPackMenuView";
 import CartView from "./components/CartView";
-import SnackConnector from './function/SnackConnector.js'
 
 export default class SnackPacks extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            screen: 1
+            screen: 1,
+            isLoading: true,
+            dataSource: []
         };
+    }
+
+    componentDidMount() {
+        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
+            .then(response => response.json())
+            .then(responseJson => {
+                this.setState({
+                    isLoading: false,
+                    dataSource: responseJson
+                });
+            });
     }
 
     setMenuScreen = () => {
@@ -23,10 +35,18 @@ export default class SnackPacks extends Component {
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.loading_text}>Loading Screen</Text>
+                </View>
+            );
+        }
+
         if (this.state.screen === 1) {
             return (
                 <View style={styles.container}>
-                    <SnackPackMenuView/>
+                    <SnackPackMenuView spdata={this.state.dataSource}/>
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity onPress={this.setMenuScreen}>
                             <Text style={styles.button_text_style}>Menu</Text>
@@ -61,6 +81,18 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    loading_text: {
+        color: '#444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4,
     },
 
     horizontal_container: {
