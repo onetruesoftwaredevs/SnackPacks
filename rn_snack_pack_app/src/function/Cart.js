@@ -8,7 +8,7 @@ class Cart {
         this.instance = null;
     }
 
-    getInstance() {
+    static getInstance() {
         if (instance === null) {
             let instance = new Cart();
         }
