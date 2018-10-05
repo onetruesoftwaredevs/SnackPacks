@@ -24,13 +24,13 @@ class Cart {
         this.quantity = quantity;
     }
 
-    addTocart(SnackPack) {
+    addToCart(SnackPack) {
         cart.push(new Item(SnackPack, 1));
     }
 
-    removeFromcart(SnackPack) {
+    removeFromCart(name) {
         for (var i = 0; i < cart.length; i++) {
-            if (cart[i].SnackPack === SnackPack) {
+            if (cart[i].SnackPack.name === name) {
                 cart.splice(i, 1);
             }
         }
@@ -45,16 +45,7 @@ class Cart {
         }
     }
 
-    changeQuantitySP(SnackPack, quantity) {
-        for (var i = 0; i < cart.length; i++) {
-            if (cart[i].SnackPack === SnackPack) {
-                cart[i].quantity = quantity;
-                return;
-            }
-        }
-    }
-
-    getSnackPacksIncart() {
+    getSnackPacksInCart() {
         var SnackPacks = new Array();
         for (var i = 0; i < cart.length; i++) {
             SnackPacks.push(cart[i].SnackPack);
@@ -62,12 +53,12 @@ class Cart {
         return SnackPacks;
     }
 
-    getSnackPack(indexIncart) {
-        return cart[indexIncart].SnackPack;
+    getSnackPack(name) {
+        return cart[indexInCart].SnackPack;
     }
 
-    getQuantity(indexIncart) {
-        return cart[indexIncart].quantity;
+    getQuantity(name) {
+        return cart[indexInCart].quantity;
     }
 
     checkout() {
