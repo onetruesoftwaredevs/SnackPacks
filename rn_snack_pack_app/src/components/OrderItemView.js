@@ -12,17 +12,18 @@ import Cart from '../function/Cart.js'
 export default class OrderItemView extends Component {
     spname;     // the name of the snack-pack
     spprice;    // the value of the price
+    spquantity;
 
     constructor(props) {
         super(props);
-        this.state = {spquantity: 0}
+        this.state = {spquantity: this.props.spquantity};
         this.setQuantity = this.setQuantity.bind(this);
     }
 
     setQuantity = (name, q) => {
         this.setState({spquantity: q});
-        Cart.getInstance().changeQuantity(name, q)
-    }
+        Cart.getInstance().setQuantity(name, q)
+    };
 
     render() {
         let roundedPrice = Number(`${this.props.spprice * this.state.spquantity}`).toFixed(2);
@@ -45,22 +46,25 @@ export default class OrderItemView extends Component {
                                 <Text style={styles.information_style}>${this.props.spprice}</Text>
                             </View>
                         </View>
-                        <View>
-                            <TouchableOpacity style={styles.quantity_button}
-                                              onPress={() => this.setQuantity(this.state.spquantity + 1)}>
-                                <Text style={styles.quantity_button_text}> + </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.quantity_button}
-                                              onPress={() => this.setQuantity(this.state.spquantity - 1)}>
-                                <Text style={styles.quantity_button_text}> - </Text>
-                            </TouchableOpacity>
-                        </View>
+
                     </View>
                 </View>
             </View>
         );
     }
 }
+
+// temporarily commented out for sprint 1 review
+/*<View>
+    <TouchableOpacity style={styles.quantity_button}
+                      onPress={() => this.setQuantity(this.props.spname, this.state.spquantity + 1)}>
+        <Text style={styles.quantity_button_text}> + </Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.quantity_button}
+                      onPress={() => this.setQuantity(this.props.spname, this.state.spquantity - 1)}>
+        <Text style={styles.quantity_button_text}> - </Text>
+    </TouchableOpacity>
+</View>*/
 
 const styles = StyleSheet.create({
     container: {

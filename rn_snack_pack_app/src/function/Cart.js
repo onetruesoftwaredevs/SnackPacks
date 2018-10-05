@@ -1,3 +1,60 @@
+let CartItem = require('./CartItem');
+
+class Cart {
+    constructor() {
+        if (!Cart.instance) {
+            this.cart = new Array();
+            this.total_cost = 0;
+            Cart.instance = this;
+        }
+
+        return Cart.instance;
+    }
+
+    static getInstance() {
+        if (!Cart.instance) {
+            Cart.instance = new Cart();
+        }
+        return Cart.instance;
+    }
+
+    addToCart(name, price) {
+        let item = new CartItem(name, price);
+        this.cart.push(item);
+        this.total_cost = this.total_cost + price;
+    }
+
+    setQuantity(name, quantity) {
+        for (let i = 0; i < this.cart.length; i++) {
+            let item = this.cart[i];
+            if (item.spname === name) {
+                this.total_cost = this.total_cost + (quantity - item.spquantity) * item.spprice;
+                item.spquantity = quantity;
+                return;
+            }
+        }
+    }
+
+    removeFromCart(name) {
+        for (let i = 0; i < this.cart.length; i++) {
+            let item = this.cart[i];
+            if (item.spname === name) {
+                this.cart.splice(i, 1);
+                this.total_cost = this.total_cost - item.spprice * item.spquantity;
+            }
+        }
+    }
+
+    getItemsInCart() {
+        return this.cart;
+    }
+}
+
+module.exports = Cart;
+
+
+// legacy code
+/*
 let SnackPack = require('./SnackPack');
 
 class Item {
@@ -10,10 +67,10 @@ class Item {
 class Cart {
 
     constructor() {
-        if (!Cart.instance)
-        {
+        if (!Cart.instance) {
             this.url = 'https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/test';
             this.cart = new Array();
+            this.total_cost = 0;
             Cart.instance = this;
         }
         return Cart.instance;
@@ -26,22 +83,27 @@ class Cart {
         return Cart.instance;
     }
 
-    addToCart(SnackPack) {
-        this.cart.push(new Item(SnackPack, 1));
+    addToCart(name) {
+        this.cart.push(new Item(sp, 1));
+        this.total_cost = this.total_cost + sp.cost;
     }
 
     removeFromCart(name) {
         for (let i = 0; i < this.cart.length; i++) {
-            if (this.cart[i].SnackPack.name === name) {
+            let cart = this.cart[i];
+            if (cart.SnackPack.name === name) {
                 this.cart.splice(i, 1);
+                this.total_cost = this.total_cost - cart.SnackPack.cost;
             }
         }
     }
 
     changeQuantity(name, quantity) {
         for (let i = 0; i < this.cart.length; i++) {
-            if (this.cart[i].SnackPack.name === name) {
-                this.cart[i].quantity = quantity;
+            let cart = this.cart[i];
+            if (cart.SnackPack.name === name) {
+                this.total_cost = this.total_cost + (cart.quantity - quantity) * cart.SnackPack.cost;
+                cart.quantity = quantity;
                 return;
             }
         }
@@ -50,7 +112,9 @@ class Cart {
     getSnackPacksInCart() {
         let SnackPacks = new Array();
         for (let i = 0; i < this.cart.length; i++) {
-            SnackPacks.push(this.cart[i].SnackPack);
+            let cart = this.cart[i];
+            let sp = cart.SnackPack;
+            SnackPacks.push({spname: sp.name, spprice: sp.cost, spquantity: cart.quantity});
         }
         return SnackPacks;
     }
@@ -85,4 +149,4 @@ class Cart {
 
 };
 
-module.exports = Cart;
+module.exports = Cart;*/

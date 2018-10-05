@@ -20,7 +20,7 @@ export default class PaymentView extends Component {
     }
 
     render() {
-        let roundedTotal = Number(`${this.props.subtotal + this.props.tax + this.props.deliveryFee}`).toFixed(2);
+        let roundedTotal = Number(Number(this.props.subtotal) + Number(this.props.tax) + Number(this.props.deliveryFee)).toFixed(2);
 
         return (
             <View style={styles.container}>

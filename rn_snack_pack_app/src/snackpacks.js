@@ -1,7 +1,6 @@
 // snackpacks.js
 import React, {Component} from 'react';
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
-import SnackPackView from './components/SnackPackView'
 import SnackPackMenuView from "./components/SnackPackMenuView";
 import CartView from "./components/CartView";
 
@@ -18,12 +17,10 @@ export default class SnackPacks extends Component {
     componentDidMount() {
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
             .then(response => response.json())
-            .then(responseJson => {
-                this.setState({
-                    isLoading: false,
-                    dataSource: responseJson
-                });
-            });
+            .then(responseJson => this.setState({
+                isLoading: false,
+                dataSource: responseJson
+            }));
     }
 
     setMenuScreen = () => {
@@ -60,7 +57,7 @@ export default class SnackPacks extends Component {
         } else if (this.state.screen === 2) {
             return (
                 <View style={styles.container}>
-                    <CartView/>
+                    <CartView />
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity onPress={this.setMenuScreen}>
                             <Text style={styles.button_text_style}>Menu</Text>
