@@ -37,6 +37,15 @@ class SnackConnector{
 						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost, pack.rating));
 						count++;
 					}
+					var formattedSPs = new Array();
+					for(var i=0; i < list_snackpacks.length; i++){
+						var formattedAllergens = new Array();
+						for(var j=0; j < list_snackpacks[i].allergens.length; j++){
+							formattedAllergens.push({key: list_snackpacks[i].allergens[j]});
+						}
+						formattedSPs.push({key: list_snackpacks[i].id, spprice: list_snackpacks[i].cost, sprating: list_snackpacks[i].rating, spallergylist: formattedAllergens});
+					}
+					return formattedSPs;
 					callback(null, list_snackpacks);
 				});
 			});
