@@ -27,10 +27,6 @@ export default class SnackPackView extends Component {
         Alert.alert('rating was pressed', 'test')
     }
 
-    _onAddToCartPressed() {
-        Alert.alert('added to cart was pressed', 'test')
-    }
-
     _onNutritionPressed() {
         Alert.alert('nutrition was pressed', 'test')
     }
@@ -59,7 +55,7 @@ export default class SnackPackView extends Component {
                     <FlatList
                         horizontal={true}
                         data={this.props.spallergylist}
-                        renderItem={({item}) => <NutritionView allergy={item.key}/>}
+                        renderItem={({item}) => <NutritionView allergy={item}/>}
                     />
                     <PriceView price={this.props.spprice}/>
                 </View>
