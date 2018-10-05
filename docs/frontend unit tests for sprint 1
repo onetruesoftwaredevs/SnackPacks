@@ -1,0 +1,19 @@
+frontend unit tests
+
+#1 switching views
+- open app
+- select the cart button in the navigation bar
+* screen should change to the cart view
+- select the menu button in the navigation bar
+* screen should change to the menu view
+
+#2 viewing allergy information
+- open app
+- select red allergy information card
+* an alert with allergy information for the given snackpack should appear on screen
+
+#3 adding items to the cart
+- open the app
+- select the add to cart button on the first snack pack
+- select the cart button in the navigation bar
+* cart screen should display with the newly added item in the list view. the prices in the payment information should be updated as well.
