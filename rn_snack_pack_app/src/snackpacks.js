@@ -4,6 +4,7 @@ import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 import SnackPackView from './components/SnackPackView'
 import SnackPackMenuView from "./components/SnackPackMenuView";
 import CartView from "./components/CartView";
+import SnackConnector from './function/SnackConnector.js'
 
 export default class SnackPacks extends Component {
     constructor(props) {
