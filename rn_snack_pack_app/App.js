@@ -18,6 +18,11 @@ import SnackPackView from "./src/components/SnackPackView";
 import Amplify, {API, Analytics,Storage} from 'aws-amplify';
 import {withAuthenticator} from 'aws-amplify-react-native';
 import aws_exports from './src/aws-exports';
+import PaymentView from "./src/components/PaymentView";
+import OrderItemView from "./src/components/OrderItemView";
+import CartView from "./src/components/CartView";
+import SnackPackMenuView from "./src/components/SnackPackMenuView";
+import SnackPacks from "./src/snackpacks";
 
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
@@ -26,7 +31,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <SnackPackView spname='Snack-pack-1' sprating={3.5} spprice={10.99}/>
+          <SnackPacks/>
       </View>
     );
   }

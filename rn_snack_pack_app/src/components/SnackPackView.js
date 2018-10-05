@@ -7,15 +7,17 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
+import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
 import NutritionView from "./NutritionView";
 import PriceView from "./PriceView";
 import Rating from "./Rating";
+import QuantityComponent from "./QuantityComponent";
 
 export default class SnackPackView extends Component {
-    spname;   // the name of the snack-pack
-    sprating; // the rating of the snack-pack
-    spprice;  // the price of the snack-pack
+    spname;         // the name of the snack-pack
+    sprating;       // the rating of the snack-pack
+    spprice;        // the price of the snack-pack
+    spallergylist;  // a the list of allergies contained in this snack-pack
 
     _onImagePressed() {
         Alert.alert('image was pressed', 'test')
@@ -54,17 +56,14 @@ export default class SnackPackView extends Component {
                     </View>
                 </View>
                 <View style={styles.information_bar}>
-
-                    <View style={styles.information_bar}>
-                        <NutritionView allergy='Peanuts'/>
-                        <NutritionView allergy='Soy'/>
-                    </View>
-
+                    <FlatList
+                        horizontal={true}
+                        data={this.props.spallergylist}
+                        renderItem={({item}) => <NutritionView allergy={item.key}/>}
+                    />
                     <PriceView price={this.props.spprice}/>
                 </View>
-                <TouchableOpacity onPress={this._onAddToCartPressed}>
-                    <Text style={styles.add_to_cart_style}>Add to Cart</Text>
-                </TouchableOpacity>
+                <QuantityComponent/>
             </View>
         );
     }
@@ -73,20 +72,18 @@ export default class SnackPackView extends Component {
 const styles = StyleSheet.create({
     container: {
         padding: 4,
-        width: '90%',
         borderWidth: 0,
-        //backgroundColor: 'blue',
     },
 
     image_style: {
-        width: 316,
+        width: 308,
         height: 200,
     },
 
     information_bar: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: '#EEEEEE'
+        backgroundColor: '#EEEEEE',
     },
 
     name_style: {
