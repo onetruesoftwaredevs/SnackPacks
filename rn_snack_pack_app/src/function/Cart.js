@@ -62,13 +62,13 @@ class Cart{
 		}
 		var cartData = [IDs, quantities];
 		fetch(this.url, {
-		method: 'POST',
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({"IDsAndQuantities":cartData}),
-	});
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({"IDsAndQuantities":cartData}),
+		});
 	}
     
 };

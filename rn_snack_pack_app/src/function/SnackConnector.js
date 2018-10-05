@@ -8,7 +8,7 @@ var SnackUser = require('./SnackUser');
 var mysql = require('mysql');
 class SnackConnector{
 	//SnackConnector constructor
-	constructor(){
+	constructor(callback){
 		this.host = "snackpacksdb.cawigtgndeba.us-east-2.rds.amazonaws.com";
 		this.user = "snackpacks";
 		this.password = "e7p$yYzRa&RR_46u";
@@ -64,6 +64,7 @@ class SnackConnector{
 						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost, pack.rating));
 						count++;
 					}
+					return list_snackpacks[0];
 					callback(null, list_snackpacks[0]);
 				});
 			});
