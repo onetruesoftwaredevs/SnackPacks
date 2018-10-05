@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-
+        padding: 2
     },
 
     information_style: {
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
+        padding: 2,
 
     }
 
