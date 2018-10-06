@@ -14,8 +14,11 @@ export default class QuantityComponent extends Component {
 
     constructor(props) {
         super(props);
+
+        let initial_quantity = Cart.getInstance().getQuantity(this.props.spname);
+
         this.state = {
-            quantity: 0
+            quantity: initial_quantity
         };
     }
 
