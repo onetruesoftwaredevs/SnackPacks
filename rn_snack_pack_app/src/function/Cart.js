@@ -35,6 +35,16 @@ class Cart {
         }
     }
 
+    getQuantity(name) {
+        for (let i = 0; i < this.cart.length; i++) {
+            let item = this.cart[i];
+            if (item.spname === name) {
+                return item.spquantity;
+            }
+        }
+        return 0;
+    }
+
     removeFromCart(name) {
         for (let i = 0; i < this.cart.length; i++) {
             let item = this.cart[i];
