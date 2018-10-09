@@ -19,7 +19,6 @@ export default class SnackPackView extends Component {
     sprating;       // the rating of the snack-pack
     spprice;        // the price of the snack-pack
     spallergylist;  // a the list of allergies contained in this snack-pack
-    spquantity;
     spimage;
 
     _onImagePressed() {
@@ -37,26 +36,6 @@ export default class SnackPackView extends Component {
     _onNamePressed() {
         Alert.alert('name was pressed', 'test')
     }
-
-    incrementQuantity = (component) => {
-        component.setState(prevState => ({quantity: prevState.quantity + 1}));
-        if (component.state.quantity === 0) {
-            // add to cart
-            Cart.getInstance().addToCart(component.props.spname, component.props.spprice);
-        }
-        Cart.getInstance().setQuantity(component.props.spname, component.state.quantity + 1);
-    };
-
-    decrementQuantity = (component) => {
-        if (component.state.quantity > 0) {
-            component.setState(prevState => ({quantity: prevState.quantity - 1}));
-        }
-        Cart.getInstance().setQuantity(component.props.spname, component.state.quantity);
-        if (component.state.quantity === 1) {
-            // remove from cart
-            Cart.getInstance().removeFromCart(component.props.spname);
-        }
-    };
 
     render() {
         return (
@@ -85,12 +64,9 @@ export default class SnackPackView extends Component {
                 <QuantityComponent
                     spname={this.props.spname}
                     spprice={this.props.spprice}
-                    spquantity={this.props.spquantity}
                     defaultText={'Add to Cart'}
                     defaultTextSize={16}
-                    buttonPressedFunction={this.incrementQuantity}
-                    increaseFunction={this.incrementQuantity}
-                    decreaseFunction={this.decrementQuantity}
+                    parent={this}
                 />
             </View>
         );
