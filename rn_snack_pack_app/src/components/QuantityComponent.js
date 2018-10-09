@@ -55,15 +55,13 @@ export default class QuantityComponent extends Component {
             return (
                 <View>
                     <View style={styles.information_bar}>
+                        <TouchableOpacity onPress={this.decrementQuantity} style={styles.button_style}>
+                            <Text style={styles.button_text_style}>   -   </Text>
+                        </TouchableOpacity>
                         <Text style={styles.quantity_text_style}>Quantity: {this.state.quantity}</Text>
-                        <View style={styles.information_bar}>
-                            <TouchableOpacity onPress={this.decrementQuantity} style={styles.button_style}>
-                                <Text style={styles.button_text_style}> - </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={this.incrementQuantity} style={styles.button_style}>
-                                <Text style={styles.button_text_style}> + </Text>
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity onPress={this.incrementQuantity} style={styles.button_style}>
+                            <Text style={styles.button_text_style}>   +   </Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             );
@@ -96,7 +94,7 @@ const
 
         quantity_text_style: {
             color: '#222',
-            fontSize: 14,
+            fontSize: 16,
             fontStyle: 'normal',
             fontWeight: 'bold',
             textAlign: 'center',
@@ -112,7 +110,7 @@ const
 
         button_text_style: {
             color: '#FFF',
-            fontSize: 12,
+            fontSize: 16,
             fontStyle: 'normal',
             fontWeight: 'bold',
             textAlign: 'center',

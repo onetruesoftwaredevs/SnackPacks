@@ -25,12 +25,17 @@ class Cart {
     }
 
     setQuantity(name, quantity) {
-        for (let i = 0; i < this.cart.length; i++) {
-            let item = this.cart[i];
-            if (item.spname === name) {
-                this.total_cost = this.total_cost + (quantity - item.spquantity) * item.spprice;
-                item.spquantity = quantity;
-                return;
+        if (quantity <= 0) {
+            this.removeFromCart(name);
+        }
+        else {
+            for (let i = 0; i < this.cart.length; i++) {
+                let item = this.cart[i];
+                if (item.spname === name) {
+                    this.total_cost = this.total_cost + (quantity - item.spquantity) * item.spprice;
+                    item.spquantity = quantity;
+                    return;
+                }
             }
         }
     }
@@ -51,11 +56,13 @@ class Cart {
             if (item.spname === name) {
                 this.cart.splice(i, 1);
                 this.total_cost = this.total_cost - item.spprice * item.spquantity;
+                return;
             }
         }
     }
 
     getItemsInCart() {
+        if (this.cart.length <= 0) { return []; }
         return this.cart;
     }
 }
