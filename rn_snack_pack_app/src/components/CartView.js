@@ -16,10 +16,20 @@ export default class CartView extends Component {
         super(props);
         this.state = {cartData: Cart.getInstance().getItemsInCart()};
         this.removeFromCart = this.removeFromCart.bind(this);
+        this.setQuantityCallback = this.setQuantityCallback.bind(this);
     }
 
     removeFromCart = (name) => {
         Cart.getInstance().removeFromCart(name);
+        this.setState((prevState) => {
+            return {
+                cartData: Cart.getInstance().getItemsInCart()
+            }
+        });
+    };
+
+    setQuantityCallback = (name, quantity) => {
+        Cart.getInstance().setQuantity(name, quantity);
         this.setState((prevState) => {
             return {
                 cartData: Cart.getInstance().getItemsInCart()
@@ -42,6 +52,7 @@ export default class CartView extends Component {
                             spprice={item.spprice}
                             spquantity={item.spquantity}
                             removeFromCartFunction={this.removeFromCart}
+                            setQuantityCallback={this.setQuantityCallback}
                         />
                     }
                 />
