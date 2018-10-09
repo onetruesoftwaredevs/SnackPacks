@@ -11,8 +11,23 @@ import PaymentView from "./PaymentView";
 import Cart from '../function/Cart'
 
 export default class CartView extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {cartData: Cart.getInstance().getItemsInCart()};
+        this.removeFromCart = this.removeFromCart.bind(this);
+    }
+
+    removeFromCart = (name) => {
+        Cart.getInstance().removeFromCart(name);
+        this.setState((prevState) => {
+            return {
+                cartData: Cart.getInstance().getItemsInCart()
+            }
+        });
+    };
+
     render() {
-        let cartData = Cart.getInstance().getItemsInCart();
         let cartSubtotal = Number(Cart.getInstance().total_cost).toFixed(2);
 
         return (
@@ -20,8 +35,15 @@ export default class CartView extends Component {
                 <Text style={styles.title_style}>My Cart</Text>
                 <FlatList
                     style={styles.flatlist_style}
-                    data={cartData}
-                    renderItem={({item}) => <OrderItemView spname={item.spname} spprice={item.spprice} spquantity={item.spquantity}/>}
+                    data={this.state.cartData}
+                    renderItem={({item}) =>
+                        <OrderItemView
+                            spname={item.spname}
+                            spprice={item.spprice}
+                            spquantity={item.spquantity}
+                            removeFromCartFunction={this.removeFromCart}
+                        />
+                    }
                 />
                 <PaymentView subtotal={cartSubtotal} tax={7.89} deliveryFee={6.99}/>
             </View>
