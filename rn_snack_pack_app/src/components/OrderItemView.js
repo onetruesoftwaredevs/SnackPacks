@@ -8,22 +8,38 @@
 import React, {Component} from 'react';
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 import Cart from '../function/Cart.js'
+import QuantityComponent from "./QuantityComponent";
 
 export default class OrderItemView extends Component {
     spname;     // the name of the snack-pack
     spprice;    // the value of the price
-    spquantity;
-    removeFromCartFunction;
+    spquantity; // the quantity of snack-packs
+
+    removeFromCartFunction; // callback function for removing snack-packs
+    setQuantityCallback;    // callback function for setting the quantity of a snack-pack
 
     constructor(props) {
-        super(props);
-        this.state = {state_quantity: this.props.spquantity};
-        this.setQuantity = this.setQuantity.bind(this);
+        super();
+        this.state = {isModifying: false}
     }
 
-    setQuantity = (name, q) => {
-        Cart.getInstance().setQuantity(name, q);
-        this.setState({state_quantity: q});
+    incrementQuantity = (component) => {
+        //Cart.getInstance().setQuantity(component.props.spname, component.state.quantity + 1);
+        //() => this.props.setQuantityCallback(this.spname, component.state.quantity + 1);
+        component.setState((prevState) =>
+                ({quantity: prevState.quantity + 1}),
+            this.props.setQuantityCallback(this.spname, component.state.quantity));
+    };
+
+    decrementQuantity = (component) => {
+        if (component.state.quantity > 0) {
+            component.setState(prevState => ({quantity: prevState.quantity - 1}));
+        }
+        Cart.getInstance().setQuantity(component.props.spname, component.state.quantity);
+        if (component.state.quantity === 1) {
+            // remove from cart
+            this.props.removeFromCartFunction(this.props.spname);
+        }
     };
 
     render() {
@@ -33,9 +49,16 @@ export default class OrderItemView extends Component {
                     <View>
                         <Text style={styles.name_style}>{this.props.spname}</Text>
                         <View style={styles.horizontal_button_container}>
-                            <TouchableOpacity style={styles.modify_button_style}>
-                                <Text style={styles.button_text_style}>Modify</Text>
-                            </TouchableOpacity>
+                            <QuantityComponent
+                                spname={this.props.spname}
+                                spprice={this.props.spprice}
+                                spquantity={this.props.spquantity}
+                                defaultText={'Modify'}
+                                defaultTextSize={12}
+                                buttonPressedFunction={this.incrementQuantity}
+                                increaseFunction={this.incrementQuantity}
+                                decreaseFunction={this.decrementQuantity}
+                            />
                             <TouchableOpacity
                                 style={styles.remove_button_style}
                                 onPress={() => this.props.removeFromCartFunction(this.props.spname)}
@@ -124,3 +147,5 @@ const styles = StyleSheet.create({
     }
 
 });
+
+

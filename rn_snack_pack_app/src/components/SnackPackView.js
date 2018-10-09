@@ -12,6 +12,7 @@ import NutritionView from "./NutritionView";
 import PriceView from "./PriceView";
 import Rating from "./Rating";
 import QuantityComponent from "./QuantityComponent";
+import Cart from "../function/Cart";
 
 export default class SnackPackView extends Component {
     spname;         // the name of the snack-pack
@@ -37,6 +38,26 @@ export default class SnackPackView extends Component {
         Alert.alert('name was pressed', 'test')
     }
 
+    incrementQuantity = (component) => {
+        component.setState(prevState => ({quantity: prevState.quantity + 1}));
+        if (component.state.quantity === 0) {
+            // add to cart
+            Cart.getInstance().addToCart(component.props.spname, component.props.spprice);
+        }
+        Cart.getInstance().setQuantity(component.props.spname, component.state.quantity + 1);
+    };
+
+    decrementQuantity = (component) => {
+        if (component.state.quantity > 0) {
+            component.setState(prevState => ({quantity: prevState.quantity - 1}));
+        }
+        Cart.getInstance().setQuantity(component.props.spname, component.state.quantity);
+        if (component.state.quantity === 1) {
+            // remove from cart
+            Cart.getInstance().removeFromCart(component.props.spname);
+        }
+    };
+
     render() {
         return (
             <View style={styles.container}>
@@ -61,7 +82,16 @@ export default class SnackPackView extends Component {
                     />
                     <PriceView price={this.props.spprice}/>
                 </View>
-                <QuantityComponent spname={this.props.spname} spprice={this.props.spprice} spquantity={this.props.spquantity}/>
+                <QuantityComponent
+                    spname={this.props.spname}
+                    spprice={this.props.spprice}
+                    spquantity={this.props.spquantity}
+                    defaultText={'Add to Cart'}
+                    defaultTextSize={16}
+                    buttonPressedFunction={this.incrementQuantity}
+                    increaseFunction={this.incrementQuantity}
+                    decreaseFunction={this.decrementQuantity}
+                />
             </View>
         );
     }
