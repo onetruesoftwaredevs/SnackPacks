@@ -15,27 +15,43 @@ export default class QuantityComponent extends Component {
     defaultText;     // the default text of the button
     defaultTextSize; // the default text size
 
-    buttonPressedFunction;
-    increaseFunction;
-    decreaseFunction;
+    parent;
 
-    constructor(props) {
-        super(props);
+    incrementQuantity = (name, price, quantity, parent) => {
+        if (quantity === 0) {
+            // add to cart
+            Cart.getInstance().addToCart(name, price);
+        }
+        else {
+            // update quantity
+            Cart.getInstance().setQuantity(name, quantity + 1);
+        }
+        parent.forceUpdate();
+    };
 
-        let initial_quantity = Cart.getInstance().getQuantity(this.props.spname);
-
-        this.state = {
-            quantity: initial_quantity
-        };
-    }
+    decrementQuantity = (name, quantity, parent) => {
+        if (quantity >= 1) {
+            // update quantity
+            Cart.getInstance().setQuantity(name, quantity - 1);
+        }
+        if (quantity - 1 <= 0) {
+            // remove from cart
+            Cart.getInstance().removeFromCart(name);
+        }
+        parent.forceUpdate();
+    };
 
     render() {
-        if (this.state.quantity <= 0) {
+        let quantity = Cart.getInstance().getQuantity(this.props.spname);
+
+        if (quantity <= 0) {
             let combined_add_to_cart_style = [styles.add_to_cart_style, {fontSize: this.props.defaultTextSize}];
 
             return (
                 <View>
-                    <TouchableOpacity onPress={() => this.props.buttonPressedFunction(this)}>
+                    <TouchableOpacity
+                        onPress={() => this.incrementQuantity(this.props.spname, this.props.spprice, 0, this.props.parent)}
+                    >
                         <Text style={combined_add_to_cart_style}>{this.props.defaultText}</Text>
                     </TouchableOpacity>
                 </View>
@@ -47,11 +63,17 @@ export default class QuantityComponent extends Component {
             return (
                 <View>
                     <View style={styles.information_bar}>
-                        <TouchableOpacity onPress={() => this.props.decreaseFunction(this)} style={styles.button_style}>
+                        <TouchableOpacity
+                            onPress={() => this.decrementQuantity(this.props.spname, quantity, this.props.parent)}
+                            style={styles.button_style}
+                        >
                             <Text style={combined_button_text_style}> - </Text>
                         </TouchableOpacity>
-                        <Text style={combined_quantity_text_style}>Quantity: {this.state.quantity}</Text>
-                        <TouchableOpacity onPress={() => this.props.increaseFunction(this)} style={styles.button_style}>
+                        <Text style={combined_quantity_text_style}>Quantity: {quantity}</Text>
+                        <TouchableOpacity
+                            onPress={() => this.incrementQuantity(this.props.spname, this.props.spprice, quantity, this.props.parent)}
+                            style={styles.button_style}
+                        >
                             <Text style={combined_button_text_style}> + </Text>
                         </TouchableOpacity>
                     </View>

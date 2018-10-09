@@ -5,36 +5,16 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
 import OrderItemView from "./OrderItemView";
 import PaymentView from "./PaymentView";
 import Cart from '../function/Cart'
 
 export default class CartView extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {cartData: Cart.getInstance().getItemsInCart()};
-        this.removeFromCart = this.removeFromCart.bind(this);
-        this.setQuantityCallback = this.setQuantityCallback.bind(this);
-    }
-
-    removeFromCart = (name) => {
+    removeItemFromCart = (name) => {
         Cart.getInstance().removeFromCart(name);
-        this.setState((prevState) => {
-            return {
-                cartData: Cart.getInstance().getItemsInCart()
-            }
-        });
-    };
-
-    setQuantityCallback = (name, quantity) => {
-        Cart.getInstance().setQuantity(name, quantity);
-        this.setState((prevState) => {
-            return {
-                cartData: Cart.getInstance().getItemsInCart()
-            }
-        });
+        this.forceUpdate();
     };
 
     render() {
@@ -45,14 +25,13 @@ export default class CartView extends Component {
                 <Text style={styles.title_style}>My Cart</Text>
                 <FlatList
                     style={styles.flatlist_style}
-                    data={this.state.cartData}
+                    data={Cart.getInstance().getItemsInCart()}
                     renderItem={({item}) =>
                         <OrderItemView
                             spname={item.spname}
                             spprice={item.spprice}
-                            spquantity={item.spquantity}
-                            removeFromCartFunction={this.removeFromCart}
-                            setQuantityCallback={this.setQuantityCallback}
+                            removeFromCartFunction={this.removeItemFromCart}
+                            parent={this}
                         />
                     }
                 />

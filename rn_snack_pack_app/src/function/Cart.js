@@ -37,6 +37,7 @@ class Cart {
                     return;
                 }
             }
+            // item is not in the cart
         }
     }
 
