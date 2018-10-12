@@ -6,7 +6,7 @@ var snackDB = require('../src/snackConnect');
 
 function util(err, result){
 	//put what you wanna do with cart stuff in here
-	return(result);
+	console.log(result);
 }
 
 
@@ -21,4 +21,5 @@ console.log("Getting all snackpacks.");
 var snackConnector = new snackDB();
 
 var u = snackConnector.getCartCost(["1", "2", "3"], util);
-console.log(u)
+console.log(u)snackConnector.getCartCost([[1,1], [1,1]], util);
+// console.log(u)
