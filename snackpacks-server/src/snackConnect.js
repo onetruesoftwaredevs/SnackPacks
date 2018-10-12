@@ -104,7 +104,6 @@ class snackConnector{
 	getCartCost(cart, callback){
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 		
-<<<<<<< HEAD
 		//Create the cart string used for the SQL command
 		var cartString = "(";
 		var newCart = [];
@@ -114,6 +113,9 @@ class snackConnector{
 				cartString += `\"${cart[x][0]}\",`;
 			}
 		}
+		cartString = cartString.substr(0, cartString.length-1);
+		cartString += ")";
+		console.log(cartString);
 
 		//Start the descent into callback hell
 		connection.connect(function(err) {
@@ -135,47 +137,6 @@ class snackConnector{
 				});
 			});
 		});
-=======
-		console.log(newCart_dict);
-
-		var newCart;
-
-		for(var x in newCart_dict){
-			console.log(x, newCart_dict[x]);
-		}
-
-		// cart = newCart;
-
-		// for(var x in cart){
-		// 	for(var y = 1; y <= cart[x][1]; y++){
-		// 		cartString += `\"${cart[x][0]}\",`;
-		// 	}
-		// }
-		// cartString = cartString.substr(0, cartString.length-1);
-		// cartString += ")";
-		// console.log(cartString);
-
-		// //Start the descent into callback hell
-		// connection.connect(function(err) {
-		// 	if (err) throw err;
-		// 	//callback to send query
-		// 	//Instead of trying to iterate thru an array
-		// 	connection.query(`SELECT cost FROM snackpacks.snackpacks WHERE idsnackpacks IN ${cartString}`, function(err, result, fields){
-		// 		if (err) throw err;
-		// 		//callback to end connection
-		// 		connection.end(function(err) {
-		// 			var total_cost = 0;
-		// 			for(var x in result){
-		// 				console.log(`${result[x]['cost']} * ${cart[x][1]}`)
-		// 				total_cost += (result[x]['cost'] * cart[x][1]);
-		// 			}
-		// 			// total_cost = result[0]['SUM(cost)'];
-		// 			console.log(total_cost);
-		// 			callback(null, total_cost);
-		// 		});
-		// 	});
-		// });
->>>>>>> ba99738a15849e08f4eb18f49b2851000fdf0f94
 	}
 }
 //Allows module to be exposed
