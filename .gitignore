@@ -59,3 +59,15 @@ typings/
 
 # next.js build output
 .next
+
+shell\.y
+
+shell\.l
+
+shell\.hh
+
+shell\.cc
+
+command\.hh
+
+command\.cc
