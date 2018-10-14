@@ -3,9 +3,13 @@
 //Purpose: abstract the process of working with the database
 
 //Required libraries
+//Custom libs
 var SnackPack = require('./snackpack');
-var SnackUser = require('./snackUser');
+var Snack = require('./Snack');
+
+//Other
 var mysql = require('mysql');
+
 class snackConnector{
 	//snackConnector constructor
 	constructor(){
@@ -41,7 +45,7 @@ class snackConnector{
 					for(var r in result){
 						var pack = result[r];
 						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
-						count++;
+						// count++;
 					}
 					callback(null, list_snackpacks);
 					return list_snackpacks;
@@ -117,43 +121,35 @@ class snackConnector{
 		});
 	}
 	
-	getCartCost(cart, callback){
+
+	//Method to get all snacks from snackdatabase
+	getSnacks(callback){
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
-		
-		//Create the cart string used for the SQL command
-		var cartString = "(";
-		var newCart = [];
-
-		for(var x in cart){
-			for(var y = 0; y < cart[x][1]; y++){
-				cartString += `\"${cart[x][0]}\",`;
-			}
-		}
-		cartString = cartString.substr(0, cartString.length-1);
-		cartString += ")";
-		console.log(cartString);
-
 		//Start the descent into callback hell
 		connection.connect(function(err) {
 			if (err) throw err;
 			//callback to send query
 			//Instead of trying to iterate thru an array
-			connection.query(`SELECT cost FROM snackpacks.snackpacks WHERE idsnackpacks IN ${cartString}`, function(err, result, fields){
+			connection.query(`SELECT * FROM snackpacks.snacks`, function(err, result, fields){
 				if (err) throw err;
 				//callback to end connection
 				connection.end(function(err) {
 					if (err) throw err;
-					var total_cost = 0;
-					for(var x in result){
-						total_cost += (result[x]['cost'] * cart[x][1]);
+					
+					//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
+					var snackList=[];
+					for(var r in result){
+						var snackItem = result[r];
+						snackList.push(new Snack(snackItem.id, snackItem.name, snackItem.price, snackItem.calories, snackItem.allergens));
+						// count++;
 					}
-					// total_cost = result[0]['SUM(cost)'];
-					console.log(total_cost);
-					callback(null, total_cost);
+					callback(null, snackList);
+					// return snackList;
 				});
 			});
 		});
 	}
+
 
 	getCartCost(cart, callback){
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
@@ -213,6 +209,27 @@ class snackConnector{
 					// total_cost = result[0]['SUM(cost)'];
 					console.log(total_cost);
 					callback(null, total_cost);
+				});
+			});
+		});
+	}
+
+	deleteSnackPackByID(id, callback){
+		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+		if(isNaN(id)){
+			console.log("NaN!");
+			return;
+		}
+		connection.connect(function(err) {
+			if (err) throw err;
+			//callback to send query
+			//Instead of trying to iterate thru an array
+			connection.query(`DELETE FROM snackpacks.snackpacks WHERE idsnackpacks=${id}`, function(err, result, fields){
+				if (err) throw err;
+				//callback to end connection
+				connection.end(function(err) {
+					if (err) throw err;
+					console.log("nephew delet");
 				});
 			});
 		});
