@@ -71,3 +71,5 @@ shell\.cc
 command\.hh
 
 command\.cc
+
+\.vscode/
