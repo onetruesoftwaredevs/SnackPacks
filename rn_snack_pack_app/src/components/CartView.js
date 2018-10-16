@@ -12,9 +12,14 @@ import Cart from '../function/Cart'
 
 export default class CartView extends Component {
 
+    constructor(props) {
+        super();
+        this.state = {lastItemRemoved: "null"}
+    }
+
     removeItemFromCart = (name) => {
         Cart.getInstance().removeFromCart(name);
-        this.forceUpdate();
+        this.setState({lastItemRemoved: name});
     };
 
     render() {
@@ -34,6 +39,7 @@ export default class CartView extends Component {
                             parent={this}
                         />
                     }
+                    keyExtractor={(item) => item.spname}
                 />
                 <PaymentView subtotal={cartSubtotal} tax={7.89} deliveryFee={6.99}/>
             </View>

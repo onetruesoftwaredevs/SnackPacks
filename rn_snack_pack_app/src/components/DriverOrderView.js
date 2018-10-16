@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 
     title_style: {
         color: '#444',
-        fontSize: 14F,
+        fontSize: 14,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',

@@ -25,7 +25,7 @@ export default class SnackPackMenuView extends Component {
                         spallergylist={item._allergens}
                         spimage={item.image_path}
                     />}
-                    keyExtractor={(item, index) => index.toString()}
+                    keyExtractor={(item) => item._name}
                 />
             </View>
         );
