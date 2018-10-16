@@ -7,8 +7,8 @@
 
 //Allows module to be exposed
 class SnackPack{
-	constructor(id, name, contents, allergens, image_path, reviews, cost){
-		this.id = id;
+	constructor(key, name, contents, allergens, image_path, reviews, cost){
+		this.key = key;
 		this.name = name;
 		this.contents = contents.split(",");
 		this.allergens = allergens.split(",");
@@ -22,8 +22,8 @@ class SnackPack{
 	//    return JSON.stringify({id: this.id, name: this._name, contents: this.contents, allergens: this.allergens, image_path: this.image_path, reviews: this.reviews, cost: this.cost});
 	//}
 
-	get id(){ return this._id }
-    set id(value){ this._id = value }
+	get key(){ return this._key }
+    set key(value){ this._key = value }
     
 	get name(){ return this._name }
     set name(value){ this._name = value }
