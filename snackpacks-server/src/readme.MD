@@ -3,16 +3,18 @@ By Ryan Chen
 
 Below is a list of all the classes in snackpacks-server and the attributes they have. All are get-able and set-able unless expressly stated.
 
-## Snack.js
-### Attributes
+## Classes
+
+### Snack.js
+#### Attributes
 * int id (ex. 0)
 * string name (ex. "candy corn")
 * double price (ex. 4.99)
 * int calories (ex. 100)
 * string allergens (ex. "dairy,gluten")
 
-## Snackpack.js
-### Attributes
+### Snackpack.js
+#### Attributes
 * int id (ex. 0)
 * string name (ex. "doritos legends")
 * string contents (ex. "doritos,beer,mountain dew")
@@ -21,13 +23,13 @@ Below is a list of all the classes in snackpacks-server and the attributes they 
 * string reviews (ex. "")
 * double cost (ex. 4.99)
 
-## SnackConnect.js
-### Attributes
+### SnackConnect.js
+#### Attributes
 * string host
 * string user
 * string password
 * int port
-### Methods
+#### Methods
 * constructor
 
         Requires a host, username, password and port number. All are provided in the class.
@@ -64,3 +66,32 @@ Below is a list of all the classes in snackpacks-server and the attributes they 
         Deletes the SnackPack specified by the id given by the user.
 
         Future plans: none
+
+
+
+## Databases
+
+### SnackPacks
+* int key
+* string name
+* string contents
+* string allergens
+* string image_path
+* string reviews
+* double cost
+* int rating
+
+### Snacks
+* int id
+* string name
+* double price
+* int calories
+* string allergens
+
+### Drivers
+* int id
+* string name
+* double rating
+* string carmodle
+* string carmake
+* int trips
