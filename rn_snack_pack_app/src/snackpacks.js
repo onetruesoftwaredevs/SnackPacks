@@ -6,7 +6,7 @@ import CartView from "./components/CartView";
 
 export default class SnackPacks extends Component {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
             screen: 1,
             isLoading: true,
@@ -25,11 +25,11 @@ export default class SnackPacks extends Component {
 
     setMenuScreen = () => {
         this.setState({screen: 1});
-    }
+    };
 
     setCartScreen = () => {
         this.setState({screen: 2})
-    }
+    };
 
     render() {
         if (this.state.isLoading) {
@@ -57,7 +57,7 @@ export default class SnackPacks extends Component {
         } else if (this.state.screen === 2) {
             return (
                 <View style={styles.container}>
-                    <CartView />
+                    <CartView/>
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity onPress={this.setMenuScreen}>
                             <Text style={styles.button_text_style}>Menu</Text>
@@ -76,6 +76,12 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    view: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },

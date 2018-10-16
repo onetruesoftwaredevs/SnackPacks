@@ -58,6 +58,7 @@ export default class SnackPackView extends Component {
                         horizontal={true}
                         data={this.props.spallergylist}
                         renderItem={({item}) => <NutritionView allergy={item}/>}
+                        keyExtractor={(item) => item}
                     />
                     <PriceView price={this.props.spprice}/>
                 </View>
