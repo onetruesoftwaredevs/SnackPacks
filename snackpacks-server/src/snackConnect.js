@@ -44,7 +44,7 @@ class snackConnector{
 					var list_snackpacks=[];
 					for(var r in result){
 						var pack = result[r];
-						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
+						list_snackpacks.push(new SnackPack(pack.key, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
 						// count++;
 					}
 					callback(null, list_snackpacks);
@@ -60,7 +60,7 @@ class snackConnector{
 	returns list of snackPacks objects
 	3 callbacks:
 	1. connecting to the server 
-	2. main query to the server (select * from snackpacks.snackpacks where idsnackpacks=x)
+	2. main query to the server (select * from snackpacks.snackpacks where key=x)
 	3. end connection to the server
 	*/
 
@@ -70,7 +70,7 @@ class snackConnector{
 		connection.connect(function(err) {
 			if (err) throw err;
 			//callback to send query
-			connection.query(`SELECT * FROM snackpacks.snackpacks where idsnackpacks=${id}`, function(err, result, fields){
+			connection.query(`SELECT * FROM snackpacks.snackpacks where key=${id}`, function(err, result, fields){
 				if (err) throw err;
 				//callback to end connection
 				connection.end(function(err) {
@@ -82,7 +82,7 @@ class snackConnector{
 					for(var r in result){
 						var pack = result[r];
 						// console.log(list_snackpacks);
-						list_snackpacks.push(new SnackPack(pack.idsnackpacks, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
+						list_snackpacks.push(new SnackPack(pack.key, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
 						count++;
 					}
 					
