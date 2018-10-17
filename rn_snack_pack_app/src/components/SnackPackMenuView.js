@@ -5,19 +5,42 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
 import SnackPackView from "./SnackPackView";
 
 export default class SnackPackMenuView extends Component {
-    spdata; // the snack-pack data json object
+    constructor(props) {
+        super();
+        this.state = {
+            isLoading: true,
+            dataSource: []
+        };
+    }
+
+    componentDidMount() {
+        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
+            .then(response => response.json())
+            .then(responseJson => this.setState({
+                isLoading: false,
+                dataSource: responseJson
+            }));
+    }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.loading_text}>Loading Screen</Text>
+                </View>
+            );
+        }
+
         return (
             <View style={styles.container}>
                 <Text style={styles.title_style}>Snack Packs</Text>
                 <FlatList
                     style={styles.flatlist_style}
-                    data={this.props.spdata}
+                    data={this.state.dataSource}
                     renderItem={({item}) => <SnackPackView
                         spname={item._name}
                         spprice={item._cost}
@@ -36,7 +59,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 4,
-        width: '90%',
+        width: '100%',
+        height: '100%',
     },
 
     flatlist_style: {
@@ -49,6 +73,18 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4,
+    },
+
+    loading_text: {
+        color: '#444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',

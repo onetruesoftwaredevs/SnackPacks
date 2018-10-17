@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 4,
-        width: '90%',
+        width: '100%',
     },
 
     flatlist_style: {
-        height: '50%'
+        height: '45%'
     },
 
     title_style: {
