@@ -1,10 +1,27 @@
 // snackpacks.js
 import React, {Component} from 'react';
+import {TabNavigator, StackNavigator} from 'react-navigation'
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 import SnackPackMenuView from "./components/SnackPackMenuView";
 import CartView from "./components/CartView";
+import DriverOrderView from "./components/DriverOrderView";
 
-export default class SnackPacks extends Component {
+export const SnackPacks = TabNavigator({
+    Menu: {
+        screen: SnackPackMenuView,
+    },
+    Cart: {
+        screen: CartView,
+    },
+    Drivers: {
+        screen: DriverOrderView,
+    },
+});
+
+
+// legacy code
+/*
+export class SnackPacks extends Component {
     constructor(props) {
         super();
         this.state = {
@@ -115,3 +132,4 @@ const styles = StyleSheet.create({
         padding: 4,
     }
 });
+*/
