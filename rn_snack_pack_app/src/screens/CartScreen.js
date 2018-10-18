@@ -6,11 +6,11 @@
 
 import React, {Component} from 'react';
 import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
-import OrderItemView from "./OrderItemView";
-import PaymentView from "./PaymentView";
+import OrderItemView from "../components/OrderItemView";
+import PaymentView from "../components/PaymentView";
 import Cart from '../function/Cart'
 
-export default class CartView extends Component {
+export default class CartScreen extends Component {
 
     constructor(props) {
         super();

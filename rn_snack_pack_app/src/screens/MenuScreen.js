@@ -6,9 +6,9 @@
 
 import React, {Component} from 'react';
 import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
-import SnackPackView from "./SnackPackView";
+import SnackPackView from "../components/SnackPackView";
 
-export default class SnackPackMenuView extends Component {
+export default class MenuScreen extends Component {
     constructor(props) {
         super();
         this.state = {
