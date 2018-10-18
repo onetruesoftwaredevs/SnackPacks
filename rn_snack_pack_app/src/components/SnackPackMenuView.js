@@ -13,17 +13,22 @@ export default class SnackPackMenuView extends Component {
         super();
         this.state = {
             isLoading: true,
-            dataSource: []
+            dataSource: [],
         };
     }
 
     componentDidMount() {
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({dataSource: this.state.dataSource});
+        });
+
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
             .then(response => response.json())
             .then(responseJson => this.setState({
                 isLoading: false,
                 dataSource: responseJson
             }));
+
     }
 
     render() {
@@ -48,6 +53,7 @@ export default class SnackPackMenuView extends Component {
                         spallergylist={item._allergens}
                         spimage={item.image_path}
                     />}
+                    extraData={this.state}
                     keyExtractor={(item) => item._name}
                 />
             </View>

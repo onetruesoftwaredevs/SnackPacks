@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, StyleSheet, Text, View, Image} from 'react-native';
+import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
 import Cart from '../function/Cart'
 
 export default class QuantityComponent extends Component {
