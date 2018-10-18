@@ -17,11 +17,11 @@ import SnackPackView from "./src/components/SnackPackView";
 //ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
 import Amplify, {API, Analytics,Storage} from 'aws-amplify';
 import {withAuthenticator} from 'aws-amplify-react-native';
-import aws_exports from './src/aws-exports';
+import aws_exports from './src/api/aws-exports';
 import PaymentView from "./src/components/PaymentView";
 import OrderItemView from "./src/components/OrderItemView";
-import CartView from "./src/components/CartView";
-import SnackPackMenuView from "./src/components/SnackPackMenuView";
+import CartScreen from "./src/screens/CartScreen";
+import MenuScreen from "./src/screens/MenuScreen";
 import {SnackPacks} from "./src/snackpacks";
 
 //Allow analytics & other aws backend to connect to mobile hub

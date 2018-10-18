@@ -2,16 +2,16 @@
 import React, {Component} from 'react';
 import {TabNavigator, StackNavigator} from 'react-navigation'
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
-import SnackPackMenuView from "./components/SnackPackMenuView";
-import CartView from "./components/CartView";
+import MenuScreen from "./screens/MenuScreen";
+import CartScreen from "./screens/CartScreen";
 import DriverOrderView from "./components/DriverOrderView";
 
 export const SnackPacks = TabNavigator({
     Menu: {
-        screen: SnackPackMenuView,
+        screen: MenuScreen,
     },
     Cart: {
-        screen: CartView,
+        screen: CartScreen,
     },
     Drivers: {
         screen: DriverOrderView,
@@ -60,7 +60,7 @@ export class SnackPacks extends Component {
         if (this.state.screen === 1) {
             return (
                 <View style={styles.container}>
-                    <SnackPackMenuView spdata={this.state.dataSource}/>
+                    <MenuScreen spdata={this.state.dataSource}/>
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity onPress={this.setMenuScreen}>
                             <Text style={styles.button_text_style}>Menu</Text>
@@ -74,7 +74,7 @@ export class SnackPacks extends Component {
         } else if (this.state.screen === 2) {
             return (
                 <View style={styles.container}>
-                    <CartView/>
+                    <CartScreen/>
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity onPress={this.setMenuScreen}>
                             <Text style={styles.button_text_style}>Menu</Text>
