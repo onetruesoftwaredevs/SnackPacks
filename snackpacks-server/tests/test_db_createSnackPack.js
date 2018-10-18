@@ -7,10 +7,6 @@ var snackDB = require('../src/snackConnect');
 console.log("Test 2:");
 console.log("Getting all snackpacks.");
 var snackConnector = new snackDB();
-snackConnector.createSnackPack("dorito legends", "doritos", "dairy", "www.google.com", "", 5, function (err, result) {
-	if(result){
-		console.log("Success\n------------\n");
-	}else{
-		console.log("FAIL");
-	}
-});
+snackConnector.createSnackPack("dorito legends", "doritos", "dairy", "www.google.com", "", 5)
+	.then(data => console.log(data))
+	.catch(error => console.log(error));
