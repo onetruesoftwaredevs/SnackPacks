@@ -11,7 +11,8 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, Text, View} from 'react-native';
+import Swipeout from "rn-swipe-out";
 
 export default class OrderInformationView extends Component {
     name;           // string
@@ -19,12 +20,22 @@ export default class OrderInformationView extends Component {
     order_status;   // string
     address;        // string
 
+    option = {
+        text: 'complete',
+        style: {
+            backgroundColor: '#44aa44',
+            padding: 2,
+        },
+        onPress: () => {Alert.alert('complete pressed', '');},
+    };
+
     render() {
         // create method or dictionary to dynamically change background color based on status
         let order_status_style = [styles.status_style, {backgroundColor: '#44AAff'}];
 
         return (
-            <View style={styles.container}>
+            <Swipeout style={styles.container} right={this.option}>
+
                 <View style={styles.horizontal_container}>
                     <Text style={styles.name_style}>{this.props.name}</Text>
                     <Text style={styles.number_style}>{this.props.number}</Text>
@@ -33,7 +44,8 @@ export default class OrderInformationView extends Component {
                     <Text style={styles.address_style}>{this.props.address}</Text>
                     <Text style={order_status_style}>{this.props.order_status}</Text>
                 </View>
-            </View>
+
+            </Swipeout>
         );
     }
 }

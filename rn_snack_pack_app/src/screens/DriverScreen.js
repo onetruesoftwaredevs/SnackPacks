@@ -12,16 +12,12 @@ import OrderInformationView from "../components/driver/OrderInformationView";
 
 export default class DriverScreen extends Component {
 
-    onCompleteOrder() {
-
-    }
-
     showMyOrders() {
-
+        Alert.alert('pressed show my orders', '');
     }
 
     showAvailableOrders() {
-
+        Alert.alert('pressed show available orders', '');
     }
 
 
