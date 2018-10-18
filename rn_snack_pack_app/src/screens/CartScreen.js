@@ -6,8 +6,8 @@
 
 import React, {Component} from 'react';
 import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
-import OrderItemView from "../components/OrderItemView";
-import PaymentView from "../components/PaymentView";
+import OrderItemView from "../components/cart/OrderItemView";
+import PaymentView from "../components/cart/PaymentView";
 import Cart from '../function/Cart'
 
 export default class CartScreen extends Component {

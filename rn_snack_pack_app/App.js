@@ -8,18 +8,18 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import PriceView from "./src/components/PriceView";
-import Review from "./src/components/Review";
-import Rating from "./src/components/Rating";
-import NutritionView from "./src/components/NutritionView";
-import SnackPackView from "./src/components/SnackPackView";
+import PriceView from "./src/components/menu/PriceView";
+import Review from "./src/components/menu/Review";
+import Rating from "./src/components/menu/Rating";
+import NutritionView from "./src/components/menu/NutritionView";
+import SnackPackView from "./src/components/menu/SnackPackView";
 
 //ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
 import Amplify, {API, Analytics,Storage} from 'aws-amplify';
 import {withAuthenticator} from 'aws-amplify-react-native';
 import aws_exports from './src/api/aws-exports';
-import PaymentView from "./src/components/PaymentView";
-import OrderItemView from "./src/components/OrderItemView";
+import PaymentView from "./src/components/cart/PaymentView";
+import OrderItemView from "./src/components/cart/OrderItemView";
 import CartScreen from "./src/screens/CartScreen";
 import MenuScreen from "./src/screens/MenuScreen";
 import {SnackPacks} from "./src/snackpacks";

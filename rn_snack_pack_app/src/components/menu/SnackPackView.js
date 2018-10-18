@@ -11,8 +11,8 @@ import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from '
 import NutritionView from "./NutritionView";
 import PriceView from "./PriceView";
 import Rating from "./Rating";
-import QuantityComponent from "./QuantityComponent";
-import Cart from "../function/Cart";
+import QuantityComponent from "../misc/QuantityComponent";
+import Cart from "../../function/Cart";
 
 export default class SnackPackView extends Component {
     spname;         // the name of the snack-pack

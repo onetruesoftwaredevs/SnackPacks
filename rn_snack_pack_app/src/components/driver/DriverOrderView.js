@@ -8,7 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, FlatList, StyleSheet, Text, View} from 'react-native';
-import NutritionView from "./NutritionView";
+import NutritionView from "../menu/NutritionView";
 import OrderInformationView from "./OrderInformationView";
 
 export default class DriverOrderView extends Component {

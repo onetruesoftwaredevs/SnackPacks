@@ -7,8 +7,8 @@
 
 import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View} from 'react-native';
-import Cart from '../function/Cart.js'
-import QuantityComponent from "./QuantityComponent";
+import Cart from '../../function/Cart.js'
+import QuantityComponent from "../misc/QuantityComponent";
 
 export default class OrderItemView extends Component {
     spname;     // the name of the snack-pack
