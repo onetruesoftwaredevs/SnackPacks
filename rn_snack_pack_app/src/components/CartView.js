@@ -17,6 +17,12 @@ export default class CartView extends Component {
         this.state = {lastItemRemoved: "null"}
     }
 
+    componentDidMount() {
+        this.props.navigation.addListener('willFocus', (playload)=>{
+            this.forceUpdate();
+        });
+    }
+
     removeItemFromCart = (name) => {
         Cart.getInstance().removeFromCart(name);
         this.setState({lastItemRemoved: name});
@@ -49,13 +55,15 @@ export default class CartView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 4,
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: 0,
         width: '100%',
+        height: "100%",
     },
 
     flatlist_style: {
-        height: '45%'
+        height: '30%'
     },
 
     title_style: {
