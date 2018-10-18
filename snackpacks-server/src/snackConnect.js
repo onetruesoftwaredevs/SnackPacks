@@ -6,6 +6,7 @@
 //Custom libs
 var SnackPack = require('./snackpack');
 var Snack = require('./Snack');
+var Order = require("./Order");
 
 //Other
 var mysql = require('mysql');
@@ -230,6 +231,33 @@ class snackConnector{
 				connection.end(function(err) {
 					if (err) throw err;
 					console.log("nephew delet");
+				});
+			});
+		});
+	}
+
+	getOrders(callback){
+		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+		//Start the descent into callback hell
+		connection.connect(function(err) {
+			if (err) throw err;
+			//callback to send query
+			//Instead of trying to iterate thru an array
+			connection.query(`SELECT * FROM snackpacks.orders`, function(err, result, fields){
+				if (err) throw err;
+				//callback to end connection
+				connection.end(function(err) {
+					if (err) throw err;
+					
+					//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
+					var orderList=[];
+					for(var r in result){
+						var snackItem = result[r];
+						orderList.push(new Order(snackItem.id, snackItem.name, snackItem.price, snackItem.calories, snackItem.allergens));
+						// count++;
+					}
+					callback(null, orderList);
+					// return snackList;
 				});
 			});
 		});
