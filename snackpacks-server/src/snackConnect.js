@@ -7,6 +7,7 @@
 var SnackPack = require('./snackpack');
 var Snack = require('./Snack');
 var Order = require("./Order");
+var Driver = require("./Driver");
 
 //Other
 var mysql = require('mysql');
@@ -235,7 +236,7 @@ class snackConnector{
 			});
 		});
 	}
-
+	
 	getOrders(callback){
 		var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 		//Start the descent into callback hell
@@ -262,6 +263,36 @@ class snackConnector{
 			});
 		});
 	}
+
+	//LETS TRY OUT SOME PROMISES
+	getDrivers(){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			//Start the descent into callback hell
+			connection.connect(function(err) {
+				if (err) throw reject(err);
+				//callback to send query
+				//Instead of trying to iterate thru an array
+				connection.query(`SELECT * FROM snackpacks.drivers`, function(err, result, fields){
+					if (err) throw reject(err);
+					//callback to end connection
+					connection.end(function(err) {
+						if (err) throw reject(err);
+						
+						//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
+						var driverList=[];
+						for(var r in result){
+							var driverItem = result[r];
+							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.rating, driverItem.carmodel, driverItem.carmake, driverItem.trips));
+							// count++;
+						}
+						resolve(orderList);
+					});
+				});
+			});
+		});
+	}
+
 }
 //Allows module to be exposed
 module.exports = snackConnector;
