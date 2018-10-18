@@ -286,7 +286,7 @@ class snackConnector{
 							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.rating, driverItem.carmodel, driverItem.carmake, driverItem.trips));
 							// count++;
 						}
-						resolve(orderList);
+						resolve(driverList);
 					});
 				});
 			});

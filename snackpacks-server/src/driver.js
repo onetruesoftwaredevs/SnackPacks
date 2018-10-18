@@ -28,3 +28,5 @@ class Driver {
         return this.total;
     }
 }
+
+module.exports = Driver;
