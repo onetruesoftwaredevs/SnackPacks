@@ -29,7 +29,7 @@ import MySignIn from "./src/mySignIn";
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
 
-export default class App extends Component {
+class App extends Component {
   render() {
     return (
       <View style={styles.container}>
