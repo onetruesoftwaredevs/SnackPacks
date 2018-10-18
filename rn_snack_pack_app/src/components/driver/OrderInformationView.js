@@ -21,7 +21,7 @@ export default class OrderInformationView extends Component {
 
     render() {
         // create method or dictionary to dynamically change background color based on status
-        let order_status_style = [styles.order_status, {backgroundColor: '#44AAff'}];
+        let order_status_style = [styles.status_style, {backgroundColor: '#44AAff'}];
 
         return (
             <View style={styles.container}>
@@ -40,8 +40,7 @@ export default class OrderInformationView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
-        padding: 4,
+        flex: 1,
         backgroundColor: '#DEDEDE'
     },
 
@@ -97,6 +96,6 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 4
+        padding: 4,
     }
 });
