@@ -71,7 +71,7 @@ export default class PaymentView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 4,
+        padding: 0,
     },
 
     horizontal_container: {
@@ -82,14 +82,14 @@ const styles = StyleSheet.create({
 
     price_style: {
         color: '#444',
-        fontSize: 14,
+        fontSize: 16,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 2,
+        padding: 4,
     },
 
 
@@ -99,14 +99,14 @@ const styles = StyleSheet.create({
 
     button_text_style: {
         color: '#FFF',
-        fontSize: 16,
+        fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 4,
+        padding: 8,
     }
 
 });
