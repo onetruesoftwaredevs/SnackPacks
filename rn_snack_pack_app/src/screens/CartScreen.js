@@ -55,11 +55,12 @@ export default class CartScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         flexDirection: "column",
         justifyContent: "space-between",
         padding: 0,
-        width: '100%',
-        height: "100%",
+        //width: '100%',
+        //height: "100%",
     },
 
     flatlist_style: {
