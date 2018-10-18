@@ -4,7 +4,7 @@ import {TabNavigator, StackNavigator} from 'react-navigation'
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 import MenuScreen from "./screens/MenuScreen";
 import CartScreen from "./screens/CartScreen";
-import DriverOrderView from "./components/DriverOrderView";
+import DriverOrderView from "./components/driver/DriverOrderView";
 
 export const SnackPacks = TabNavigator({
     Menu: {
