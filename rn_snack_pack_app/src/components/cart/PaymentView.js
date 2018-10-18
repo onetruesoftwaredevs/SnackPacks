@@ -23,7 +23,7 @@ export default class PaymentView extends Component {
         let roundedTotal = Number(Number(this.props.subtotal) + Number(this.props.tax) + Number(this.props.deliveryFee)).toFixed(2);
 
         return (
-            <View style={styles.container}>
+            <View>
                 <View style={styles.horizontal_container}>
                     <Text style={styles.price_style}>Subtotal:</Text>
                     <NumberFormat
@@ -69,11 +69,6 @@ export default class PaymentView extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 0,
-    },
-
     horizontal_container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
