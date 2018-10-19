@@ -5,7 +5,7 @@ var SnackUser = require('./snackpacks-server/src/snackUser.js');
 exports.handler = function(event, context, callback){
     console.log(event);
     console.log(context);
-
+    
     var queryString = event.queryStringParameters;
     if(queryString != null){
         var command = queryString.command;
@@ -33,7 +33,7 @@ exports.handler = function(event, context, callback){
                 //     cart[i] = cart[i][0];
                 // }
                 console.log(cart);
-
+                
                 SnackConnector.getCartCost(cart, function(error, result){
 
                     var response = {
@@ -48,7 +48,7 @@ exports.handler = function(event, context, callback){
                     callback(null, response);
                     console.log("Callback sent");
                 });
-
+           
             } else {
             var response = {
                     "statusCode": 200,
