@@ -1,0 +1,57 @@
+Server calls I need to be able to do:
+
+// query strings will only be used in GET methods for now.
+Get list of SnackPacks:
+    Call:
+        https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks/?command=list
+    Returned as:
+        JSON array of JSON arrays of std key-value pairs
+        [{"_name":"default","_contents":["oreos","cheezits","pringles"],"_allergens":["cheeze","gluten"],
+        "image_path":"www.google.com","reviews":"none","_cost":54.45}, ... ]
+
+admin:
+    DELETE
+    PATCH
+    POST
+
+admin/drivers:
+    DELETE
+    GET
+    POST
+
+
+Add new SnackPack:
+    Call:
+
+    Returned as:
+        NULL?
+
+Modify existing SnackPack:
+    Call:
+        https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=
+    Returned as:
+        NULL?
+
+Delete existing SnackPack:
+    Call:
+        .
+    Returned as:
+        NULL?
+
+Get List of Drivers:
+    Call:
+        https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=
+    Returned as:
+        .
+
+Add new Driver:
+    Call:
+        https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=
+    Returned as:
+        .
+
+Delete existing Driver:
+    Call:
+        .
+    Returned as:
+        .

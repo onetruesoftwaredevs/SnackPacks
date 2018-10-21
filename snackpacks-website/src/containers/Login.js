@@ -28,14 +28,14 @@ export default class Login extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        //try {
-            //await Auth.signIn(this.state.username, this.state.password);
+        try {
+            await Auth.signIn(this.state.username, this.state.password);
             this.props.userHasAuthenticated(true);
             this.props.history.push("/");
-        //} catch (e) {
-        //    alert(e.message);
-        //    this.setState({ isLoading: false });
-        //}
+        } catch (e) {
+            alert(e.message);
+            this.setState({ isLoading: false });
+        }
     }
 
     render() {
