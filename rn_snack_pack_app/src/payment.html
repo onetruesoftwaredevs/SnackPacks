@@ -27,21 +27,21 @@
     braintree.dropin.create({
         // Insert your tokenization key here
         authorization: 'sandbox_ws8zj7km_nb4sdg3y59thysfq',
-        //Request client token API call
+        //Request client token API call (getClientToken)
         //authorization: CLIENT_TOKEN_FROM_SERVER,
         container: '#dropin-container'
     }).then(function (instance) {
         button.addEventListener('click', function () {
-            //Post ./routes/checkout.js to API endpoint using rn-fetch
+            //Post to API endpoint using rn-fetch
 
             $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-            //CALLS TO API ENDPOINT
-            /*instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+            //CALL TO API ENDPOINT
+            instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
                 // When the user clicks on the 'Submit payment' button this code will send the
                 // encrypted payment information in a variable called a payment method nonce
                 $.ajax({
                     type: 'POST',
-                    url: '/checkout',
+                    url: '/checkout',//API ENDPOINT
                     data: {'paymentMethodNonce': payload.nonce}
                 }).done(function(result) {
                     // Tear down the Drop-in UI
@@ -62,7 +62,7 @@
                         $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
                     }
                 });
-            });*/
+            });
     });
 
     braintree.dropin.create({

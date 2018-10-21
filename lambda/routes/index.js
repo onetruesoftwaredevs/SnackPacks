@@ -33,7 +33,7 @@ function createResultObject(transaction){
 
     if(TRANSACTION_SUCCESS_STATUSES.indexOf(status)!== -1){
         result={
-            header:'Sweet Success!',
+            header:'Success!',
             icon:'success',
             message:'Your test transaction has been successfully processed. See the Braintree API response and try again.'
         };
@@ -48,15 +48,43 @@ function createResultObject(transaction){
     return result;
 }
 
+//All the router.get calls --> lambda "functions"
+
 //API CALL GET to getClientToken
 router.get('/checkouts/new',function(req,res){
+
+    //Server with customer ID to save cards in "braintree vault"
+    /*gateway.clientToken.generate({
+        customerId:aCustomerId
+    }).then(function(err,response){
+        var clientToken=response.clientToken
+    });*/
+
     gateway.clientToken.generate({}).then(function(err,response){
-        //Send client token to client. This tries to render a web page, AND send the request
-        res.render('checkouts/new',{clientToken:response.clientToken,messages:req.flash('error')});
+        //Return client token
+        var clientToken=response.clientToken;
+
+        //TODO: check for error
+        //Is this the proper way to return for the lambda function?
+        res.send(response.clientToken);
     });
+
+    /*Client:
+     * app.get("/client_token", function (req, res) {
+     * gateway.clientToken.generate({}, function (err, response) {
+     *  res.send(response.clientToken);
+     *  });
+     *  });
+     */
+
+    // Using callbacks
+    // gateway.clientToken.generate({}).then(function(err,response){
+    //     //Send client token to client. This tries to render a web page, AND send the request
+    //     res.render('checkouts/new',{clientToken:response.clientToken,messages:req.flash('error')});
+    // });
 });
 
-//API CALL GET to checkout with ID of transaction from post
+//API CALL GET to checkout with ID of transaction
 router.get('/checkouts/:id').then(function(req,res){
     var result;
     var transactionId=req.params.id;
@@ -64,32 +92,44 @@ router.get('/checkouts/:id').then(function(req,res){
     //update this to a db call by transaction id
     gateway.transaction.find(transactionId).then(function(err,transaction){
         result=createResultObject(transaction);
-        //RETURN This to the client to update the transaction page
-        res.render('checkouts/show',{transaction:transaction,result:result});
+
+        //Return transaction to the client to update the transaction page
+        //res.render('checkouts/show',{transaction:transaction,result:result});
+
+        //Is this the proper way to return for the lambda function?
+        res.send(transaction);
     });
 });
 
 //API CALL POST to checkout with payment_nonce
 router.post('/checkouts',function(req,res){
     var transactionErrors;
-    var amount=req.body.amount; // In production you should not take amounts directly from clients
-    var nonce=req.body.payment_method_nonce;
 
+    //var amount=req.body.amount; //TODO: Use db calls to get the cost of the cart values here
+    var amount='10.00';
+    var nonce=req.body.payment_method_nonce;//Receive nonce from client
+
+    //Use Braintree gateway to complete the transaction
     gateway.transaction.sale({
         amount:amount,
         paymentMethodNonce:nonce,
         options:{
-            submitForSettlement:true
+            submitForSettlement:true//Send payment
         }
     }).then(function(err,result){
-        if(result.success||result.transaction){
-            res.redirect('checkouts/'+result.transaction.id);
-        }else{
+        if(result.success||result.transaction){//SUCCESS
+            //Return some sort of success message
+            res.send(result);
+            //res.redirect('checkouts/'+result.transaction.id);
+        }else{//ERROR
             transactionErrors=result.errors.deepErrors();
-            req.flash('error',{msg:formatErrors(transactionErrors)});
-            res.redirect('checkouts/new');
+            //return msg with errors (using the formatErrors();
+            res.status(500).send(formatErrors(transactionErrors));
+            //req.flash('error',{msg:formatErrors(transactionErrors)});
+            //res.redirect('checkouts/new');
         }
     });
 });
 
+//Needs index export for lambda?
 module.exports=router;
