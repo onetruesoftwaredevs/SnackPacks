@@ -4,6 +4,7 @@ import LoaderButton from "../components/LoaderButton";
 import "./NewSnackPack.css";
 import { API } from "aws-amplify";
 import {s3Upload} from "../libs/awsLib";
+import config from "../config";
 
 export default class NewSnackPack extends Component {
     constructor(props) {
@@ -28,10 +29,10 @@ export default class NewSnackPack extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        /*if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
+        if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
             alert(`Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE/1000000} MB.`);
             return;
-        }*/
+        }
 
         this.setState({ isLoading: true });
 

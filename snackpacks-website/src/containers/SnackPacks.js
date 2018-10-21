@@ -7,6 +7,7 @@ import FormControl from "react-bootstrap/es/FormControl";
 import config from "../config";
 //import { s3Upload } from "../libs/awsLib";
 import "./SnackPacks.css";
+import {s3Upload} from "../libs/awsLib";
 
 export default class SnackPacks extends Component {
     constructor(props) {
@@ -76,16 +77,16 @@ export default class SnackPacks extends Component {
 
         event.preventDefault();
 
-        /*if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
+        if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
             alert(`Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE/1000000} MB.`);
             return;
-        }*/
+        }
 
         this.setState({ isLoading: true });
 
         try {
             if (this.file) {
-//                attachment = await s3Upload(this.file);
+                attachment = await s3Upload(this.file);
             }
 
             await this.saveSnackPack({
