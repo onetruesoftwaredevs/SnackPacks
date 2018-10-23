@@ -2,7 +2,7 @@
 
 var express=require('express');
 var braintree=require('braintree');
-// var routes=require('./routes/index'); //THIS FILE
+// var routes=require('./routes/index'); //Current file
 var router=express.Router();
 var gateway=require('../lib/gateway');
 
@@ -52,6 +52,7 @@ function createResultObject(transaction){
 router.get('/checkouts/new',function(req,res){
     gateway.clientToken.generate({}).then(function(err,response){
         //Send client token to client. This tries to render a web page, AND send the request
+        //Just send JSON
         res.render('checkouts/new',{clientToken:response.clientToken,messages:req.flash('error')});
     });
 });
@@ -65,6 +66,7 @@ router.get('/checkouts/:id').then(function(req,res){
     gateway.transaction.find(transactionId).then(function(err,transaction){
         result=createResultObject(transaction);
         //RETURN This to the client to update the transaction page
+        //JSON
         res.render('checkouts/show',{transaction:transaction,result:result});
     });
 });
@@ -72,7 +74,8 @@ router.get('/checkouts/:id').then(function(req,res){
 //API CALL POST to checkout with payment_nonce
 router.post('/checkouts',function(req,res){
     var transactionErrors;
-    var amount=req.body.amount; // In production you should not take amounts directly from clients
+    //TODO DB call to get snackpack amounts from id
+    var amount=req.body.amount;
     var nonce=req.body.payment_method_nonce;
 
     gateway.transaction.sale({
