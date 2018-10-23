@@ -1,2 +1,0 @@
-// Nutrition Component
-// @author - Stephen
