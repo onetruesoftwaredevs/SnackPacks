@@ -11,14 +11,14 @@ import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from '
 import NutritionView from "./NutritionView";
 import PriceView from "./PriceView";
 import Rating from "./Rating";
-import QuantityComponent from "./QuantityComponent";
+import QuantityComponent from "../misc/QuantityComponent";
+import Cart from "../../function/Cart";
 
 export default class SnackPackView extends Component {
     spname;         // the name of the snack-pack
     sprating;       // the rating of the snack-pack
     spprice;        // the price of the snack-pack
     spallergylist;  // a the list of allergies contained in this snack-pack
-    spquantity;
     spimage;
 
     _onImagePressed() {
@@ -58,10 +58,17 @@ export default class SnackPackView extends Component {
                         horizontal={true}
                         data={this.props.spallergylist}
                         renderItem={({item}) => <NutritionView allergy={item}/>}
+                        keyExtractor={(item) => item}
                     />
                     <PriceView price={this.props.spprice}/>
                 </View>
-                <QuantityComponent spname={this.props.spname} spprice={this.props.spprice} spquantity={this.props.spquantity}/>
+                <QuantityComponent
+                    spname={this.props.spname}
+                    spprice={this.props.spprice}
+                    defaultText={'Add to Cart'}
+                    defaultTextSize={16}
+                    parent={this}
+                />
             </View>
         );
     }

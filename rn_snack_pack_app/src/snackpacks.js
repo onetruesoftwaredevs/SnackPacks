@@ -1,12 +1,29 @@
 // snackpacks.js
 import React, {Component} from 'react';
+import {TabNavigator, StackNavigator} from 'react-navigation'
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
-import SnackPackMenuView from "./components/SnackPackMenuView";
-import CartView from "./components/CartView";
+import MenuScreen from "./screens/MenuScreen";
+import CartScreen from "./screens/CartScreen";
+import DriverScreen from "./screens/DriverScreen";
 
-export default class SnackPacks extends Component {
+export const SnackPacks = TabNavigator({
+    Menu: {
+        screen: MenuScreen,
+    },
+    Cart: {
+        screen: CartScreen,
+    },
+    Drivers: {
+        screen: DriverScreen,
+    },
+});
+
+
+// legacy code
+/*
+export class SnackPacks extends Component {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
             screen: 1,
             isLoading: true,
@@ -25,11 +42,11 @@ export default class SnackPacks extends Component {
 
     setMenuScreen = () => {
         this.setState({screen: 1});
-    }
+    };
 
     setCartScreen = () => {
         this.setState({screen: 2})
-    }
+    };
 
     render() {
         if (this.state.isLoading) {
@@ -43,7 +60,7 @@ export default class SnackPacks extends Component {
         if (this.state.screen === 1) {
             return (
                 <View style={styles.container}>
-                    <SnackPackMenuView spdata={this.state.dataSource}/>
+                    <MenuScreen spdata={this.state.dataSource}/>
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity onPress={this.setMenuScreen}>
                             <Text style={styles.button_text_style}>Menu</Text>
@@ -57,7 +74,7 @@ export default class SnackPacks extends Component {
         } else if (this.state.screen === 2) {
             return (
                 <View style={styles.container}>
-                    <CartView />
+                    <CartScreen/>
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity onPress={this.setMenuScreen}>
                             <Text style={styles.button_text_style}>Menu</Text>
@@ -76,6 +93,12 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    view: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -109,3 +132,4 @@ const styles = StyleSheet.create({
         padding: 4,
     }
 });
+*/
