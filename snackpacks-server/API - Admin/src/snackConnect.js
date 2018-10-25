@@ -5,9 +5,9 @@
 //Required libraries
 //Custom libs
 var SnackPack = require('./snackpack');
-var Snack = require('./snack');
-var Order = require("./order");
-var Driver = require("./driver");
+var Snack = require('./Snack');
+var Order = require("./Order");
+var Driver = require("./Driver");
 
 //Other
 var mysql = require('mysql');
@@ -95,7 +95,7 @@ class snackConnector{
 	//createSnackPack
 	//returns true if successful, otherwise returns false
 	//todo add check
-	createSnackPack(name, contents, allergens, image_path, reviews, cost, rating){
+	createSnackPack(name, contents, allergens, image_path, reviews, cost){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			connection.connect(function(err){
@@ -107,7 +107,7 @@ class snackConnector{
 					connection.query(`SELECT * FROM snackpacks.users WHERE name=${name}`, function(err, found_result, fields){;
 						//Structure query then submit
 						if(!found_result){
-							connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost +  "\",\"" + rating + ")"), function(err, result, fields){
+							connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost + ")"), function(err, result, fields){
 								connection.end(function (err){
 									if (err) reject(err);
 									// console.log(count_result[0]['COUNT(*)']);
@@ -142,7 +142,7 @@ class snackConnector{
 						var snackList=[];
 						for(var r in result){
 							var snackItem = result[r];
-							snackList.push(new Snack(snackItem.id, snackItem.name, snackItem.price, snackItem.calories, snackItem.allergens));
+							snackList.push(new Snack(snackItem.key, snackItem.name, snackItem.price, snackItem.calories, snackItem.allergens));
 							// count++;
 						}
 						resolve(snackList);
