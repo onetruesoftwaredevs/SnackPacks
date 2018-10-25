@@ -38,7 +38,7 @@ class snackConnector{
 						var orderList=[];
 						for(var r in result){
 							var orderItem = result[r];
-							orderList.push(new Order("", orderItem.paymentInfo, orderItem.address, orderItem.driver, orderItem.subtotal, orderItem.subtotal, orderItem.tax, orderItem.total));
+							orderList.push(new Order(orderItem.status, orderItem.paymentInfo, orderItem.address, orderItem.driver, orderItem.subtotal, orderItem.subtotal, orderItem.tax, orderItem.total));
 						}
 						resolve(orderList);
 					});
