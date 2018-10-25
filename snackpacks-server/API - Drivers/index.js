@@ -8,8 +8,10 @@ exports.handler = function(event, context, callback){
     var queryString = event.queryStringParameters;
     if(queryString != null){
         var command = queryString.command;
+        console.log(command);
         if(command != null){
             if(command.localeCompare("list") == 0){
+                console.log("List\n");
                 var OrderConnector = new OrderConnect();
                 var promise = OrderConnector.getOrders();
                 promise.then(function(result) {
@@ -24,8 +26,32 @@ exports.handler = function(event, context, callback){
                 }, function(err) {
                   console.log(err); // Error: "It broke"
                 });
+            } else if(command.localeCompare("own") == 0) {
+                console.log("Own\n");
+                var driverId = queryString.id;
+                var OrderConnector = new OrderConnect();
+                var promise = OrderConnector.getOrders();
+                promise.then(function(result) {
+                    for(var i = 0; i < result.length; i++) {
+                        var obj = result[i];
+                        if(obj._driver !== driverId){
+                            delete result[i];
+                        }
+                    }
+                    var response = {
+                        "statusCode": 200,
+                        "headers": {},
+                        "body": JSON.stringify(result),
+                        "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                  console.log(err); // Error: "It broke"
+                });
             } else {
-            var response = {
+                console.log("Invalid\n");
+                var response = {
                     "statusCode": 200,
                     "headers": {
                         "my_header": "my_value"
@@ -35,6 +61,17 @@ exports.handler = function(event, context, callback){
                 };
                 callback(null, response);
             }
+        } else {
+            console.log("Unknown\n");
+                var response = {
+                    "statusCode": 200,
+                    "headers": {
+                        "my_header": "my_value"
+                    },
+                    "body": JSON.stringify("Unknown Query String"),
+                    "isBase64Encoded": false
+                };
+                callback(null, response);
         }
     } else {
         var response = {
