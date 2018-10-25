@@ -5,9 +5,7 @@
 //Required libraries
 //Custom libs
 var SnackPack = require('./snackpack');
-var Snack = require('./Snack');
-var Order = require("./Order");
-var Driver = require("./Driver");
+var Snack = require('./snack');
 
 //Other
 var mysql = require('mysql');
@@ -151,6 +149,7 @@ class snackConnector{
 			});
 		});
 	}
+}
 
 //Allows module to be exposed
 module.exports = snackConnector;

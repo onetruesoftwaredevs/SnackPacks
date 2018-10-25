@@ -4,7 +4,7 @@ var express=require('express');
 var braintree=require('braintree');
 // var routes=require('./routes/index'); //Current file
 var router=express.Router();
-var gateway=require('../lib/gateway');
+var gateway=require('./src/gateway.js');
 
 var TRANSACTION_SUCCESS_STATUSES=[
     braintree.Transaction.Status.Authorizing,

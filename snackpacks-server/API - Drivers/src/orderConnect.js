@@ -4,10 +4,7 @@
 
 //Required libraries
 //Custom libs
-var SnackPack = require('./snackpack');
-var Snack = require('./Snack');
-var Order = require("./Order");
-var Driver = require("./Driver");
+var Order = require("./order");
 
 //Other
 var mysql = require('mysql');
@@ -31,7 +28,7 @@ class snackConnector{
 				if (err) reject(err);
 				//callback to send query
 				//Instead of trying to iterate thru an array
-				connection.query(`SELECT * FROM snackpacks.orders`, function(err, result, fields){
+				connection.query(`SELECT * FROM snackpacks.Orders`, function(err, result, fields){
 					if (err) reject(err);
 					//callback to end connection
 					connection.end(function(err) {
@@ -41,7 +38,7 @@ class snackConnector{
 						var orderList=[];
 						for(var r in result){
 							var orderItem = result[r];
-							orderList.push(new Order(orderItem.id, orderItem.name, orderItem.price, orderItem.calories, orderItem.allergens));
+							orderList.push(new Order("", orderItem.paymentInfo, orderItem.address, orderItem.driver, orderItem.subtotal, orderItem.subtotal, orderItem.tax, orderItem.total));
 						}
 						resolve(orderList);
 					});
@@ -71,6 +68,7 @@ class snackConnector{
 			});
 		});
 	}
+}
 
 //Allows module to be exposed
 module.exports = snackConnector;
