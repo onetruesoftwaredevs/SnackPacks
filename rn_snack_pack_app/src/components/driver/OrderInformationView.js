@@ -12,7 +12,7 @@
 
 import React, {Component} from 'react';
 import {Alert, StyleSheet, Text, View} from 'react-native';
-import Swipeout from "rn-swipe-out";
+import Swipeout from "../../rn-swipe-out";
 
 export default class OrderInformationView extends Component {
     name;           // string
