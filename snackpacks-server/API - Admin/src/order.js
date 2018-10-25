@@ -35,6 +35,4 @@ class Order {
     checkout(){
         return this.total;
     }
-};
-
-module.exports = Order;
+}
