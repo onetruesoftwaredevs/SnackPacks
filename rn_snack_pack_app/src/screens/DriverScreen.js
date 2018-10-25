@@ -16,10 +16,9 @@ export default class DriverScreen extends Component {
         Alert.alert('pressed show my orders', '');
     }
 
-    showAvailableOrders() {
-        Alert.alert('pressed show available orders', '');
-    }
-
+    showAvailableOrders = () => {
+        this.props.navigation.navigate('OrdersView', {title: 'Available Orders'});
+    };
 
     render() {
         return (

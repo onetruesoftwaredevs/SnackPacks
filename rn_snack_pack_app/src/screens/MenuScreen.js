@@ -25,7 +25,7 @@ export default class MenuScreen extends Component {
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
             .then(response => response.json())
             .then(responseJson => this.setState({
-                isLoading: true, //set to true when link isn't working
+                isLoading: false,
                 dataSource: responseJson
             }));
 

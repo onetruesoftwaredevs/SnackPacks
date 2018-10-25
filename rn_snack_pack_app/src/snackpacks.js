@@ -5,6 +5,20 @@ import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 import MenuScreen from "./screens/MenuScreen";
 import CartScreen from "./screens/CartScreen";
 import DriverScreen from "./screens/DriverScreen";
+import OrdersView from "./components/driver/OrdersView";
+
+const DriverNavigation = StackNavigator({
+    DriversScreen: {
+        screen: DriverScreen,
+    },
+
+    OrdersView: {
+        screen: OrdersView,
+    }
+}, {
+    headerMode: 'none',
+});
+
 
 export const SnackPacks = TabNavigator({
     Menu: {
@@ -14,10 +28,9 @@ export const SnackPacks = TabNavigator({
         screen: CartScreen,
     },
     Drivers: {
-        screen: DriverScreen,
+        screen: DriverNavigation,
     },
 });
-
 
 // legacy code
 /*
