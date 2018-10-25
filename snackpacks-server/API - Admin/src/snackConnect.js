@@ -47,7 +47,7 @@ class snackConnector{
 						var list_snackpacks=[];
 						for(var r in result){
 							var pack = result[r];
-							list_snackpacks.push(new SnackPack(pack.key, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
+							list_snackpacks.push(new SnackPack(pack.id, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
 						}
 						resolve(list_snackpacks);
 					});
@@ -107,15 +107,17 @@ class snackConnector{
 					connection.query(`SELECT * FROM snackpacks.users WHERE name=${name}`, function(err, found_result, fields){;
 						//Structure query then submit
 						if(!found_result){
-							connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost + ")"), function(err, result, fields){
+							console.log("Hello");
+							connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost + ", 5)"), function(err, result, fields){
 								connection.end(function (err){
 									if (err) reject(err);
-									// console.log(count_result[0]['COUNT(*)']);
+									console.log(count_result[0]['COUNT(*)']);
 									resolve("true");
 								});
 							});
 						}else{
-							resolve("false");
+							// resolve("false");
+							console.log("false");
 						}
 					});
 				});

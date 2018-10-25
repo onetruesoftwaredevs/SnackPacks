@@ -1,8 +1,9 @@
 //Order.js
 
 class Order {
-    constructor(cart, paymentInfo, address, driver, subtotal, tax, total){
-        this.cart = cart;
+    constructor(id, status, paymentInfo, address, driver, subtotal, tax, total){
+        this.id = id;
+        this.status = status;
         this.paymentInfo = paymentInfo;
         this.address = address;
         this.driver = driver;
@@ -11,8 +12,11 @@ class Order {
         this.total = total;
     }
 
-    get cart(){ return this._cart; }
-    set cart(value){ this._cart = value; }
+    get id(){ return this._id; }
+    set id(value){ this._id = value; }
+
+    get status(){ return this._status; }
+    set status(value){ this._status = value; }
 
     get paymentInfo(){ return this._paymentInfo; }
     set paymentInfo(value){ this._paymentInfo = value; }
