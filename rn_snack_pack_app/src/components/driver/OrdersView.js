@@ -14,7 +14,18 @@ import Driver from "../../function/Driver";
 
 export default class OrdersView extends Component {
 
-    orderManager;
+    orderManager; //object
+
+    available_option = {
+        text: 'Take Order',
+        style: {
+            backgroundColor: '#44aa44',
+            padding: 2,
+        },
+        onPress: () => {
+            Alert.alert('Order added to list', '');
+        },
+    };
 
     constructor(props) {
         super();
@@ -56,12 +67,17 @@ export default class OrdersView extends Component {
             );
         }
 
+        let swipe_option = null;
+        if (!this.props.navigation.state.params.isDriver) {
+            swipe_option = this.available_option;
+        }
+
         return (
             <View style={styles.container}>
                 <Text style={styles.name_style}>{this.props.navigation.state.params.title}</Text>
                 <FlatList
                     horizontal={false}
-                    data={this.orderManager.getOrders()}
+                    data={this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getName())}
                     keyExtractor={(item) => item}
                     extraData={this.state}
                     renderItem={({item}) =>
@@ -76,6 +92,7 @@ export default class OrdersView extends Component {
                             total={item._total}
                             last_screen={'OrdersView'}
                             navigation={this.props.navigation}
+                            swipe_handler={swipe_option}
                         />
                     }
                 />

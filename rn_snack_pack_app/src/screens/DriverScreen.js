@@ -13,6 +13,17 @@ import Driver from "../function/Driver";
 
 export default class DriverScreen extends Component {
 
+    option = {
+        text: 'complete',
+        style: {
+            backgroundColor: '#44aa44',
+            padding: 2,
+        },
+        onPress: () => {
+            Alert.alert('complete pressed', '');
+        },
+    };
+
     showMyOrders = () => {
         this.props.navigation.navigate('OrdersView', {
             title: 'My Orders',
@@ -45,6 +56,7 @@ export default class DriverScreen extends Component {
                     total={12.00}
                     last_screen={'DriversScreen'}
                     navigation={this.props.navigation}
+                    swipe_handler={this.option}
                 />
 
                 <View style={styles.horizontal_container}>
