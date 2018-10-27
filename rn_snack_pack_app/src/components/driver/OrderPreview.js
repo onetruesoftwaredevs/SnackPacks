@@ -25,17 +25,7 @@ export default class OrderPreview extends Component {
     total;          // number
     last_screen;    // string
     navigation;     // object
-
-    option = {
-        text: 'complete',
-        style: {
-            backgroundColor: '#44aa44',
-            padding: 2,
-        },
-        onPress: () => {
-            Alert.alert('complete pressed', '');
-        },
-    };
+    swipe_handler;  // object
 
     getName() {
         if (this.props.name.length <= 0) { return "No Driver"; }
@@ -70,7 +60,7 @@ export default class OrderPreview extends Component {
 
         return (
             <TouchableOpacity style={styles.container} onPress={this.showDetailedView}>
-                <Swipeout right={this.option}>
+                <Swipeout right={this.props.swipe_handler}>
                     <View style={styles.horizontal_container}>
                         <Text style={styles.name_style}>{this.getName()}</Text>
                         <Text style={styles.number_style}>{this.getNumber()}</Text>
