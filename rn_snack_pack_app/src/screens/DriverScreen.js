@@ -14,11 +14,17 @@ import Driver from "../function/Driver";
 export default class DriverScreen extends Component {
 
     showMyOrders = () => {
-        this.props.navigation.navigate('OrdersView', {title: 'My Orders'});
+        this.props.navigation.navigate('OrdersView', {
+            title: 'My Orders',
+            url: Driver.getInstance().getOrderURL(),
+        });
     };
 
     showAvailableOrders = () => {
-        this.props.navigation.navigate('OrdersView', {title: 'Available Orders'});
+        this.props.navigation.navigate('OrdersView', {
+            title: 'Available Orders',
+            url: "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list",
+        });
     };
 
     render() {

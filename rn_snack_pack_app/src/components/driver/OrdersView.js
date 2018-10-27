@@ -9,25 +9,32 @@
 import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
 import OrderPreview from "./OrderPreview";
-import NutritionView from "../menu/NutritionView";
-
+import OrderManager from '../../function/OrderManager'
 
 export default class OrdersView extends Component {
+
+    orderManager;
 
     constructor(props) {
         super();
         this.state = {
-            dataSource: [],
+            isLoading: true,
             title: props.navigation.state.params.title,
         }
     }
 
+    loadData(responseJson)
+    {
+        this.orderManager = new OrderManager(responseJson);
+        this.setState({
+            isLoading: false,
+        });
+    }
+
     refresh() {
-        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list", {method: 'GET'})
+        return fetch(this.props.navigation.state.params.url, {method: 'GET'})
             .then(response => response.json())
-            .then(responseJson => this.setState({
-                dataSource: responseJson
-            }));
+            .then(responseJson => this.loadData(responseJson));
     }
 
     _goBack = () => {
@@ -39,12 +46,21 @@ export default class OrdersView extends Component {
     }
 
     render() {
+        if (this.state.isLoading)
+        {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.loading_text}>Loading</Text>
+                </View>
+            );
+        }
+
         return (
             <View style={styles.container}>
                 <Text style={styles.name_style}>{this.state.title}</Text>
                 <FlatList
                     horizontal={false}
-                    data={this.state.dataSource}
+                    data={this.orderManager.getOrders()}
                     keyExtractor={(item) => item}
                     extraData={this.state}
                     renderItem={({item}) =>
@@ -73,13 +89,26 @@ export default class OrdersView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
+        width: '100%',
+        height: '100%',
         justifyContent: 'space-between'
     },
 
     horizontal_container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+
+    loading_text: {
+        color: '#444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4
     },
 
     name_style: {
