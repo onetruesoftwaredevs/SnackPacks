@@ -4,7 +4,7 @@ import LoaderButton from "../components/LoaderButton";
 import "./NewSnackPack.css";
 import { API } from "aws-amplify";
 import {s3Upload} from "../libs/awsLib";
-import config from "../config";
+import ControlLabel from "react-bootstrap/es/ControlLabel";
 
 export default class NewSnackPack extends Component {
     constructor(props) {
@@ -12,12 +12,20 @@ export default class NewSnackPack extends Component {
 
         this.state = {
             isLoading: null,
-            content: ""
+            newName: "",
+            contents: "",
+            allergens: "",
+            image: "",
+            cost: "0"
         };
     }
 
     validateForm() {
-        return this.state.content.length > 0;
+        if(this.state.contents && this.state.newName && this.state.image) {
+            return this.state.contents.length > 0 && this.state.newName.length > 0 && this.state.cost > 0;
+        }else{
+            return false;
+        }
     }
 
     handleChange = event => {
@@ -29,10 +37,10 @@ export default class NewSnackPack extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
+        /*if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
             alert(`Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE/1000000} MB.`);
             return;
-        }
+        }*/
 
         this.setState({ isLoading: true });
 
@@ -43,7 +51,7 @@ export default class NewSnackPack extends Component {
 
             await this.createSnackPack({
                 attachment,
-                content: this.state.content
+                newName: this.state.newName
             });
             this.props.history.push("/");
         } catch (e) {
@@ -61,12 +69,51 @@ export default class NewSnackPack extends Component {
     render() {
         return (
             <div className="NewSnackPack">
+                <h3>New SnackPack:</h3>
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="content">
+                    <FormGroup controlId="newName">
+                        <ControlLabel>New SnackPack's name:</ControlLabel>
                         <FormControl
+                            type="text"
+                            placeholder="Enter name"
                             onChange={this.handleChange}
-                            value={this.state.content}
-                            componentClass="textarea"
+                            value={this.state.newName}
+                        />
+                    </FormGroup>
+                    <FormGroup controlId="contents">
+                        <ControlLabel>New SnackPack's contents:</ControlLabel>
+                        <FormControl
+                            type="text"
+                            placeholder="Enter snack names"
+                            onChange={this.handleChange}
+                            value={this.state.contents}
+                        />
+                    </FormGroup>
+                    <FormGroup controlId="allergens">
+                        <ControlLabel>New SnackPack's allergens:</ControlLabel>
+                        <FormControl
+                            type="text"
+                            placeholder="Enter allergens"
+                            onChange={this.handleChange}
+                            value={this.state.allergens}
+                        />
+                    </FormGroup>
+                    <FormGroup controlId="image">
+                        <ControlLabel>New SnackPack's picture's URL:</ControlLabel>
+                        <FormControl
+                            type="url"
+                            placeholder="Enter url"
+                            onChange={this.handleChange}
+                            value={this.state.image}
+                        />
+                    </FormGroup>
+                    <FormGroup controlId="cost">
+                        <ControlLabel>New SnackPack's cost:</ControlLabel>
+                        <FormControl
+                            type="number"
+                            step="0.01"
+                            onChange={this.handleChange}
+                            value={this.state.cost}
                         />
                     </FormGroup>
                     <LoaderButton

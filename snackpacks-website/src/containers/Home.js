@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./Home.css";
-import { API } from "aws-amplify";
+//import { API } from "aws-amplify";
 
 export default class Home extends Component {
     constructor(props) {
@@ -14,37 +14,49 @@ export default class Home extends Component {
         };
     }
     async componentDidMount() {
+
         if (!this.props.isAuthenticated) {
             return;
         }
 
-        try {
-            const snackpacks = await this.snackpacks();
-            this.setState({ snackpacks });
-        } catch (e) {
-            alert(e);
-        }
-
-        this.setState({ isLoading: false });
-    }
-
-    snackpacks() {
-        return API.get("snackpacks", "/snackpacks");
+        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks/?command=list")
+            .then(response => response.json())
+            .then(responseJson => this.setState({
+                snackpacks: responseJson
+            }))
+            .then(() => console.log(this.state.snackpacks))
+            .then(() => this.setState({isLoading: false}));
     }
 
     renderSnackPacksList(snackpacks) {
         return [{}].concat(snackpacks).map(
             (snackpack, i) =>
                 i !== 0
-                    ? <LinkContainer
-                        key={snackpack.id}
-                        to={`/notes/${snackpack.id}`}
-                    >
-                        <ListGroupItem header={snackpack.content.trim().split("\n")[0]}>
-                            {"Created: " + new Date(snackpack.name).toLocaleString()}
+                    ? <ListGroup>
+                        <LinkContainer
+                            key={i}
+                            to={`/snackpack/${i}`}
+                        >
+                            <ListGroupItem header={snackpack._name+":"}>{"(SnackPack #"+i+")"}</ListGroupItem>
+                        </LinkContainer>
+                        <ListGroupItem header="Contents:">
+                            {snackpack._contents}
                         </ListGroupItem>
-                    </LinkContainer>
-                    : <LinkContainer
+                        <ListGroupItem header="Allergens:">
+                            {snackpack._allergens}
+                        </ListGroupItem>
+                        <ListGroupItem header="Cost:">
+                            {snackpack._cost}
+                        </ListGroupItem>
+                        <ListGroupItem header="Reviews:">
+                            {snackpack.reviews}
+                        </ListGroupItem>
+                        <ListGroupItem header="Image path:">
+                            {snackpack.image_path}
+                        </ListGroupItem>
+                    </ListGroup>
+                :
+                    <LinkContainer
                         key="new"
                         to="/snackpack/new"
                     >

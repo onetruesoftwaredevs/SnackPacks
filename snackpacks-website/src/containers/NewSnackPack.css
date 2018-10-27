@@ -2,7 +2,7 @@
     padding-bottom: 15px;
 }
 
-.NewSnackPack form textarea {
-    height: 300px;
-    font-size: 24px;
+.NewSnackPack form NewSnackPack {
+    height: 60px;
+    font-size: 10px;
 }
