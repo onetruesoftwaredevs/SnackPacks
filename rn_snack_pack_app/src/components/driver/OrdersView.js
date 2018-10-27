@@ -8,7 +8,7 @@
 
 import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
-import OrderInformationView from "./OrderInformationView";
+import OrderPreview from "./OrderPreview";
 import NutritionView from "../menu/NutritionView";
 
 
@@ -18,15 +18,11 @@ export default class OrdersView extends Component {
         super();
         this.state = {
             dataSource: [],
-            title: 'Orders',
+            title: props.navigation.state.params.title,
         }
     }
 
-    _goBack = () => {
-        this.props.navigation.navigate('DriversScreen');
-    };
-
-    componentDidMount() {
+    refresh() {
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list", {method: 'GET'})
             .then(response => response.json())
             .then(responseJson => this.setState({
@@ -34,6 +30,13 @@ export default class OrdersView extends Component {
             }));
     }
 
+    _goBack = () => {
+        this.props.navigation.navigate('DriversScreen');
+    };
+
+    componentDidMount() {
+        return this.refresh();
+    }
 
     render() {
         return (
@@ -43,11 +46,21 @@ export default class OrdersView extends Component {
                     horizontal={false}
                     data={this.state.dataSource}
                     keyExtractor={(item) => item}
-                    renderItem={({item}) => <OrderInformationView
-                        name={item._driver}
-                        number={item._id}
-                        order_status={"no delivered"}
-                        address={item._address}/>}
+                    extraData={this.state}
+                    renderItem={({item}) =>
+                        <OrderPreview
+                            name={item._driver}
+                            number={item._id}
+                            order_status={"not delivered"}
+                            payment_info={item._paymentInfo}
+                            address={item._address}
+                            subtotal={item._subtotal}
+                            tax={item._tax}
+                            total={item._total}
+                            last_screen={'OrdersView'}
+                            navigation={this.props.navigation}
+                        />
+                    }
                 />
                 <TouchableOpacity style={styles.button_style} onPress={this._goBack}>
                     <Text style={styles.back_style}>Back</Text>

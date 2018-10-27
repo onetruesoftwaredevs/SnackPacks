@@ -11,14 +11,20 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity, Alert, StyleSheet, Text, View} from 'react-native';
 import Swipeout from "../../rn-swipe-out";
 
-export default class OrderInformationView extends Component {
+export default class OrderPreview extends Component {
     name;           // string
     number;         // number
     order_status;   // string
+    payment_info;
     address;        // string
+    subtotal;
+    tax;
+    total;
+    last_screen;    // string
+    navigation;
 
     option = {
         text: 'complete',
@@ -26,7 +32,23 @@ export default class OrderInformationView extends Component {
             backgroundColor: '#44aa44',
             padding: 2,
         },
-        onPress: () => {Alert.alert('complete pressed', '');},
+        onPress: () => {
+            Alert.alert('complete pressed', '');
+        },
+    };
+
+    showDetailedView = () => {
+        this.props.navigation.navigate('DetailedOrderView', {
+            name: this.props.name,
+            number: this.props.number,
+            order_status: this.props.order_status,
+            payment_info: this.props.payment_info,
+            address: this.props.address,
+            subtotal: this.props.subtotal,
+            tax: this.props.tax,
+            total: this.props.total,
+            last_screen: this.props.last_screen,
+        });
     };
 
     render() {
@@ -34,25 +56,24 @@ export default class OrderInformationView extends Component {
         let order_status_style = [styles.status_style, {backgroundColor: '#44AAff'}];
 
         return (
-            <Swipeout style={styles.container} right={this.option}>
-
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.name_style}>{this.props.name}</Text>
-                    <Text style={styles.number_style}>{this.props.number}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.address_style}>{this.props.address}</Text>
-                    <Text style={order_status_style}>{this.props.order_status}</Text>
-                </View>
-
-            </Swipeout>
+            <TouchableOpacity style={styles.container} onPress={this.showDetailedView}>
+                <Swipeout right={this.option}>
+                    <View style={styles.horizontal_container}>
+                        <Text style={styles.name_style}>{this.props.name}</Text>
+                        <Text style={styles.number_style}>{this.props.number}</Text>
+                    </View>
+                    <View style={styles.horizontal_container}>
+                        <Text style={styles.address_style}>{this.props.address}</Text>
+                        <Text style={order_status_style}>{this.props.order_status}</Text>
+                    </View>
+                </Swipeout>
+            </TouchableOpacity>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#DEDEDE'
     },
 

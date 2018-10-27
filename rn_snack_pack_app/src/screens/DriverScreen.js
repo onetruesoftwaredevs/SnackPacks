@@ -8,13 +8,14 @@
 
 import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
-import OrderInformationView from "../components/driver/OrderInformationView";
+import OrderPreview from "../components/driver/OrderPreview";
+import Driver from "../function/Driver";
 
 export default class DriverScreen extends Component {
 
-    showMyOrders() {
-        Alert.alert('pressed show my orders', '');
-    }
+    showMyOrders = () => {
+        this.props.navigation.navigate('OrdersView', {title: 'My Orders'});
+    };
 
     showAvailableOrders = () => {
         this.props.navigation.navigate('OrdersView', {title: 'Available Orders'});
@@ -23,12 +24,20 @@ export default class DriverScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.name_style}>Name</Text>
-                <View style={styles.horizontal_container}>
-                    <OrderInformationView name={'test'} number={1} order_status={'not delivered'} address={'1016 W. Stadium Ave.'}/>
-                </View>
+                <Text style={styles.name_style}>{Driver.getInstance().getName()}</Text>
 
-                <View style={styles.map_style}></View>
+                <OrderPreview
+                    name={'test'}
+                    number={1}
+                    order_status={'not delivered'}
+                    payment_info={'payment info'}
+                    address={'1016 W. Stadium Ave.'}
+                    subtotal={10.00}
+                    tax={2.00}
+                    total={12.00}
+                    last_screen={'DriversScreen'}
+                    navigation={this.props.navigation}
+                />
 
                 <View style={styles.horizontal_container}>
                     <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>
@@ -44,9 +53,10 @@ export default class DriverScreen extends Component {
 };
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
-        flexDirection: 'column',
+        width: '100%',
+        height: '100%',
         justifyContent: 'space-between'
     },
 
