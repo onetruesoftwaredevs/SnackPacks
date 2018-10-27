@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import { API, Storage } from "aws-amplify";
 import LoaderButton from "../components/LoaderButton";
 import FormGroup from "react-bootstrap/es/FormGroup";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 import FormControl from "react-bootstrap/es/FormControl";
 import config from "../config";
-//import { s3Upload } from "../libs/awsLib";
 import "./SnackPacks.css";
-import {s3Upload} from "../libs/awsLib";
 
 export default class SnackPacks extends Component {
     constructor(props) {
@@ -26,18 +23,12 @@ export default class SnackPacks extends Component {
 
     async componentDidMount() {
         try {
-            let attachmentURL;
             const snackpack = await this.getSnackPack();
-            const { content, attachment } = snackpack;
-
-            if (attachment) {
-                attachmentURL = await Storage.vault.get(attachment);
-            }
+            const { content } = snackpack;
 
             this.setState({
                 snackpack,
-                content,
-                attachmentURL
+                content
             });
         } catch (e) {
             alert(e);
@@ -45,15 +36,11 @@ export default class SnackPacks extends Component {
     }
 
     getSnackPack() {
-        return API.get("snackpacks", `/snackpacks/${this.props.match.params.id}`);
+        //return API.get("snackpacks", `/snackpacks/${this.props.match.params.id}`);
     }
 
     validateForm() {
         return this.state.content.length > 0;
-    }
-
-    formatFilename(str) {
-        return str.replace(/^\w+-/, "");
     }
 
     handleChange = event => {
@@ -63,18 +50,14 @@ export default class SnackPacks extends Component {
     }
 
     handleFileChange = event => {
-        this.file = event.target.files[0];
+        //this.file = event.target.files[0];
     }
 
     saveSnackPack(snackpack) {
-        return API.put("snackpacks", `/snackpacks/${this.props.match.params.id}`, {
-            body: snackpack
-        });
+
     }
 
     handleSubmit = async event => {
-        let attachment;
-
         event.preventDefault();
 
         if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
@@ -85,13 +68,8 @@ export default class SnackPacks extends Component {
         this.setState({ isLoading: true });
 
         try {
-            if (this.file) {
-                attachment = await s3Upload(this.file);
-            }
-
             await this.saveSnackPack({
-                content: this.state.content,
-                attachment: attachment || this.state.snackpack.attachment
+                content: this.state.content
             });
             this.props.history.push("/");
         } catch (e) {
@@ -101,7 +79,7 @@ export default class SnackPacks extends Component {
     }
 
     deleteSnackPack() {
-        return API.del("snackpacks", `/snackpacks/${this.props.match.params.id}`);
+        //return API.del("snackpacks", `/snackpacks/${this.props.match.params.id}`);
     }
 
     handleDelete = async event => {
@@ -128,7 +106,7 @@ export default class SnackPacks extends Component {
 
     render() {
         return (
-            <div className="Notes">
+            <div className="SnackPacks">
                 {this.state.snackpack &&
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="content">
@@ -137,23 +115,9 @@ export default class SnackPacks extends Component {
                             value={this.state.content}
                             componentClass="textarea"
                         />
-                    </FormGroup>
-                    {this.state.snackpack.attachment &&
-                    <FormGroup>
-                        <ControlLabel>Attachment</ControlLabel>
-                        <FormControl.Static>
-                            <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href={this.state.attachmentURL}
-                            >
-                                {this.formatFilename(this.state.snackpack.attachment)}
-                            </a>
-                        </FormControl.Static>
                     </FormGroup>}
                     <FormGroup controlId="file">
-                        {!this.state.snackpack.attachment &&
-                        <ControlLabel>Attachment</ControlLabel>}
+                        {<ControlLabel>Attachment</ControlLabel>}
                         <FormControl onChange={this.handleFileChange} type="file" />
                     </FormGroup>
                     <LoaderButton
