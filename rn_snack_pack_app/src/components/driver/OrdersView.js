@@ -10,6 +10,7 @@ import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
 import OrderPreview from "./OrderPreview";
 import OrderManager from '../../function/OrderManager'
+import Driver from "../../function/Driver";
 
 export default class OrdersView extends Component {
 
@@ -19,13 +20,14 @@ export default class OrdersView extends Component {
         super();
         this.state = {
             isLoading: true,
-            title: props.navigation.state.params.title,
         }
     }
 
-    loadData(responseJson)
-    {
+    loadData(responseJson) {
         this.orderManager = new OrderManager(responseJson);
+        if (this.props.navigation.state.params.isDriver) {
+            Driver.getInstance().setOrderManager(this.orderManager);
+        }
         this.setState({
             isLoading: false,
         });
@@ -46,8 +48,7 @@ export default class OrdersView extends Component {
     }
 
     render() {
-        if (this.state.isLoading)
-        {
+        if (this.state.isLoading) {
             return (
                 <View style={styles.container}>
                     <Text style={styles.loading_text}>Loading</Text>
@@ -57,7 +58,7 @@ export default class OrdersView extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.name_style}>{this.state.title}</Text>
+                <Text style={styles.name_style}>{this.props.navigation.state.params.title}</Text>
                 <FlatList
                     horizontal={false}
                     data={this.orderManager.getOrders()}

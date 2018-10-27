@@ -18,13 +18,13 @@ export default class OrderPreview extends Component {
     name;           // string
     number;         // number
     order_status;   // string
-    payment_info;
+    payment_info;   // string
     address;        // string
-    subtotal;
-    tax;
-    total;
+    subtotal;       // number
+    tax;            // number
+    total;          // number
     last_screen;    // string
-    navigation;
+    navigation;     // object
 
     option = {
         text: 'complete',
@@ -37,10 +37,23 @@ export default class OrderPreview extends Component {
         },
     };
 
+    getName() {
+        if (this.props.name.length <= 0) { return "No Driver"; }
+        return this.props.name;
+    }
+
+    getNumber()
+    {
+        if (this.props.number === null || this.props.number === undefined) {
+            return 0;
+        }
+        return this.props.number;
+    }
+
     showDetailedView = () => {
         this.props.navigation.navigate('DetailedOrderView', {
-            name: this.props.name,
-            number: this.props.number,
+            name: this.getName(),
+            number: this.getNumber(),
             order_status: this.props.order_status,
             payment_info: this.props.payment_info,
             address: this.props.address,
@@ -59,8 +72,8 @@ export default class OrderPreview extends Component {
             <TouchableOpacity style={styles.container} onPress={this.showDetailedView}>
                 <Swipeout right={this.option}>
                     <View style={styles.horizontal_container}>
-                        <Text style={styles.name_style}>{this.props.name}</Text>
-                        <Text style={styles.number_style}>{this.props.number}</Text>
+                        <Text style={styles.name_style}>{this.getName()}</Text>
+                        <Text style={styles.number_style}>{this.getNumber()}</Text>
                     </View>
                     <View style={styles.horizontal_container}>
                         <Text style={styles.address_style}>{this.props.address}</Text>

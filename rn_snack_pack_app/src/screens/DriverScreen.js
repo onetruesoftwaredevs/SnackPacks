@@ -17,6 +17,7 @@ export default class DriverScreen extends Component {
         this.props.navigation.navigate('OrdersView', {
             title: 'My Orders',
             url: Driver.getInstance().getOrderURL(),
+            isDriver: true,
         });
     };
 
@@ -24,6 +25,7 @@ export default class DriverScreen extends Component {
         this.props.navigation.navigate('OrdersView', {
             title: 'Available Orders',
             url: "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list",
+            isDriver: false,
         });
     };
 
