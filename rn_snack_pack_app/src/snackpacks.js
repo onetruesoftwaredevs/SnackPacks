@@ -6,6 +6,7 @@ import MenuScreen from "./screens/MenuScreen";
 import CartScreen from "./screens/CartScreen";
 import DriverScreen from "./screens/DriverScreen";
 import OrdersView from "./components/driver/OrdersView";
+import DetailedOrderView from "./components/driver/DetailedOrderView";
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -14,7 +15,10 @@ const DriverNavigation = StackNavigator({
 
     OrdersView: {
         screen: OrdersView,
-    }
+    },
+    DetailedOrderView: {
+        screen: DetailedOrderView,
+    },
 }, {
     headerMode: 'none',
 });
