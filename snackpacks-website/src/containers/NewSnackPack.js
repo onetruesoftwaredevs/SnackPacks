@@ -68,7 +68,7 @@ export default class NewSnackPack extends Component {
                         <ControlLabel>New SnackPack's contents: </ControlLabel>
                         <FormControl
                             type="text"
-                            placeholder="Enter snack names"
+                            placeholder="Snack,snack,snack..."
                             onChange={this.handleChange}
                             value={this.state.contents}
                         />
@@ -77,13 +77,13 @@ export default class NewSnackPack extends Component {
                         <ControlLabel>New SnackPack's allergens: </ControlLabel>
                         <FormControl
                             type="text"
-                            placeholder="Enter allergens"
+                            placeholder="Allergen,allergen,allergen..."
                             onChange={this.handleChange}
                             value={this.state.allergens}
                         />
                     </FormGroup>
                     <FormGroup controlId="image">
-                        <ControlLabel>New SnackPack's picture's URL: </ControlLabel>
+                        <ControlLabel>New SnackPack's image URL: </ControlLabel>
                         <FormControl
                             type="url"
                             placeholder="Enter url"
