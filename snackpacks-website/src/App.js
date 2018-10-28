@@ -44,6 +44,12 @@ class App extends Component {
                               <LinkContainer to="/snackpack/new">
                                   <NavItem>New Snack Pack</NavItem>
                               </LinkContainer>
+                              <LinkContainer to="/drivers">
+                                  <NavItem>Driver List</NavItem>
+                              </LinkContainer>
+                              <LinkContainer to="/drivers/new">
+                                  <NavItem>New Driver</NavItem>
+                              </LinkContainer>
                               <NavItem onClick={this.handleLogout}>Logout</NavItem>
                           </Fragment>
                           : <Fragment>

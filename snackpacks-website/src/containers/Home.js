@@ -39,13 +39,13 @@ export default class Home extends Component {
                             <ListGroupItem header={snackpack._name+":"}>{"(SnackPack #"+i+")"}</ListGroupItem>
                         </LinkContainer>
                         <ListGroupItem header="Contents:">
-                            {snackpack._contents}
+                            {snackpack._contents.join(", ")}
                         </ListGroupItem>
                         <ListGroupItem header="Allergens:">
-                            {snackpack._allergens}
+                            {snackpack._allergens.join(", ")}
                         </ListGroupItem>
                         <ListGroupItem header="Cost:">
-                            {snackpack._cost}
+                            {"$" + snackpack._cost.toFixed(2)}
                         </ListGroupItem>
                         <ListGroupItem header="Reviews:">
                             {snackpack.reviews}
