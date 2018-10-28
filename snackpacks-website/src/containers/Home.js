@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Image, PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./Home.css";
 
@@ -50,8 +50,8 @@ export default class Home extends Component {
                         <ListGroupItem header="Reviews:">
                             {snackpack.reviews}
                         </ListGroupItem>
-                        <ListGroupItem header="Image path:">
-                            {snackpack.image_path}
+                        <ListGroupItem header="Image:">
+                            <Image src={snackpack.image_path} responsive />
                         </ListGroupItem>
                     </ListGroup>
                 :
