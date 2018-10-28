@@ -1,8 +1,8 @@
-.SnackPacks form {
-    padding-bottom: 15px;
+.SnackPacks form SnackPacks{
+    padding-bottom: 30px;
 }
 
 .SnackPacks form textarea {
-    height: 300px;
-    font-size: 24px;
+    height: 20px;
+    font-size: 16px;
 }

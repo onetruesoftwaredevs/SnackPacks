@@ -3,44 +3,50 @@ import LoaderButton from "../components/LoaderButton";
 import FormGroup from "react-bootstrap/es/FormGroup";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 import FormControl from "react-bootstrap/es/FormControl";
-import config from "../config";
 import "./SnackPacks.css";
 
 export default class SnackPacks extends Component {
     constructor(props) {
         super(props);
 
-        this.file = null;
-
         this.state = {
+            number: parseInt((window.location.pathname).substring(11))-1,
             isLoading: null,
             isDeleting: null,
-            snackpack: null,
-            content: "",
-            attachmentURL: null
+            snackpack: [],
+            name: "",
+            contents: [],
+            allergens: [],
+            reviews: "",
+            imageURL: "",
+            cost: 0
         };
     }
 
     async componentDidMount() {
         try {
-            const snackpack = await this.getSnackPack();
-            const { content } = snackpack;
-
-            this.setState({
-                snackpack,
-                content
-            });
+            return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks/?command=list")
+                .then(response => response.json())
+                .then(responseJson => this.setState({
+                    snackpack: responseJson[this.state.number]
+                }))
+                .then(() => this.setState({
+                    name: this.state.snackpack._name,
+                    contents: this.state.snackpack._contents,
+                    allergens: this.state.snackpack._allergens,
+                    reviews: this.state.snackpack.reviews,
+                    imageURL: this.state.snackpack.image_path,
+                    cost: this.state.snackpack._cost
+                }))
+                .then(() => console.log(this.state.snackpack))
+                .then(() => this.setState({isLoading: false}));
         } catch (e) {
             alert(e);
         }
     }
 
-    getSnackPack() {
-        //return API.get("snackpacks", `/snackpacks/${this.props.match.params.id}`);
-    }
-
     validateForm() {
-        return this.state.content.length > 0;
+        return this.state.contents.length > 0;
     }
 
     handleChange = event => {
@@ -49,19 +55,18 @@ export default class SnackPacks extends Component {
         });
     }
 
-    handleFileChange = event => {
-        //this.file = event.target.files[0];
-    }
-
-    saveSnackPack(snackpack) {
+    saveSnackPack() {
 
     }
 
     handleSubmit = async event => {
         event.preventDefault();
 
-        if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
-            alert(`Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE/1000000} MB.`);
+        const confirmed = window.confirm(
+            "Are you sure you want to modify this SnackPack?"
+        );
+
+        if (!confirmed) {
             return;
         }
 
@@ -79,7 +84,7 @@ export default class SnackPacks extends Component {
     }
 
     deleteSnackPack() {
-        //return API.del("snackpacks", `/snackpacks/${this.props.match.params.id}`);
+
     }
 
     handleDelete = async event => {
@@ -107,18 +112,49 @@ export default class SnackPacks extends Component {
     render() {
         return (
             <div className="SnackPacks">
+                <h3>{"SnackPack #" + (this.state.number+1) + ":"}</h3>
                 {this.state.snackpack &&
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="content">
+                    <FormGroup controlId="name">
+                        <ControlLabel>Name: </ControlLabel>
                         <FormControl
+                            type="text"
                             onChange={this.handleChange}
-                            value={this.state.content}
-                            componentClass="textarea"
+                            value={this.state.name}
                         />
-                    </FormGroup>}
-                    <FormGroup controlId="file">
-                        {<ControlLabel>Attachment</ControlLabel>}
-                        <FormControl onChange={this.handleFileChange} type="file" />
+                    </FormGroup>
+                    <FormGroup controlId="contents">
+                        <ControlLabel>Contents: </ControlLabel>
+                        <FormControl
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.contents}
+                        />
+                    </FormGroup>
+                    <FormGroup controlId="allergens">
+                        <ControlLabel>Allergens: </ControlLabel>
+                        <FormControl
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.allergens}
+                        />
+                    </FormGroup>
+                    <FormGroup controlId="image">
+                        <ControlLabel>Picture URL: </ControlLabel>
+                        <FormControl
+                            type="url"
+                            onChange={this.handleChange}
+                            value={this.state.imageURL}
+                        />
+                    </FormGroup>
+                    <FormGroup controlId="cost">
+                        <ControlLabel>Cost: </ControlLabel>
+                        <FormControl
+                            type="number"
+                            step="0.01"
+                            onChange={this.handleChange}
+                            value={this.state.cost}
+                        />
                     </FormGroup>
                     <LoaderButton
                         block
