@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { FormGroup, FormControl} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import "./NewSnackPack.css";
-import { API } from "aws-amplify";
-import {s3Upload} from "../libs/awsLib";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 
 export default class NewSnackPack extends Component {
@@ -37,22 +35,10 @@ export default class NewSnackPack extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        /*if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
-            alert(`Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE/1000000} MB.`);
-            return;
-        }*/
-
         this.setState({ isLoading: true });
 
         try {
-            const attachment = this.file
-                ? await s3Upload(this.file)
-                : null;
-
-            await this.createSnackPack({
-                attachment,
-                newName: this.state.newName
-            });
+            await this.createSnackPack();
             this.props.history.push("/");
         } catch (e) {
             alert(e);
@@ -60,10 +46,8 @@ export default class NewSnackPack extends Component {
         }
     }
 
-    createSnackPack(snackpack) {
-        return API.post("snackpacks", "/snackpacks", {
-            body: snackpack
-        });
+    createSnackPack() {
+
     }
 
     render() {
@@ -72,7 +56,7 @@ export default class NewSnackPack extends Component {
                 <h3>New SnackPack:</h3>
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="newName">
-                        <ControlLabel>New SnackPack's name:</ControlLabel>
+                        <ControlLabel>New SnackPack's name: </ControlLabel>
                         <FormControl
                             type="text"
                             placeholder="Enter name"
@@ -81,7 +65,7 @@ export default class NewSnackPack extends Component {
                         />
                     </FormGroup>
                     <FormGroup controlId="contents">
-                        <ControlLabel>New SnackPack's contents:</ControlLabel>
+                        <ControlLabel>New SnackPack's contents: </ControlLabel>
                         <FormControl
                             type="text"
                             placeholder="Enter snack names"
@@ -90,7 +74,7 @@ export default class NewSnackPack extends Component {
                         />
                     </FormGroup>
                     <FormGroup controlId="allergens">
-                        <ControlLabel>New SnackPack's allergens:</ControlLabel>
+                        <ControlLabel>New SnackPack's allergens: </ControlLabel>
                         <FormControl
                             type="text"
                             placeholder="Enter allergens"
@@ -99,7 +83,7 @@ export default class NewSnackPack extends Component {
                         />
                     </FormGroup>
                     <FormGroup controlId="image">
-                        <ControlLabel>New SnackPack's picture's URL:</ControlLabel>
+                        <ControlLabel>New SnackPack's picture's URL: </ControlLabel>
                         <FormControl
                             type="url"
                             placeholder="Enter url"
@@ -108,7 +92,7 @@ export default class NewSnackPack extends Component {
                         />
                     </FormGroup>
                     <FormGroup controlId="cost">
-                        <ControlLabel>New SnackPack's cost:</ControlLabel>
+                        <ControlLabel>New SnackPack's cost: </ControlLabel>
                         <FormControl
                             type="number"
                             step="0.01"

@@ -1,5 +1,5 @@
 .Home .lander {
-    padding: 80px 0;
+    padding: 60px 0;
     text-align: center;
 }
 
@@ -14,7 +14,7 @@
 
 .Home .snackpacks h4 {
     font-family: "Open Sans", sans-serif;
-    font-weight: 600;
+    font-weight: 200;
     overflow: hidden;
     line-height: 1.5;
     white-space: nowrap;
