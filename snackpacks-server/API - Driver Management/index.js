@@ -1,5 +1,4 @@
-var Order = require('./src/order.js');
-var OrderConnect = require('./src/orderConnect.js');
+var DriverConnect = require('./src/driverConnect.js');
 
 exports.handler = function(event, context, callback){
     console.log(event);
@@ -10,22 +9,24 @@ exports.handler = function(event, context, callback){
         var command = queryString.command;
         if(command != null){
             if(command.localeCompare("list") == 0){
-                var OrderConnector = new OrderConnect();
-                OrderConnector.getSnackPacks(function(error, result){
-
+                var DriverConnector = new DriverConnect();
+                var promise = DriverConnector.getDrivers();
+                
+                promise.then(function(result) {
                     var response = {
                         "statusCode": 200,
                         "headers": {
-                        "my_header": "my_value"
                         },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": false
                     };
-                    console.log(response);
+
                     callback(null, response);
                     console.log("Callback sent");
                 });
-            } else {
+            }
+
+            else {
             var response = {
                     "statusCode": 200,
                     "headers": {
@@ -41,7 +42,6 @@ exports.handler = function(event, context, callback){
         var response = {
             "statusCode": 200,
             "headers": {
-                "my_header": "my_value"
             },
             "body": JSON.stringify("QueryString is null"),
             "isBase64Encoded": false
