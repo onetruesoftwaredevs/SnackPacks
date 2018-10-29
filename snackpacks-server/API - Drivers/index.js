@@ -10,9 +10,11 @@ exports.handler = function(event, context, callback){
         var command = queryString.command;
         console.log(command);
         if(command != null){
+            var OrderConnector = new OrderConnect();
+            
             if(command.localeCompare("list") == 0){
                 console.log("List\n");
-                var OrderConnector = new OrderConnect();
+                
                 var promise = OrderConnector.getOrders();
                 promise.then(function(result) {
                     var response = {
@@ -26,7 +28,9 @@ exports.handler = function(event, context, callback){
                 }, function(err) {
                   console.log(err); // Error: "It broke"
                 });
-            } else if(command.localeCompare("own") == 0) {
+            }
+            
+            else if(command.localeCompare("own") == 0) {
                 console.log("Own\n");
                 var driverId = queryString.id;
                 var OrderConnector = new OrderConnect();
@@ -49,7 +53,33 @@ exports.handler = function(event, context, callback){
                 }, function(err) {
                   console.log(err); // Error: "It broke"
                 });
-            } else {
+            }
+            
+            else if(command.localeCompare("delete") == 0) {
+                console.log("Delete\n");
+                
+                var promise = OrderConnector.deleteOrderByID(queryString.id);
+                promise.then(function(result) {
+                    for(var i = 0; i < result.length; i++) {
+                        var obj = result[i];
+                        if(obj._driver !== driverId){
+                            delete result[i];
+                        }
+                    }
+                    var response = {
+                        "statusCode": 200,
+                        "headers": {},
+                        "body": JSON.stringify(result),
+                        "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                  console.log(err); // Error: "It broke"
+                });
+            }
+            
+            else {
                 console.log("Invalid\n");
                 var response = {
                     "statusCode": 200,
