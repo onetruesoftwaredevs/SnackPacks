@@ -14,7 +14,7 @@ export default class NewSnackPack extends Component {
             contents: "",
             allergens: "",
             image: "",
-            cost: "0"
+            cost: 0
         };
     }
 
@@ -47,7 +47,22 @@ export default class NewSnackPack extends Component {
     }
 
     createSnackPack() {
-
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=add";
+        let reviews = "";
+        let data = {
+            "_name":this.state.newName,
+            "_contents":this.state.contents,
+            "_allergens":this.state.allergens,
+            "image_path":this.state.image,
+            "reviews":reviews,
+            "_cost":parseFloat(this.state.cost)
+        };
+        console.log(data);
+        return fetch(url, {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json());
     }
 
     render() {

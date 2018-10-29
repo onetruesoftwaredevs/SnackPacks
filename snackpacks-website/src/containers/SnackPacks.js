@@ -11,12 +11,13 @@ export default class SnackPacks extends Component {
 
         this.state = {
             number: parseInt((window.location.pathname).substring(11))-1,
+            id: 0,
             isLoading: null,
             isDeleting: null,
             snackpack: [],
             name: "",
-            contents: [],
-            allergens: [],
+            contents: "",
+            allergens: "",
             reviews: "",
             imageURL: "",
             cost: 0
@@ -31,6 +32,7 @@ export default class SnackPacks extends Component {
                     snackpack: responseJson[this.state.number]
                 }))
                 .then(() => this.setState({
+                    id: this.state.snackpack._key,
                     name: this.state.snackpack._name,
                     contents: this.state.snackpack._contents,
                     allergens: this.state.snackpack._allergens,
@@ -46,7 +48,14 @@ export default class SnackPacks extends Component {
     }
 
     validateForm() {
-        return this.state.contents.length > 0;
+        if(this.state.contents && this.state.name && this.state.imageURL) {
+            if(this.state.name === this.state.snackpack._name && this.state.contents === this.state.snackpack._contents &&
+                this.state.allergens === this.state.snackpack._allergens && this.state.imageURL === this.state.snackpack.image_path
+                && parseFloat(this.state.cost) === this.state.snackpack._cost){ return false; }
+            return this.state.contents.length > 0 && this.state.name.length > 0 && this.state.cost > 0;
+        }else{
+            return false;
+        }
     }
 
     handleChange = event => {
@@ -56,7 +65,22 @@ export default class SnackPacks extends Component {
     }
 
     saveSnackPack() {
-
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit";
+        let cost = parseFloat(this.state.cost)
+        let data = {
+            "_name":(this.state.name === this.state.snackpack._name?null:this.state.name),
+            "_contents":(this.state.contents === this.state.snackpack._contents?null:this.state.contents),
+            "_allergens":(this.state.allergens === this.state.snackpack._allergens?null:this.state.allergens),
+            "image_path":(this.state.imageURL === this.state.snackpack.image_path?null:this.state.imageURL),
+            "reviews":null,
+            "_cost":(cost === this.state.snackpack._cost?null:cost)
+        };
+        console.log(data);
+        return fetch(url, {
+            method: "PATCH",
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json());
     }
 
     handleSubmit = async event => {
@@ -73,9 +97,7 @@ export default class SnackPacks extends Component {
         this.setState({ isLoading: true });
 
         try {
-            await this.saveSnackPack({
-                content: this.state.content
-            });
+            await this.saveSnackPack();
             this.props.history.push("/");
         } catch (e) {
             alert(e);
@@ -84,7 +106,11 @@ export default class SnackPacks extends Component {
     }
 
     deleteSnackPack() {
-
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=delete&id=" + (this.state.id);
+        return fetch(url, {
+            method: "DELETE"
+        })
+        .then(response => response.json());
     }
 
     handleDelete = async event => {
