@@ -33,10 +33,10 @@ export default class Home extends Component {
                 i !== 0
                     ? <ListGroup>
                         <LinkContainer
-                            key={i}
-                            to={`/snackpack/${i}`}
+                            key={snackpack._key}
+                            to={`/snackpack/${snackpack._key}`}
                         >
-                            <ListGroupItem header={snackpack._name+":"}>{"(SnackPack #"+i+")"}</ListGroupItem>
+                            <ListGroupItem header={snackpack._name+":"}>{"(SnackPack #"+snackpack._key+")"}</ListGroupItem>
                         </LinkContainer>
                         <ListGroupItem header="Contents:">
                             {snackpack._contents.join(", ")}
