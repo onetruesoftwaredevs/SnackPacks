@@ -38,7 +38,7 @@ class snackConnector{
 						var orderList=[];
 						for(var r in result){
 							var orderItem = result[r];
-							orderList.push(new Order("", orderItem.paymentInfo, orderItem.address, orderItem.driver, orderItem.subtotal, orderItem.subtotal, orderItem.tax, orderItem.total));
+							orderList.push(new Order(orderItem.id, orderItem.paymentInfo, orderItem.address, orderItem.driver, orderItem.subtotal, orderItem.subtotal, orderItem.tax, orderItem.total));
 						}
 						resolve(orderList);
 					});
@@ -63,6 +63,29 @@ class snackConnector{
 						//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
 						var orderItem = result[0];
 						resolve(orderItem);
+					});
+				});
+			});
+		});
+	}
+	
+	deleteOrderByID(id){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			if(isNaN(id)){
+				console.log("NaN!");
+				return;
+			}
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				//Instead of trying to iterate thru an array
+				connection.query(`DELETE FROM snackpacks.Orders WHERE id=${id}`, function(err, result, fields){
+					if (err) reject(err);
+					//callback to end connection
+					connection.end(function(err) {
+						if (err) reject(err);
+						resolve(true);
 					});
 				});
 			});
