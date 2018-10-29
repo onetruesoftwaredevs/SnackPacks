@@ -5,9 +5,9 @@
 //Required libraries
 //Custom libs
 var SnackPack = require('./snackpack');
-var Snack = require('./Snack');
-var Order = require("./Order");
-var Driver = require("./Driver");
+var Snack = require('./snack');
+var Order = require("./order");
+var Driver = require("./driver");
 
 //Other
 var mysql = require('mysql');
@@ -42,7 +42,7 @@ class snackConnector{
 					//callback to end connection
 					connection.end(function(err) {
 						if (err) throw err;
-						
+
 						//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
 						var list_snackpacks=[];
 						for(var r in result){
@@ -61,7 +61,7 @@ class snackConnector{
 	parameters: integer id
 	returns list of snackPacks objects
 	3 callbacks:
-	1. connecting to the server 
+	1. connecting to the server
 	2. main query to the server (select * from snackpacks.snackpacks where key=x)
 	3. end connection to the server
 	*/
@@ -84,7 +84,7 @@ class snackConnector{
 							// console.log(list_snackpacks);
 							list_snackpacks.push(new SnackPack(pack.id, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
 						}
-						
+
 						resolve(list_snackpacks);
 					});
 				});
@@ -95,7 +95,7 @@ class snackConnector{
 	//createSnackPack
 	//returns true if successful, otherwise returns false
 	//todo add check
-	createSnackPack(name, contents, allergens, image_path, reviews, cost){
+	createSnackPack(name, contents, allergens, image_path, reviews, cost, rating){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			connection.connect(function(err){
@@ -107,22 +107,22 @@ class snackConnector{
 					connection.query(`SELECT * FROM snackpacks.users WHERE name=${name}`, function(err, found_result, fields){;
 						//Structure query then submit
 						if(!found_result){
-							connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost + ")"), function(err, result, fields){
+							connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost + "," + rating + ")"), function(err, result, fields){
 								connection.end(function (err){
 									if (err) reject(err);
-									// console.log(count_result[0]['COUNT(*)']);
-									resolve("true");
+									console.log(count_result[0]['COUNT(*)']);
+									resolve(true);
 								});
 							});
 						}else{
-							resolve("false");
+							resolve(false);
 						}
 					});
 				});
 			});
 		});
 	}
-	
+
 
 	//Method to get all snacks from snackdatabase
 	getSnacks(){
@@ -224,23 +224,22 @@ class snackConnector{
 				if (err) reject(err);
 				//callback to send query
 				//Instead of trying to iterate thru an array
-				connection.query(`DELETE FROM snackpacks.snackpacks WHERE idsnackpacks=${id}`, function(err, result, fields){
+				connection.query(`DELETE FROM snackpacks.snackpacks WHERE id=${id}`, function(err, result, fields){
 					if (err) reject(err);
 					//callback to end connection
 					connection.end(function(err) {
 						if (err) reject(err);
-						console.log("nephew delet");
 						resolve(true);
 					});
 				});
 			});
 		});
 	}
-	
+
 	//Orders
 
 	getOrders(){
-		return new Promise((resolve, reject) => {	
+		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			//Start the descent into callback hell
 			connection.connect(function(err) {
@@ -252,7 +251,7 @@ class snackConnector{
 					//callback to end connection
 					connection.end(function(err) {
 						if (err) reject(err);
-						
+
 						//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
 						var orderList=[];
 						for(var r in result){
@@ -288,7 +287,7 @@ class snackConnector{
 		});
 	}
 
-	
+
 
 	//LETS TRY OUT SOME PROMISES
 	getDrivers(){
@@ -304,7 +303,7 @@ class snackConnector{
 					//callback to end connection
 					connection.end(function(err) {
 						if (err) reject(err);
-						
+
 						//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
 						var driverList=[];
 						for(var r in result){
