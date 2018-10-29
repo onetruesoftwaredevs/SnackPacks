@@ -38,9 +38,31 @@ class driverConnector{
 						var driverList=[];
 						for(var r in result){
 							var driverItem = result[r];
-							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.rating, driverItem.carmodel, driverItem.carmake, driverItem.trips));
+							console.log(driverItem)
+							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.phone, driverItem.carmodel, driverItem.carmake,  driverItem.rating, driverItem.trips, driverItem.status));
 						}
 						resolve(driverList);
+					});
+				});
+			});
+		});
+	}
+
+	addDriver(name, phone, carmodel, carmake){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			connection.connect(function(err){
+				if (err) reject(err);
+				console.log("Connected!");
+				//Get new id number by using count
+				connection.query("SELECT COUNT(*) FROM snackpacks.drivers", function(err, count_result, fields){
+					if(err) reject(err);
+					connection.query(("INSERT INTO snackpacks.drivers VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + phone + "\",\"" + carmodel + "\",\"" + carmake + "\"," + 0 + "," + 0 + "," + 0 + ")"), function(err, result, fields){
+						connection.end(function (err){
+							if (err) reject(err);
+							console.log(count_result[0]['COUNT(*)']);
+							resolve(true);
+						});
 					});
 				});
 			});
