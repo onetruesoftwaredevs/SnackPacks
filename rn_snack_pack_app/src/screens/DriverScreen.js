@@ -58,7 +58,6 @@ export default class DriverScreen extends Component {
                     navigation={this.props.navigation}
                     swipe_handler={this.option}
                 />
-
                 <View style={styles.horizontal_container}>
                     <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>
                         <Text style={styles.my_order_style}> My Orders</Text>
