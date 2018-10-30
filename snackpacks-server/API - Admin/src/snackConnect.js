@@ -123,6 +123,46 @@ class snackConnector{
 		});
 	}
 
+	editSnackPackByID(id, snackpackjson){
+		var updateString = "";
+		for(var key in snackpackjson){
+			// console.log(x);
+			var x = ((key + "=" + `"${snackpackjson[key]}" `));
+			if(snackpackjson[key] != null && key != "id"){
+				if(key == "cost" || key == "rating"){
+					updateString += ((key + "=" + `${snackpackjson[key]}, `));
+				}else{
+					updateString += ((key + "=" + `"${snackpackjson[key]}", `));
+				}
+			}
+		}
+		
+		updateString = updateString.substring(0, updateString.length - 2);
+
+		console.log(updateString);
+
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			if(isNaN(id)){
+				console.log("NaN!");
+				return;
+			}
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				//Instead of trying to iterate thru an array
+				connection.query(`update snackpacks.snackpacks set ${updateString} where id = ${id}`, function(err, result, fields){
+					if (err) reject(err);
+					//callback to end connection
+					connection.end(function(err) {
+						if (err) reject(err);
+						resolve(true);
+					});
+				});
+			});
+		});
+	}
+
 
 	//Method to get all snacks from snackdatabase
 	getSnacks(){
