@@ -18,8 +18,8 @@ export default class CartScreen extends Component {
     }
 
     componentDidMount() {
-        this.props.navigation.addListener('willFocus', (playload)=>{
-            this.forceUpdate();
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({lastItemRemoved: "null"});
         });
     }
 
@@ -46,6 +46,7 @@ export default class CartScreen extends Component {
                         />
                     }
                     keyExtractor={(item) => item.spname}
+                    extraData={this.state}
                 />
                 <PaymentView subtotal={cartSubtotal} tax={7.89} deliveryFee={6.99}/>
             </View>
