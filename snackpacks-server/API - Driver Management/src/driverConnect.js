@@ -76,6 +76,44 @@ class driverConnector{
 		});
 	}
 
+	editDriverByID(id, driverjson){
+		var updateString = "";
+		for(var key in driverjson){
+			// console.log(x);
+			var x = ((key + "=" + `"${driverjson[key]}" `));
+			if(driverjson[key] != null){
+				if(key == "id" || key == "rating" || key == "trips" || key == "status"){
+					updateString += ((key + "=" + `${driverjson[key]}, `));
+				}else{
+					updateString += ((key + "=" + `"${driverjson[key]}", `));
+				}
+			}
+		}
+		
+		updateString = updateString.substring(0, updateString.length - 2);
+
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			if(isNaN(id)){
+				console.log("NaN!");
+				return;
+			}
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				//Instead of trying to iterate thru an array
+				connection.query(`update snackpacks.drivers set ${updateString} where id = ${id}`, function(err, result, fields){
+					if (err) reject(err);
+					//callback to end connection
+					connection.end(function(err) {
+						if (err) reject(err);
+						resolve(true);
+					});
+				});
+			});
+		});
+	}
+
 	addDriver(name, phone, carmodel, carmake){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});

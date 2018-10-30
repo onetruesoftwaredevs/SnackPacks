@@ -10,6 +10,6 @@ var snackConnector = new driverDB();
 // 	.then(data => console.log(data))
 // 	.catch(error => console.log(error));
 
-snackConnector.getDriverByID(0)
+snackConnector.editDriverByID(0, {"carmodel": "Chevrolet"})
 	.then(data => console.log(data))
 	.catch(error => console.log(error));
