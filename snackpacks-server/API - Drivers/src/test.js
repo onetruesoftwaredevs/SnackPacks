@@ -6,6 +6,6 @@ var snackDB = require('./orderConnect');
 console.log("Test 2:");
 console.log("Getting all snackpacks.");
 var snackConnector = new snackDB();
-snackConnector.createOrder("dorito legends", "doritos", "dairy", 0, 0, 5, 0)
+snackConnector.editOrderByID(5, {"subtotal":8.75, "tax":0.18, "status":"On the road!"})
 	.then(data => console.log(data))
 	.catch(error => console.log(error));

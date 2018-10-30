@@ -90,6 +90,46 @@ class snackConnector{
 		});
 	}
 	
+	editOrderByID(id, orderjson){
+		var updateString = "";
+		for(var key in orderjson){
+			// console.log(x);
+			var x = ((key + "=" + `"${orderjson[key]}" `));
+			if(orderjson[key] != null){
+				if(key == "subtotal" || key == "tax" || key == "total"){
+					updateString += ((key + "=" + `${orderjson[key]}, `));
+				}else{
+					updateString += ((key + "=" + `"${orderjson[key]}", `));
+				}
+			}
+		}
+		
+		updateString = updateString.substring(0, updateString.length - 2);
+
+		console.log(updateString);
+
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			if(isNaN(id)){
+				console.log("NaN!");
+				return;
+			}
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				//Instead of trying to iterate thru an array
+				connection.query(`update snackpacks.Orders set ${updateString} where id = ${id}`, function(err, result, fields){
+					if (err) reject(err);
+					//callback to end connection
+					connection.end(function(err) {
+						if (err) reject(err);
+						resolve(true);
+					});
+				});
+			});
+		});
+	}
+
 	deleteOrderByID(id){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
