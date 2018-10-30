@@ -77,12 +77,12 @@ export default class OrdersView extends Component {
                 <Text style={styles.name_style}>{this.props.navigation.state.params.title}</Text>
                 <FlatList
                     horizontal={false}
-                    data={this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getName())}
+                    data={this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getId())}
                     keyExtractor={(item) => item}
                     extraData={this.state}
                     renderItem={({item}) =>
                         <OrderPreview
-                            name={item._driver}
+                            name={item._recipient}
                             number={item._id}
                             order_status={"not delivered"}
                             payment_info={item._paymentInfo}

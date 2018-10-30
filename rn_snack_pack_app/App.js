@@ -32,7 +32,7 @@ export default class App extends Component {
     constructor(props) {
         super();
         // temporary
-        Driver.setInstance("daddy daniels", 20);
+        Driver.setInstance("daddy daniels", "0");
     }
 
     render() {
