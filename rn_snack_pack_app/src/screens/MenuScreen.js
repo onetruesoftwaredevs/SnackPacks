@@ -7,6 +7,7 @@
 import React, {Component} from 'react';
 import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
 import SnackPackView from "../components/menu/SnackPackView";
+import Menu from "../function/Menu";
 
 export default class MenuScreen extends Component {
     constructor(props) {
@@ -17,6 +18,14 @@ export default class MenuScreen extends Component {
         };
     }
 
+    loadData(responseJson) {
+        Menu.getInstance().setData(responseJson);
+        this.setState({
+            isLoading: false,
+            dataSource: responseJson
+        });
+    }
+
     componentDidMount() {
         this.props.navigation.addListener('willFocus', () => {
             this.setState({dataSource: this.state.dataSource});
@@ -24,11 +33,7 @@ export default class MenuScreen extends Component {
 
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
             .then(response => response.json())
-            .then(responseJson => this.setState({
-                isLoading: false,
-                dataSource: responseJson
-            }));
-
+            .then(responseJson => this.loadData(responseJson));
     }
 
     render() {
@@ -45,7 +50,7 @@ export default class MenuScreen extends Component {
                 <Text style={styles.title_style}>Snack Packs</Text>
                 <FlatList
                     style={styles.flatlist_style}
-                    data={this.state.dataSource}
+                    data={Menu.getInstance().getData()}
                     renderItem={({item}) => <SnackPackView
                         spname={item._name}
                         spprice={item._cost}
