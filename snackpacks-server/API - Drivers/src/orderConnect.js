@@ -68,6 +68,27 @@ class snackConnector{
 			});
 		});
 	}
+
+	createOrder(paymentInfo, address, driver, subtotal, tax, total, status){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			//Start the descent into callback hell
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				//Instead of trying to iterate thru an array
+				connection.query(`SELECT COUNT(*) FROM snackpacks.Orders`, function(err, count_result, fields) {
+					connection.query(`INSERT INTO snackpacks.Orders VALUES(${count_result[0]["COUNT(*)"]}, "${paymentInfo}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}")`, function(err, result, fields){
+						if (err) reject(err);
+						//callback to end connection
+						connection.end(function(err) {
+							if (err) reject(err);
+						});
+					});
+				});
+			});
+		});
+	}
 	
 	deleteOrderByID(id){
 		return new Promise((resolve, reject) => {
