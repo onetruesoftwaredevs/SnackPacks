@@ -95,8 +95,9 @@ class snackConnector{
 	//createSnackPack
 	//returns true if successful, otherwise returns false
 	//todo add check
-	createSnackPack(name, contents, allergens, image_path, reviews, cost, rating){
+	createSnackPack(id, name, contents, allergens, image_path, reviews, cost, rating){
 		return new Promise((resolve, reject) => {
+			if(id.isNaN()) reject("ID is Nan!");
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			connection.connect(function(err){
 				if (err) reject(err);
@@ -128,7 +129,7 @@ class snackConnector{
 		for(var key in snackpackjson){
 			// console.log(x);
 			var x = ((key + "=" + `"${snackpackjson[key]}" `));
-			if(snackpackjson[key] != null && key != "id"){
+			if(snackpackjson[key] != null){
 				if(key == "cost" || key == "rating"){
 					updateString += ((key + "=" + `${snackpackjson[key]}, `));
 				}else{
