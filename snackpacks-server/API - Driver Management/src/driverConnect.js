@@ -114,7 +114,7 @@ class driverConnector{
 		});
 	}
 
-	addDriver(name, phone, carmodel, carmake){
+	addDriver(id, name, phone, carmodel, carmake){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			connection.connect(function(err){
@@ -123,7 +123,8 @@ class driverConnector{
 				//Get new id number by using count
 				connection.query("SELECT COUNT(*) FROM snackpacks.drivers", function(err, count_result, fields){
 					if(err) reject(err);
-					connection.query(("INSERT INTO snackpacks.drivers VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + phone + "\",\"" + carmodel + "\",\"" + carmake + "\"," + 0 + "," + 0 + "," + 0 + ")"), function(err, result, fields){
+					if (id.isNaN()) reject("ID is not a number!");
+					connection.query(("INSERT INTO snackpacks.drivers VALUES (" + id + ",\"" + name + "\",\"" + phone + "\",\"" + carmodel + "\",\"" + carmake + "\"," + 0 + "," + 0 + "," + 0 + ")"), function(err, result, fields){
 						connection.end(function (err){
 							if (err) reject(err);
 							console.log(count_result[0]['COUNT(*)']);
