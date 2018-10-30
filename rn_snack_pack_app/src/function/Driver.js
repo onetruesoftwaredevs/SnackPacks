@@ -25,22 +25,19 @@ class Driver {
     }
 
     setOrderManager(orderManager) {
-        this._orderManager = new OrderManager(orderManager.getOrders());
-    }
-
-    getOrderURL() {
-        let url = 'https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=own&id=';
-        let names = this._name.split(' ');
-        url = url + names[0] + "%" + this._id + names[1];
-        return url;
+        this._orderManager = new OrderManager(orderManager.getOrders(true, this._id));
     }
 
     getName() {
         return this._name;
     }
 
+    getId() {
+        return this._id;
+    }
+
     getOrders() {
-        return this._orderManager.getOrders();
+        return this._orderManager.getOrders(true, this._id);
     }
 
 }

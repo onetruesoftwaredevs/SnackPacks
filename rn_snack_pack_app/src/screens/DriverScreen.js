@@ -27,7 +27,7 @@ export default class DriverScreen extends Component {
     showMyOrders = () => {
         this.props.navigation.navigate('OrdersView', {
             title: 'My Orders',
-            url: Driver.getInstance().getOrderURL(),
+            url: "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list",
             isDriver: true,
         });
     };
@@ -43,8 +43,10 @@ export default class DriverScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.name_style}>{Driver.getInstance().getName()}</Text>
-
+                <View style={styles.horizontal_container}>
+                    <Text style={styles.name_style}>{Driver.getInstance().getName()}</Text>
+                    <Text style={styles.name_style}>{Driver.getInstance().getId()}</Text>
+                </View>
                 <OrderPreview
                     name={'test'}
                     number={1}

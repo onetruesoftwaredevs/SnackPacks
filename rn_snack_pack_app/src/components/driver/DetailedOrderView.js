@@ -26,7 +26,7 @@ export default class DetailedOrderView extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.horizontal_container}>
-                    <Text style={styles.text_style}>Name: </Text>
+                    <Text style={styles.text_style}>Recipient: </Text>
                     <Text style={styles.text_style}>{params.name}</Text>
                 </View>
                 <View style={styles.horizontal_container}>
