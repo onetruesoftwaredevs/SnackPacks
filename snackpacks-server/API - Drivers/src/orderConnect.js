@@ -38,7 +38,7 @@ class snackConnector{
 						var orderList=[];
 						for(var r in result){
 							var orderItem = result[r];
-							orderList.push(new Order(orderItem.id, orderItem.paymentInfo, orderItem.address, orderItem.driver, orderItem.subtotal, orderItem.subtotal, orderItem.tax, orderItem.total));
+							orderList.push(new Order(orderItem.id,"1", orderItem.recipient, orderItem.paymentInfo, orderItem.address, orderItem.driver, orderItem.subtotal, orderItem.tax, orderItem.total));
 						}
 						resolve(orderList);
 					});
@@ -69,7 +69,7 @@ class snackConnector{
 		});
 	}
 
-	createOrder(paymentInfo, address, driver, subtotal, tax, total, status){
+	createOrder(cart, recipient, paymentInfo, address, driver, subtotal, tax, total, status){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			//Start the descent into callback hell
