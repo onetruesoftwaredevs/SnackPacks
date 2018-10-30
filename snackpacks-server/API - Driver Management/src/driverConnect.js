@@ -48,6 +48,34 @@ class driverConnector{
 		});
 	}
 
+	getDriverByID(id){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			//Start the descent into callback hell
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				//Instead of trying to iterate thru an array
+				connection.query(`SELECT * FROM snackpacks.drivers where id = ${id}`, function(err, result, fields){
+					if (err) reject(err);
+					//callback to end connection
+					connection.end(function(err) {
+						if (err) reject(err);
+
+						//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
+						var driverList=[];
+						for(var r in result){
+							var driverItem = result[r];
+							console.log(driverItem)
+							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.phone, driverItem.carmodel, driverItem.carmake,  driverItem.rating, driverItem.trips, driverItem.status));
+						}
+						resolve(driverList);
+					});
+				});
+			});
+		});
+	}
+
 	addDriver(name, phone, carmodel, carmake){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
@@ -63,6 +91,42 @@ class driverConnector{
 							console.log(count_result[0]['COUNT(*)']);
 							resolve(true);
 						});
+					});
+				});
+			});
+		});
+	}
+
+	setStatus(id, status){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			connection.connect(function(err){
+				if (err) reject(err);
+				console.log("Connected!");
+				//Get new id number by using count
+				connection.query(`UPDATE snackpacks.drivers SET status=${status} where id = ${id}`, function(err, count_result, fields){
+					if(err) reject(err);
+					connection.end(function (err){
+						if (err) reject(err);
+						resolve(true);
+					});
+				});
+			});
+		});
+	}
+
+	deleteByID(id){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			connection.connect(function(err){
+				if (err) reject(err);
+				console.log("Connected!");
+				//Get new id number by using count
+				connection.query(`delete from snackpacks.drivers where id = ${id}`, function(err, count_result, fields){
+					if(err) reject(err);
+					connection.end(function (err){
+						if (err) reject(err);
+						resolve(true);
 					});
 				});
 			});
