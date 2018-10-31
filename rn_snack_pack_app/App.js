@@ -19,24 +19,31 @@ import Amplify, {API, Analytics,Storage} from 'aws-amplify';
 import {ConfirmSignUp, ForgotPassword, SignIn, SignUp, VerifyContact, withAuthenticator} from 'aws-amplify-react-native';
 import ConfirmSignIn from "aws-amplify-react-native/dist/Auth/ConfirmSignIn"; //Can be put into upper import statement, but this includes path to files
 import aws_exports from './src/aws-exports';
-//import PaymentView from "./src/components/cart/PaymentView";
-//import OrderItemView from "./src/components/cart/OrderItemView";
-//import CartView from "./src/components/CartView";
-//import SnackPackMenuView from "./src/components/SnackPackMenuView";
 import MySignIn from "./src/mySignIn";
 
 //import CartScreen from "./src/screens/CartScreen";
 //import MenuScreen from "./src/screens/MenuScreen";
+import PaymentView from "./src/components/cart/PaymentView";
+import OrderItemView from "./src/components/cart/OrderItemView";
+import CartScreen from "./src/screens/CartScreen";
+import MenuScreen from "./src/screens/MenuScreen";
 import {SnackPacks} from "./src/snackpacks";
-
+import Driver from "./src/function/Driver";
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
 
 class App extends Component {
-  render() {
-    return <SnackPacks/>
+    constructor(props) {
+        super();
+        // temporary
+        Driver.setInstance("daddy daniels", "0");
+    }
+
+    render() {
+        return <SnackPacks/>
   }
 }
+
 //(TODO later)To edit this location is: /rn_snack_pack_app/node_modules/aws-amplify-react-native/dist/
 //export default withAuthenticator(App);
 export default withAuthenticator(App, false, [

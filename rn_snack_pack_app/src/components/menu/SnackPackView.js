@@ -41,7 +41,7 @@ export default class SnackPackView extends Component {
         return (
             <View style={styles.container}>
                 <TouchableOpacity onPress={this._onImagePressed}>
-                    <Image style={styles.image_style} source={require('./image.png')}></Image>
+                    <Image style={styles.image_style} source={{uri: this.props.spimage}}></Image>
                 </TouchableOpacity>
                 <View style={styles.information_bar}>
                     <TouchableOpacity onPress={this._onNamePressed}>
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
     },
 
     image_style: {
-        width: 308,
-        height: 200,
+        width: 344,
+        height: 258,
     },
 
     information_bar: {
