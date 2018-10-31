@@ -80,12 +80,20 @@ class driverConnector{
 		var updateString = "";
 		for(var key in driverjson){
 			// console.log(x);
+
 			var x = ((key + "=" + `"${driverjson[key]}" `));
 			if(driverjson[key] != null){
-				if(key == "id" || key == "rating" || key == "trips" || key == "status"){
-					updateString += ((key + "=" + `${driverjson[key]}, `));
+				var tempkey;
+				if(key[0] == '_'){
+					tempkey = key.substr(1);
 				}else{
-					updateString += ((key + "=" + `"${driverjson[key]}", `));
+					tempkey = key;
+				}
+				console.log(key);
+				if(tempkey == "subtotal" || tempkey == "tax" || tempkey == "total"){
+					updateString += ((tempkey + "=" + `${driverjson[key]}, `));
+				}else{
+					updateString += ((tempkey + "=" + `"${driverjson[key]}", `));
 				}
 			}
 		}
