@@ -37,6 +37,10 @@ class OrderManager {
         return orders;
     }
 
+    remove(index) {
+        this._orders.splice(index, 1);
+    }
+
 }
 
 module.exports = OrderManager;
