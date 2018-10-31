@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 4
+        padding: 8
     },
 
     quantity_text_style: {

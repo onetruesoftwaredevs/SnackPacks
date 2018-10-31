@@ -13,6 +13,7 @@ import PriceView from "./PriceView";
 import Rating from "./Rating";
 import QuantityComponent from "../misc/QuantityComponent";
 import Cart from "../../function/Cart";
+import { Dimensions } from "react-native";
 
 export default class SnackPackView extends Component {
     spname;         // the name of the snack-pack
@@ -66,7 +67,7 @@ export default class SnackPackView extends Component {
                     spname={this.props.spname}
                     spprice={this.props.spprice}
                     defaultText={'Add to Cart'}
-                    defaultTextSize={16}
+                    defaultTextSize={18}
                     parent={this}
                 />
             </View>
@@ -74,15 +75,19 @@ export default class SnackPackView extends Component {
     }
 }
 
+const window = Dimensions.get('window');
+const width = window.width;
+const height = width * 9 / 16;
+
 const styles = StyleSheet.create({
     container: {
-        padding: 4,
+        paddingBottom: 8,
         borderWidth: 0,
     },
 
     image_style: {
-        width: 344,
-        height: 258,
+        width: width,
+        height: height,
     },
 
     information_bar: {
@@ -111,14 +116,14 @@ const styles = StyleSheet.create({
     add_to_cart_style: {
         color: '#FFF',
         backgroundColor: '#4488AA',
-        fontSize: 16,
+        fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        paddingTop: 4,
-        paddingBottom: 4,
+        paddingTop: 8,
+        paddingBottom: 8,
     }
 });
