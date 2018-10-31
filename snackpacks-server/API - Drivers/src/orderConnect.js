@@ -94,12 +94,20 @@ class snackConnector{
 		var updateString = "";
 		for(var key in orderjson){
 			// console.log(x);
+
 			var x = ((key + "=" + `"${orderjson[key]}" `));
 			if(orderjson[key] != null){
-				if(key == "subtotal" || key == "tax" || key == "total"){
-					updateString += ((key + "=" + `${orderjson[key]}, `));
+				var tempkey;
+				if(key[0] == '_'){
+					tempkey = key.substr(1);
 				}else{
-					updateString += ((key + "=" + `"${orderjson[key]}", `));
+					tempkey = key;
+				}
+				console.log(key);
+				if(tempkey == "subtotal" || tempkey == "tax" || tempkey == "total"){
+					updateString += ((tempkey + "=" + `${orderjson[key]}, `));
+				}else{
+					updateString += ((tempkey + "=" + `"${orderjson[key]}", `));
 				}
 			}
 		}

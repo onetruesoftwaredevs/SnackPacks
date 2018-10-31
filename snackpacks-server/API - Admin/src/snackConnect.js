@@ -128,12 +128,20 @@ class snackConnector{
 		var updateString = "";
 		for(var key in snackpackjson){
 			// console.log(x);
+
 			var x = ((key + "=" + `"${snackpackjson[key]}" `));
 			if(snackpackjson[key] != null){
-				if(key == "cost" || key == "rating"){
-					updateString += ((key + "=" + `${snackpackjson[key]}, `));
+				var tempkey;
+				if(key[0] == '_'){
+					tempkey = key.substr(1);
 				}else{
-					updateString += ((key + "=" + `"${snackpackjson[key]}", `));
+					tempkey = key;
+				}
+				console.log(key);
+				if(tempkey == "subtotal" || tempkey == "tax" || tempkey == "total"){
+					updateString += ((tempkey + "=" + `${snackpackjson[key]}, `));
+				}else{
+					updateString += ((tempkey + "=" + `"${snackpackjson[key]}", `));
 				}
 			}
 		}
