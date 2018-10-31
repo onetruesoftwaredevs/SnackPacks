@@ -45,7 +45,7 @@ class snackConnector{
 						var list_snackpacks=[];
 						for(var r in result){
 							var pack = result[r];
-							list_snackpacks.push(new SnackPack(pack.key, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
+							list_snackpacks.push(new SnackPack(pack.id, pack.name, pack.contents, pack.allergens, pack.image_path, pack.reviews, pack.cost));
 						}
 						resolve(list_snackpacks);
 					});

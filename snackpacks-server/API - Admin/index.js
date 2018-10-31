@@ -1,41 +1,46 @@
-var Order = require('./src/order.js');
-var OrderConnect = require('./src/orderConnect.js');
-var SnackConnect = require('./src/snackConnect.js');
-var SnackPack = require('./src/snackpack.js');
+let Order = require('./src/order.js');
+let OrderConnect = require('./src/orderConnect.js');
+let SnackConnect = require('./src/snackConnect.js');
+let SnackPack = require('./src/snackpack.js');
 
 exports.handler = function(event, context, callback){
     console.log(event);
     console.log(context);
 
-    var queryString = event.queryStringParameters;
+    let queryString = event.queryStringParameters;
     if(queryString != null){
-        var command = queryString.command;
+        let command = queryString.command;
+        console.log(command);
         if(command != null){
-            var SnackConnector = new SnackConnect();
+            let SnackConnector = new SnackConnect();
             if(command.localeCompare("add") === 0){
-              var promise = SnackConnector.createSnackPack(
+                console.log("Add\n");
+                
+                let promise = SnackConnector.createSnackPack(
                 event.body.name, event.body.contents, event.body.allergens,
                 event.body.image_paths, event.body.reviews, event.body.cost, event.body.rating);
                 
-              promise.then(function(result) {
-                  var response = {
+                promise.then(function(result) {
+                    let response = {
                       "statusCode": 200,
                       "headers": {},
                       "body": JSON.stringify(result),
                       "isBase64Encoded": "false"
-                  };
-                  callback(null, response);
-                  console.log("Callback sent");
-              }, function(err) {
-                console.log(err);
-              });
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                    console.log(err);
+                });
             }
             
             else if(command.localeCompare("delete") === 0) {
-                var promise = SnackConnector.deleteSnackPackByID(event.body.id);
+                console.log("Delete\n");
+                
+                let promise = SnackConnector.deleteSnackPackByID(queryString.id);
                 
                 promise.then(function(result) {
-                    var response = {
+                    let response = {
                       "statusCode": 200,
                       "headers": {},
                       "body": JSON.stringify(result),
@@ -49,19 +54,31 @@ exports.handler = function(event, context, callback){
             }
             
             else {
-                var response = {
+                console.log("Invalid\n");
+                
+                let response = {
                     "statusCode": 200,
-                    "headers": {
-                        "my_header": "my_value"
-                    },
+                    "headers": {},
                     "body": JSON.stringify("Invalid Request Type"),
                     "isBase64Encoded": false
                 };
                 callback(null, response);
             }
+        } else {
+            console.log("Unknown\n");
+            
+            let response = {
+                "statusCode": 200,
+                "headers": {},
+                "body": JSON.stringify("Unknown Query String"),
+                "isBase64Encoded": false
+            };
+            callback(null, response);
         }
     } else {
-        var response = {
+        console.log("NULL\n");
+        
+        let response = {
             "statusCode": 200,
             "headers": {},
             "body": JSON.stringify("Query String is Null"),
