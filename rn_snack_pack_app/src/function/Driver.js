@@ -40,6 +40,19 @@ class Driver {
         return this._orderManager.getOrders(true, this._id);
     }
 
+    getCurrentOrder() {
+        if (this._orderManager === null) { return null; }
+        let orders = this._orderManager.getOrders(true, this._id);
+        if (orders.length === 0) {
+            return null;
+        }
+        return orders[0];
+    }
+
+    removeCurrentOrder() {
+        this._orderManager.remove(0);
+    }
+
 }
 
 module.exports = Driver;
