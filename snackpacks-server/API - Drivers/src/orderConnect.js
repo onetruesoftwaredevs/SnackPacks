@@ -69,7 +69,7 @@ class snackConnector{
 		});
 	}
 
-	createOrder(cart, recipient, paymentInfo, address, driver, subtotal, tax, total, status){
+	createOrder(id, cart, recipient, paymentInfo, address, driver, subtotal, tax, total, status){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			//Start the descent into callback hell
@@ -77,8 +77,9 @@ class snackConnector{
 				if (err) reject(err);
 				//callback to send query
 				//Instead of trying to iterate thru an array
-				connection.query(`SELECT COUNT(*) FROM snackpacks.Orders`, function(err, count_result, fields) {
-					connection.query(`INSERT INTO snackpacks.Orders VALUES(${count_result[0]["COUNT(*)"]}, "${paymentInfo}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}")`, function(err, result, fields){
+				connection.query(`SELECT id FROM snackpacks.Orders ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields) {
+					var index = count_result[0]["id"] + 1;
+					connection.query(`INSERT INTO snackpacks.Orders VALUES(${index}, "${paymentInfo}", "${recipient}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}")`, function(err, result, fields){
 						if (err) reject(err);
 						//callback to end connection
 						connection.end(function(err) {
@@ -94,20 +95,12 @@ class snackConnector{
 		var updateString = "";
 		for(var key in orderjson){
 			// console.log(x);
-
 			var x = ((key + "=" + `"${orderjson[key]}" `));
 			if(orderjson[key] != null){
-				var tempkey;
-				if(key[0] == '_'){
-					tempkey = key.substr(1);
+				if(key == "subtotal" || key == "tax" || key == "total"){
+					updateString += ((key + "=" + `${orderjson[key]}, `));
 				}else{
-					tempkey = key;
-				}
-				console.log(key);
-				if(tempkey == "subtotal" || tempkey == "tax" || tempkey == "total"){
-					updateString += ((tempkey + "=" + `${orderjson[key]}, `));
-				}else{
-					updateString += ((tempkey + "=" + `"${orderjson[key]}", `));
+					updateString += ((key + "=" + `"${orderjson[key]}", `));
 				}
 			}
 		}
