@@ -129,9 +129,10 @@ class driverConnector{
 				if (err) reject(err);
 				console.log("Connected!");
 				//Get new id number by using count
-				connection.query("SELECT COUNT(*) FROM snackpacks.drivers", function(err, count_result, fields){
-					if(err) reject(err);
-					connection.query(("INSERT INTO snackpacks.drivers VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + phone + "\",\"" + carmodel + "\",\"" + carmake + "\"," + 0 + "," + 0 + "," + 0 + ")"), function(err, result, fields){
+				connection.query(`SELECT id FROM snackpacks.drivers ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields) {
+					var index = count_result[0]["id"] + 1;
+					if(err) reject(err); // `insert into snackpackds.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0`)
+					connection.query((`insert into snackpackds.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0`), function(err, result, fields){
 						connection.end(function (err){
 							if (err) reject(err);
 							console.log(count_result[0]['COUNT(*)']);

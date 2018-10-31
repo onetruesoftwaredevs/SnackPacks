@@ -97,27 +97,21 @@ class snackConnector{
 	//todo add check
 	createSnackPack(id, name, contents, allergens, image_path, reviews, cost, rating){
 		return new Promise((resolve, reject) => {
-			if(id.isNaN()) reject("ID is Nan!");
+			// if(id.isNaN()) reject("ID is Nan!");
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			connection.connect(function(err){
 				if (err) reject(err);
 				console.log("Connected!");
 				//Get new id number by using count
-				connection.query("SELECT COUNT(*) FROM snackpacks.snackpacks", function(err, count_result, fields){
-					if(err) reject(err);
-					connection.query(`SELECT * FROM snackpacks.users WHERE name=${name}`, function(err, found_result, fields){;
-						//Structure query then submit
-						if(!found_result){
-							connection.query(("INSERT INTO snackpacks.snackpacks VALUES (" + count_result[0]['COUNT(*)'] + ",\"" + name + "\",\"" + contents + "\",\"" + allergens + "\",\"" + image_path + "\",\"" + reviews + "\"," + cost + "," + rating + ")"), function(err, result, fields){
-								connection.end(function (err){
-									if (err) reject(err);
-									console.log(count_result[0]['COUNT(*)']);
-									resolve(true);
-								});
-							});
-						}else{
-							resolve(false);
-						}
+				connection.query(`SELECT id FROM snackpacks.snackpacks ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields){
+					var index = count_result[0]['id'] + 1;
+					console.log(index);
+					if(err) reject(err); //`INSERT INTO snackpacks.snackpacks VALUES(${index}, ${name}, ${contents}, ${allergens}, ${image_path}, ${reviews}, ${cost}, ${rating})`
+					connection.query((`INSERT INTO snackpacks.snackpacks VALUES(${index}, "${name}", "${contents}", "${allergens}", "${image_path}", "${reviews}", ${cost}, ${rating})`), function(err, result, fields){
+						connection.end(function (err){
+							if (err) reject(err);
+							resolve(true);
+						});
 					});
 				});
 			});
