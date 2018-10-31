@@ -48,7 +48,7 @@ For POST and PATCH, the body is used to send additional information in the form 
 
 ##### Delete Orders
 * Method: DELETE
-* QueryString: command=delete
+* QueryString: command=delete&id={ORDER_ID}
 * Header: NA
 * Body: NA
 
