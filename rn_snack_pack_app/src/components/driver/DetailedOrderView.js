@@ -97,13 +97,13 @@ const styles = StyleSheet.create({
     back_style: {
         color: '#fdfdfd',
         backgroundColor: '#44AAff',
-        fontSize: 16,
+        fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 6
+        padding: 8
     },
 });

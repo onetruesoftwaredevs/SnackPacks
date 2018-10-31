@@ -109,27 +109,27 @@ const styles = StyleSheet.create({
     my_order_style: {
         color: '#fdfdfd',
         backgroundColor: '#FF8844',
-        fontSize: 16,
+        fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 6
+        padding: 8
     },
 
     available_order_style: {
         color: '#fdfdfd',
         backgroundColor: '#44AAff',
-        fontSize: 16,
+        fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 6
+        padding: 8
     },
 });
 
