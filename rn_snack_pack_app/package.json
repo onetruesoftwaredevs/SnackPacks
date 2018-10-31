@@ -11,6 +11,7 @@
     "aws-amplify": "^1.1.4",
     "aws-amplify-react-native": "^2.0.4",
     "babel-jest": "^23.6.0",
+    "braintree-web": "^3.39.0",
     "metro-react-native-babel-preset": "^0.49.0",
     "prop-types": "^15.6.2",
     "react": "16.5.0",
