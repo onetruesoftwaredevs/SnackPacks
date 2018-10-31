@@ -1,23 +1,24 @@
-var Order = require('./src/order.js');
-var OrderConnect = require('./src/orderConnect.js');
+let Order = require('./src/order.js');
+let OrderConnect = require('./src/orderConnect.js');
 
 exports.handler = function(event, context, callback){
     console.log(event);
     console.log(context);
 
-    var queryString = event.queryStringParameters;
+    let queryString = event.queryStringParameters;
     if(queryString != null){
-        var command = queryString.command;
+        let command = queryString.command;
         console.log(command);
         if(command != null){
-            var OrderConnector = new OrderConnect();
+            let OrderConnector = new OrderConnect();
             
             if(command.localeCompare("list") == 0){
                 console.log("List\n");
                 
-                var promise = OrderConnector.getOrders();
+                let promise = OrderConnector.getOrders();
+                
                 promise.then(function(result) {
-                    var response = {
+                    let response = {
                         "statusCode": 200,
                         "headers": {},
                         "body": JSON.stringify(result),
@@ -32,17 +33,58 @@ exports.handler = function(event, context, callback){
             
             else if(command.localeCompare("own") == 0) {
                 console.log("Own\n");
-                var driverId = queryString.id;
-                var OrderConnector = new OrderConnect();
-                var promise = OrderConnector.getOrders();
+                
+                let driverId = queryString.id;
+                let promise = OrderConnector.getOrders();
+                
                 promise.then(function(result) {
-                    for(var i = 0; i < result.length; i++) {
-                        var obj = result[i];
+                    for(let i = 0; i < result.length; i++) {
+                        let obj = result[i];
                         if(obj._driver !== driverId){
                             delete result[i];
                         }
                     }
-                    var response = {
+                    let response = {
+                        "statusCode": 200,
+                        "headers": {},
+                        "body": JSON.stringify(result),
+                        "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                  console.log(err); // Error: "It broke"
+                });
+            }
+            
+            else if(command.localeCompare("add") == 0) {
+                console.log("Add\n");
+                
+                let promise = OrderConnector.createOrder(event.body.cart, event.body.recipient,
+                    event.body.paymentInfo, event.body.address, event.body.driver,
+                    event.body.subtotal, event.body.tax, event.body.total, event.body.status);
+                    
+                promise.then(function(result) {
+                    let response = {
+                        "statusCode": 200,
+                        "headers": {},
+                        "body": JSON.stringify(result),
+                        "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                  console.log(err); // Error: "It broke"
+                });
+            }
+            
+            else if(command.localeCompare("edit") == 0) {
+                console.log("Edit\n");
+                
+                let promise = OrderConnector.editOrderByID(queryString.id, event.body);
+                
+                promise.then(function(result) {
+                    let response = {
                         "statusCode": 200,
                         "headers": {},
                         "body": JSON.stringify(result),
@@ -58,15 +100,10 @@ exports.handler = function(event, context, callback){
             else if(command.localeCompare("delete") == 0) {
                 console.log("Delete\n");
                 
-                var promise = OrderConnector.deleteOrderByID(queryString.id);
+                let promise = OrderConnector.deleteOrderByID(queryString.id);
+                
                 promise.then(function(result) {
-                    for(var i = 0; i < result.length; i++) {
-                        var obj = result[i];
-                        if(obj._driver !== driverId){
-                            delete result[i];
-                        }
-                    }
-                    var response = {
+                    let response = {
                         "statusCode": 200,
                         "headers": {},
                         "body": JSON.stringify(result),
@@ -81,11 +118,10 @@ exports.handler = function(event, context, callback){
             
             else {
                 console.log("Invalid\n");
-                var response = {
+                
+                let response = {
                     "statusCode": 200,
-                    "headers": {
-                        "my_header": "my_value"
-                    },
+                    "headers": {},
                     "body": JSON.stringify("Invalid Request Type"),
                     "isBase64Encoded": false
                 };
@@ -93,18 +129,19 @@ exports.handler = function(event, context, callback){
             }
         } else {
             console.log("Unknown\n");
-                var response = {
-                    "statusCode": 200,
-                    "headers": {
-                        "my_header": "my_value"
-                    },
-                    "body": JSON.stringify("Unknown Query String"),
-                    "isBase64Encoded": false
-                };
-                callback(null, response);
+            
+            let response = {
+                "statusCode": 200,
+                "headers": {},
+                "body": JSON.stringify("Unknown Query String"),
+                "isBase64Encoded": false
+            };
+            callback(null, response);
         }
     } else {
-        var response = {
+        console.log("NULL\n");
+        
+        let response = {
             "statusCode": 200,
             "headers": {},
             "body": JSON.stringify("Query String is Null"),

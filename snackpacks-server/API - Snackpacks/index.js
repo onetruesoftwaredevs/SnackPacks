@@ -1,20 +1,23 @@
-var SnackPack = require('./src/snackpack.js');
-var SnackConnect = require('./src/snackConnect.js');
-var SnackUser = require('./src/snackUser.js');
+let SnackPack = require('./src/snackpack.js');
+let SnackConnect = require('./src/snackConnect.js');
+let SnackUser = require('./src/snackUser.js');
 
 exports.handler = function(event, context, callback){
     console.log(event);
     console.log(context);
 
-    var queryString = event.queryStringParameters;
+    let queryString = event.queryStringParameters;
     if(queryString != null){
-        var command = queryString.command;
+        let command = queryString.command;
         if(command != null){
+            let SnackConnector = new SnackConnect();
             if(command.localeCompare("list") == 0){
-                var SnackConnector = new SnackConnect();
-                var promise = SnackConnector.getSnackPacks()
+                console.log("List\n");
+                
+                let promise = SnackConnector.getSnackPacks();
+                
                 promise.then(function(result) {
-                    var response = {
+                    let response = {
                         "statusCode": 200,
                         "headers": {},
                         "body": JSON.stringify(result),
@@ -29,7 +32,9 @@ exports.handler = function(event, context, callback){
                     
                 });
             } else {
-            var response = {
+                console.log("Invalid\n");
+                
+                let response = {
                     "statusCode": 200,
                     "headers": {},
                     "body": JSON.stringify("Invalid Request Type"),
@@ -39,7 +44,9 @@ exports.handler = function(event, context, callback){
             }
         }
     } else {
-        var response = {
+        console.log("Unknown\n");
+        
+        let response = {
             "statusCode": 200,
             "headers": {},
             "body": JSON.stringify("Query String is Null"),

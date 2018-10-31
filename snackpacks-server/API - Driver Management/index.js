@@ -1,19 +1,21 @@
-var DriverConnect = require('./src/driverConnect.js');
+let DriverConnect = require('./src/driverConnect.js');
 
 exports.handler = function(event, context, callback){
     console.log(event);
     console.log(context);
 
-    var queryString = event.queryStringParameters;
+    let queryString = event.queryStringParameters;
     if(queryString != null){
-        var command = queryString.command;
+        let command = queryString.command;
         if(command != null){
+            let DriverConnector = new DriverConnect();
             if(command.localeCompare("list") == 0){
-                var DriverConnector = new DriverConnect();
-                var promise = DriverConnector.getDrivers();
+                console.log("List\n");
+                
+                let promise = DriverConnector.getDrivers();
                 
                 promise.then(function(result) {
-                    var response = {
+                    let response = {
                         "statusCode": 200,
                         "headers": {
                         },
@@ -25,21 +27,71 @@ exports.handler = function(event, context, callback){
                     console.log("Callback sent");
                 });
             }
+            
+            else if(command.localeCompare("add") == 0){
+                console.log("Add\n");
 
+                let promise = DriverConnector.addDriver(
+                event.body.name, event.body.phone, event.body.carmodel, event.body.carmake );
+                promise.then(function(result) {
+                  let response = {
+                      "statusCode": 200,
+                      "headers": {},
+                      "body": JSON.stringify(result),
+                      "isBase64Encoded": "false"
+                  };
+                  callback(null, response);
+                  console.log("Callback sent");
+              }, function(err) {
+                console.log(err);
+              });
+            }
+            
+            else if(command.localeCompare("delete") === 0) {
+                console.log("Delete\n");
+                
+                let promise = DriverConnector.deleteByID(queryString.id);
+                
+                promise.then(function(result) {
+                    let response = {
+                      "statusCode": 200,
+                      "headers": {},
+                      "body": JSON.stringify(result),
+                      "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                console.log(err);
+              });
+            }
+            
             else {
-            var response = {
+                console.log("Invalid\n");
+                
+                let response = {
                     "statusCode": 200,
-                    "headers": {
-                        "my_header": "my_value"
-                    },
+                    "headers": {},
                     "body": JSON.stringify("Invalid Request Type"),
                     "isBase64Encoded": false
                 };
                 callback(null, response);
             }
+        }   else {
+            console.log("Unknown\n");
+            
+            let response = {
+                "statusCode": 200,
+                "headers": {},
+                "body": JSON.stringify("Unknown Query String"),
+                "isBase64Encoded": false
+            };
+            callback(null, response);
         }
     } else {
-        var response = {
+        console.log("Unknown\n");
+        
+        let response = {
             "statusCode": 200,
             "headers": {
             },
