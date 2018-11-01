@@ -11,17 +11,16 @@ import NumberFormat from 'react-number-format'
 
 export default class PaymentView extends Component {
     subtotal;
-    tax;
     deliveryFee;
 
-    _handlePayment()
-    {
+    _handlePayment = () => {
         Alert.alert("Payment button pressed", "test");
-    }
+    };
 
     render() {
-        let roundedTotal = Number(Number(this.props.subtotal) + Number(this.props.tax) + Number(this.props.deliveryFee)).toFixed(2);
-
+        let deliveryFee = Number(this.props.deliveryFee).toFixed(2);
+        let tax = Number(Number(this.props.subtotal) * 0.06).toFixed(2);
+        let roundedTotal = Number(Number(this.props.subtotal) + Number(tax) + Number(this.props.deliveryFee)).toFixed(2);
         return (
             <View>
                 <View style={styles.horizontal_container}>
@@ -30,25 +29,25 @@ export default class PaymentView extends Component {
                         value={this.props.subtotal}
                         displayType={'text'}
                         prefix={'$'}
-                        renderText={value =><Text style={styles.price_style}>{value}</Text>}
+                        renderText={value => <Text style={styles.price_style}>{value}</Text>}
                     />
                 </View>
                 <View style={styles.horizontal_container}>
                     <Text style={styles.price_style}>Tax:</Text>
                     <NumberFormat
-                        value={this.props.tax}
+                        value={tax}
                         displayType={'text'}
                         prefix={'$'}
-                        renderText={value =><Text style={styles.price_style}>{value}</Text>}
+                        renderText={value => <Text style={styles.price_style}>{value}</Text>}
                     />
                 </View>
                 <View style={styles.horizontal_container}>
-                    <Text style={styles.price_style}>Delivery Fee:</Text>
+                    <Text style={styles.price_style}>Service Fee:</Text>
                     <NumberFormat
-                        value={this.props.deliveryFee}
+                        value={deliveryFee}
                         displayType={'text'}
                         prefix={'$'}
-                        renderText={value =><Text style={styles.price_style}>{value}</Text>}
+                        renderText={value => <Text style={styles.price_style}>{value}</Text>}
                     />
                 </View>
                 <View style={styles.horizontal_container}>

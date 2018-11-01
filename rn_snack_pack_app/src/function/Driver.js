@@ -28,6 +28,10 @@ class Driver {
         this._orderManager = new OrderManager(orderManager.getOrders(true, this._id));
     }
 
+    getOrderManager() {
+        return this._orderManager;
+    }
+
     getName() {
         return this._name;
     }
@@ -38,6 +42,21 @@ class Driver {
 
     getOrders() {
         return this._orderManager.getOrders(true, this._id);
+    }
+
+    getCurrentOrder() {
+        if (this._orderManager === null) {
+            return null;
+        }
+        let orders = this._orderManager.getOrders(true, this._id);
+        if (orders.length === 0) {
+            return null;
+        }
+        return orders[0];
+    }
+
+    removeCurrentOrder() {
+        this._orderManager.remove(0);
     }
 
 }
