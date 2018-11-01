@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 
     title_style: {
         color: '#444',
-        fontSize: 20,
+        fontSize: 30,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
