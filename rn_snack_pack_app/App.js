@@ -41,10 +41,10 @@ class App extends Component{
 
 
     render(){
-        // return <SnackPacks/>
-        return (
-            <CheckoutView/>
-        );
+         return <SnackPacks/>
+        //return (
+        //    <CheckoutView/>
+        //);
     }
 }
 
