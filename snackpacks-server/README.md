@@ -46,6 +46,24 @@ For POST and PATCH, the body is used to send additional information in the form 
 
 * Return: JSON Array of Order JSON Objects
 
+#### Update Orders
+* Method: PATCH
+* QueryString: command=own&id={ORDER_ID}
+* Header: NA
+* Body: JSON of values, where non-edited fields are NULL, and edited fields have their new value. See example:
+"body": {
+    "_id": null,
+    "_recipient": "meep",
+    "_paymentInfo": null,
+    "_address": "Alpher Sigmer Per",
+    "_driver": "0",
+    "_subtotal": null,
+    "_tax": null,
+    "_total": null
+  }
+
+* Return: true/false
+
 ##### Delete Orders
 * Method: DELETE
 * QueryString: command=delete&id={ORDER_ID}
