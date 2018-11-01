@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
+import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./Home.css";
 
@@ -19,7 +19,7 @@ export default class DriverList extends Component {
             return;
         }
 
-        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks/?command=list")
+        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
             .then(response => response.json())
             .then(responseJson => this.setState({
                 drivers: responseJson
@@ -39,8 +39,20 @@ export default class DriverList extends Component {
                         >
                             <ListGroupItem header={driver._name+":"}>{"(Driver #"+i+")"}</ListGroupItem>
                         </LinkContainer>
+                        <ListGroupItem header="Name:">
+                            {driver._name}
+                        </ListGroupItem>
+                        <ListGroupItem header="State:">
+                            {driver._status}
+                        </ListGroupItem>
                         <ListGroupItem header="Phone Number:">
-                            {driver.reviews}
+                            {driver._phone}
+                        </ListGroupItem>
+                        <ListGroupItem header="Car Model:">
+                            {driver._carmodel}
+                        </ListGroupItem>
+                        <ListGroupItem header="Car Make:">
+                            {driver._carmake}
                         </ListGroupItem>
                     </ListGroup>
                     :
