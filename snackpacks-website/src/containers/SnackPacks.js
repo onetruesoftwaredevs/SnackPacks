@@ -51,7 +51,7 @@ export default class SnackPacks extends Component {
         if(this.state.contents && this.state.name && this.state.imageURL) {
             if(this.state.name === this.state.snackpack._name && this.state.contents === this.state.snackpack._contents &&
                 this.state.allergens === this.state.snackpack._allergens && this.state.imageURL === this.state.snackpack.image_path
-                && parseFloat(this.state.cost) === this.state.snackpack._cost && this.state.key === this.state.snackpack._key){ return false; }
+                && parseFloat(this.state.cost) === this.state.snackpack._cost){ return false; }
             return this.state.contents.length > 0 && this.state.name.length > 0 && this.state.cost > 0;
         }else{
             return false;
@@ -65,22 +65,23 @@ export default class SnackPacks extends Component {
     }
 
     saveSnackPack() {
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit";
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit&id=" + (this.state.key);
+        console.log(url);
         let cost = parseFloat(this.state.cost)
         let data = {
-            "_key":(this.state.key === this.state.snackpack._key?null:this.state.key),
-            "name":(this.state.name === this.state.snackpack._name?null:this.state.name),
-            "contents":(this.state.contents === this.state.snackpack._contents?null:this.state.contents),
-            "allergens":(this.state.allergens === this.state.snackpack._allergens?null:this.state.allergens),
-            "image_path":(this.state.imageURL === this.state.snackpack.image_path?null:this.state.imageURL),
-            "reviews":"",
-            "cost":(this.state.cost === this.state.snackpack._cost?null:cost),
-            "rating":3
+            name:(this.state.name === this.state.snackpack._name?null:this.state.name),
+            contents:(this.state.contents === this.state.snackpack._contents?null:this.state.contents),
+            allergens:(this.state.allergens === this.state.snackpack._allergens?null:this.state.allergens),
+            image_path:(this.state.imageURL === this.state.snackpack.image_path?null:this.state.imageURL),
+            reviews:null,
+            cost:(this.state.cost === this.state.snackpack._cost?null:cost),
+            rating:null
         };
-        console.log(data);
+        let outputData = JSON.stringify(data);
+        console.log(outputData);
         return fetch(url, {
-            method: "PATCH",
-            body: JSON.stringify(data)
+            method: "POST",
+            body: outputData
         })
         .then(response => response.json())
         .then(response => console.log(response));
@@ -109,9 +110,7 @@ export default class SnackPacks extends Component {
     }
 
     deleteSnackPack() {
-        console.log(this.state.key);
         let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=delete&id=" + (this.state.key);
-        console.log(url);
         return fetch(url, {
             method: "GET"
         })
@@ -147,15 +146,6 @@ export default class SnackPacks extends Component {
                 <h3>{"SnackPack #" + (this.state.number+1) + ":"}</h3>
                 {this.state.snackpack &&
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="key">
-                        <ControlLabel>Key: </ControlLabel>
-                        <FormControl
-                            type="number"
-                            step="1"
-                            onChange={this.handleChange}
-                            value={this.state.key}
-                        />
-                    </FormGroup>
                     <FormGroup controlId="name">
                         <ControlLabel>Name: </ControlLabel>
                         <FormControl
