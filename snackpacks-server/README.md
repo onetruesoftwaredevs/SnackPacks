@@ -48,7 +48,7 @@ For POST and PATCH, the body is used to send additional information in the form 
 
 #### Update Orders
 * Method: PATCH
-* QueryString: command=own&id={ORDER_ID}
+* QueryString: command=edit&id={ORDER_ID}
 * Header: NA
 * Body: JSON of values, where non-edited fields are NULL, and edited fields have their new value. See example:
 "body": {
