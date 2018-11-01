@@ -51,6 +51,8 @@ export default class MenuScreen extends Component {
                 <FlatList
                     style={styles.flatlist_style}
                     data={Menu.getInstance().getData()}
+                    extraData={this.state}
+                    keyExtractor={(item) => item._name}
                     renderItem={({item}) => <SnackPackView
                         spname={item._name}
                         spprice={item._cost}
@@ -58,8 +60,6 @@ export default class MenuScreen extends Component {
                         spallergylist={item._allergens}
                         spimage={item.image_path}
                     />}
-                    extraData={this.state}
-                    keyExtractor={(item) => item._name}
                 />
             </View>
         );

@@ -24,6 +24,7 @@ import CartScreen from "./src/screens/CartScreen";
 import MenuScreen from "./src/screens/MenuScreen";
 import {SnackPacks} from "./src/snackpacks";
 import Driver from "./src/function/Driver";
+import User from "./src/function/User";
 
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
@@ -31,8 +32,9 @@ Amplify.configure(aws_exports);
 export default class App extends Component {
     constructor(props) {
         super();
-        // temporary
+        // temporary, use cognito and database to fill values here
         Driver.setInstance("daddy daniels", "0");
+        User.setInstance("Steve", "0");
     }
 
     render() {
