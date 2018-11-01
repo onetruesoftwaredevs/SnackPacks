@@ -52,32 +52,37 @@
         });*/
         button.addEventListener('click',function(){
             instance.requestPaymentMethod().then(function(payload){
-                document.getElementById("checkout-message").innerText=payload.nonce;
+                // document.getElementById("checkout-message").innerText=payload.nonce;
+                // document.getElementById("console").innerText="console test";
+                // console.log("TEST");
                 fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout",{
                     method:'POST',
                     body:payload.nonce
-                }).done(function(result){
-                    // Tear down the Drop-in UI
-                    instance.teardown(function(teardownErr){
-                        if(teardownErr){
-                            document.getElementById("console").innerText('Could not tear down Drop-in UI!');
-                        }else{
-                            document.getElementById("console").innerText('Drop-in UI has been torn down!');
-                            //Remove the 'Submit payment' button
-                            document.getElementById('submit-button').remove();
-                        }
-                    });
-                    if(result.success){
-                        document.getElementById('checkout-message').innerHTML('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-                    }else{
-                        document.getElementById("console").innerText(result);
-                        document.getElementById('checkout-message').innerHTML('<h1>Error</h1><p>Check your console.</p>');
-                    }
-                }).catch(function(requestPaymentMethodErr){
-                    // No payment method is available.
-                    // An appropriate error will be shown in the UI.
-                    console.error(requestPaymentMethodErr);
+                }).then(function(response){
+                    document.getElementById("console").innerHTML=response.toString();
                 });
+
+                // Tear down the Drop-in UI
+                instance.teardown(function(teardownErr){
+                    if(teardownErr){
+                        document.getElementById("console").innerText('Could not tear down Drop-in UI!');
+
+                    }else{
+                        document.getElementById("console").innerText('Drop-in UI has been torn down!');
+                        // Remove the 'Submit payment' button
+                        // document.getElementById('submit-button').remove();
+                    }
+                    document.getElementById('submit-button').remove();
+                });
+                /*if(result.success){
+                    document.getElementById('checkout-message').innerText('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+                }else{
+                    document.getElementById("console").innerText(result);
+                    document.getElementById('checkout-message').innerText('<h1>Error</h1><p>Check your console.</p>');
+                }*/
+                // No payment method is available.
+                // An appropriate error will be shown in the UI.
+                // console.error(requestPaymentMethodErr);
             });
         })
     });
