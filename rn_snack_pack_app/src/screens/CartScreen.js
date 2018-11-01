@@ -48,7 +48,7 @@ export default class CartScreen extends Component {
                     keyExtractor={(item) => item.spname}
                     extraData={this.state}
                 />
-                <PaymentView subtotal={cartSubtotal} tax={7.89} deliveryFee={6.99}/>
+                <PaymentView subtotal={cartSubtotal} deliveryFee={1.00}/>
             </View>
         );
     }
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 
     title_style: {
         color: '#444',
-        fontSize: 20,
+        fontSize: 30,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',

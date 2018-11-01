@@ -13,27 +13,38 @@
 import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View} from 'react-native';
 import Swipeout from "../../rn-swipe-out";
+import OrderManager from "../../function/OrderManager";
+import Driver from "../../function/Driver";
 
 export default class OrderPreview extends Component {
-    name;           // string
-    number;         // number
-    order_status;   // string
-    payment_info;   // string
-    address;        // string
-    subtotal;       // number
-    tax;            // number
-    total;          // number
-    last_screen;    // string
-    navigation;     // object
-    swipe_handler;  // object
+    name;                   // string
+    number;                 // number
+    order_status;           // string
+    payment_info;           // string
+    address;                // string
+    subtotal;               // number
+    tax;                    // number
+    total;                  // number
+    last_screen;            // string
+    navigation;             // object
+    swipe_handler;          // string
+    order_manager;          // object
+    parent;                 // Component
+
+    constructor(props) {
+        super();
+        this.state = {order: null};
+    }
+
 
     getName() {
-        if (this.props.name.length <= 0) { return "No Driver"; }
+        if (this.props.name.length <= 0) {
+            return "No Driver";
+        }
         return this.props.name;
     }
 
-    getNumber()
-    {
+    getNumber() {
         if (this.props.number === null || this.props.number === undefined) {
             return 0;
         }
@@ -54,13 +65,84 @@ export default class OrderPreview extends Component {
         });
     };
 
+    takeOrder(id) {
+        // get order from orderManager
+        let order = this.props.order_manager.getOrderById(id);
+        // remove order by id
+        this.props.order_manager.removeOrderById(id);
+        // patch order to the server
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=edit&id=";
+        url = url + order._id;
+        fetch(url, {
+            method: "PATCH",
+            body: JSON.stringify({
+                _recipient: order._recipient,
+                _paymentInfo: order._paymentInfo,
+                _address: order._address,
+                _driver: Driver.getInstance().getId(),
+                _subtotal: order._subtotal,
+                _tax: order._tax,
+                _total: order._total,
+            }),
+        });
+        // update the order locally
+        order._driver = Driver.getInstance().getId();
+        // update the drivers order list
+        Driver.getInstance().getOrderManager().insertOrder(order);
+        // refresh the ui
+        this.props.parent.forceUpdate();
+    }
+
+    available_option = {
+        text: 'Take Order',
+        style: {
+            backgroundColor: '#44aa44',
+            padding: 2,
+        },
+        onPress: () => {
+            this.takeOrder(this.getNumber());
+        },
+    };
+
+    completeCurrentOrder() {
+        // create query string
+        let currentOrder = Driver.getInstance().getCurrentOrder();
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=delete&id=";
+        url = url + currentOrder._id;
+        // delete from database
+        fetch(url, {method: "GET"})
+            .then(response => response.json())
+            .then(responseJson => this.validateDeletion(responseJson, currentOrder._id));
+        // update driver order manager
+        Driver.getInstance().removeCurrentOrder();
+        // update ui
+        this.props.parent.forceUpdate();
+    }
+
+    completeOrderOption = {
+        text: 'complete',
+        style: {
+            backgroundColor: '#44aa44',
+            padding: 2,
+        },
+        onPress: () => {
+            this.completeCurrentOrder();
+        },
+    };
+
     render() {
         // create method or dictionary to dynamically change background color based on status
         let order_status_style = [styles.status_style, {backgroundColor: '#44AAff'}];
-
+        let swipe_handler = null;
+        if (this.props.swipe_handler === "available_option") {
+            swipe_handler = this.available_option;
+        }
+        else {
+            swipe_handler = this.completeOrderOption;
+        }
         return (
             <TouchableOpacity style={styles.container} onPress={this.showDetailedView}>
-                <Swipeout right={this.props.swipe_handler}>
+                <Swipeout right={swipe_handler}>
                     <View style={styles.horizontal_container}>
                         <Text style={styles.name_style}>{this.getName()}</Text>
                         <Text style={styles.number_style}>{this.getNumber()}</Text>
