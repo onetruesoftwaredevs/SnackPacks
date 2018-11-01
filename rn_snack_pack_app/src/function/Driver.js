@@ -28,6 +28,10 @@ class Driver {
         this._orderManager = new OrderManager(orderManager.getOrders(true, this._id));
     }
 
+    getOrderManager() {
+        return this._orderManager;
+    }
+
     getName() {
         return this._name;
     }
@@ -41,7 +45,9 @@ class Driver {
     }
 
     getCurrentOrder() {
-        if (this._orderManager === null) { return null; }
+        if (this._orderManager === null) {
+            return null;
+        }
         let orders = this._orderManager.getOrders(true, this._id);
         if (orders.length === 0) {
             return null;

@@ -119,7 +119,8 @@ export default class DriverScreen extends Component {
                     total={currentOrder._total}
                     last_screen={'DriversScreen'}
                     navigation={this.props.navigation}
-                    swipe_handler={this.completeOrderOption}
+                    swipe_handler={"complete_order_option"}
+                    parent={this}
                 />
                 <View style={styles.horizontal_container}>
                     <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>
