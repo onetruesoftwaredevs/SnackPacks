@@ -7,6 +7,7 @@ import CartScreen from "./screens/CartScreen";
 import DriverScreen from "./screens/DriverScreen";
 import OrdersView from "./components/driver/OrdersView";
 import DetailedOrderView from "./components/driver/DetailedOrderView";
+import CheckoutView from "./payment/CheckoutView";
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -23,13 +24,24 @@ const DriverNavigation = StackNavigator({
     headerMode: 'none',
 });
 
+const PaymentNavigation = StackNavigator({
+    CartScreen: {
+        screen: CartScreen,
+    },
+    CheckoutView: {
+        screen: CheckoutView,
+    }
+}, {
+    headerMode: "none",
+});
+
 
 export const SnackPacks = TabNavigator({
     Menu: {
         screen: MenuScreen,
     },
     Cart: {
-        screen: CartScreen,
+        screen: PaymentNavigation,
     },
     Drivers: {
         screen: DriverNavigation,

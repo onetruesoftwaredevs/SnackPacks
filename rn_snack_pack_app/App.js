@@ -39,12 +39,8 @@ class App extends Component{
         Driver.setInstance("daddy daniels","0");
     }
 
-
     render(){
          return <SnackPacks/>
-        //return (
-        //    <CheckoutView/>
-        //);
     }
 }
 
