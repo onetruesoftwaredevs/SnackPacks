@@ -48,21 +48,23 @@ export default class NewSnackPack extends Component {
 
     createSnackPack() {
         let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=add";
-        let reviews = "";
         let data = {
-            "_name":this.state.newName,
-            "_contents":this.state.contents,
-            "_allergens":this.state.allergens,
-            "image_path":this.state.image,
-            "reviews":reviews,
-            "_cost":parseFloat(this.state.cost)
+            name:this.state.newName,
+            contents:this.state.contents,
+            allergens:this.state.allergens,
+            image_path:this.state.image,
+            reviews:"",
+            cost:parseFloat(this.state.cost),
+            rating:3
         };
-        console.log(data);
+        let outputData = JSON.stringify(data);
+        console.log(outputData);
         return fetch(url, {
             method: "POST",
-            body: JSON.stringify(data)
+            body: outputData
         })
-        .then(response => response.json());
+        .then(response => response.json())
+        .then(response => console.log(response));
     }
 
     render() {
