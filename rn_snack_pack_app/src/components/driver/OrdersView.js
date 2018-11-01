@@ -16,17 +16,6 @@ export default class OrdersView extends Component {
 
     orderManager; //object
 
-    available_option = {
-        text: 'Take Order',
-        style: {
-            backgroundColor: '#44aa44',
-            padding: 2,
-        },
-        onPress: () => {
-            Alert.alert('Order added to list', '');
-        },
-    };
-
     constructor(props) {
         super();
         this.state = {
@@ -92,7 +81,9 @@ export default class OrdersView extends Component {
                             total={item._total}
                             last_screen={'OrdersView'}
                             navigation={this.props.navigation}
-                            swipe_handler={swipe_option}
+                            swipe_handler={"available_option"}
+                            order_manager={this.orderManager}
+                            parent={this}
                         />
                     }
                 />
