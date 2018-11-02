@@ -5,10 +5,11 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Alert, TouchableOpacity, StyleSheet, Text, TextInput, View} from 'react-native';
 import Rating from "./Rating";
+import DriverRating from "../../function/DriverRating";
 
-export default class Review extends Component {
+export default class ReviewBuilderView extends Component {
 
     constructor(props) {
         super();
@@ -19,21 +20,38 @@ export default class Review extends Component {
     }
 
     _submit = () => {
+        let review_url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers?command=review&id=";
+        review_url += this.props.navigation.state.params.driver_id;
+        fetch(review_url, {
+            method: "POST",
+            body: {
+                review: this.state.description_text,
+            }
+        });
+
+        let rating_url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers?command=rating&id=";
+        rating_url += this.props.navigation.state.params.driver_id;
+        fetch(rating_url, {
+            method: "POST",
+            body: {
+                rating: DriverRating.getInstance().getRating(),
+            },
+        });
+
+        Alert.alert("Review submitted successfully", "thank you for submitting a review we appreciate your feedback");
         this.props.navigation.navigate("DriverProfile");
     };
 
     render() {
+        let title_component = this.props.navigation.state.params.has_title ?
+            (<View><Text style={styles.header_style}>Title:</Text>
+                <TextInput onChangeText={(text) => this.setState({title_text: text})} value={this.state.title_text}
+                           style={styles.field_style} editable={true} maxLength={32}/></View>) : (<View/>);
+
         return (
             <View style={styles.container}>
                 <Text style={styles.title_style}>Leave Review</Text>
-                <Text style={styles.header_style}>Title:</Text>
-                <TextInput
-                    onChangeText={(text) => this.setState({title_text: text})}
-                    value={this.state.title_text}
-                    style={styles.field_style}
-                    editable={true}
-                    maxLength={32}
-                />
+                {title_component}
                 <Text style={styles.header_style}>Description:</Text>
                 <TextInput
                     onChangeText={(text) => this.setState({description_text: text})}

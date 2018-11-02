@@ -7,6 +7,7 @@
 import React, {Component} from 'react';
 import StarRating from 'react-native-star-rating';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import DriverRating from "../../function/DriverRating";
 
 export default class Rating extends Component {
     starCount; // the number of stars to give the rating
@@ -19,6 +20,7 @@ export default class Rating extends Component {
     }
 
     onStarRatingPress(rating) {
+        DriverRating.getInstance().setRating(rating);
         this.setState({
             starCount: rating
         });
