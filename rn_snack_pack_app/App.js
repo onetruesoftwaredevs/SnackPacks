@@ -9,8 +9,8 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import PriceView from "./src/components/menu/PriceView";
-import Review from "./src/components/menu/Review";
-import Rating from "./src/components/menu/Rating";
+import Review from "./src/components/misc/Review";
+import Rating from "./src/components/misc/Rating";
 import NutritionView from "./src/components/menu/NutritionView";
 import SnackPackView from "./src/components/menu/SnackPackView";
 

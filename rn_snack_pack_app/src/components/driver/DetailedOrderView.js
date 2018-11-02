@@ -20,6 +20,14 @@ export default class DetailedOrderView extends Component {
         this.props.navigation.navigate(this.props.navigation.state.params.last_screen);
     };
 
+    _viewDriver = () => {
+        this.props.navigation.navigate("DriverProfile", {
+            name: "Dirty Dan",
+            number: this.props.navigation.state.params.driver,
+            last_screen: "DetailedOrderView"
+        });
+    };
+
     render() {
         let params = this.props.navigation.state.params;
 
@@ -32,6 +40,12 @@ export default class DetailedOrderView extends Component {
                 <View style={styles.horizontal_container}>
                     <Text style={styles.text_style}>Number: </Text>
                     <Text style={styles.text_style}>{params.number}</Text>
+                </View>
+                <View style={styles.horizontal_container}>
+                    <TouchableOpacity onPress={this._viewDriver} style={styles.data_button_style}>
+                        <Text style={styles.text_style}>Driver: </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.text_style}>{params.driver}</Text>
                 </View>
                 <View style={styles.horizontal_container}>
                     <Text style={styles.text_style}>Status: </Text>
@@ -92,6 +106,10 @@ const styles = StyleSheet.create({
 
     button_style: {
         width: '100%',
+    },
+
+    data_button_style: {
+        backgroundColor: '#44AAff',
     },
 
     back_style: {

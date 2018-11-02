@@ -17,10 +17,12 @@ export default class OrderScreen extends Component {
 
     constructor(props) {
         super();
+        this.state = {isLoading: true,};
     }
 
     loadOrders(responseJson) {
-
+        User.getInstance().loadOrders(responseJson);
+        this.setState({isLoading: false});
     }
 
     refresh() {
@@ -34,7 +36,32 @@ export default class OrderScreen extends Component {
         // this.refresh();
     }
 
+
+    // have render dummy order preview until backend is complete
     render() {
+        // temp
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title_style}>My Orders</Text>
+                <OrderPreview
+                    name={User.getInstance().getName()}
+                    number={"1"}
+                    driver={"4"}
+                    order_status={"not delivered"}
+                    payment_info={"credit card"}
+                    address={"1016 W. Stadium Ave."}
+                    subtotal={8.59}
+                    tax={0.52}
+                    total={10.11}
+                    last_screen={'Orders'}
+                    navigation={this.props.navigation}
+                    swipe_handler={"none"}
+                    parent={this}
+                />
+
+            </View>
+        );
+        /* real
         return (
             <View style={styles.container}>
                 <Text style={styles.title_style}>My Orders</Text>
@@ -62,6 +89,7 @@ export default class OrderScreen extends Component {
                 />
             </View>
         );
+        */
     }
 }
 

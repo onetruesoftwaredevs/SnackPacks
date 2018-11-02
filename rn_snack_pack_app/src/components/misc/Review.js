@@ -44,13 +44,11 @@ const styles = StyleSheet.create({
 
     author_style: {
         color: '#444444',
-        fontSize: 14,
+        fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
         textDecorationLine: 'none',
-        // different for ios and android research proper way to use before implementing
-        //fontFamily: 'normal',
         textAlignVertical: 'center',
         textTransform: 'none',
     },
@@ -62,21 +60,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'justify',
         textDecorationLine: 'none',
-        // different for ios and android research proper way to use before implementing
-        //fontFamily: 'normal',
         textAlignVertical: 'center',
         textTransform: 'none',
     },
 
     review_style: {
         color: '#444444',
-        fontSize: 12,
+        fontSize: 16,
         fontStyle: 'normal',
         fontWeight: 'normal',
         textAlign: 'justify',
         textDecorationLine: 'none',
-        // different for ios and android research proper way to use before implementing
-        //fontFamily: 'normal',
         textAlignVertical: 'center',
         textTransform: 'none',
     }

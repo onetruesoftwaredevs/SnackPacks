@@ -8,6 +8,7 @@ import DriverScreen from "./screens/DriverScreen";
 import OrdersView from "./components/driver/OrdersView";
 import DetailedOrderView from "./components/driver/DetailedOrderView";
 import OrderScreen from "./screens/OrderScreen";
+import DriverProfile from "./components/driver/DriverProfile";
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -19,6 +20,25 @@ const DriverNavigation = StackNavigator({
     },
     DetailedOrderView: {
         screen: DetailedOrderView,
+    },
+    DriverProfile: {
+        screen: DriverProfile,
+    },
+}, {
+    headerMode: 'none',
+});
+
+const OrderNavigation = StackNavigator({
+    Orders: {
+        screen: OrderScreen,
+    },
+
+    DetailedOrderView: {
+        screen: DetailedOrderView,
+    },
+
+    DriverProfile: {
+        screen: DriverProfile,
     },
 }, {
     headerMode: 'none',
@@ -36,7 +56,7 @@ export const SnackPacks = TabNavigator({
         screen: DriverNavigation,
     },
     Orders: {
-        screen: OrderScreen,
+        screen: OrderNavigation,
     },
 });
 

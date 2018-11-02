@@ -111,6 +111,7 @@ export default class DriverScreen extends Component {
                 <OrderPreview
                     name={currentOrder._recipient}
                     number={currentOrder._id}
+                    driver={currentOrder._driver}
                     order_status={'not delivered'}
                     payment_info={currentOrder._paymentInfo}
                     address={currentOrder._address}
