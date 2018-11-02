@@ -21,7 +21,7 @@ export default class OrderItemView extends Component {
     render() {
         this.props.parent.forceUpdate();
         let quantity = Cart.getInstance().getQuantity(this.props.spname);
-
+        let price = Number(this.props.spprice).toFixed(2);
         return (
             <View style={styles.container}>
                 <View style={styles.horizontal_container}>
@@ -51,7 +51,7 @@ export default class OrderItemView extends Component {
                             </View>
                             <View style={styles.horizontal_container}>
                                 <Text style={styles.information_style}>Price: </Text>
-                                <Text style={styles.information_style}>${this.props.spprice}</Text>
+                                <Text style={styles.information_style}>${price}</Text>
                             </View>
                         </View>
                     </View>

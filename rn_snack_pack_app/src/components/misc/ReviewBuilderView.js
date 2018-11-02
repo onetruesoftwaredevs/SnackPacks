@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
 
     field_style: {
         color: '#444444',
+        backgroundColor: '#fff',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: 'normal',
