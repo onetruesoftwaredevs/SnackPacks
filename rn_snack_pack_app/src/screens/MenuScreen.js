@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     },
 
     loading_text: {
+        flex: 1,
         color: '#444',
         fontSize: 20,
         fontStyle: 'normal',

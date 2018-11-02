@@ -110,7 +110,7 @@ export default class DriverScreen extends Component {
             <View style={styles.container}>
                 <View style={styles.horizontal_container}>
                     <Text style={styles.name_style}>{Driver.getInstance().getName()}</Text>
-                    <Text style={styles.name_style}>{Driver.getInstance().getId()}</Text>
+                    <Text style={styles.id_style}>{Driver.getInstance().getId()}</Text>
                 </View>
                 <OrderPreview
                     name={currentOrder._recipient}
@@ -157,6 +157,18 @@ const styles = StyleSheet.create({
     name_style: {
         color: '#444',
         fontSize: 30,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4
+    },
+
+    id_style: {
+        color: '#444',
+        fontSize: 20,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
