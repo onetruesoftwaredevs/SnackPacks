@@ -21,7 +21,7 @@ For POST and PATCH, the body is used to send additional information in the form 
 ### https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/
 
 ### __/snackpacks__
-##### Get snackpacks
+##### Get SnackPacks
     * Method: GET
     * QueryString: command=list
     * Header: NA
@@ -46,6 +46,24 @@ For POST and PATCH, the body is used to send additional information in the form 
 
     * Return: JSON Array of Order JSON Objects
 
+#### Claim Orders
+    * Method: PATCH
+    * QueryString: command=edit&orderId={ORDER_ID}&driverId={DRIVER_ID}
+    * Header: NA
+    * Body: JSON of values, where non-edited fields are NULL, and edited fields have their new value. See example:
+
+    "body": {
+        "_recipient": "meep",
+        "_paymentInfo": null,
+        "_address": "Alpher Sigmer Per",
+        "_driver": "0",
+        "_subtotal": null,
+        "_tax": null,
+        "_total": null
+      }
+
+    * Return: true/false
+
 #### Update Orders
     * Method: PATCH
     * QueryString: command=edit&id={ORDER_ID}
@@ -53,21 +71,13 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: JSON of values, where non-edited fields are NULL, and edited fields have their new value. See example:
 
     "body": {
-
         "_recipient": "meep",
-
         "_paymentInfo": null,
-
         "_address": "Alpher Sigmer Per",
-
         "_driver": "0",
-
         "_subtotal": null,
-
         "_tax": null,
-
         "_total": null
-
       }
 
     * Return: true/false
@@ -85,7 +95,9 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Method: POST
     * QueryString: command=add
     * Header: NA
-    * Body: SnackPack JSON, with name, contents, allergens, image_path, reviews, cost, and rating. Note that the Array values must be strings delimited by commas.
+    * Body: SnackPack JSON, with name, contents, allergens,
+    image_path, reviews, cost, and rating. Note that the Array
+    values must be strings delimited by commas.
 
     * Return: true/false
 
