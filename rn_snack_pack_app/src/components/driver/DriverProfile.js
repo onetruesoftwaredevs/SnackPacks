@@ -7,16 +7,56 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, ScrollView, FlatList, StyleSheet, Text, View} from 'react-native';
+import {Alert, TouchableOpacity, ScrollView, FlatList, StyleSheet, Text, View} from 'react-native';
 import Rating from "../misc/Rating";
 import Review from "../misc/Review";
+import Driver from '../../function/Driver';
+import DriverReview from "./DriverReview";
 
 export default class DriverProfile extends Component {
 
+    driver;
+
     constructor(props) {
         super();
-        this.state = {dataSource: [],};
+        this.state = {
+            isLoading: true,
+            data: null,
+        };
     }
+
+    componentDidMount() {
+        this._refresh();
+    }
+
+
+    loadData(responseJson) {
+        for (let i = 0; i < responseJson.length; i++) {
+            let driver = responseJson[i];
+            if (driver._id === Number(this.props.navigation.state.params.number)) {
+                this.driver = new Driver(
+                    driver._name,
+                    driver._id,
+                    driver._phone,
+                    driver._carmodel,
+                    driver._carmake,
+                    driver._rating,
+                    driver._status,
+                    driver._reviews
+                );
+                this.setState({isLoading: false});
+                return;
+            }
+        }
+        Alert.alert("Something went wrong", "please try again later");
+    }
+
+    _refresh = () => {
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers?command=list";
+        fetch(url, {method: "GET"})
+            .then(response => response.json())
+            .then(responseJson => this.loadData(responseJson))
+    };
 
     _goBack = () => {
         this.props.navigation.navigate(this.props.navigation.state.params.last_screen);
@@ -29,77 +69,70 @@ export default class DriverProfile extends Component {
         });
     };
 
-    //
     render() {
-        // temp until database is finished
+
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.loading_text}>Loading . . .</Text>
+                </View>
+            );
+        }
 
         let review = this.props.navigation.state.params.isReviewable ? (<TouchableOpacity onPress={this._leaveReview}>
             <Text style={styles.review_style}>Review</Text></TouchableOpacity>) : (<View/>);
 
+        let reviews = this.driver.getReviews().length > 0 ?
+            (<View>
+                <FlatList
+                    horizontal={false}
+                    data={this.driver.getReviews()}
+                    keyExtractor={(item) => item}
+                    extraData={this.state}
+                    renderItem={({item}) =>
+                        <DriverReview
+                            description={item._value}
+                        />
+                    }
+                />
+            </View>) :
+            (<View>
+                <Text style={styles.loading_text}>No reviews for this driver</Text>
+            </View>);
+
         return (
-            <View style={styles.container}>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.title_style}>{this.props.navigation.state.params.name}</Text>
+            <ScrollView style={styles.container}>
+                <View style={styles.horizontal_container_space}>
+                    <Text style={styles.title_style}>{this.driver.getName()}</Text>
                     {review}
                 </View>
                 <View style={styles.horizontal_container}>
                     <Text style={styles.data_style}>Number: </Text>
-                    <Text style={styles.data_style}>{this.props.navigation.state.params.number}</Text>
+                    <Text style={styles.data_style}>{this.driver.getId()}</Text>
                 </View>
-                <Text style={styles.data_style}>Reviews:</Text>
-                <Review
-                    author={"steve"}
-                    title={"Tasty"}
-                    review={"this was a very delicious product"}
-                    rating={4}
-                />
-                <Review
-                    author={"jay"}
-                    title={"yummy"}
-                    review={"this was a very tasty product"}
-                    rating={5}
-                />
-                <Review
-                    author={"chen"}
-                    title={"delicious"}
-                    review={"this was a very yummy product"}
-                    rating={3}
-                />
-                <TouchableOpacity onPress={this._goBack} style={styles.button_style}>
-                    <Text style={styles.back_style}>Back</Text>
-                </TouchableOpacity>
-            </View>
-        );
-        /*
-        // real
-        return (
-            <View style={styles.container}>
-                <Text style={styles.title_style}>{this.props.navigation.state.params.name}</Text>
                 <View style={styles.horizontal_container}>
-                    <Text style={styles.data_style}>Number: </Text>
-                    <Text style={styles.data_style}>{this.props.navigation.state.params.number}</Text>
+                    <Text style={styles.data_style}>Phone: </Text>
+                    <Text style={styles.data_style}>{this.driver.getPhone()}</Text>
+                </View>
+                <View style={styles.horizontal_container}>
+                    <Text style={styles.data_style}>Car Model: </Text>
+                    <Text style={styles.data_style}>{this.driver.getCarModel()}</Text>
+                </View>
+                <View style={styles.horizontal_container}>
+                    <Text style={styles.data_style}>Car Make: </Text>
+                    <Text style={styles.data_style}>{this.driver.getCarMake()}</Text>
+                </View>
+                <View style={styles.horizontal_container}>
+                    <Text style={styles.data_style}>Rating: </Text>
+                    <Rating starCount={this.driver.getRating()} editable={false}/>
                 </View>
                 <Text style={styles.data_style}>Reviews:</Text>
-                <FlatList
-                    horizontal={false}
-                    data={this.state.dataSource}
-                    keyExtractor={(item) => item}
-                    extraData={this.state}
-                    renderItem={({item}) =>
-                        <Review
-                            author={item.author}
-                            title={item.title}
-                            review={item.review}
-                            rating={item.rating}
-                        />
-                    }
-                />
+                {reviews}
                 <TouchableOpacity onPress={this._goBack} style={styles.button_style}>
                     <Text style={styles.back_style}>Back</Text>
                 </TouchableOpacity>
-            </View>
+            </ScrollView>
         );
-        */
     }
 
 }
@@ -108,13 +141,30 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        justifyContent: "space-between",
+        //justifyContent: "space-between",
         padding: 0,
+    },
+
+    loading_text: {
+        flex: 1,
+        color: '#444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4,
+    },
+
+    horizontal_container_space: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
 
     horizontal_container: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
     },
 
     flatlist_style: {
