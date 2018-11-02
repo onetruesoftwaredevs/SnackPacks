@@ -16,9 +16,33 @@ exports.handler = function(event, context, callback){
             if(command.localeCompare("add") === 0){
                 console.log("Add\n");
                 
+                let sp = JSON.parse(event.body);
+                
                 let promise = SnackConnector.createSnackPack(
-                event.body.name, event.body.contents, event.body.allergens,
-                event.body.image_paths, event.body.reviews, event.body.cost, event.body.rating);
+                sp.name, sp.contents, sp.allergens,
+                sp.image_path, sp.reviews, sp.cost, sp.rating);
+                
+                promise.then(function(result) {
+                    let response = {
+                      "statusCode": 200,
+                      "headers": {},
+                      "body": JSON.stringify(result),
+                      "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                    console.log(err);
+                });
+            }
+            
+            if(command.localeCompare("edit") === 0){
+                console.log("Edit\n");
+                
+                let sp = JSON.parse(event.body);
+                console.log(sp);
+                
+                let promise = SnackConnector.editSnackPackByID(queryString.id, sp);
                 
                 promise.then(function(result) {
                     let response = {

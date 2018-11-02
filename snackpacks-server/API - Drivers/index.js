@@ -60,7 +60,7 @@ exports.handler = function(event, context, callback){
             else if(command.localeCompare("add") == 0) {
                 console.log("Add\n");
                 
-                let promise = OrderConnector.createOrder(event.body.cart, event.body.recipient,
+                let promise = OrderConnector.createOrder(event.body.id, event.body.cart, event.body.recipient,
                     event.body.paymentInfo, event.body.address, event.body.driver,
                     event.body.subtotal, event.body.tax, event.body.total, event.body.status);
                     
@@ -81,7 +81,9 @@ exports.handler = function(event, context, callback){
             else if(command.localeCompare("edit") == 0) {
                 console.log("Edit\n");
                 
-                let promise = OrderConnector.editOrderByID(queryString.id, event.body);
+                let order = JSON.parse(event.body);
+                
+                let promise = OrderConnector.editOrderByID(queryString.id, order);
                 
                 promise.then(function(result) {
                     let response = {
@@ -96,6 +98,27 @@ exports.handler = function(event, context, callback){
                   console.log(err); // Error: "It broke"
                 });
             }
+            
+            /* else if(command.localeCompare("status") == 0) {
+                console.log("Status\n");
+                
+                let order = JSON.parse(event.body);
+                
+                let promise = OrderConnector.editOrderByID(queryString.id, order);
+                
+                promise.then(function(result) {
+                    let response = {
+                        "statusCode": 200,
+                        "headers": {},
+                        "body": JSON.stringify(result),
+                        "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                  console.log(err); // Error: "It broke"
+                });
+            } */
             
             else if(command.localeCompare("delete") == 0) {
                 console.log("Delete\n");

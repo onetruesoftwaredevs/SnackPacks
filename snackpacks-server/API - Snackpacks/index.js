@@ -11,7 +11,7 @@ exports.handler = function(event, context, callback){
         let command = queryString.command;
         if(command != null){
             let SnackConnector = new SnackConnect();
-            if(command.localeCompare("list") == 0){
+            if(command.localeCompare("list") === 0){
                 console.log("List\n");
                 
                 let promise = SnackConnector.getSnackPacks();
