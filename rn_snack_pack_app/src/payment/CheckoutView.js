@@ -4,14 +4,50 @@ import PaymentView from "../components/cart/PaymentView";
 import Cart from "../function/Cart";
 
 const payment=require('./payment.html');
-// const payment2=require('./payment2.html');//Custom payment screen\
-// const braintree=require('https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js');
-
-
-// import {connectToRemote,WebView} from 'react-native-webview-messaging';
-// import BraintreeReactHTML from "./paymentHTML";
 
 export default class CheckoutView extends Component{
+    constructor(props){
+        super(props);
+        this.onWebViewMessage=this.onWebViewMessage.bind(this);
+    }
+
+    handleDataReceived(msgData){
+        this.setState({
+            text2:`Message from web view ${msgData.data}`
+        });
+        msgData.isSuccessfull=true;
+        msgData.args=[msgData.data%2?"green":"red"];
+        this.myWebView.postMessage(JSON.stringify(msgData));
+    }
+
+    onWebViewMessage(event){
+        if(event.nativeEvent.data.charAt(0)=='{'){
+            console.log("Message received from webview");
+            let nonce=JSON.parse(event.nativeEvent.data).data;
+            console.log(nonce);//Nonce from payment
+
+            //Fetch to api with cart in query string
+            fetch(`https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout`,{
+                method:'POST',
+                body:`nonce=${nonce}&cart=${Cart.getInstance().getItemsInCart()}`
+            });
+
+        }
+        // let msgData=JSON.parse(event.nativeEvent.data);
+        // try{
+        //     msgData=JSON.parse(event.nativeEvent.data);
+        // }catch(err){
+        //     console.warn(err);
+        //     return;
+        // }
+
+        // switch(msgData.targetFunc){
+        //     case "handleDataReceived":
+        //         this[msgData.targetFunc].apply(this,[msgData]);
+        //         break;
+        // }
+    }
+
     _goBack=()=>{
         this.props.navigation.navigate("CartScreen");
     };
@@ -20,14 +56,17 @@ export default class CheckoutView extends Component{
         return (
             <View style={styles.container}>
                 <Text style={styles.title_style}>Checkout</Text>
+                <Text>{JSON.stringify(Cart.getInstance().getItemsInCart())}</Text>
                 <WebView
+                    // ref={ref=>(this.webview=ref)}
                     style={styles.WebViewStyle}
                     source={payment}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
+                    onMessage={this.onWebViewMessage}
                 />
 
-                <PaymentView subtotal={/*this.props.navigation.state.params.subtotal*/9.00} deliveryFee={1.00}
+                <PaymentView subtotal={this.props.navigation.state.params.subtotal} deliveryFee={1.00}
                              navigator={this.props.navigation} checkout={false}/>
                 <TouchableOpacity onPress={this._goBack}>
                     <Text style={styles.back_style}>Back</Text>

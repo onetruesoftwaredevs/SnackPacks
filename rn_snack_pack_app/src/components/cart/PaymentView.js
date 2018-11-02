@@ -28,10 +28,10 @@ export default class PaymentView extends Component{
 
     render(){
         let deliveryFee=Number(this.props.deliveryFee).toFixed(2);
-        let tax=Number(Number(this.props.subtotal)*0.06).toFixed(2);
-        let roundedTotal=Number(Number(this.props.subtotal)+Number(tax)+Number(this.props.deliveryFee)).toFixed(2);
+        // let tax=Number(Number(this.props.subtotal)*0.06).toFixed(2);
+        let roundedTotal=Number(Number(this.props.subtotal)+/*Number(tax)+*/Number(this.props.deliveryFee)).toFixed(2);
 
-        if(CheckoutView.checkout===true){
+        if(this.props.checkout==true){
             return (
                 <View>
                     <View style={styles.horizontal_container}>
@@ -43,60 +43,15 @@ export default class PaymentView extends Component{
                             renderText={value=><Text style={styles.price_style}>{value}</Text>}
                         />
                     </View>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.price_style}>Tax:</Text>
-                        <NumberFormat
-                            value={tax}
-                            displayType={'text'}
-                            prefix={'$'}
-                            renderText={value=><Text style={styles.price_style}>{value}</Text>}
-                        />
-                    </View>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.price_style}>Service Fee:</Text>
-                        <NumberFormat
-                            value={deliveryFee}
-                            displayType={'text'}
-                            prefix={'$'}
-                            renderText={value=><Text style={styles.price_style}>{value}</Text>}
-                        />
-                    </View>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.price_style}>Total:</Text>
-                        <NumberFormat
-                            value={roundedTotal}
-                            displayType={'text'}
-                            prefix={'$'}
-                            renderText={value=><Text style={styles.price_style}>{value}</Text>}
-                        />
-                    </View>
-                    <TouchableOpacity onPress={this._handlePayment} style={styles.button_style}>
-                        <Text style={styles.button_text_style}>Checkout</Text>
-                    </TouchableOpacity>
-                </View>
-            );
-        }
-        else{
-            return (
-                <View>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.price_style}>Subtotal:</Text>
-                        <NumberFormat
-                            value={this.props.subtotal}
-                            displayType={'text'}
-                            prefix={'$'}
-                            renderText={value=><Text style={styles.price_style}>{value}</Text>}
-                        />
-                    </View>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.price_style}>Tax:</Text>
-                        <NumberFormat
-                            value={tax}
-                            displayType={'text'}
-                            prefix={'$'}
-                            renderText={value=><Text style={styles.price_style}>{value}</Text>}
-                        />
-                    </View>
+                    {/*<View style={styles.horizontal_container}>*/}
+                        {/*<Text style={styles.price_style}>Tax:</Text>*/}
+                        {/*<NumberFormat*/}
+                            {/*value={tax}*/}
+                            {/*displayType={'text'}*/}
+                            {/*prefix={'$'}*/}
+                            {/*renderText={value=><Text style={styles.price_style}>{value}</Text>}*/}
+                        {/*/>*/}
+                    {/*</View>*/}
                     <View style={styles.horizontal_container}>
                         <Text style={styles.price_style}>Service Fee:</Text>
                         <NumberFormat
@@ -119,8 +74,50 @@ export default class PaymentView extends Component{
                         <Text style={styles.button_text_style}>Checkout With Cash</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this._handlePayment} style={styles.button_style}>
-                        <Text style={styles.button_text_style}>Checkout With Card</Text>
+                        <Text style={styles.button_text_style}>Checkout</Text>
                     </TouchableOpacity>
+                </View>
+            );
+        }
+        else{
+            return (
+                <View>
+                    <View style={styles.horizontal_container}>
+                        <Text style={styles.price_style}>Subtotal:</Text>
+                        <NumberFormat
+                            value={this.props.subtotal}
+                            displayType={'text'}
+                            prefix={'$'}
+                            renderText={value=><Text style={styles.price_style}>{value}</Text>}
+                        />
+                    </View>
+                    {/*<View style={styles.horizontal_container}>*/}
+                        {/*<Text style={styles.price_style}>Tax:</Text>*/}
+                        {/*<NumberFormat*/}
+                            {/*value={tax}*/}
+                            {/*displayType={'text'}*/}
+                            {/*prefix={'$'}*/}
+                            {/*renderText={value=><Text style={styles.price_style}>{value}</Text>}*/}
+                        {/*/>*/}
+                    {/*</View>*/}
+                    <View style={styles.horizontal_container}>
+                        <Text style={styles.price_style}>Service Fee:</Text>
+                        <NumberFormat
+                            value={deliveryFee}
+                            displayType={'text'}
+                            prefix={'$'}
+                            renderText={value=><Text style={styles.price_style}>{value}</Text>}
+                        />
+                    </View>
+                    <View style={styles.horizontal_container}>
+                        <Text style={styles.price_style}>Total:</Text>
+                        <NumberFormat
+                            value={roundedTotal}
+                            displayType={'text'}
+                            prefix={'$'}
+                            renderText={value=><Text style={styles.price_style}>{value}</Text>}
+                        />
+                    </View>
                 </View>
             );
         }
