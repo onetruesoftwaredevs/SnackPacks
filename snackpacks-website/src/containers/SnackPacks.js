@@ -170,7 +170,7 @@ export default class SnackPacks extends Component {
                             value={this.state.allergens}
                         />
                     </FormGroup>
-                    <FormGroup controlId="image">
+                    <FormGroup controlId="imageURL">
                         <ControlLabel>Picture URL: </ControlLabel>
                         <FormControl
                             type="url"
