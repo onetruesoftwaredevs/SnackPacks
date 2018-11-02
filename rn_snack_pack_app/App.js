@@ -32,12 +32,41 @@ Amplify.configure(aws_exports);
 export default class App extends Component {
     constructor(props) {
         super();
-        // temporary, use cognito and database to fill values here
-        Driver.setInstance("daddy daniels", "0", "12345", "blue", "sedan", 4, "busy", "yes|no|test");
+        this.state = {isLoading: true};
         User.setInstance("Steve", "0");
     }
 
+    componentDidMount() {
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers?command=list";
+        fetch(url, {method: "GET"})
+            .then(response => response.json())
+            .then(responseJson => this.loadData(responseJson));
+    }
+
+    loadData = (responseJson) => {
+        let driver = responseJson[0]; // load the first driver (temporary but more complete)
+        Driver.setInstance(
+            driver._name,
+            driver._id,
+            driver._phone,
+            driver._carmodel,
+            driver._carmake,
+            driver._rating,
+            driver._status,
+            driver._reviews
+        );
+        this.setState({isLoading: false});
+    };
+
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.loading_text}>Loading metadata</Text>
+                </View>
+            );
+        }
+
         return <SnackPacks/>
     }
 }
@@ -45,8 +74,21 @@ export default class App extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        padding: 0,
+        width: '100%',
+        height: '100%',
+    },
+
+    loading_text: {
+        flex: 1,
+        color: '#444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4,
     },
 });

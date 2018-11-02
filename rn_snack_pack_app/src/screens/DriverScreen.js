@@ -91,7 +91,7 @@ export default class DriverScreen extends Component {
                 <View style={styles.container}>
                     <View style={styles.horizontal_container}>
                         <Text style={styles.name_style}>{Driver.getInstance().getName()}</Text>
-                        <Text style={styles.name_style}>{Driver.getInstance().getId()}</Text>
+                        <Text style={styles.id_style}>{Driver.getInstance().getId()}</Text>
                     </View>
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>
