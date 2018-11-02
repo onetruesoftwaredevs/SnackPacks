@@ -11,15 +11,22 @@
     "aws-amplify": "^1.1.4",
     "aws-amplify-react-native": "^2.0.4",
     "babel-jest": "^23.6.0",
+    "braintree": "^2.13.1",
     "braintree-web": "^3.39.0",
+    "braintree-web-drop-in": "^1.14.0",
     "metro-react-native-babel-preset": "^0.49.0",
     "prop-types": "^15.6.2",
     "react": "16.5.0",
+    "react-dom": "^16.6.0",
     "react-native": "0.57.0",
     "react-native-star-rating": "^1.1.0",
+    "react-native-webview-messaging": "^2.0.0-alpha.4",
     "react-navigation": "^2.18.0",
     "react-number-format": "^3.6.1",
-    "react-test-renderer": "^16.6.0"
+    "react-test-renderer": "^16.6.0",
+    "render-if": "^0.1.1",
+    "renderif": "^1.0.0",
+    "util": "^0.11.1"
   },
   "devDependencies": {
     "jest": "23.6.0"

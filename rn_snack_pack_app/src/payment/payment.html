@@ -6,8 +6,6 @@
     <script src="https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js"></script>
 </head>
 <body>
-<div>
-</div>
 <div id="dropin-wrapper">
     <div id="checkout-message"></div>
     <div id="dropin-container"></div>
@@ -15,7 +13,7 @@
     <button id="submit-button">Submit payment</button>
 </div>
 <script>
-    var button=document.querySelector('#submit-button');
+    let button=document.querySelector('#submit-button');
     // var clientToken=fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=getClientToken",{method:'GET'});
     // document.getElementById("checkout-message").innerText=clientToken;
 
@@ -25,52 +23,26 @@
         // authorization:clientToken,
         container:'#dropin-container'
     }).then(function(instance){
-        /*button.addEventListener('click',function(){
-            //Get to API endpoint using rn-fetch
-            instance.requestPaymentMethod(function(requestPaymentMethodErr,payload){
-                // When the user clicks on the 'Submit payment' button this code will send the
-                // encrypted payment information in a variable called a payment method nonce
-                fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout",{body: JSON.stringify(payload.nonce)}).done(function(result){
-                    // Tear down the Drop-in UI
-                    instance.teardown(function(teardownErr){
-                        if(teardownErr){
-                            document.getElementById("console").innerText('Could not tear down Drop-in UI!');
-                        }else{
-                            document.getElementById("console").innerText('Drop-in UI has been torn down!');
-                            //Remove the 'Submit payment' button
-                            document.getElementById('submit-button').remove();
-                        }
-                    });
-                    if(result.success){
-                        document.getElementById('checkout-message').innerHTML('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-                    }else{
-                        document.getElementById("console").innerText(result);
-                        document.getElementById('checkout-message').innerHTML('<h1>Error</h1><p>Check your console.</p>');
-                    }
-                });
-            });
-        });*/
         button.addEventListener('click',function(){
             instance.requestPaymentMethod().then(function(payload){
-                // document.getElementById("checkout-message").innerText=payload.nonce;
+                document.getElementById("console").innerText=payload.nonce;
                 // document.getElementById("console").innerText="console test";
-                // console.log("TEST");
                 fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout",{
                     method:'POST',
                     body:payload.nonce
                 }).then(function(response){
-                    document.getElementById("console").innerHTML=response.toString();
+                    document.getElementById("console").innerHTML=response.body;
                 });
 
                 // Tear down the Drop-in UI
                 instance.teardown(function(teardownErr){
                     if(teardownErr){
                         document.getElementById("console").innerText('Could not tear down Drop-in UI!');
-
+                //
                     }else{
                         document.getElementById("console").innerText('Drop-in UI has been torn down!');
                         // Remove the 'Submit payment' button
-                        // document.getElementById('submit-button').remove();
+                        document.getElementById('submit-button').remove();
                     }
                     document.getElementById('submit-button').remove();
                 });

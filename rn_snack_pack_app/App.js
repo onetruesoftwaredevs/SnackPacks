@@ -29,10 +29,13 @@ import MenuScreen from "./src/screens/MenuScreen";
 import {SnackPacks} from "./src/snackpacks";
 import Driver from "./src/function/Driver";
 import CheckoutView from "./src/payment/CheckoutView";
+
+import NewCheckoutView from "./src/payment/newCheckoutView"
+
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
 
-class App extends Component{
+export default class App extends Component{
     constructor(props){
         super();
         // temporary
@@ -40,13 +43,14 @@ class App extends Component{
     }
 
     render(){
-         return <SnackPacks/>
+         // return <SnackPacks/>
+        return <NewCheckoutView/>
     }
 }
 
 //(TODO later)To edit this location is: /rn_snack_pack_app/node_modules/aws-amplify-react-native/dist/
 //export default withAuthenticator(App);
-export default withAuthenticator(App,false,[
+withAuthenticator(App,false,[
     <MySignIn/>,
     //<SignIn/>,
     <ConfirmSignIn/>,
