@@ -22,102 +22,118 @@ For POST and PATCH, the body is used to send additional information in the form 
 
 ### __/snackpacks__
 ##### Get snackpacks
-* Method: GET
-* QueryString: command=list
-* Header: NA
-* Body: NA
+    * Method: GET
+    * QueryString: command=list
+    * Header: NA
+    * Body: NA
 
-* Return: JSON Array of SnackPack JSON Objects
+    * Return: JSON Array of SnackPack JSON Objects
 
 ### ____/drivers__
 ##### Get Orders
-* Method: GET
-* QueryString: command=list
-* Header: NA
-* Body: NA
+    * Method: GET
+    * QueryString: command=list
+    * Header: NA
+    * Body: NA
 
-* Return: JSON Array of Order JSON Objects
+    * Return: JSON Array of Order JSON Objects
 
 ##### Get Own Orders
-* Method: GET
-* QueryString: command=own&id={DRIVER_ID}
-* Header: NA
-* Body: NA
+    * Method: GET
+    * QueryString: command=own&id={DRIVER_ID}
+    * Header: NA
+    * Body: NA
 
-* Return: JSON Array of Order JSON Objects
+    * Return: JSON Array of Order JSON Objects
 
 #### Update Orders
-* Method: PATCH
-* QueryString: command=edit&id={ORDER_ID}
-* Header: NA
-* Body: JSON of values, where non-edited fields are NULL, and edited fields have their new value. See example:
+    * Method: PATCH
+    * QueryString: command=edit&id={ORDER_ID}
+    * Header: NA
+    * Body: JSON of values, where non-edited fields are NULL, and edited fields have their new value. See example:
 
-"body": {
+    "body": {
 
-    "_recipient": "meep",
-    
-    "_paymentInfo": null,
-    
-    "_address": "Alpher Sigmer Per",
-    
-    "_driver": "0",
-    
-    "_subtotal": null,
-    
-    "_tax": null,
-    
-    "_total": null
-    
-  }
+        "_recipient": "meep",
 
-* Return: true/false
+        "_paymentInfo": null,
+
+        "_address": "Alpher Sigmer Per",
+
+        "_driver": "0",
+
+        "_subtotal": null,
+
+        "_tax": null,
+
+        "_total": null
+
+      }
+
+    * Return: true/false
 
 ##### Delete Orders
-* Method: DELETE
-* QueryString: command=delete&id={ORDER_ID}
-* Header: NA
-* Body: NA
+    * Method: DELETE
+    * QueryString: command=delete&id={ORDER_ID}
+    * Header: NA
+    * Body: NA
 
-* Return: true/false
+    * Return: true/false
 
 ### __/admin__
 ##### Create SnackPack
-* Method: POST
-* QueryString: command=add
-* Header: NA
-* Body: SnackPack JSON, with name, contents, allergens, image_path, reviews, cost, and rating. Note that the Array values must be strings delimited by commas.
+    * Method: POST
+    * QueryString: command=add
+    * Header: NA
+    * Body: SnackPack JSON, with name, contents, allergens, image_path, reviews, cost, and rating. Note that the Array values must be strings delimited by commas.
 
-* Return: true/false
+    * Return: true/false
 
 ##### Delete SnackPacks
-* Method: DELETE
-* QueryString: command=delete&id={SNACKPACK_ID}
-* Header: NA
-* Body: NA
+    * Method: DELETE
+    * QueryString: command=delete&id={SNACKPACK_ID}
+    * Header: NA
+    * Body: NA
 
-* Return: true/false
+    * Return: true/false
 
 ### __/admin/drivers__
 ##### List Drivers
-* Method: GET
-* QueryString: command=list
-* Header: NA
-* Body: NA
+    * Method: GET
+    * QueryString: command=list
+    * Header: NA
+    * Body: NA
 
-* Return: JSON Array of Driver JSON Objects
+    * Return: JSON Array of Driver JSON Objects
 
 ##### Add Driver
-* Method: POST
-* QueryString: command=add
-* Header: NA
-* Body: Driver JSON, with name, phone, carmodel, carmake.
+    * Method: POST
+    * QueryString: command=add
+    * Header: NA
+    * Body: Driver JSON, with name, phone, carmodel, carmake.
 
-* Return: true/false
+    * Return: true/false
 
 ##### Delete Drivers
-* Method: DELETE
-* QueryString: command=list&id={DRIVER_ID}
-* Header: NA
-* Body: NA
+    * Method: DELETE
+    * QueryString: command=list&id={DRIVER_ID}
+    * Header: NA
+    * Body: NA
 
-* Return: true/false
+    * Return: true/false
+    
+##### Rate Drivers
+    * Method: POST
+    * QueryString: command=rate&id={DRIVER_ID}
+    * Header: NA
+    * Body: JSON with key "rating" and int value between 1 - 5.
+
+    * Return: true/false
+    
+##### Review Drivers
+    * Method: POST
+    * QueryString: command=review&id={DRIVER_ID}
+    * Header: NA
+    * Body: JSON with key "review" and string of the review.
+
+    * Return: true/false
