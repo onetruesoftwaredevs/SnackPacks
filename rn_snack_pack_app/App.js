@@ -30,7 +30,7 @@ import {SnackPacks} from "./src/snackpacks";
 import Driver from "./src/function/Driver";
 import CheckoutView from "./src/payment/CheckoutView";
 
-import NewCheckoutView from "./src/payment/newCheckoutView"
+// import NewCheckoutView from "./src/payment/newCheckoutView"
 
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
@@ -43,8 +43,8 @@ export default class App extends Component{
     }
 
     render(){
-         // return <SnackPacks/>
-        return <NewCheckoutView/>
+         return <SnackPacks/>
+        // return <CheckoutView/>
     }
 }
 

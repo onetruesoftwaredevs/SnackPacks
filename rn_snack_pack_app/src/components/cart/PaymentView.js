@@ -22,13 +22,16 @@ export default class PaymentView extends Component{
             subtotal:this.props.subtotal,
         });
     };
+    _handleCash=()=>{
+        Alert.alert("Send order to server");
+    };
 
     render(){
         let deliveryFee=Number(this.props.deliveryFee).toFixed(2);
         let tax=Number(Number(this.props.subtotal)*0.06).toFixed(2);
         let roundedTotal=Number(Number(this.props.subtotal)+Number(tax)+Number(this.props.deliveryFee)).toFixed(2);
 
-        if(CheckoutView.checkout==true){
+        if(CheckoutView.checkout===true){
             return (
                 <View>
                     <View style={styles.horizontal_container}>
@@ -112,8 +115,11 @@ export default class PaymentView extends Component{
                             renderText={value=><Text style={styles.price_style}>{value}</Text>}
                         />
                     </View>
+                    <TouchableOpacity onPress={this._handleCash} style={styles.button_style}>
+                        <Text style={styles.button_text_style}>Checkout With Cash</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={this._handlePayment} style={styles.button_style}>
-                        <Text style={styles.button_text_style}>Checkout</Text>
+                        <Text style={styles.button_text_style}>Checkout With Card</Text>
                     </TouchableOpacity>
                 </View>
             );

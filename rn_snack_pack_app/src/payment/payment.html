@@ -21,31 +21,31 @@
         authorization:'sandbox_ws8zj7km_nb4sdg3y59thysfq',
         //Request client token API call (getClientToken)
         // authorization:clientToken,
-        container:'#dropin-container'
+        container:'dropin-container'
     }).then(function(instance){
         button.addEventListener('click',function(){
+            document.getElementById("console").innerText="console test";
             instance.requestPaymentMethod().then(function(payload){
                 document.getElementById("console").innerText=payload.nonce;
-                // document.getElementById("console").innerText="console test";
                 fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout",{
                     method:'POST',
                     body:payload.nonce
-                }).then(function(response){
-                    document.getElementById("console").innerHTML=response.body;
-                });
+                });//.then(function(response){
+                    // document.getElementById("console").innerHTML=response.body;
+                // });
 
                 // Tear down the Drop-in UI
-                instance.teardown(function(teardownErr){
-                    if(teardownErr){
-                        document.getElementById("console").innerText('Could not tear down Drop-in UI!');
+                // instance.teardown(function(teardownErr){
+                //     if(teardownErr){
+                //         document.getElementById("console").innerText('Could not tear down Drop-in UI!');
                 //
-                    }else{
-                        document.getElementById("console").innerText('Drop-in UI has been torn down!');
-                        // Remove the 'Submit payment' button
-                        document.getElementById('submit-button').remove();
-                    }
-                    document.getElementById('submit-button').remove();
-                });
+                //     }else{
+                //         document.getElementById("console").innerText('Drop-in UI has been torn down!');
+                //         Remove the 'Submit payment' button
+                        // document.getElementById('submit-button').remove();
+                    // }
+                    // document.getElementById('submit-button').remove();
+                // });
                 /*if(result.success){
                     document.getElementById('checkout-message').innerText('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
                 }else{

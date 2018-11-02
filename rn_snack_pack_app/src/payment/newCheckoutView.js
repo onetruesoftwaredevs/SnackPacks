@@ -1,11 +1,11 @@
 import {connectToRemote} from "react-native-webview-messaging";
 import React,{Component} from 'react';
 import {Text,View,WebView} from 'react-native';
-import Payment2HTML from 'payment2HTML';
+// import Payment2HTML from 'payment2HTML';
 
 export default class NewCheckoutView extends Component{
 
-    async componentDidMount() {
+    /*async componentDidMount() {
         connectToRemote(this.webview)
             .then(remote=>{
                 this.remote=remote;
@@ -21,12 +21,12 @@ export default class NewCheckoutView extends Component{
                 // document.getElementById("console").innerHTML=response.body;
             // });
         });
-    }
+    }*/
 
     render=()=>{
         return (
             <View>
-                <Payment2HTML/>
+                {/*<Payment2HTML/>*/}
                 {/*<WebView*/}
                     {/*ref={webview=>{*/}
                         {/*this.webview=webview;*/}
