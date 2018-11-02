@@ -74,8 +74,17 @@ const styles = StyleSheet.create({
         height: '100%',
     },
 
-    flatlist_style: {
-        height: '45%'
+    loading_text: {
+        flex: 1,
+        color: '#444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4,
     },
 
     title_style: {
@@ -90,16 +99,7 @@ const styles = StyleSheet.create({
         padding: 4,
     },
 
-    loading_text: {
-        flex: 1,
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
+    flatlist_style: {
+        height: '45%'
     },
 });
