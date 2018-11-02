@@ -33,7 +33,7 @@ export default class App extends Component {
     constructor(props) {
         super();
         // temporary, use cognito and database to fill values here
-        Driver.setInstance("daddy daniels", "0");
+        Driver.setInstance("daddy daniels", "0", "12345", "blue", "sedan", 4, "busy", "yes|no|test");
         User.setInstance("Steve", "0");
     }
 

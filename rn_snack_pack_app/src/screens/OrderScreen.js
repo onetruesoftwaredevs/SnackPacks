@@ -46,7 +46,7 @@ export default class OrderScreen extends Component {
                 <OrderPreview
                     name={User.getInstance().getName()}
                     number={"1"}
-                    driver={"4"}
+                    driver={"1"}
                     order_status={"not delivered"}
                     payment_info={"credit card"}
                     address={"1016 W. Stadium Ave."}
