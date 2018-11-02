@@ -116,7 +116,8 @@ export default class DriverScreen extends Component {
                     name={currentOrder._recipient}
                     number={currentOrder._id}
                     driver={currentOrder._driver}
-                    order_status={'not delivered'}
+                    order_status={currentOrder._status}
+                    delivery_time={currentOrder._time}
                     payment_info={currentOrder._paymentInfo}
                     address={currentOrder._address}
                     subtotal={currentOrder._subtotal}

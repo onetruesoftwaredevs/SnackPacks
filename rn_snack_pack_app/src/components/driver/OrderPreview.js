@@ -21,6 +21,7 @@ export default class OrderPreview extends Component {
     number;                 // number
     driver;                 // string
     order_status;           // string
+    delivery_time;          // string
     payment_info;           // string
     address;                // string
     subtotal;               // number
@@ -31,7 +32,7 @@ export default class OrderPreview extends Component {
     swipe_handler;          // string
     order_manager;          // object
     parent;                 // Component
-    is_reviewable;           // boolean
+    is_reviewable;          // boolean
 
     constructor(props) {
         super();
@@ -59,6 +60,7 @@ export default class OrderPreview extends Component {
             number: this.getNumber(),
             driver: this.props.driver,
             order_status: this.props.order_status,
+            delivery_time: this.props.delivery_time,
             payment_info: this.props.payment_info,
             address: this.props.address,
             subtotal: this.props.subtotal,
@@ -82,6 +84,8 @@ export default class OrderPreview extends Component {
             body: JSON.stringify({
                 _recipient: order._recipient,
                 _paymentInfo: order._paymentInfo,
+                _status: order._status,
+                _time: order._time,
                 _address: order._address,
                 _driver: Driver.getInstance().getId(),
                 _subtotal: order._subtotal,
