@@ -28,6 +28,10 @@ export default class DriverScreen extends Component {
     }
 
     componentDidMount() {
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({previousOrder: null});
+        });
+
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list", {method: 'GET'})
             .then(response => response.json())
             .then(responseJson => this.loadData(responseJson));
