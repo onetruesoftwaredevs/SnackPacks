@@ -54,6 +54,12 @@ export default class DriverList extends Component {
                         <ListGroupItem header="Car Make:">
                             {driver._carmake}
                         </ListGroupItem>
+                        <ListGroupItem header="Rating:">
+                            {driver._rating}
+                        </ListGroupItem>
+                        <ListGroupItem header="Reviews:">
+                            {(driver._reviews.split('|')).join(", ")}
+                        </ListGroupItem>
                     </ListGroup>
                     :
                     <LinkContainer
