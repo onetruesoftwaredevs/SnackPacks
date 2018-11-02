@@ -26,46 +26,19 @@ export default class OrderScreen extends Component {
     }
 
     refresh() {
-        let url = "";
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list";
         fetch(url, {method: "GET"})
             .then(response => response.json())
             .then(responseJson => this.loadOrders(responseJson));
     }
 
     componentDidMount() {
-        // this.refresh();
+        this.refresh();
     }
 
-
-    // have render dummy order preview until backend is complete
     render() {
-        // temp
-        return (
-            <View style={styles.container}>
-                <Text style={styles.title_style}>My Orders</Text>
-                <OrderPreview
-                    name={User.getInstance().getName()}
-                    number={"1"}
-                    driver={"1"}
-                    order_status={"not delivered"}
-                    payment_info={"credit card"}
-                    address={"1016 W. Stadium Ave."}
-                    subtotal={8.59}
-                    tax={0.52}
-                    total={10.11}
-                    last_screen={'Orders'}
-                    navigation={this.props.navigation}
-                    swipe_handler={"none"}
-                    parent={this}
-                    is_reviewable={true}
-                />
-
-            </View>
-        );
-        /* real
-        return (
-            <View style={styles.container}>
-                <Text style={styles.title_style}>My Orders</Text>
+        let orders = User.getInstance().getOrders().length > 0 ?
+            (<View>
                 <FlatList
                     horizontal={false}
                     data={User.getInstance().getOrders()}
@@ -75,6 +48,7 @@ export default class OrderScreen extends Component {
                         <OrderPreview
                             name={item._recipient}
                             number={item._id}
+                            driver={item._driver}
                             order_status={"not delivered"}
                             payment_info={item._paymentInfo}
                             address={item._address}
@@ -85,23 +59,34 @@ export default class OrderScreen extends Component {
                             navigation={this.props.navigation}
                             swipe_handler={"none"}
                             parent={this}
+                            is_reviewable={true}
                         />
                     }
                 />
+            </View>) :
+            (<View style={styles.body}>
+                <Text style={styles.message_style}>No current or past orders</Text>
+            </View>);
+
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title_style}>My Orders</Text>
+                {orders}
             </View>
         );
-        */
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        flexDirection: "column",
-        //justifyContent: "space-between",
         padding: 0,
         //width: '100%',
         //height: "100%",
+    },
+
+    body: {
+        width: '100%',
+        height: "90%",
     },
 
     flatlist_style: {
@@ -114,6 +99,19 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4,
+    },
+
+    message_style: {
+        flex: 1,
+        color: '#dd4444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
