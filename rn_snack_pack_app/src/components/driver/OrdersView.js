@@ -56,9 +56,9 @@ export default class OrdersView extends Component {
             );
         }
 
-        let swipe_option = null;
+        let swipe_option = "none";
         if (!this.props.navigation.state.params.isDriver) {
-            swipe_option = this.available_option;
+            swipe_option = "available_option";
         }
 
         return (
@@ -82,7 +82,7 @@ export default class OrdersView extends Component {
                             total={item._total}
                             last_screen={'OrdersView'}
                             navigation={this.props.navigation}
-                            swipe_handler={"available_option"}
+                            swipe_handler={swipe_option}
                             order_manager={this.orderManager}
                             parent={this}
                             is_reviewable={false}
