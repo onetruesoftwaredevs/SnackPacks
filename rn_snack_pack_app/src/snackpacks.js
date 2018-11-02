@@ -9,6 +9,7 @@ import OrdersView from "./components/driver/OrdersView";
 import DetailedOrderView from "./components/driver/DetailedOrderView";
 import OrderScreen from "./screens/OrderScreen";
 import DriverProfile from "./components/driver/DriverProfile";
+import ReviewBuilderView from "./components/misc/ReviewBuilderView";
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -24,6 +25,9 @@ const DriverNavigation = StackNavigator({
     DriverProfile: {
         screen: DriverProfile,
     },
+    ReviewBuilderView:{
+        screen: ReviewBuilderView,
+    }
 }, {
     headerMode: 'none',
 });
@@ -39,6 +43,9 @@ const OrderNavigation = StackNavigator({
 
     DriverProfile: {
         screen: DriverProfile,
+    },
+    ReviewBuilderView:{
+        screen: ReviewBuilderView,
     },
 }, {
     headerMode: 'none',

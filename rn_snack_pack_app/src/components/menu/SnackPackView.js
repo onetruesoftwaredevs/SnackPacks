@@ -50,7 +50,7 @@ export default class SnackPackView extends Component {
                     </TouchableOpacity>
                     <View style={styles.rating_style}>
                         <TouchableOpacity onPress={this._onRatingPressed}>
-                            <Rating starCount={this.props.sprating}/>
+                            <Rating starCount={this.props.sprating} editable={false}/>
                         </TouchableOpacity>
                     </View>
                 </View>

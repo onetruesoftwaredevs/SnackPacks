@@ -10,14 +10,28 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 
 export default class Rating extends Component {
     starCount; // the number of stars to give the rating
+    editable;
+
+    constructor(props)
+    {
+        super();
+        this.state = {starCount: props.starCount};
+    }
+
+    onStarRatingPress(rating) {
+        this.setState({
+            starCount: rating
+        });
+    }
 
     render() {
         return (
             <StarRating fullStarColor={'gold'}
                         starSize={16}
-                        disabled={true}
+                        disabled={!this.props.editable}
                         maxStars={5}
-                        rating={this.props.starCount}
+                        rating={this.state.starCount}
+                        selectedStar={(rating) => this.onStarRatingPress(rating)}
             />
         );
     }

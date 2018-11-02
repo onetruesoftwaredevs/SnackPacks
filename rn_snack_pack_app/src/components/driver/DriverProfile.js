@@ -22,12 +22,23 @@ export default class DriverProfile extends Component {
         this.props.navigation.navigate(this.props.navigation.state.params.last_screen);
     };
 
+    _leaveReview = () => {
+        this.props.navigation.navigate("ReviewBuilderView");
+    };
+
     //
     render() {
         // temp until database is finished
+
+        let review = this.props.navigation.state.params.isReviewable ? (<TouchableOpacity onPress={this._leaveReview}>
+            <Text style={styles.review_style}>Review</Text></TouchableOpacity>) : (<View/>);
+
         return (
             <View style={styles.container}>
-                <Text style={styles.title_style}>{this.props.navigation.state.params.name}</Text>
+                <View style={styles.horizontal_container}>
+                    <Text style={styles.title_style}>{this.props.navigation.state.params.name}</Text>
+                    {review}
+                </View>
                 <View style={styles.horizontal_container}>
                     <Text style={styles.data_style}>Number: </Text>
                     <Text style={styles.data_style}>{this.props.navigation.state.params.number}</Text>
@@ -100,6 +111,7 @@ const styles = StyleSheet.create({
 
     horizontal_container: {
         flexDirection: 'row',
+        justifyContent: 'space-between'
     },
 
     flatlist_style: {
@@ -132,6 +144,18 @@ const styles = StyleSheet.create({
 
     button_style: {
         width: '100%',
+    },
+
+    review_style: {
+        color: '#44AAff',
+        fontSize: 18,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 8
     },
 
     back_style: {
