@@ -1,13 +1,13 @@
 //Driver.js
 
 class Driver {
-    constructor(id, name, phone, carmodel, carmake, trips, status, reviews){
+    constructor(id, name, phone, carmodel, carmake, rating, status, reviews){
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.carmodel = carmodel;
         this.carmake = carmake;
-        this.trips = trips;
+        this.rating = rating;
         this.status = status;
         this.reviews = reviews;
     }
@@ -27,8 +27,8 @@ class Driver {
     get carmake(){ return this._carmake; }
     set carmake(value){ this._carmake = value; }
 
-    get trips(){ return this._trips; }
-    set trips(value){ this._trips = value; }
+    get rating(){ return this._rating; }
+    set rating(value){ this._rating = value; }
 
     get status(){ return this._status; }
     set status(value){ this._status = value; }
