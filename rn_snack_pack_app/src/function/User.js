@@ -26,7 +26,9 @@ class User {
         for (let i = 0; i < orders.length; i++) {
             let order = orders[i];
             if (order !== null) {
-                this._orders.push(order);
+                if (Number(order._recipient) === Number(this._id)) {
+                    this._orders.push(order);
+                }
             }
         }
     }
