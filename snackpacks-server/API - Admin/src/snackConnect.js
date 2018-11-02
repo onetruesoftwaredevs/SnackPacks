@@ -95,7 +95,14 @@ class snackConnector{
 	//createSnackPack
 	//returns true if successful, otherwise returns false
 	//todo add check
-	createSnackPack(id, name, contents, allergens, image_path, reviews, cost, rating){
+	createSnackPack(name, contents, allergens, image_path, reviews, cost, rating){
+		console.log(name);
+		console.log(contents);
+		console.log(allergens);
+		console.log(image_path);
+		console.log(reviews);
+		console.log(cost);
+		console.log(rating);
 		return new Promise((resolve, reject) => {
 			// if(id.isNaN()) reject("ID is Nan!");
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
@@ -108,7 +115,9 @@ class snackConnector{
 					console.log(index);
 					if(err) reject(err); //`INSERT INTO snackpacks.snackpacks VALUES(${index}, ${name}, ${contents}, ${allergens}, ${image_path}, ${reviews}, ${cost}, ${rating})`
 					connection.query((`INSERT INTO snackpacks.snackpacks VALUES(${index}, "${name}", "${contents}", "${allergens}", "${image_path}", "${reviews}", ${cost}, ${rating})`), function(err, result, fields){
+						if(err) reject(err);
 						connection.end(function (err){
+							console.log("success");
 							if (err) reject(err);
 							resolve(true);
 						});
@@ -122,20 +131,12 @@ class snackConnector{
 		var updateString = "";
 		for(var key in snackpackjson){
 			// console.log(x);
-
 			var x = ((key + "=" + `"${snackpackjson[key]}" `));
 			if(snackpackjson[key] != null){
-				var tempkey;
-				if(key[0] == '_'){
-					tempkey = key.substr(1);
+				if(key == "cost" || key == "rating"){
+					updateString += ((key + "=" + `${snackpackjson[key]}, `));
 				}else{
-					tempkey = key;
-				}
-				console.log(key);
-				if(tempkey == "subtotal" || tempkey == "tax" || tempkey == "total"){
-					updateString += ((tempkey + "=" + `${snackpackjson[key]}, `));
-				}else{
-					updateString += ((tempkey + "=" + `"${snackpackjson[key]}", `));
+					updateString += ((key + "=" + `"${snackpackjson[key]}", `));
 				}
 			}
 		}

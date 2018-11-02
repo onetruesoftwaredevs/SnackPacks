@@ -39,7 +39,7 @@ class driverConnector{
 						for(var r in result){
 							var driverItem = result[r];
 							console.log(driverItem)
-							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.phone, driverItem.carmodel, driverItem.carmake,  driverItem.rating, driverItem.trips, driverItem.status));
+							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.phone, driverItem.carmodel, driverItem.carmake,  driverItem.rating, driverItem.trips, driverItem.status, driverItem.reviews));
 						}
 						resolve(driverList);
 					});
@@ -67,7 +67,7 @@ class driverConnector{
 						for(var r in result){
 							var driverItem = result[r];
 							console.log(driverItem)
-							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.phone, driverItem.carmodel, driverItem.carmake,  driverItem.rating, driverItem.trips, driverItem.status));
+							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.phone, driverItem.carmodel, driverItem.carmake,  driverItem.rating, driverItem.trips, driverItem.status, driverItem.reviews));
 						}
 						resolve(driverList);
 					});
@@ -80,20 +80,12 @@ class driverConnector{
 		var updateString = "";
 		for(var key in driverjson){
 			// console.log(x);
-
 			var x = ((key + "=" + `"${driverjson[key]}" `));
 			if(driverjson[key] != null){
-				var tempkey;
-				if(key[0] == '_'){
-					tempkey = key.substr(1);
+				if(key == "id" || key == "rating" || key == "trips" || key == "status"){
+					updateString += ((key + "=" + `${driverjson[key]}, `));
 				}else{
-					tempkey = key;
-				}
-				console.log(key);
-				if(tempkey == "subtotal" || tempkey == "tax" || tempkey == "total"){
-					updateString += ((tempkey + "=" + `${driverjson[key]}, `));
-				}else{
-					updateString += ((tempkey + "=" + `"${driverjson[key]}", `));
+					updateString += ((key + "=" + `"${driverjson[key]}", `));
 				}
 			}
 		}
@@ -122,6 +114,55 @@ class driverConnector{
 		});
 	}
 
+	addRating(id, new_rating){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			connection.connect(function(err){
+				if (err) reject(err);
+				console.log("Connected!");
+				//Get new id number by using count
+				connection.query(`select * from snackpacks.drivers where id = ${id}`, function(err, id_res, fields){
+					var rating = id_res[0].rating;
+					var rating_count = id_res[0].rating_cnt + 1;
+					
+					var new_final_rating = (rating + new_rating) / (rating_count);
+					
+					connection.query(`UPDATE snackpacks.drivers SET rating=${new_final_rating}, rating_cnt=${rating_count} where id = ${id}`, function(err, count_result, fields){
+						if(err) reject(err);
+						connection.end(function (err){
+							if (err) reject(err);
+							resolve(true);
+						});
+					});
+				});
+			});
+		});
+	}
+
+	addReview(id, review_string){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			connection.connect(function(err){
+				if (err) reject(err);
+				console.log("Connected!");
+				//Get new id number by using count
+				connection.query(`select * from snackpacks.drivers where id = ${id}`, function(err, id_res, fields){
+					var review = id_res[0].reviews;
+					review = review + "|" + review_string;
+					console.log(review_string);
+					console.log(review);
+					connection.query(`UPDATE snackpacks.drivers SET reviews="${review}" where id = ${id}`, function(err, count_result, fields){
+						if(err) reject(err);
+						connection.end(function (err){
+							if (err) reject(err);
+							resolve(true);
+						});
+					});
+				});
+			});
+		});
+	}
+
 	addDriver(name, phone, carmodel, carmake){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
@@ -132,10 +173,11 @@ class driverConnector{
 				connection.query(`SELECT id FROM snackpacks.drivers ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields) {
 					var index = count_result[0]["id"] + 1;
 					if(err) reject(err); // `insert into snackpackds.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0`)
-					connection.query((`insert into snackpackds.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0`), function(err, result, fields){
+					connection.query((`insert into snackpacks.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0, "")`), function(err, result, fields){
+						if(err) reject(err);
 						connection.end(function (err){
 							if (err) reject(err);
-							console.log(count_result[0]['COUNT(*)']);
+							// console.log(count_result[0]['COUNT(*)']);
 							resolve(true);
 						});
 					});

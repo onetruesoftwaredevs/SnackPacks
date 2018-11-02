@@ -31,8 +31,10 @@ exports.handler = function(event, context, callback){
             else if(command.localeCompare("add") == 0){
                 console.log("Add\n");
 
+                let driver = JSON.parse(event.body);
+
                 let promise = DriverConnector.addDriver(
-                event.body.name, event.body.phone, event.body.carmodel, event.body.carmake );
+                driver.name, driver.phone, driver.carmodel, driver.carmake );
                 promise.then(function(result) {
                   let response = {
                       "statusCode": 200,
@@ -51,6 +53,48 @@ exports.handler = function(event, context, callback){
                 console.log("Delete\n");
                 
                 let promise = DriverConnector.deleteByID(queryString.id);
+                
+                promise.then(function(result) {
+                    let response = {
+                      "statusCode": 200,
+                      "headers": {},
+                      "body": JSON.stringify(result),
+                      "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                console.log(err);
+              });
+            }
+            
+            else if(command.localeCompare("rate") === 0) {
+                console.log("Rate\n");
+                
+                let rating = JSON.parse(event.body)
+                
+                let promise = DriverConnector.addRating(queryString.id, rating.rating);
+                
+                promise.then(function(result) {
+                    let response = {
+                      "statusCode": 200,
+                      "headers": {},
+                      "body": JSON.stringify(result),
+                      "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                console.log(err);
+              });
+            }
+            
+            else if(command.localeCompare("review") === 0) {
+                console.log("Review\n");
+                
+                let review = JSON.parse(event.body)
+                
+                let promise = DriverConnector.addReview(queryString.id, review.review);
                 
                 promise.then(function(result) {
                     let response = {

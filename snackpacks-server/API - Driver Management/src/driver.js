@@ -1,7 +1,7 @@
 //Driver.js
 
 class Driver {
-    constructor(id, name, phone, carmodel, carmake, trips, status){
+    constructor(id, name, phone, carmodel, carmake, trips, status, reviews){
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -9,6 +9,7 @@ class Driver {
         this.carmake = carmake;
         this.trips = trips;
         this.status = status;
+        this.reviews = reviews;
     }
 
     get id(){ return this._id; }
@@ -32,6 +33,9 @@ class Driver {
     get status(){ return this._status; }
     set status(value){ this._status = value; }
 
+    get reviews(){ return this._reviews; }
+    set reviews(value){ this._reviews = value; }
+    
     checkout(){
         return this.total;
     }

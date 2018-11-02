@@ -78,12 +78,15 @@ class snackConnector{
 				//callback to send query
 				//Instead of trying to iterate thru an array
 				connection.query(`SELECT id FROM snackpacks.Orders ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields) {
+					if (err) reject(err);
 					var index = count_result[0]["id"] + 1;
 					connection.query(`INSERT INTO snackpacks.Orders VALUES(${index}, "${paymentInfo}", "${recipient}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}")`, function(err, result, fields){
 						if (err) reject(err);
+						console.log(index);
 						//callback to end connection
 						connection.end(function(err) {
 							if (err) reject(err);
+							resolve(true);
 						});
 					});
 				});
@@ -94,13 +97,19 @@ class snackConnector{
 	editOrderByID(id, orderjson){
 		var updateString = "";
 		for(var key in orderjson){
-			// console.log(x);
 			var x = ((key + "=" + `"${orderjson[key]}" `));
 			if(orderjson[key] != null){
-				if(key == "subtotal" || key == "tax" || key == "total"){
-					updateString += ((key + "=" + `${orderjson[key]}, `));
+				var tempkey;
+				if(key[0] == '_'){
+					tempkey = key.substr(1);
 				}else{
-					updateString += ((key + "=" + `"${orderjson[key]}", `));
+					tempkey = key;
+				}
+				console.log(key);
+				if(tempkey == "subtotal" || tempkey == "tax" || tempkey == "total"){
+					updateString += ((tempkey + "=" + `${orderjson[key]}, `));
+				}else{
+					updateString += ((tempkey + "=" + `"${orderjson[key]}", `));
 				}
 			}
 		}
