@@ -32,6 +32,7 @@ export default class Home extends Component {
             (snackpack, i) =>
                 i !== 0
                     ? <ListGroup>
+                        <br></br>
                         <LinkContainer
                             key={i}
                             to={`/snackpack/${i}`}
