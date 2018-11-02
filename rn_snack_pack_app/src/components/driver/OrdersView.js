@@ -74,7 +74,8 @@ export default class OrdersView extends Component {
                             name={item._recipient}
                             number={item._id}
                             driver={item._driver}
-                            order_status={"not delivered"}
+                            order_status={item._status}
+                            delivery_time={item._time}
                             payment_info={item._paymentInfo}
                             address={item._address}
                             subtotal={item._subtotal}

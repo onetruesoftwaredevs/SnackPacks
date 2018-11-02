@@ -53,6 +53,10 @@ export default class DetailedOrderView extends Component {
                     <Text style={styles.text_style}>{params.order_status}</Text>
                 </View>
                 <View style={styles.horizontal_container}>
+                    <Text style={styles.text_style}>ETA: </Text>
+                    <Text style={styles.text_style}>{params.delivery_time}</Text>
+                </View>
+                <View style={styles.horizontal_container}>
                     <Text style={styles.text_style}>Payment Info: </Text>
                     <Text style={styles.text_style}>{params.payment_info}</Text>
                 </View>
