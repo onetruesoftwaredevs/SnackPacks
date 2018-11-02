@@ -73,6 +73,7 @@ export default class OrdersView extends Component {
                         <OrderPreview
                             name={item._recipient}
                             number={item._id}
+                            driver={item._driver}
                             order_status={"not delivered"}
                             payment_info={item._paymentInfo}
                             address={item._address}

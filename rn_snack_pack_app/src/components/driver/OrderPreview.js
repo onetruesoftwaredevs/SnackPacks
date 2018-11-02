@@ -19,6 +19,7 @@ import Driver from "../../function/Driver";
 export default class OrderPreview extends Component {
     name;                   // string
     number;                 // number
+    driver;                 // string
     order_status;           // string
     payment_info;           // string
     address;                // string
@@ -55,6 +56,7 @@ export default class OrderPreview extends Component {
         this.props.navigation.navigate('DetailedOrderView', {
             name: this.getName(),
             number: this.getNumber(),
+            driver: this.props.driver,
             order_status: this.props.order_status,
             payment_info: this.props.payment_info,
             address: this.props.address,

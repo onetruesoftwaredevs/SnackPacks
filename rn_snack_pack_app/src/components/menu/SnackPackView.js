@@ -10,7 +10,7 @@ import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
 import NutritionView from "./NutritionView";
 import PriceView from "./PriceView";
-import Rating from "./Rating";
+import Rating from "../misc/Rating";
 import QuantityComponent from "../misc/QuantityComponent";
 import Cart from "../../function/Cart";
 import { Dimensions } from "react-native";
