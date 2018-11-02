@@ -49,6 +49,7 @@ export default class DriverProfile extends Component {
             }
         }
         Alert.alert("Something went wrong", "please try again later");
+        this._goBack();
     }
 
     _refresh = () => {
