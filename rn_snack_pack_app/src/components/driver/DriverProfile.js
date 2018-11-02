@@ -23,7 +23,10 @@ export default class DriverProfile extends Component {
     };
 
     _leaveReview = () => {
-        this.props.navigation.navigate("ReviewBuilderView");
+        this.props.navigation.navigate("ReviewBuilderView", {
+            has_title: false,
+            driver_id: this.props.navigation.state.params.number,
+        });
     };
 
     //
