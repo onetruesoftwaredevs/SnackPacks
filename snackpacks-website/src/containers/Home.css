@@ -23,3 +23,8 @@
 .Home .snackpacks p {
     color: #666;
 }
+
+.Home .snackpacks .image {
+    max-width: 60%;
+    height: auto;
+}

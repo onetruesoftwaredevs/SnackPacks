@@ -51,7 +51,7 @@ export default class Home extends Component {
                             {snackpack.reviews}
                         </ListGroupItem>
                         <ListGroupItem header="Image:">
-                            <Image src={snackpack.image_path} responsive />
+                            <Image src={snackpack.image_path} className="image" thumbnail />
                         </ListGroupItem>
                     </ListGroup>
                 :
