@@ -82,6 +82,7 @@ exports.handler = function(event, context, callback){
                 console.log("Edit\n");
                 
                 let order = JSON.parse(event.body);
+                console.log(order);
                 
                 let promise = OrderConnector.editOrderByID(queryString.id, order);
                 
@@ -99,12 +100,12 @@ exports.handler = function(event, context, callback){
                 });
             }
             
-            /* else if(command.localeCompare("status") == 0) {
-                console.log("Status\n");
+            else if(command.localeCompare("claim") == 0) {
+                console.log("claim\n");
                 
                 let order = JSON.parse(event.body);
                 
-                let promise = OrderConnector.editOrderByID(queryString.id, order);
+                let promise = OrderConnector.claimOrder(queryString.orderId, queryString.driverId);
                 
                 promise.then(function(result) {
                     let response = {
@@ -118,7 +119,7 @@ exports.handler = function(event, context, callback){
                 }, function(err) {
                   console.log(err); // Error: "It broke"
                 });
-            } */
+            } 
             
             else if(command.localeCompare("delete") == 0) {
                 console.log("Delete\n");

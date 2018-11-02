@@ -36,7 +36,7 @@ exports.handler = function(event, context, callback){
                 });
             }
             
-            if(command.localeCompare("edit") === 0){
+            else if(command.localeCompare("edit") === 0){
                 console.log("Edit\n");
                 
                 let sp = JSON.parse(event.body);

@@ -38,8 +38,8 @@ class driverConnector{
 						var driverList=[];
 						for(var r in result){
 							var driverItem = result[r];
-							console.log(driverItem)
-							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.phone, driverItem.carmodel, driverItem.carmake,  driverItem.rating, driverItem.trips, driverItem.status, driverItem.reviews));
+							console.log(driverItem.reviews)
+							driverList.push(new Driver(driverItem.id, driverItem.name, driverItem.phone, driverItem.carmodel, driverItem.carmake,  driverItem.rating, driverItem.status, driverItem.reviews));
 						}
 						resolve(driverList);
 					});
@@ -124,8 +124,14 @@ class driverConnector{
 				connection.query(`select * from snackpacks.drivers where id = ${id}`, function(err, id_res, fields){
 					var rating = id_res[0].rating;
 					var rating_count = id_res[0].rating_cnt + 1;
+					console.log(rating_count);
 					
-					var new_final_rating = (rating + new_rating) / (rating_count);
+					console.log(new_rating);
+					
+					var step1 = parseInt(rating)+parseInt(new_rating);
+					console.log("step 1 done: " + step1);
+					var new_final_rating = step1/ (rating_count);
+					console.log(new_final_rating);
 					
 					connection.query(`UPDATE snackpacks.drivers SET rating=${new_final_rating}, rating_cnt=${rating_count} where id = ${id}`, function(err, count_result, fields){
 						if(err) reject(err);
@@ -173,7 +179,7 @@ class driverConnector{
 				connection.query(`SELECT id FROM snackpacks.drivers ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields) {
 					var index = count_result[0]["id"] + 1;
 					if(err) reject(err); // `insert into snackpackds.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0`)
-					connection.query((`insert into snackpacks.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0, "")`), function(err, result, fields){
+					connection.query((`insert into snackpacks.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0, "", 0)`), function(err, result, fields){
 						if(err) reject(err);
 						connection.end(function (err){
 							if (err) reject(err);

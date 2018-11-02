@@ -71,9 +71,9 @@ exports.handler = function(event, context, callback){
             else if(command.localeCompare("rate") === 0) {
                 console.log("Rate\n");
                 
-                let rating = JSON.parse(event.body)
-                
-                let promise = DriverConnector.addRating(queryString.id, rating.rating);
+                let x = JSON.parse(event.body);
+                console.log(x.rating);
+                let promise = DriverConnector.addRating(queryString.id, x.rating);
                 
                 promise.then(function(result) {
                     let response = {
