@@ -2,98 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Checkout</title>
+    <!-- includes the Braintree JS client SDK -->
+    <script src="https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js"></script>
 </head>
 <body>
-<form action="/" id="my-sample-form" method="post">
-    <label for="card-number">Card Number</label>
-    <div id="card-number"></div>
-
-    <label for="cvv">CVV</label>
-    <div id="cvv"></div>
-
-    <label for="expiration-date">Expiration Date</label>
-    <div id="expiration-date"></div>
-
-    <input type="submit" value="Pay" disabled/>
-</form>
-
-<script src="https://js.braintreegateway.com/web/3.39.0/js/client.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.39.0/js/hosted-fields.min.js"></script>
+<div id="dropin-wrapper">
+    <div id="checkout-message"></div>
+    <div id="dropin-container"></div>
+    <div id="console"></div>
+    <button id="submit-button">Submit payment</button>
+</div>
 <script>
-    var form=document.querySelector('#my-sample-form');
-    var submit=document.querySelector('input[type="submit"]');
+    let button=document.querySelector('#submit-button');
+    // var clientToken=fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=getClientToken",{method:'GET'});
+    // document.getElementById("checkout-message").innerText=clientToken;
 
-    braintree.client.create({
-        authorization:'sandbox_ws8zj7km_nb4sdg3y59thysfq'
-    },function(clientErr,clientInstance){
-        if(clientErr){
-            console.error(clientErr);
-            return;
-        }
-
-        // This example shows Hosted Fields, but you can also use this
-        // client instance to create additional components here, such as
-        // PayPal or Data Collector.
-
-        braintree.hostedFields.create({
-            client:clientInstance,
-            styles:{
-                'input':{
-                    'font-size':'14px'
-                },
-                'input.invalid':{
-                    'color':'red'
-                },
-                'input.valid':{
-                    'color':'green'
-                }
-            },
-            fields:{
-                number:{
-                    selector:'#card-number',
-                    placeholder:'4111 1111 1111 1111'
-                },
-                cvv:{
-                    selector:'#cvv',
-                    placeholder:'123'
-                },
-                expirationDate:{
-                    selector:'#expiration-date',
-                    placeholder:'10/2019'
-                }
-            }
-        },function(hostedFieldsErr,hostedFieldsInstance){
-            if(hostedFieldsErr){
-                console.error(hostedFieldsErr);
-                return;
-            }
-
-            submit.removeAttribute('disabled');
-
-            form.addEventListener('submit',function(event){
-                event.preventDefault();
-
-                hostedFieldsInstance.tokenize(function(tokenizeErr,payload){
-                    if(tokenizeErr){
-                        console.error(tokenizeErr);
-                        return;
-                    }
-
-                    // If this was a real integration, this is where you would
-                    // send the nonce to your server.
-                    var checkout=fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout",{
-                        method:'POST',
-                        body:JSON.stringify(payload.nonce),
-                        headers:{
-                            'Content-Type':'application/json'
-                        }
-                    });
-                    console.log('Got a nonce: '+payload.nonce);
+    braintree.dropin.create({
+        authorization:'sandbox_ws8zj7km_nb4sdg3y59thysfq',
+        //Request client token API call (getClientToken)
+        // authorization:clientToken,
+        container:'#dropin-container'
+    }).then(function(instance){
+        button.addEventListener('click',function(){
+            instance.requestPaymentMethod().then(function(payload){
+                connectToRemote().then(remote => {
+                    remote.send(payload.nonce);
                 });
-            },false);
-        });
+                document.getElementById("console").innerText=payload.nonce;
+                // fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout",{
+                //     method:'POST',
+                //     body:payload.nonce
+                // }).then(function(response){
+                //     document.getElementById("console").innerHTML=response.body;
+                // });
+
+                // Tear down the Drop-in UI
+                instance.teardown(function(teardownErr){
+                    if(teardownErr){
+                        document.getElementById("console").innerText('Could not tear down Drop-in UI!');
+                        //
+                    }else{
+                        document.getElementById("console").innerText('Drop-in UI has been torn down!');
+                        // Remove the 'Submit payment' button
+                        document.getElementById('submit-button').remove();
+                    }
+                    document.getElementById('submit-button').remove();
+                });
+            });
+        })
     });
 </script>
+
 </body>
 </html>
