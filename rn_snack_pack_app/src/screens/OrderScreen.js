@@ -55,7 +55,7 @@ export default class OrderScreen extends Component {
                             subtotal={item._subtotal}
                             tax={item._tax}
                             total={item._total}
-                            last_screen={'OrderScreen'}
+                            last_screen={'Orders'}
                             navigation={this.props.navigation}
                             swipe_handler={"none"}
                             parent={this}
