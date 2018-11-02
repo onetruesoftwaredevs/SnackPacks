@@ -1,15 +1,15 @@
-import {View,TouchableOpacity,Text,Platform,StyleSheet} from 'react-native';
+import {View,TouchableOpacity,Text,Platform,StyleSheet,WebView} from 'react-native';
 import React,{Component} from "react";
 import PaymentView from "../components/cart/PaymentView";
 import Cart from "../function/Cart";
 
 const payment=require('./payment.html');
-const payment2=require('./payment2.html');//Custom payment screen\
+// const payment2=require('./payment2.html');//Custom payment screen\
 // const braintree=require('https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js');
 
 
-import {connectToRemote,WebView} from 'react-native-webview-messaging';
-import BraintreeReactHTML from "./paymentHTML";
+// import {connectToRemote,WebView} from 'react-native-webview-messaging';
+// import BraintreeReactHTML from "./paymentHTML";
 
 export default class CheckoutView extends Component{
     _goBack=()=>{
@@ -19,16 +19,15 @@ export default class CheckoutView extends Component{
     render(){
         return (
             <View style={styles.container}>
-                {/*<Text style={styles.title_style}>Checkout</Text>*/}
+                <Text style={styles.title_style}>Checkout</Text>
                 <WebView
                     style={styles.WebViewStyle}
                     source={payment}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
-                    ref={this._refWebView}
                 />
 
-                <PaymentView subtotal={this.props.navigation.state.params.subtotal} deliveryFee={1.00}
+                <PaymentView subtotal={/*this.props.navigation.state.params.subtotal*/9.00} deliveryFee={1.00}
                              navigator={this.props.navigation} checkout={false}/>
                 <TouchableOpacity onPress={this._goBack}>
                     <Text style={styles.back_style}>Back</Text>
@@ -36,33 +35,6 @@ export default class CheckoutView extends Component{
             </View>
         );
     }
-
-    bindListeners(){
-        this.remote.on('text',text=>this.setState({
-            message:`Recevied text from webview: ${text}`
-        }));
-
-        this.remote.on('json',json=>this.setState({
-            message:`Received json from webview: ${JSON.stringify(json)}`
-        }));
-
-        this.remote.on('greetingFromWebview',event=>this.setState({
-            message:`Received "greetingFromWebview" event: ${JSON.stringify(event)}`
-        }));
-    }
-
-
-    sendHelloToWebView=()=>{
-        this.remote.send('hello');
-    };
-
-    sendJsonToWebView=()=>{
-        this.remote.sendJSON({payload:'hello'});
-    };
-
-    emitGreetingEventToWebView=()=>{
-        this.remote.emit('greetingFromRN',{payload:'hello'});
-    };
 }
 
 const styles=StyleSheet.create({
