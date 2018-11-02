@@ -33,17 +33,15 @@ export default class DriverList extends Component {
             (driver, i) =>
                 i !== 0
                     ? <ListGroup>
+                        <br></br>
                         <LinkContainer
                             key={i}
                             to={`/drivers/${i}`}
                         >
                             <ListGroupItem header={driver._name+":"}>{"(Driver #"+i+")"}</ListGroupItem>
                         </LinkContainer>
-                        <ListGroupItem header="Name:">
-                            {driver._name}
-                        </ListGroupItem>
-                        <ListGroupItem header="State:">
-                            {driver._status}
+                        <ListGroupItem header="Status:">
+                            {(driver._status === "0")?"Not busy":"Busy delivering an order"}
                         </ListGroupItem>
                         <ListGroupItem header="Phone Number:">
                             {driver._phone}
@@ -58,7 +56,7 @@ export default class DriverList extends Component {
                             {driver._rating}
                         </ListGroupItem>
                         <ListGroupItem header="Reviews:">
-                            {(driver._reviews.split('|')).join(", ")}
+                            {(driver._reviews === "")?"No reviews.":(driver._reviews.split('|')).join(", ")}
                         </ListGroupItem>
                     </ListGroup>
                     :
