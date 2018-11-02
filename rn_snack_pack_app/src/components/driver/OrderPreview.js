@@ -31,6 +31,7 @@ export default class OrderPreview extends Component {
     swipe_handler;          // string
     order_manager;          // object
     parent;                 // Component
+    is_reviewable;           // boolean
 
     constructor(props) {
         super();
@@ -64,6 +65,7 @@ export default class OrderPreview extends Component {
             tax: this.props.tax,
             total: this.props.total,
             last_screen: this.props.last_screen,
+            isReviewable: this.props.is_reviewable
         });
     };
 

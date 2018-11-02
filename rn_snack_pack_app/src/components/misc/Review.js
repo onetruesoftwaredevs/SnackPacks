@@ -19,7 +19,7 @@ export default class Review extends Component {
             <View style={styles.container}>
                 <View style={styles.title_bar}>
                     <Text style={styles.title_style}>{this.props.title}</Text>
-                    <Rating starCount={this.props.rating}/>
+                    <Rating starCount={this.props.rating} editable={false}/>
                 </View>
                 <Text style={styles.author_style}>{this.props.author}</Text>
                 <Text style={styles.review_style}>{this.props.review}</Text>

@@ -24,7 +24,8 @@ export default class DetailedOrderView extends Component {
         this.props.navigation.navigate("DriverProfile", {
             name: "Dirty Dan",
             number: this.props.navigation.state.params.driver,
-            last_screen: "DetailedOrderView"
+            last_screen: "DetailedOrderView",
+            isReviewable: this.props.navigation.state.params.isReviewable
         });
     };
 

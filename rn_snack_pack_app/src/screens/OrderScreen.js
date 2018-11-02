@@ -57,6 +57,7 @@ export default class OrderScreen extends Component {
                     navigation={this.props.navigation}
                     swipe_handler={"none"}
                     parent={this}
+                    is_reviewable={true}
                 />
 
             </View>

@@ -122,6 +122,7 @@ export default class DriverScreen extends Component {
                     navigation={this.props.navigation}
                     swipe_handler={"complete_order_option"}
                     parent={this}
+                    is_reviewable={false}
                 />
                 <View style={styles.horizontal_container}>
                     <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>

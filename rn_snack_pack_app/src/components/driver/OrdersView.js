@@ -85,6 +85,7 @@ export default class OrdersView extends Component {
                             swipe_handler={"available_option"}
                             order_manager={this.orderManager}
                             parent={this}
+                            is_reviewable={false}
                         />
                     }
                 />
