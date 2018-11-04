@@ -48,7 +48,7 @@ export default class CartScreen extends Component {
                     keyExtractor={(item) => item.spname}
                     extraData={this.state}
                 />
-                <PaymentView subtotal={cartSubtotal} deliveryFee={1.00} navigator={this.props.navigation} checkout={true}/>
+                <PaymentView subtotal={cartSubtotal} deliveryFee={1.00} tip={0.00} navigator={this.props.navigation} checkout={true}/>
             </View>
         );
     }

@@ -6,12 +6,13 @@
  */
 
 import React,{Component} from 'react';
-import {Alert,TouchableOpacity,Platform,StyleSheet,Text,View} from 'react-native';
+import {Alert,TouchableOpacity,Platform,StyleSheet,Text,TextInput,View} from 'react-native';
 import NumberFormat from 'react-number-format'
 import CheckoutView from '../../payment/CheckoutView'
 
 export default class PaymentView extends Component{
     subtotal;
+    tip;
     deliveryFee;
     navigator;
     checkout;
@@ -29,7 +30,7 @@ export default class PaymentView extends Component{
     render(){
         let deliveryFee=Number(this.props.deliveryFee).toFixed(2);
         // let tax=Number(Number(this.props.subtotal)*0.06).toFixed(2);
-        let roundedTotal=Number(Number(this.props.subtotal)+/*Number(tax)+*/Number(this.props.deliveryFee)).toFixed(2);
+        let roundedTotal=Number(Number(this.props.subtotal)+/*Number(tax)+*/Number(this.props.deliveryFee)+Number(this.props.tip)).toFixed(2);
 
         if(this.props.checkout==true){
             return (
@@ -108,6 +109,16 @@ export default class PaymentView extends Component{
                             prefix={'$'}
                             renderText={value=><Text style={styles.price_style}>{value}</Text>}
                         />
+                    </View>
+                    <View style={styles.horizontal_container}>
+                        <Text style={styles.price_style}>Tip:</Text>
+                        <NumberFormat
+                            value={this.props.tip}
+                            displayType={'text'}
+                            prefix={'$'}
+                            renderText={value=><Text style={styles.price_style}>{value}</Text>}
+                        />
+
                     </View>
                     <View style={styles.horizontal_container}>
                         <Text style={styles.price_style}>Total:</Text>
