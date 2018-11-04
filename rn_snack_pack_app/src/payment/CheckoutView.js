@@ -1,4 +1,4 @@
-import {View,TouchableOpacity,Text,Platform,StyleSheet,WebView} from 'react-native';
+import {View,TouchableOpacity,Text,Platform,StyleSheet,WebView,TextInput} from 'react-native';
 import React,{Component} from "react";
 import PaymentView from "../components/cart/PaymentView";
 import Cart from "../function/Cart";
@@ -9,6 +9,9 @@ export default class CheckoutView extends Component{
     constructor(props){
         super(props);
         this.onWebViewMessage=this.onWebViewMessage.bind(this);
+
+        super();
+        this.state={tip:0};
     }
 
     handleDataReceived(msgData){
@@ -16,7 +19,7 @@ export default class CheckoutView extends Component{
             text2:`Message from web view ${msgData.data}`
         });
         msgData.isSuccessfull=true;
-        msgData.args=[msgData.data%2?"green":"red"];
+        msgData.args=[msgData.data%2? "green": "red"];
         this.myWebView.postMessage(JSON.stringify(msgData));
     }
 
@@ -27,9 +30,9 @@ export default class CheckoutView extends Component{
             console.log(nonce);//Nonce from payment
 
             //Fetch to api with cart in query string
-            fetch(`https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout`,{
+            fetch(`https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2`,{
                 method:'POST',
-                body:`nonce=${nonce}&cart=${Cart.getInstance().getItemsInCart()}`
+                body:nonce
             });
 
         }
@@ -56,7 +59,7 @@ export default class CheckoutView extends Component{
         return (
             <View style={styles.container}>
                 <Text style={styles.title_style}>Checkout</Text>
-                <Text>{JSON.stringify(Cart.getInstance().getItemsInCart())}</Text>
+                {/*<Text>{JSON.stringify(Cart.getInstance().getItemsInCart())}</Text>*/}
                 <WebView
                     // ref={ref=>(this.webview=ref)}
                     style={styles.WebViewStyle}
@@ -65,8 +68,13 @@ export default class CheckoutView extends Component{
                     domStorageEnabled={true}
                     onMessage={this.onWebViewMessage}
                 />
-
-                <PaymentView subtotal={this.props.navigation.state.params.subtotal} deliveryFee={1.00}
+                <TextInput
+                    style={{height:40}}
+                    placeholder="Add a tip here"
+                    onChangeText={(text)=>this.setState({tip:text})}
+                />
+                <PaymentView subtotal={this.props.navigation.state.params.subtotal} tip={this.state.tip}
+                             deliveryFee={1.00}
                              navigator={this.props.navigation} checkout={false}/>
                 <TouchableOpacity onPress={this._goBack}>
                     <Text style={styles.back_style}>Back</Text>
@@ -101,7 +109,7 @@ const styles=StyleSheet.create({
         flex:1,
         width:'100%',
         height:'90%',
-        marginTop:(Platform.OS)==='ios'?20:0
+        marginTop:(Platform.OS)==='ios'? 20: 0
     },
     checkout_style:{
         width:50,
