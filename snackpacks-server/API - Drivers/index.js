@@ -60,9 +60,11 @@ exports.handler = function(event, context, callback){
             else if(command.localeCompare("add") == 0) {
                 console.log("Add\n");
                 
-                let promise = OrderConnector.createOrder(event.body.id, event.body.cart, event.body.recipient,
-                    event.body.paymentInfo, event.body.address, event.body.driver,
-                    event.body.subtotal, event.body.tax, event.body.total, event.body.status);
+                let order = JSON.parse(event.body);
+                
+                let promise = OrderConnector.createOrder(null, order.cart, order.recipient,
+                    order.paymentInfo, order.address, order.driver,
+                    order.subtotal, order.tax, order.total, order.status);
                     
                 promise.then(function(result) {
                     let response = {
@@ -125,6 +127,44 @@ exports.handler = function(event, context, callback){
                 console.log("Delete\n");
                 
                 let promise = OrderConnector.deleteOrderByID(queryString.id);
+                
+                promise.then(function(result) {
+                    let response = {
+                        "statusCode": 200,
+                        "headers": {},
+                        "body": JSON.stringify(result),
+                        "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                  console.log(err); // Error: "It broke"
+                });
+            }
+            
+            else if(command.localeCompare("time") == 0) {
+                console.log("Time\n");
+                
+                let promise = OrderConnector.getTimeById(queryString.id);
+                
+                promise.then(function(result) {
+                    let response = {
+                        "statusCode": 200,
+                        "headers": {},
+                        "body": JSON.stringify(result),
+                        "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                  console.log(err); // Error: "It broke"
+                });
+            }
+            
+            else if(command.localeCompare("status") == 0) {
+                console.log("Status\n");
+                
+                let promise = OrderConnector.getStatusById(queryString.id);
                 
                 promise.then(function(result) {
                     let response = {
