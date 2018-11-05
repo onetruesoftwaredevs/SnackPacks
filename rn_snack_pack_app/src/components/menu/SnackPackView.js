@@ -11,13 +11,16 @@ import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from '
 import NutritionView from "./NutritionView";
 import PriceView from "./PriceView";
 import Rating from "./Rating";
-import QuantityComponent from "./QuantityComponent";
+import QuantityComponent from "../misc/QuantityComponent";
+import Cart from "../../function/Cart";
+import { Dimensions } from "react-native";
 
 export default class SnackPackView extends Component {
     spname;         // the name of the snack-pack
     sprating;       // the rating of the snack-pack
     spprice;        // the price of the snack-pack
     spallergylist;  // a the list of allergies contained in this snack-pack
+    spimage;
 
     _onImagePressed() {
         Alert.alert('image was pressed', 'test')
@@ -25,10 +28,6 @@ export default class SnackPackView extends Component {
 
     _onRatingPressed() {
         Alert.alert('rating was pressed', 'test')
-    }
-
-    _onAddToCartPressed() {
-        Alert.alert('added to cart was pressed', 'test')
     }
 
     _onNutritionPressed() {
@@ -43,7 +42,7 @@ export default class SnackPackView extends Component {
         return (
             <View style={styles.container}>
                 <TouchableOpacity onPress={this._onImagePressed}>
-                    <Image style={styles.image_style} source={require('./image.png')}></Image>
+                    <Image style={styles.image_style} source={{uri: this.props.spimage}}></Image>
                 </TouchableOpacity>
                 <View style={styles.information_bar}>
                     <TouchableOpacity onPress={this._onNamePressed}>
@@ -59,25 +58,36 @@ export default class SnackPackView extends Component {
                     <FlatList
                         horizontal={true}
                         data={this.props.spallergylist}
-                        renderItem={({item}) => <NutritionView allergy={item.key}/>}
+                        renderItem={({item}) => <NutritionView allergy={item}/>}
+                        keyExtractor={(item) => item}
                     />
                     <PriceView price={this.props.spprice}/>
                 </View>
-                <QuantityComponent/>
+                <QuantityComponent
+                    spname={this.props.spname}
+                    spprice={this.props.spprice}
+                    defaultText={'Add to Cart'}
+                    defaultTextSize={18}
+                    parent={this}
+                />
             </View>
         );
     }
 }
 
+const window = Dimensions.get('window');
+const width = window.width;
+const height = width * 9 / 16;
+
 const styles = StyleSheet.create({
     container: {
-        padding: 4,
+        paddingBottom: 8,
         borderWidth: 0,
     },
 
     image_style: {
-        width: 308,
-        height: 200,
+        width: width,
+        height: height,
     },
 
     information_bar: {
@@ -106,14 +116,14 @@ const styles = StyleSheet.create({
     add_to_cart_style: {
         color: '#FFF',
         backgroundColor: '#4488AA',
-        fontSize: 16,
+        fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        paddingTop: 4,
-        paddingBottom: 4,
+        paddingTop: 8,
+        paddingBottom: 8,
     }
 });
