@@ -1,7 +1,8 @@
 //Order.js
 
 class Order {
-    constructor(id, cart, recipient, paymentInfo, address, driver, subtotal, tax, total){
+    constructor(id, cart, recipient, paymentInfo, address, driver, subtotal, tax, total, time, status){
+        //Add Time and Status
         this.id = id;
         this.cart = cart;
         this.recipient = recipient;
@@ -11,6 +12,8 @@ class Order {
         this.subtotal = subtotal;
         this.tax = tax;
         this.total = total;
+        this.time = time;
+        this.status = status;
     }
 
 
@@ -37,6 +40,12 @@ class Order {
     
     get total(){ return this._total; }
     set total(value){ this._total = value; }
+    
+    get time(){ return this._time; }
+    set time(value){ this._time = value; }
+    
+    get status(){ return this._status; }
+    set status(value){ this._status = value; }
 
     checkout(){
         return this.total;

@@ -38,7 +38,8 @@ class snackConnector{
 						var orderList=[];
 						for(var r in result){
 							var orderItem = result[r];
-							orderList.push(new Order(orderItem.id,"1", orderItem.recipient, orderItem.paymentInfo, orderItem.address, orderItem.driver, orderItem.subtotal, orderItem.tax, orderItem.total));
+							//Update Time and Status
+							orderList.push(new Order(orderItem.id,"1", orderItem.recipient, orderItem.paymentInfo, orderItem.address, orderItem.driver, orderItem.subtotal, orderItem.tax, orderItem.total, orderItem.time_left, orderItem.status));
 						}
 						resolve(orderList);
 					});
@@ -101,7 +102,7 @@ class snackConnector{
 				connection.query(`SELECT id FROM snackpacks.Orders ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields) {
 					if (err) reject(err);
 					var index = count_result[0]["id"] + 1;
-					connection.query(`INSERT INTO snackpacks.Orders VALUES(${index}, "${paymentInfo}", "${recipient}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}")`, function(err, result, fields){
+					connection.query(`INSERT INTO snackpacks.Orders VALUES(${index}, "${paymentInfo}", "${recipient}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}", 30)`, function(err, result, fields){
 						if (err) reject(err);
 						console.log(index);
 						//callback to end connection
@@ -162,6 +163,52 @@ class snackConnector{
 	}
 
 	deleteOrderByID(id){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			if(isNaN(id)){
+				console.log("NaN!");
+				return;
+			}
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				//Instead of trying to iterate thru an array
+				connection.query(`DELETE FROM snackpacks.Orders WHERE id=${id}`, function(err, result, fields){
+					if (err) reject(err);
+					//callback to end connection
+					connection.end(function(err) {
+						if (err) reject(err);
+						resolve(true);
+					});
+				});
+			});
+		});
+	}
+	
+	getTimeById(id){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			if(isNaN(id)){
+				console.log("NaN!");
+				return;
+			}
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				//Instead of trying to iterate thru an array
+				connection.query(`DELETE FROM snackpacks.Orders WHERE id=${id}`, function(err, result, fields){
+					if (err) reject(err);
+					//callback to end connection
+					connection.end(function(err) {
+						if (err) reject(err);
+						resolve(true);
+					});
+				});
+			});
+		});
+	}
+	
+	getStatusById(id){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			if(isNaN(id)){
