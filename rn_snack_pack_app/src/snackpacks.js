@@ -1,31 +1,83 @@
 // snackpacks.js
 import React, {Component} from 'react';
+import {TabNavigator, StackNavigator} from 'react-navigation'
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
-import SnackPackView from './components/SnackPackView'
-import SnackPackMenuView from "./components/SnackPackMenuView";
-import CartView from "./components/CartView";
+import MenuScreen from "./screens/MenuScreen";
+import CartScreen from "./screens/CartScreen";
+import DriverScreen from "./screens/DriverScreen";
+import OrdersView from "./components/driver/OrdersView";
+import DetailedOrderView from "./components/driver/DetailedOrderView";
 
-export default class SnackPacks extends Component {
+const DriverNavigation = StackNavigator({
+    DriversScreen: {
+        screen: DriverScreen,
+    },
+
+    OrdersView: {
+        screen: OrdersView,
+    },
+    DetailedOrderView: {
+        screen: DetailedOrderView,
+    },
+}, {
+    headerMode: 'none',
+});
+
+
+export const SnackPacks = TabNavigator({
+    Menu: {
+        screen: MenuScreen,
+    },
+    Cart: {
+        screen: CartScreen,
+    },
+    Drivers: {
+        screen: DriverNavigation,
+    },
+});
+
+// legacy code
+/*
+export class SnackPacks extends Component {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
-            screen: 1
+            screen: 1,
+            isLoading: true,
+            dataSource: []
         };
+    }
+
+    componentDidMount() {
+        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
+            .then(response => response.json())
+            .then(responseJson => this.setState({
+                isLoading: false,
+                dataSource: responseJson
+            }));
     }
 
     setMenuScreen = () => {
         this.setState({screen: 1});
-    }
+    };
 
     setCartScreen = () => {
         this.setState({screen: 2})
-    }
+    };
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.loading_text}>Loading Screen</Text>
+                </View>
+            );
+        }
+
         if (this.state.screen === 1) {
             return (
                 <View style={styles.container}>
-                    <SnackPackMenuView/>
+                    <MenuScreen spdata={this.state.dataSource}/>
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity onPress={this.setMenuScreen}>
                             <Text style={styles.button_text_style}>Menu</Text>
@@ -39,7 +91,7 @@ export default class SnackPacks extends Component {
         } else if (this.state.screen === 2) {
             return (
                 <View style={styles.container}>
-                    <CartView/>
+                    <CartScreen/>
                     <View style={styles.horizontal_container}>
                         <TouchableOpacity onPress={this.setMenuScreen}>
                             <Text style={styles.button_text_style}>Menu</Text>
@@ -62,6 +114,24 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
+    view: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    loading_text: {
+        color: '#444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4,
+    },
+
     horizontal_container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -79,3 +149,4 @@ const styles = StyleSheet.create({
         padding: 4,
     }
 });
+*/

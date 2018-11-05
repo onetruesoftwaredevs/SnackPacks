@@ -8,10 +8,9 @@
 const awsmobile = {
     'aws_app_analytics': 'enable',
     'aws_cloud_logic': 'enable',
-    'aws_cloud_logic_custom': [{"id":"hz08tdry07","name":"SnackPacks","description":"SnackPacks Regional API Ohio","endpoint":"https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration","region":"us-east-2","paths":["/admin","/admin/drivers","/drivers","/payment","/snackpacks"]}],
+    'aws_cloud_logic_custom': [{"id":"hz08tdry07","name":"SnackPacks","description":"SnackPacks Regional API Ohio","endpoint":"https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod","region":"us-east-2","paths":["/","/APIGatewayTest","/test"]}],
     'aws_cognito_identity_pool_id': 'us-east-2:5632822c-c6fb-443c-9f30-6935e22e7462',
     'aws_cognito_region': 'us-east-2',
-    'aws_mandatory_sign_in': 'enable',
     'aws_mobile_analytics_app_id': '20d890394a124fc9a5f3f4bd56707d65',
     'aws_mobile_analytics_app_region': 'us-east-1',
     'aws_project_id': '78a6305d-7851-49df-8817-5a9ee195ddf8',
