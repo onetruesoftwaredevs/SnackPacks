@@ -45,7 +45,7 @@ export default class CartScreen extends Component {
                         }
                     />
                 </View>
-                <PaymentView subtotal={cartSubtotal} deliveryFee={1.00}/>
+                <PaymentView subtotal={cartSubtotal} serviceFee={1.00}/>
             </View>
         );
     }
