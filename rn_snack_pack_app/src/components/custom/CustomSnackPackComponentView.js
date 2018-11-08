@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import ScreenHeader from "../misc/ScreenHeader";
 import BackButton from "../misc/BackButton";
 import CustomSnackPackComponentPreview from "./CustomSnackPackComponentPreview";
@@ -18,7 +18,7 @@ export default class CustomSnackPackComponentView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ScreenHeader title={"All Components"} navigation={this.props.navigation}/>
+                <ScreenHeader title={"All Components"} navigation={this.props.navigation} isDefaultScreen={false}/>
 
                 <ScrollView style={styles.scroll_container}>
                     <CustomSnackPackComponentPreview name={"meat"} price={1.00} quantity={2}

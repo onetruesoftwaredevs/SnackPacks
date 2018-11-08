@@ -5,11 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
-import OrderItemView from "../components/cart/OrderItemView";
-import PaymentView from "../components/cart/PaymentView";
-import Cart from '../function/Cart'
-import Driver from "../function/Driver";
+import {FlatList, Text, View} from 'react-native';
 import OrderPreview from "../components/driver/OrderPreview";
 import User from "../function/User";
 import ScreenHeader from "../components/misc/ScreenHeader";
@@ -74,7 +70,7 @@ export default class OrderScreen extends Component {
         return (
             <View style={global_stylesheet.screen_container}>
                 <View>
-                    <ScreenHeader title={"My Orders"} navigation={this.props.navigation}/>
+                    <ScreenHeader title={"My Orders"} navigation={this.props.navigation} isDefaultScreen={true}/>
                     {orders}
                 </View>
             </View>

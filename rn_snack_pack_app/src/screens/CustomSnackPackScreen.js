@@ -23,7 +23,7 @@ export default class CustomSnackPackScreen extends Component {
         return (
             <View style={global_stylesheet.screen_container}>
                 <View>
-                    <ScreenHeader title={"My Custom SnackPacks"} navigation={this.props.navigation}/>
+                    <ScreenHeader title={"My Custom SnackPacks"} navigation={this.props.navigation} isDefaultScreen={true}/>
 
                     <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00}
                                             navigation={this.props.navigation}/>

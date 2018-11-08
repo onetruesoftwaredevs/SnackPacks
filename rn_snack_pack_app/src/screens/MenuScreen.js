@@ -5,10 +5,9 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import SnackPackView from "../components/menu/SnackPackView";
 import Menu from "../function/Menu";
-import Driver from "../function/Driver";
 import ScreenHeader from "../components/misc/ScreenHeader";
 import {global_stylesheet} from "../stylesheet";
 
@@ -50,7 +49,7 @@ export default class MenuScreen extends Component {
 
         return (
             <View style={global_stylesheet.screen_container}>
-                <ScreenHeader title={"SnackPacks"} navigation={this.props.navigation}/>
+                <ScreenHeader title={"SnackPacks"} navigation={this.props.navigation} isDefaultScreen={true}/>
                 <FlatList
                     data={Menu.getInstance().getData()}
                     extraData={this.state}

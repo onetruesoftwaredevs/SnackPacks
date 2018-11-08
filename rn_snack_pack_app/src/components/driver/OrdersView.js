@@ -7,10 +7,13 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import OrderPreview from "./OrderPreview";
 import OrderManager from '../../function/OrderManager'
 import Driver from "../../function/Driver";
+import BackButton from "../misc/BackButton";
+import ScreenHeader from "../misc/ScreenHeader";
+import {global_stylesheet} from "../../stylesheet";
 
 export default class OrdersView extends Component {
 
@@ -62,8 +65,8 @@ export default class OrdersView extends Component {
         }
 
         return (
-            <View style={styles.container}>
-                <Text style={styles.name_style}>{this.props.navigation.state.params.title}</Text>
+            <View style={global_stylesheet.screen_container}>
+                <ScreenHeader title={this.props.navigation.state.params.title} navigation={this.props.navigation} isDefaultScreen={false}/>
                 <FlatList
                     horizontal={false}
                     data={this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getId())}
@@ -90,9 +93,8 @@ export default class OrdersView extends Component {
                         />
                     }
                 />
-                <TouchableOpacity style={styles.button_style} onPress={this._goBack}>
-                    <Text style={styles.back_style}>Back</Text>
-                </TouchableOpacity>
+
+                <BackButton navigation={this.props.navigation}/>
             </View>
         );
     }

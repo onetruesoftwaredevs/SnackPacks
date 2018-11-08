@@ -27,7 +27,7 @@ export default class CustomSnackPackView extends Component {
     render() {
         return (
             <View style={global_stylesheet.screen_container}>
-                <ScreenHeader title={this.props.navigation.state.params.name} navigation={this.props.navigation}/>
+                <ScreenHeader title={this.props.navigation.state.params.name} navigation={this.props.navigation} isDefaultScreen={false}/>
 
                 <ScrollView style={styles.scroll_container}>
                     <CustomSnackPackComponentPreview name={"meat"} price={1.00} quantity={2}

@@ -31,7 +31,7 @@ export default class CartScreen extends Component {
         return (
             <View style={global_stylesheet.screen_container}>
                 <View>
-                    <ScreenHeader title={"My Cart"} navigation={this.props.navigation}/>
+                    <ScreenHeader title={"My Cart"} navigation={this.props.navigation} isDefaultScreen={true}/>
                     <FlatList
                         data={Cart.getInstance().getItemsInCart()}
                         keyExtractor={(item) => item.spname}
