@@ -6,6 +6,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import NewQuantityComponent from "../misc/NewQuantityComponent";
 
 export default class CustomSnackPackComponentPreview extends Component {
     // display
@@ -15,26 +16,6 @@ export default class CustomSnackPackComponentPreview extends Component {
     // metadata
     id;         // number
 
-    constructor(props) {
-        super();
-        this.state = {quantity: props.quantity}
-    }
-
-    _decreaseQuantity = () => {
-        if (this.state.quantity < 1) {
-            return;
-        }
-        this.setState({
-            quantity: this.state.quantity - 1
-        });
-    };
-
-    _increaseQuantity = () => {
-        this.setState({
-            quantity: this.state.quantity + 1
-        });
-    };
-
     render() {
         let price = Number(this.props.price).toFixed(2);
         return (
@@ -43,20 +24,7 @@ export default class CustomSnackPackComponentPreview extends Component {
                     <Text style={styles.name_style}>{this.props.name}</Text>
                     <Text style={styles.price_style}>${price}</Text>
                 </View>
-                <View style={styles.horizontal_container}>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.data_title_style}>Quantity: </Text>
-                        <Text style={styles.data_style}>{this.state.quantity}</Text>
-                    </View>
-                    <View style={styles.horizontal_container}>
-                        <TouchableOpacity onPress={this._decreaseQuantity}>
-                            <Text style={styles.decrease_style}>-</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={this._increaseQuantity}>
-                            <Text style={styles.increase_style}>+</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                <NewQuantityComponent quantity={this.props.quantity}/>
             </View>
         );
     }
