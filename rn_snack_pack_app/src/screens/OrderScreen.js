@@ -12,6 +12,8 @@ import Cart from '../function/Cart'
 import Driver from "../function/Driver";
 import OrderPreview from "../components/driver/OrderPreview";
 import User from "../function/User";
+import ScreenHeader from "../components/misc/ScreenHeader";
+import {global_stylesheet} from "../stylesheet";
 
 export default class OrderScreen extends Component {
 
@@ -65,57 +67,17 @@ export default class OrderScreen extends Component {
                     }
                 />
             </View>) :
-            (<View style={styles.body}>
-                <Text style={styles.message_style}>No current or past orders</Text>
+            (<View>
+                <Text style={global_stylesheet.error_message_style}>No current or past orders</Text>
             </View>);
 
         return (
-            <View style={styles.container}>
-                <Text style={styles.title_style}>My Orders</Text>
-                {orders}
+            <View style={global_stylesheet.screen_container}>
+                <View>
+                    <ScreenHeader title={"My Orders"} navigation={this.props.navigation}/>
+                    {orders}
+                </View>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 0,
-        //width: '100%',
-        //height: "100%",
-    },
-
-    body: {
-        width: '100%',
-        height: "90%",
-    },
-
-    flatlist_style: {
-        height: '30%'
-    },
-
-    title_style: {
-        color: '#444',
-        fontSize: 30,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-
-    message_style: {
-        flex: 1,
-        color: '#dd4444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-});

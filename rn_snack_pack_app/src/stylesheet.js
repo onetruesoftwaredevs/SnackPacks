@@ -98,4 +98,29 @@ export const global_stylesheet = StyleSheet.create({
         padding: 4
     },
 
+    loading_text: {
+        flex: 1,
+        color: '#444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4,
+    },
+
+    error_message_style: {
+        color: '#F44',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'top',
+        textTransform: 'none',
+        padding: 4,
+    },
+
 });

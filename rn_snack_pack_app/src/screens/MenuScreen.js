@@ -8,6 +8,9 @@ import React, {Component} from 'react';
 import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
 import SnackPackView from "../components/menu/SnackPackView";
 import Menu from "../function/Menu";
+import Driver from "../function/Driver";
+import ScreenHeader from "../components/misc/ScreenHeader";
+import {global_stylesheet} from "../stylesheet";
 
 export default class MenuScreen extends Component {
     constructor(props) {
@@ -39,17 +42,16 @@ export default class MenuScreen extends Component {
     render() {
         if (this.state.isLoading) {
             return (
-                <View style={styles.container}>
-                    <Text style={styles.loading_text}>Loading Screen</Text>
+                <View style={global_stylesheet.screen_container}>
+                    <Text style={global_stylesheet.loading_text}>Loading Screen</Text>
                 </View>
             );
         }
 
         return (
-            <View style={styles.container}>
-                <Text style={styles.title_style}>Snack Packs</Text>
+            <View style={global_stylesheet.screen_container}>
+                <ScreenHeader title={"SnackPacks"} navigation={this.props.navigation}/>
                 <FlatList
-                    style={styles.flatlist_style}
                     data={Menu.getInstance().getData()}
                     extraData={this.state}
                     keyExtractor={(item) => item._name}
@@ -65,41 +67,3 @@ export default class MenuScreen extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 0,
-        width: '100%',
-        height: '100%',
-    },
-
-    loading_text: {
-        flex: 1,
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-
-    title_style: {
-        color: '#444',
-        fontSize: 30,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-
-    flatlist_style: {
-        height: '45%'
-    },
-});
