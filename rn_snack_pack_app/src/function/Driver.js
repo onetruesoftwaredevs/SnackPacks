@@ -95,7 +95,7 @@ class Driver {
             return null;
         }
         let orders = this._orderManager.getOrders(true, this._id);
-        if (orders.length === 0) {
+        if (orders.length < 1) {
             return null;
         }
         return orders[0];

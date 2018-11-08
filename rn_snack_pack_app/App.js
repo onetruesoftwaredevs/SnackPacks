@@ -33,7 +33,7 @@ export default class App extends Component {
     constructor(props) {
         super();
         this.state = {isLoading: true};
-        User.setInstance("Steve", "16");
+        User.setInstance("Steve", "1");
     }
 
     componentDidMount() {
