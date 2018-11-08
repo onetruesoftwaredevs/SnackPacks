@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {Alert, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import NewQuantityComponent from "../misc/NewQuantityComponent";
 
 export default class CustomSnackPackComponentPreview extends Component {
@@ -17,14 +17,24 @@ export default class CustomSnackPackComponentPreview extends Component {
     id;         // number
     navigation; // object
 
+    constructor(props) {
+        super();
+        this.state = {quantity: props.quantity};
+    }
+
     _displayDetailedView = () => {
         this.props.navigation.navigate("CustomSnackPackComponent", {
             name: this.props.name,
             price: this.props.price,
-            quantity: this.props.quantity,
+            quantity: this.state.quantity,
             allergens: ["rice", "beans", "toast"],
             contents: ["pepper", "potato", "onion"],
+            onQuantityChanged: this._onQuantityChanged,
         });
+    };
+
+    _onQuantityChanged = (q) => {
+        this.setState({quantity: q});
     };
 
     render() {
@@ -35,7 +45,8 @@ export default class CustomSnackPackComponentPreview extends Component {
                     <Text style={styles.name_style}>{this.props.name}</Text>
                     <Text style={styles.price_style}>${price}</Text>
                 </View>
-                <NewQuantityComponent quantity={this.props.quantity}/>
+                <NewQuantityComponent quantity={this.state.quantity} onIncrease={this._onQuantityChanged}
+                                      onDecrease={this._onQuantityChanged}/>
             </TouchableOpacity>
         );
     }

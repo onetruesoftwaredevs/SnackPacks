@@ -23,7 +23,6 @@ export default class CustomSnackPackView extends Component {
         this.props.navigation.navigate("CustomSnackPackComponentView");
     };
 
-
     render() {
         return (
             <View style={styles.container}>
