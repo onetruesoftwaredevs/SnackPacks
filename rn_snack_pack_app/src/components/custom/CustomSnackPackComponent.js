@@ -16,23 +16,24 @@ import ContentView from "../misc/ContentView";
 
 export default class CustomSnackPackComponent extends Component {
     // display
-    name;       // string
-    price;      // number
-    image;      // string
-    quantity;   // number (initial value)
-    allergens;  // list (string)
-    contents;   // list (string)
-    navigation; // object
+    name;               // string
+    price;              // number
+    image;              // string
+    quantity;           // number (initial value)
+    allergens;          // list (string)
+    contents;           // list (string)
+    navigation;         // object
+    onQuantityChanged;  // function
 
-    /*name              */
-    /*price             */
-    /*quantity          */
-    /*image             */
-    /*allergens         */
-    /*contents          */
-    /*                  */
+    constructor(props) {
+        super();
+        this.state = {quantity: props.navigation.state.params.quantity};
+    }
 
-    /*back              */
+    _onQuantityChanged = (q) => {
+        this.setState({quantity: q});
+        this.props.navigation.state.params.onQuantityChanged(q);
+    };
 
     render() {
         let props = this.props.navigation.state.params;
@@ -49,7 +50,8 @@ export default class CustomSnackPackComponent extends Component {
                         </View>
                     </View>
                     <View style={global_stylesheet.basic_container}>
-                        <NewQuantityComponent quantity={props.quantity}/>
+                        <NewQuantityComponent quantity={this.state.quantity} onIncrease={this._onQuantityChanged}
+                                              onDecrease={this._onQuantityChanged}/>
                     </View>
                     <View style={global_stylesheet.basic_container}>
                         <Text style={global_stylesheet.data_title_style}>Allergy Information</Text>
