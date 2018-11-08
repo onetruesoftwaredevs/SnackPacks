@@ -6,7 +6,8 @@ export const global_stylesheet = StyleSheet.create({
         padding: 0,
         width: '100%',
         height: '100%',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        backgroundColor: '#EBEBEB'
     },
 
     basic_container: {
@@ -57,7 +58,7 @@ export const global_stylesheet = StyleSheet.create({
         marginVertical: 6
     },
 
-    back_button_style: {
+    full_width_style: {
         width: '100%',
     },
 
@@ -121,6 +122,19 @@ export const global_stylesheet = StyleSheet.create({
         textAlignVertical: 'top',
         textTransform: 'none',
         padding: 4,
+    },
+
+    green_button_style: {
+        color: '#fff',
+        backgroundColor: '#4A4',
+        fontSize: 18,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 8
     },
 
 });

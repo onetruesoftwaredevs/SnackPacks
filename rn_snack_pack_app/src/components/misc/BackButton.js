@@ -8,8 +8,7 @@
  * */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
-import Cart from '../../function/Cart'
+import {Text, TouchableOpacity} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 
 export default class ScreenHeader extends Component {
@@ -21,7 +20,7 @@ export default class ScreenHeader extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={global_stylesheet.back_button_style} onPress={this._goBack}>
+            <TouchableOpacity style={global_stylesheet.full_width_style} onPress={this._goBack}>
                 <Text style={global_stylesheet.back_style}>Back</Text>
             </TouchableOpacity>
         );

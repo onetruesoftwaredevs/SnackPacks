@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import OrderItemView from "../components/cart/OrderItemView";
 import PaymentView from "../components/cart/PaymentView";
 import Cart from '../function/Cart'
@@ -25,11 +25,6 @@ export default class CartScreen extends Component {
         });
     }
 
-    removeItemFromCart = (name) => {
-        Cart.getInstance().removeFromCart(name);
-        this.setState({lastItemRemoved: name});
-    };
-
     render() {
         let cartSubtotal = Number(Cart.getInstance().total_cost).toFixed(2);
 
@@ -43,9 +38,8 @@ export default class CartScreen extends Component {
                         extraData={this.state}
                         renderItem={({item}) =>
                             <OrderItemView
-                                spname={item.spname}
-                                spprice={item.spprice}
-                                removeFromCartFunction={this.removeItemFromCart}
+                                name={item.spname}
+                                price={item.spprice}
                                 parent={this}
                             />
                         }
