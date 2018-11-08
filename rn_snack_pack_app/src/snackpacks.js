@@ -1,6 +1,6 @@
 // snackpacks.js
 import React, {Component} from 'react';
-import {TabNavigator, StackNavigator} from 'react-navigation'
+import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation'
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 import MenuScreen from "./screens/MenuScreen";
 import CartScreen from "./screens/CartScreen";
@@ -10,6 +10,8 @@ import DetailedOrderView from "./components/driver/DetailedOrderView";
 import OrderScreen from "./screens/OrderScreen";
 import DriverProfile from "./components/driver/DriverProfile";
 import ReviewBuilderView from "./components/misc/ReviewBuilderView";
+import CustomSnackPackScreen from "./screens/CustomSnackPackScreen";
+import CustomSnackPackView from "./components/custom/CustomSnackPackView";
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -51,8 +53,23 @@ const OrderNavigation = StackNavigator({
     headerMode: 'none',
 });
 
+const CustomNavigation = StackNavigator({
+    Custom: {
+        screen: CustomSnackPackScreen,
+    },
+    CustomSnackPack: {
+        screen: CustomSnackPackView,
+    }
+},{
+    headerMode: 'none',
+});
 
-export const SnackPacks = TabNavigator({
+
+export const SnackPacks = DrawerNavigator({
+    Custom: {
+        screen: CustomNavigation,
+    },
+
     Menu: {
         screen: MenuScreen,
     },
@@ -66,6 +83,7 @@ export const SnackPacks = TabNavigator({
         screen: OrderNavigation,
     },
 });
+
 
 // legacy code
 /*
