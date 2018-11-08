@@ -10,7 +10,6 @@ import BackButton from "../misc/BackButton";
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
 import NewQuantityComponent from "../misc/NewQuantityComponent";
-import NutritionView from "../menu/NutritionView";
 import AllergyView from "../misc/AllergyView";
 import ContentView from "../misc/ContentView";
 
@@ -42,7 +41,7 @@ export default class CustomSnackPackComponent extends Component {
         return (
             <View style={global_stylesheet.screen_container}>
                 <View>
-                    <ScreenHeader title={props.name} navigation={this.props.navigation}/>
+                    <ScreenHeader title={props.name} navigation={this.props.navigation} isDefaultScreen={false}/>
                     <View style={global_stylesheet.basic_container}>
                         <View style={global_stylesheet.horizontal_container_loose}>
                             <Text style={global_stylesheet.data_title_style}>Price</Text>

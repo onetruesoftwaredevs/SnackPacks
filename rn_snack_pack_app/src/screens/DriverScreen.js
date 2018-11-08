@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import OrderPreview from "../components/driver/OrderPreview";
 import Driver from "../function/Driver";
 import OrderManager from "../function/OrderManager";
@@ -115,7 +115,7 @@ export default class DriverScreen extends Component {
 
         return (
             <View style={global_stylesheet.screen_container}>
-                <ScreenHeader title={Driver.getInstance().getName()} navigation={this.props.navigation}/>
+                <ScreenHeader title={Driver.getInstance().getName()} navigation={this.props.navigation} isDefaultScreen={true}/>
                 {display}
                 <View style={global_stylesheet.horizontal_container_loose}>
                     <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>
