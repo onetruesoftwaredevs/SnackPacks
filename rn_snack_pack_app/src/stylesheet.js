@@ -16,6 +16,13 @@ export const global_stylesheet = StyleSheet.create({
         marginRight: 6,
     },
 
+    thick_basic_container: {
+        backgroundColor: "#FFF",
+        marginBottom: 6,
+        marginRight: 6,
+        padding: 4
+    },
+
     horizontal_container_tight: {
         flexDirection: 'row',
     },
