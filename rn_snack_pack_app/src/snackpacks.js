@@ -13,6 +13,7 @@ import ReviewBuilderView from "./components/misc/ReviewBuilderView";
 import CustomSnackPackScreen from "./screens/CustomSnackPackScreen";
 import CustomSnackPackView from "./components/custom/CustomSnackPackView";
 import CustomSnackPackComponentView from "./components/custom/CustomSnackPackComponentView";
+import CustomSnackPackComponent from "./components/custom/CustomSnackPackComponent";
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -64,6 +65,9 @@ const CustomNavigation = StackNavigator({
     CustomSnackPackComponentView: {
         screen: CustomSnackPackComponentView,
     },
+    CustomSnackPackComponent: {
+        screen: CustomSnackPackComponent,
+    }
 },{
     headerMode: 'none',
 });

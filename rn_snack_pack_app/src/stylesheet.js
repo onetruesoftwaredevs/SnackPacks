@@ -2,6 +2,19 @@ import {StyleSheet} from 'react-native';
 
 export const global_stylesheet = StyleSheet.create({
 
+    screen_container: {
+        padding: 0,
+        width: '100%',
+        height: '100%',
+        justifyContent: 'space-between'
+    },
+
+    basic_container: {
+        backgroundColor: "#FFF",
+        marginBottom: 6,
+        marginRight: 6,
+    },
+
     horizontal_container_tight: {
         flexDirection: 'row',
     },
@@ -50,7 +63,7 @@ export const global_stylesheet = StyleSheet.create({
 
     back_style: {
         color: '#fdfdfd',
-        backgroundColor: '#44AAff',
+        backgroundColor: '#4Af',
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
@@ -59,6 +72,30 @@ export const global_stylesheet = StyleSheet.create({
         textAlignVertical: 'center',
         textTransform: 'none',
         padding: 8
+    },
+
+    data_title_style: {
+        color: '#444',
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4
+    },
+
+    data_style: {
+        color: '#444',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4
     },
 
 });
