@@ -8,6 +8,8 @@ import React, {Component} from 'react';
 import {ScrollView, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import CustomSnackPackPriceView from "./CustomSnackPackPriceView";
 import CustomSnackPackComponentPreview from "./CustomSnackPackComponentPreview";
+import ScreenHeader from "../misc/ScreenHeader";
+import BackButton from "../misc/BackButton";
 
 export default class CustomSnackPackView extends Component {
     // display
@@ -17,14 +19,15 @@ export default class CustomSnackPackView extends Component {
     // metadata
     id;         // number
 
-    _goBack = () => {
-        this.props.navigation.goBack();
+    _addNewItems = () => {
+        this.props.navigation.navigate("CustomSnackPackComponentView");
     };
+
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.name_style}>{this.props.navigation.state.params.name}</Text>
+                <ScreenHeader title={this.props.navigation.state.params.name} navigation={this.props.navigation}/>
 
                 <ScrollView style={styles.scroll_container}>
                     <CustomSnackPackComponentPreview name={"meat"} price={1.00} quantity={2}/>
@@ -33,17 +36,21 @@ export default class CustomSnackPackView extends Component {
                     <CustomSnackPackComponentPreview name={"bread"} price={9.99} quantity={1}/>
                     <CustomSnackPackComponentPreview name={"doritos"} price={6.75} quantity={8}/>
                     <CustomSnackPackComponentPreview name={"beans"} price={4.20} quantity={4}/>
+                    <CustomSnackPackComponentPreview name={"snack"} price={1.00} quantity={2}/>
+                    <CustomSnackPackComponentPreview name={"chex mix"} price={3.5} quantity={4}/>
+                    <CustomSnackPackComponentPreview name={"pizza"} price={4.25} quantity={5}/>
+                    <CustomSnackPackComponentPreview name={"flatbread"} price={9.99} quantity={1}/>
+                    <CustomSnackPackComponentPreview name={"oreos"} price={6.75} quantity={8}/>
+                    <CustomSnackPackComponentPreview name={"bologna"} price={4.20} quantity={4}/>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this._addNewItems}>
                         <Text style={styles.item_style}>Add New Items</Text>
                     </TouchableOpacity>
                 </ScrollView>
                 <View>
                     <CustomSnackPackPriceView price={this.props.navigation.state.params.price} quantity={1}/>
 
-                    <TouchableOpacity style={styles.button_style} onPress={this._goBack}>
-                        <Text style={styles.back_style}>Back</Text>
-                    </TouchableOpacity>
+                    <BackButton navigation={this.props.navigation}/>
                 </View>
             </View>
         );
@@ -76,19 +83,6 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         marginRight: 6,
         marginTop: 6
-    },
-
-    back_style: {
-        color: '#fdfdfd',
-        backgroundColor: '#44AAff',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 8
     },
 
     item_style: {

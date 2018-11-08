@@ -7,6 +7,8 @@
 import React, {Component} from 'react';
 import {Alert, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import CustomSnackPackPreview from "../components/custom/CustomSnackPackPreview";
+import {global_stylesheet} from "../stylesheet";
+import ScreenHeader from "../components/misc/ScreenHeader";
 
 export default class CustomSnackPackScreen extends Component {
     // display
@@ -21,13 +23,18 @@ export default class CustomSnackPackScreen extends Component {
         return (
             <View style={styles.container}>
                 <View>
-                    <Text style={styles.title_style}>My Custom SnackPacks</Text>
+                    <ScreenHeader title={"My Custom SnackPacks"} navigation={this.props.navigation}/>
 
-                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00} navigation={this.props.navigation}/>
-                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00} navigation={this.props.navigation}/>
-                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00} navigation={this.props.navigation}/>
-                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00} navigation={this.props.navigation}/>
-                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00} navigation={this.props.navigation}/>
+                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00}
+                                            navigation={this.props.navigation}/>
+                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00}
+                                            navigation={this.props.navigation}/>
+                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00}
+                                            navigation={this.props.navigation}/>
+                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00}
+                                            navigation={this.props.navigation}/>
+                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00}
+                                            navigation={this.props.navigation}/>
 
                 </View>
 
@@ -48,6 +55,7 @@ const styles = StyleSheet.create({
     },
 
     title_style: {
+        flex: 1,
         color: '#444',
         backgroundColor: '#fff',
         fontSize: 30,
@@ -91,5 +99,21 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textTransform: 'none',
         padding: 8
+    },
+
+    menu_style: {
+        flex: 1,
+        backgroundColor: '#fdfdfd',
+        color: '#4AF',
+        fontSize: 24,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        paddingHorizontal: 24,
+        paddingVertical: 4,
+        marginVertical: 6
     },
 });
