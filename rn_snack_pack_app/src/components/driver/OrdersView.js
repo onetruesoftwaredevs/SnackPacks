@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import OrderPreview from "./OrderPreview";
 import OrderManager from '../../function/OrderManager'
 import Driver from "../../function/Driver";
@@ -53,16 +53,13 @@ export default class OrdersView extends Component {
     render() {
         if (this.state.isLoading) {
             return (
-                <View style={styles.container}>
-                    <Text style={styles.loading_text}>Loading</Text>
+                <View style={global_stylesheet.screen_container}>
+                    <Text style={global_stylesheet.loading_text}>Loading</Text>
                 </View>
             );
         }
 
-        let swipe_option = "none";
-        if (!this.props.navigation.state.params.isDriver) {
-            swipe_option = "available_option";
-        }
+        let swipe_option = this.props.navigation.state.params.isDriver ? "none" : "available_option";
 
         return (
             <View style={global_stylesheet.screen_container}>
@@ -99,63 +96,3 @@ export default class OrdersView extends Component {
         );
     }
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        justifyContent: 'space-between'
-    },
-
-    horizontal_container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-    loading_text: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    name_style: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    map_style: {
-        height: '75%',
-    },
-
-    button_style: {
-        width: '100%',
-    },
-
-    back_style: {
-        color: '#fdfdfd',
-        backgroundColor: '#44AAff',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 8
-    },
-});
-
