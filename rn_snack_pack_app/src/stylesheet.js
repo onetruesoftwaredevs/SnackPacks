@@ -4,7 +4,11 @@ export const global_stylesheet = StyleSheet.create({
 
     horizontal_container_tight: {
         flexDirection: 'row',
-        //justifyContent: 'space-between'
+    },
+
+    horizontal_container_loose: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
 
     title_style: {

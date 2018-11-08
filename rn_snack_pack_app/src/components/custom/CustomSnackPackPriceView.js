@@ -6,6 +6,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import NewQuantityComponent from "../misc/NewQuantityComponent";
 
 export default class CustomSnackPackPriceView extends Component {
     // display
@@ -19,21 +20,9 @@ export default class CustomSnackPackPriceView extends Component {
         this.state = {quantity: props.quantity,};
     }
 
-    _decreaseQuantity = () => {
-        if (this.state.quantity < 1) {
-            return;
-        }
-        this.setState({
-            quantity: this.state.quantity - 1
-        });
+    onQuantityChanged = (q) => {
+        this.setState({quantity: q});
     };
-
-    _increaseQuantity = () => {
-        this.setState({
-            quantity: this.state.quantity + 1
-        });
-    };
-
 
     render() {
         let price = Number(this.props.price).toFixed(2);
@@ -44,23 +33,10 @@ export default class CustomSnackPackPriceView extends Component {
                     <Text style={styles.text_style}>Price</Text>
                     <Text style={styles.value_style}>${price}</Text>
                 </View>
-                <View style={styles.horizontal_container}>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.text_style}>Quantity:</Text>
-                        <Text style={styles.value_style}>{this.state.quantity}</Text>
-                    </View>
-                    <View style={styles.horizontal_container}>
-                        <View style={styles.horizontal_container}>
-                            <TouchableOpacity onPress={this._decreaseQuantity}>
-                                <Text style={styles.decrease_style}>-</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={this._increaseQuantity}>
-                                <Text style={styles.increase_style}>+</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View/>
-                    </View>
-                </View>
+
+                <NewQuantityComponent quantity={this.props.quantity} onIncrease={this.onQuantityChanged}
+                                      onDecrease={this.onQuantityChanged}/>
+
                 <View style={styles.horizontal_container}>
                     <Text style={styles.text_style}>Subtotal</Text>
                     <Text style={styles.value_style}>{subtotal}</Text>
