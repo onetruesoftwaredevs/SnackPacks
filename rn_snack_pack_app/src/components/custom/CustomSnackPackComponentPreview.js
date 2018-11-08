@@ -15,17 +15,28 @@ export default class CustomSnackPackComponentPreview extends Component {
     quantity;   // number (initial value)
     // metadata
     id;         // number
+    navigation; // object
+
+    _displayDetailedView = () => {
+        this.props.navigation.navigate("CustomSnackPackComponent", {
+            name: this.props.name,
+            price: this.props.price,
+            quantity: this.props.quantity,
+            allergens: ["rice", "beans", "toast"],
+            contents: ["pepper", "potato", "onion"],
+        });
+    };
 
     render() {
         let price = Number(this.props.price).toFixed(2);
         return (
-            <View style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress={this._displayDetailedView}>
                 <View style={styles.horizontal_container}>
                     <Text style={styles.name_style}>{this.props.name}</Text>
                     <Text style={styles.price_style}>${price}</Text>
                 </View>
                 <NewQuantityComponent quantity={this.props.quantity}/>
-            </View>
+            </TouchableOpacity>
         );
     }
 }
@@ -52,60 +63,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textTransform: 'none',
         padding: 4
-    },
-
-    data_title_style: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    data_style: {
-        color: '#444',
-        fontSize: 16,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    increase_style: {
-        color: '#fff',
-        backgroundColor: "#4A4",
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        paddingVertical: 4,
-        paddingHorizontal: 24,
-
-    },
-
-    decrease_style: {
-        color: '#fff',
-        backgroundColor: "#F44",
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        paddingVertical: 4,
-        paddingHorizontal: 24,
-
     },
 
     price_style: {

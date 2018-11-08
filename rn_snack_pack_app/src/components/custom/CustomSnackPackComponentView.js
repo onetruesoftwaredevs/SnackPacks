@@ -21,18 +21,30 @@ export default class CustomSnackPackComponentView extends Component {
                 <ScreenHeader title={"All Components"} navigation={this.props.navigation}/>
 
                 <ScrollView style={styles.scroll_container}>
-                    <CustomSnackPackComponentPreview name={"meat"} price={1.00} quantity={2}/>
-                    <CustomSnackPackComponentPreview name={"cheese"} price={3.5} quantity={4}/>
-                    <CustomSnackPackComponentPreview name={"beans"} price={4.25} quantity={5}/>
-                    <CustomSnackPackComponentPreview name={"bread"} price={9.99} quantity={1}/>
-                    <CustomSnackPackComponentPreview name={"doritos"} price={6.75} quantity={8}/>
-                    <CustomSnackPackComponentPreview name={"beans"} price={4.20} quantity={4}/>
-                    <CustomSnackPackComponentPreview name={"snack"} price={1.00} quantity={2}/>
-                    <CustomSnackPackComponentPreview name={"chex mix"} price={3.5} quantity={4}/>
-                    <CustomSnackPackComponentPreview name={"pizza"} price={4.25} quantity={5}/>
-                    <CustomSnackPackComponentPreview name={"flatbread"} price={9.99} quantity={1}/>
-                    <CustomSnackPackComponentPreview name={"oreos"} price={6.75} quantity={8}/>
-                    <CustomSnackPackComponentPreview name={"bologna"} price={4.20} quantity={4}/>
+                    <CustomSnackPackComponentPreview name={"meat"} price={1.00} quantity={2}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"cheese"} price={3.5} quantity={4}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"beans"} price={4.25} quantity={5}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"bread"} price={9.99} quantity={1}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"doritos"} price={6.75} quantity={8}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"beans"} price={4.20} quantity={4}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"snack"} price={1.00} quantity={2}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"chex mix"} price={3.5} quantity={4}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"pizza"} price={4.25} quantity={5}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"flatbread"} price={9.99} quantity={1}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"oreos"} price={6.75} quantity={8}
+                                                     navigation={this.props.navigation}/>
+                    <CustomSnackPackComponentPreview name={"bologna"} price={4.20} quantity={4}
+                                                     navigation={this.props.navigation}/>
                 </ScrollView>
 
                 <BackButton navigation={this.props.navigation}/>

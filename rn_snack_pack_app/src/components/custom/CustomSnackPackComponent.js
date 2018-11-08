@@ -5,10 +5,14 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import BackButton from "../misc/BackButton";
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
+import NewQuantityComponent from "../misc/NewQuantityComponent";
+import NutritionView from "../menu/NutritionView";
+import AllergyView from "../misc/AllergyView";
+import ContentView from "../misc/ContentView";
 
 export default class CustomSnackPackComponent extends Component {
     // display
@@ -27,23 +31,49 @@ export default class CustomSnackPackComponent extends Component {
     /*allergens         */
     /*contents          */
     /*                  */
+
     /*back              */
 
     render() {
         let props = this.props.navigation.state.params;
+        let price = Number(props.price).toFixed(2);
 
         return (
-            <View style={styles.container}>
-                <ScreenHeader title={props.name} navigation={this.props.navigation}/>
-
+            <View style={global_stylesheet.screen_container}>
+                <View>
+                    <ScreenHeader title={props.name} navigation={this.props.navigation}/>
+                    <View style={global_stylesheet.basic_container}>
+                        <View style={global_stylesheet.horizontal_container_loose}>
+                            <Text style={global_stylesheet.data_title_style}>Price</Text>
+                            <Text style={global_stylesheet.data_style}>${price}</Text>
+                        </View>
+                    </View>
+                    <View style={global_stylesheet.basic_container}>
+                        <NewQuantityComponent quantity={props.quantity}/>
+                    </View>
+                    <View style={global_stylesheet.basic_container}>
+                        <Text style={global_stylesheet.data_title_style}>Allergy Information</Text>
+                        <FlatList
+                            horizontal={true}
+                            data={props.allergens}
+                            keyExtractor={(item) => item}
+                            extraData={this.state}
+                            renderItem={({item}) => <AllergyView allergy={item}/>}
+                        />
+                    </View>
+                    <View style={global_stylesheet.basic_container}>
+                        <Text style={global_stylesheet.data_title_style}>Contents</Text>
+                        <FlatList
+                            horizontal={true}
+                            data={props.contents}
+                            keyExtractor={(item) => item}
+                            extraData={this.state}
+                            renderItem={({item}) => <ContentView content={item}/>}
+                        />
+                    </View>
+                </View>
                 <BackButton navigation={this.props.navigation}/>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 0,
-    }
-});
