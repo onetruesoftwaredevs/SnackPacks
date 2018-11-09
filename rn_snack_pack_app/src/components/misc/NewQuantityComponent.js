@@ -8,11 +8,10 @@
  * */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
-import Cart from '../../function/Cart'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 
-export default class ScreenHeader extends Component {
+export default class NewQuantityComponent extends Component {
     quantity;   // number
     navigation; // object
     onIncrease; // function (int [new quantity])
