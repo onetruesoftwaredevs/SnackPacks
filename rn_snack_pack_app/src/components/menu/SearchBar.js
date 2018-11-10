@@ -42,23 +42,27 @@ export default class SearchBar extends Component {
         Menu.getInstance().setSearchFilter('name');
     };
 
-    _selectAllergens = () => {
-        this.setState({selectedOption: 'allergens'})
+    _selectContents = () => {
+        this.setState({selectedOption: 'allergens'});
+        Menu.getInstance().setSearchFilter('contents');
     };
 
     render() {
         let nameStyle = this.state.selectedOption === 'name' ? styles.selected_option : styles.not_selected_option;
-        let allergensStyle = this.state.selectedOption === 'name' ? styles.not_selected_option : styles.selected_option;
-        let placeholder = this.state.selectedOption === 'name' ? 'search by name ' : 'search by allergens ';
+        let contentsStyle = this.state.selectedOption === 'name' ? styles.not_selected_option : styles.selected_option;
+        let placeholder = this.state.selectedOption === 'name' ? 'search by name ' : 'search by contents ';
 
         let filters = this.state.showFilters ? (
-            <View style={global_stylesheet.horizontal_container_tight}>
-                <TouchableOpacity onPress={this._selectName}>
-                    <Text style={nameStyle}>name</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this._selectAllergens}>
-                    <Text style={allergensStyle}>allergens</Text>
-                </TouchableOpacity>
+            <View style={global_stylesheet.horizontal_container_loose}>
+                <Text style={global_stylesheet.data_title_style}>Search by</Text>
+                <View style={global_stylesheet.horizontal_container_tight}>
+                    <TouchableOpacity onPress={this._selectName}>
+                        <Text style={nameStyle}>name</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this._selectContents}>
+                        <Text style={contentsStyle}>contents</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         ) : (<View/>);
 
