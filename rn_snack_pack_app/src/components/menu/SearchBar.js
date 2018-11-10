@@ -5,10 +5,11 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
+import Menu from "../../function/Menu";
 
-export default class AllergyView extends Component {
+export default class SearchBar extends Component {
 
     onSearch; // function
 
@@ -17,6 +18,7 @@ export default class AllergyView extends Component {
         this.state = {
             showFilters: false,
             selectedOption: 'name',
+            search: 'none'
         };
     }
 
@@ -25,7 +27,11 @@ export default class AllergyView extends Component {
     };
 
     _onSearch = () => {
-        Alert.alert('Search', 'search has been completed');
+        if (this.state.search === '') {
+            Menu.getInstance().setSearchTerm('none');
+        } else {
+            Menu.getInstance().setSearchTerm(this.state.search);
+        }
         if (this.props.onSearch !== undefined) {
             this.props.onSearch();
         }
@@ -33,6 +39,7 @@ export default class AllergyView extends Component {
 
     _selectName = () => {
         this.setState({selectedOption: 'name'});
+        Menu.getInstance().setSearchFilter('name');
     };
 
     _selectAllergens = () => {
@@ -62,7 +69,8 @@ export default class AllergyView extends Component {
                         <TouchableOpacity onPress={this._onFilter}>
                             <Text style={global_stylesheet.header_style}> = </Text>
                         </TouchableOpacity>
-                        <TextInput style={global_stylesheet.header_style} placeholder={placeholder} editable={true} multiline={false}/>
+                        <TextInput style={global_stylesheet.header_style} placeholder={placeholder} editable={true}
+                                   multiline={false} onChangeText={(text) => this.setState({search: text})}/>
                     </View>
                     <TouchableOpacity onPress={this._onSearch}>
                         <Text style={global_stylesheet.header_style}>> </Text>

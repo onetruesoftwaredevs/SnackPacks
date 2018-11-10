@@ -18,8 +18,13 @@ export default class MenuScreen extends Component {
         this.state = {
             isLoading: true,
             dataSource: [],
+            search: 'none',
         };
     }
+
+    _onSearch = () => {
+        this.setState({search: Menu.getInstance().getSearchTerm()});
+    };
 
     loadData(responseJson) {
         Menu.getInstance().setData(responseJson);
@@ -51,7 +56,7 @@ export default class MenuScreen extends Component {
         return (
             <View style={global_stylesheet.screen_container}>
                 <ScreenHeader title={"SnackPacks"} navigation={this.props.navigation} isDefaultScreen={true}/>
-                <SearchBar/>
+                <SearchBar onSearch={this._onSearch}/>
                 <FlatList
                     data={Menu.getInstance().getData()}
                     extraData={this.state}

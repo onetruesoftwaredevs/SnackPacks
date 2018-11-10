@@ -8,8 +8,10 @@
 class Menu {
     constructor() {
         if (!Menu.instance) {
-            this._menu = new Array();
-            this._names = new Array();
+            this._menu = [];
+            this._names = [];
+            this._search_filter = "none";
+            this._search = 'none';
             Menu.instance = this;
         }
         return Menu.instance;
@@ -34,8 +36,42 @@ class Menu {
         }
     }
 
+    setSearchFilter(filter) {
+        this._search_filter = filter;
+    }
+
+    setSearchTerm(search) {
+        this._search = search;
+    }
+
+    getSearchTerm() {
+        return this._search;
+    }
+
+    getSearch() {
+        if (this._search_filter === 'none') {
+            return this._menu;
+        }
+
+        if (this._search_filter === 'name') {
+            let data = [];
+            for (let i = 0; i < this._menu.length; i++) {
+                let item = this._menu[i];
+                if (item._name === this._search) {
+                    data.push(item);
+                }
+            }
+            return data;
+        }
+
+        return [];
+    }
+
     getData() {
-        return this._menu;
+        if (this._search === 'none') {
+            return this._menu;
+        }
+        return this.getSearch();
     }
 }
 
