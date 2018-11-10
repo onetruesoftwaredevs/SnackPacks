@@ -6,7 +6,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import Cart from '../../function/Cart.js'
 import NewQuantityComponent from "../misc/NewQuantityComponent";
 import {global_stylesheet} from "../../stylesheet";
@@ -55,8 +55,8 @@ export default class OrderItemView extends Component {
         return (
             <View style={global_stylesheet.basic_container}>
                 <View style={global_stylesheet.horizontal_container_loose}>
-                    <Text style={styles.name_style}>{this.props.name}</Text>
-                    <Text style={styles.price_style}>${price}</Text>
+                    <Text style={global_stylesheet.header_style}>{this.props.name}</Text>
+                    <Text style={global_stylesheet.data_style}>${price}</Text>
                 </View>
                 <NewQuantityComponent quantity={this.state.quantity} onIncrease={this._onIncrease}
                                       onDecrease={this._onDecrease}/>
@@ -64,31 +64,5 @@ export default class OrderItemView extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    name_style: {
-        color: '#444',
-        fontSize: 24,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    price_style: {
-        color: '#444',
-        fontSize: 16,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 2
-    },
-});
 
 

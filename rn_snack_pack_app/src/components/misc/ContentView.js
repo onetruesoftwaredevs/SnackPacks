@@ -5,20 +5,19 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Alert} from 'react-native';
-import NewQuantityComponent from "../misc/NewQuantityComponent";
+import {Alert, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 export default class ContentView extends Component {
     // display
     content;    // string
 
-    _onPress = (text) => {
-        Alert.alert('Content Information', 'This product contains ' + `${text}`);
+    _onPress = () => {
+        Alert.alert('Content Information', 'This product contains ' + this.props.content);
     };
 
     render() {
         return (
-            <TouchableOpacity style={styles.container} onPress={this._onPress.bind(this.props.content)}>
+            <TouchableOpacity style={styles.container} onPress={this._onPress}>
                 <Text style={styles.text_style}>{this.props.content}</Text>
             </TouchableOpacity>
         );
