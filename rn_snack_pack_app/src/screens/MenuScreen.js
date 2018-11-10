@@ -10,6 +10,7 @@ import SnackPackView from "../components/menu/SnackPackView";
 import Menu from "../function/Menu";
 import ScreenHeader from "../components/misc/ScreenHeader";
 import {global_stylesheet} from "../stylesheet";
+import SearchBar from "../components/menu/SearchBar";
 
 export default class MenuScreen extends Component {
     constructor(props) {
@@ -50,6 +51,7 @@ export default class MenuScreen extends Component {
         return (
             <View style={global_stylesheet.screen_container}>
                 <ScreenHeader title={"SnackPacks"} navigation={this.props.navigation} isDefaultScreen={true}/>
+                <SearchBar/>
                 <FlatList
                     data={Menu.getInstance().getData()}
                     extraData={this.state}

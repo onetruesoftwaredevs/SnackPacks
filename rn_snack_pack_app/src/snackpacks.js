@@ -1,7 +1,6 @@
 // snackpacks.js
-import React, {Component} from 'react';
-import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation'
-import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {DrawerNavigator, StackNavigator} from 'react-navigation'
 import MenuScreen from "./screens/MenuScreen";
 import CartScreen from "./screens/CartScreen";
 import DriverScreen from "./screens/DriverScreen";
@@ -74,12 +73,11 @@ const CustomNavigation = StackNavigator({
 
 
 export const SnackPacks = DrawerNavigator({
-    Custom: {
-        screen: CustomNavigation,
-    },
-
     Menu: {
         screen: MenuScreen,
+    },
+    Custom: {
+        screen: CustomNavigation,
     },
     Cart: {
         screen: CartScreen,
