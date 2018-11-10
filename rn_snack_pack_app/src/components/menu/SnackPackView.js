@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import Rating from "../misc/Rating";
 import Cart from "../../function/Cart";
 import {global_stylesheet} from "../../stylesheet";
@@ -19,7 +19,10 @@ export default class SnackPackView extends Component {
     sprating;       // number
     spprice;        // number
     spallergylist;  // list(string)
+    spcontentlist;  // list(string)
     spimage;        // string
+    navigation;     // object
+    parent;
 
     constructor(props) {
         super();
@@ -27,7 +30,17 @@ export default class SnackPackView extends Component {
     }
 
     _pressed = () => {
-        Alert.alert("Component Selected", "this component has been selected");
+        this.props.navigation.navigate("DetailedSnackPackView", {
+            name: this.props.spname,
+            price: this.props.spprice,
+            image: this.props.spimage,
+            quantity: this.state.quantity,
+            allergens: this.props.spallergylist,
+            contents: this.props.spcontentlist,
+            onIncrease: this._onIncrease,
+            onDecrease: this._onDecrease,
+            parent: this.props.parent,
+        })
     };
 
     _onIncrease = (quantity) => {
@@ -41,7 +54,9 @@ export default class SnackPackView extends Component {
         }
 
         // set the state to force an update
-        this.setState({quantity: quantity});
+        this.setState({quantity: quantity}, () => {
+            this.forceUpdate();
+        });
     };
 
     _onDecrease = (quantity) => {
@@ -53,7 +68,9 @@ export default class SnackPackView extends Component {
             Cart.getInstance().setQuantity(this.props.spname, quantity);
         }
         // set the state to force an update
-        this.setState({quantity: quantity});
+        this.setState({quantity: quantity}, () => {
+            this.forceUpdate();
+        });
     };
 
     render() {
@@ -65,10 +82,11 @@ export default class SnackPackView extends Component {
                         <Text style={global_stylesheet.data_title_style}>{this.props.spname}</Text>
                         <Text style={global_stylesheet.data_style}>${price}</Text>
                     </View>
-                    <Image style={styles.image_style} source={{uri: this.props.spimage}}/>
+                    <Image style={global_stylesheet.image_style} source={{uri: this.props.spimage}}/>
                     <View style={global_stylesheet.horizontal_container_loose}>
                         <FlatList
                             horizontal={true}
+                            extraData={this.state}
                             data={this.props.spallergylist}
                             renderItem={({item}) => <AllergyView allergy={item}/>}
                             keyExtractor={(item) => item}
@@ -76,21 +94,9 @@ export default class SnackPackView extends Component {
                         <Rating starCount={this.props.sprating} editable={false}/>
                     </View>
                 </TouchableOpacity>
-                <NewQuantityComponent quantity={Cart.getInstance().getQuantity(this.props.spname)}
-                                      navigation={this.props.navigation} onIncrease={this._onIncrease}
-                                      onDecrease={this._onDecrease}/>
+                <NewQuantityComponent quantity={this.state.quantity} navigation={this.props.navigation}
+                                      onIncrease={this._onIncrease} onDecrease={this._onDecrease}/>
             </View>
         );
     }
 }
-
-const window = Dimensions.get('window');
-const width = window.width - 6;
-const height = width * 9 / 16;
-
-const styles = StyleSheet.create({
-    image_style: {
-        width: width,
-        height: height,
-    },
-});

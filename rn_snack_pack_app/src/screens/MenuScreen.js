@@ -66,7 +66,10 @@ export default class MenuScreen extends Component {
                         spprice={item._cost}
                         sprating={3}
                         spallergylist={item._allergens}
+                        spcontentlist={item._contents}
                         spimage={item.image_path}
+                        navigation={this.props.navigation}
+                        parent={this}
                     />}
                 />
             </View>

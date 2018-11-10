@@ -3,7 +3,7 @@ let CartItem = require('./CartItem');
 class Cart {
     constructor() {
         if (!Cart.instance) {
-            this.cart = new Array();
+            this.cart = [];
             this.total_cost = 0;
             Cart.instance = this;
         }
