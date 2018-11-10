@@ -49,8 +49,8 @@ export default class NewQuantityComponent extends Component {
         return (
             <View style={global_stylesheet.horizontal_container_loose}>
                 <View style={global_stylesheet.horizontal_container_tight}>
-                    <Text style={styles.data_title_style}>Quantity: </Text>
-                    <Text style={styles.data_style}>{this.state.quantity}</Text>
+                    <Text style={global_stylesheet.data_title_style}>Quantity: </Text>
+                    <Text style={global_stylesheet.data_style}>{this.state.quantity}</Text>
                 </View>
                 <View style={global_stylesheet.horizontal_container_tight}>
                     <TouchableOpacity onPress={this._decreaseQuantity}>
@@ -66,30 +66,6 @@ export default class NewQuantityComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-    data_title_style: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    data_style: {
-        color: '#444',
-        fontSize: 16,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
     increase_style: {
         color: '#fff',
         backgroundColor: "#4A4",

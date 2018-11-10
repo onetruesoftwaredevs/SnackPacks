@@ -82,6 +82,18 @@ export const global_stylesheet = StyleSheet.create({
         padding: 8
     },
 
+    header_style: {
+        color: '#444',
+        fontSize: 24,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4
+    },
+
     data_title_style: {
         color: '#444',
         fontSize: 20,
