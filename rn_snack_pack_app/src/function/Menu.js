@@ -64,6 +64,21 @@ class Menu {
             return data;
         }
 
+        if (this._search_filter === 'contents') {
+            let data = [];
+            for (let i = 0; i < this._menu.length; i++) {
+                let item = this._menu[i];
+                let contents = item._contents;
+                for (let j = 0; j < contents.length; j++) {
+                    let content = contents[j];
+                    if (content === this._search) {
+                        data.push(item);
+                    }
+                }
+            }
+            return data;
+        }
+
         return [];
     }
 
