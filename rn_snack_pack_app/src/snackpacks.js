@@ -13,6 +13,7 @@ import CustomSnackPackScreen from "./screens/CustomSnackPackScreen";
 import CustomSnackPackView from "./components/custom/CustomSnackPackView";
 import CustomSnackPackComponentView from "./components/custom/CustomSnackPackComponentView";
 import CustomSnackPackComponent from "./components/custom/CustomSnackPackComponent";
+import DetailedSnackPackView from "./components/menu/DetailedSnackPackView";
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -28,7 +29,7 @@ const DriverNavigation = StackNavigator({
     DriverProfile: {
         screen: DriverProfile,
     },
-    ReviewBuilderView:{
+    ReviewBuilderView: {
         screen: ReviewBuilderView,
     }
 }, {
@@ -47,7 +48,7 @@ const OrderNavigation = StackNavigator({
     DriverProfile: {
         screen: DriverProfile,
     },
-    ReviewBuilderView:{
+    ReviewBuilderView: {
         screen: ReviewBuilderView,
     },
 }, {
@@ -67,14 +68,25 @@ const CustomNavigation = StackNavigator({
     CustomSnackPackComponent: {
         screen: CustomSnackPackComponent,
     }
-},{
+}, {
+    headerMode: 'none',
+});
+
+const MenuNavigation = StackNavigator({
+    Menu: {
+        screen: MenuScreen,
+    },
+    DetailedSnackPackView: {
+        screen: DetailedSnackPackView,
+    },
+}, {
     headerMode: 'none',
 });
 
 
 export const SnackPacks = DrawerNavigator({
     Menu: {
-        screen: MenuScreen,
+        screen: MenuNavigation,
     },
     Custom: {
         screen: CustomNavigation,

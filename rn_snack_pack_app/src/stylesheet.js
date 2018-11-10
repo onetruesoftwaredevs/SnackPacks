@@ -1,4 +1,8 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
+
+const window = Dimensions.get('window');
+const image_width = window.width - 6;
+const image_height = image_width * 9 / 16;
 
 export const global_stylesheet = StyleSheet.create({
 
@@ -156,4 +160,10 @@ export const global_stylesheet = StyleSheet.create({
         padding: 8
     },
 
+    image_style: {
+        width: image_width,
+        height: image_height,
+    },
+
 });
+
