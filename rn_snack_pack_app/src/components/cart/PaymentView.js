@@ -18,7 +18,8 @@ export default class PaymentView extends Component{
 
     _handlePayment=()=>{//TODO react-native create new instance?
         //Alert.alert("Payment button pressed", "test");
-        this.props.navigator.navigate('CheckoutView',{
+        this.props.navigation.navigate('CheckoutView', {
+            title: 'Checkout',
             subtotal:this.props.subtotal,
         });
     };

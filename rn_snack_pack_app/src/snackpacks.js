@@ -1,7 +1,7 @@
 // snackpacks.js
-import React, {Component} from 'react';
-import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation'
-import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import React,{Component} from 'react';
+import {TabNavigator,StackNavigator,DrawerNavigator} from 'react-navigation'
+import {TouchableOpacity,StyleSheet,Text,View} from 'react-native';
 import MenuScreen from "./screens/MenuScreen";
 import CartScreen from "./screens/CartScreen";
 import DriverScreen from "./screens/DriverScreen";
@@ -15,92 +15,96 @@ import CustomSnackPackScreen from "./screens/CustomSnackPackScreen";
 import CustomSnackPackView from "./components/custom/CustomSnackPackView";
 import CustomSnackPackComponentView from "./components/custom/CustomSnackPackComponentView";
 import CustomSnackPackComponent from "./components/custom/CustomSnackPackComponent";
+import PaymentView from "./components/cart/PaymentView";
 
-const DriverNavigation = StackNavigator({
-    DriversScreen: {
-        screen: DriverScreen,
+const DriverNavigation=StackNavigator({
+    DriversScreen:{
+        screen:DriverScreen,
     },
 
-    OrdersView: {
-        screen: OrdersView,
+    OrdersView:{
+        screen:OrdersView,
     },
-    DetailedOrderView: {
-        screen: DetailedOrderView,
+    DetailedOrderView:{
+        screen:DetailedOrderView,
     },
-    DriverProfile: {
-        screen: DriverProfile,
+    DriverProfile:{
+        screen:DriverProfile,
     },
     ReviewBuilderView:{
-        screen: ReviewBuilderView,
-    }
-}, {
-    headerMode: 'none',
-});
-
-const PaymentNavigation = StackNavigator({
-    CartScreen: {
-        screen: CartScreen,
-    },
-    CheckoutView: {
-        screen: CheckoutView,
-    }
-}, {
-    headerMode: "none",
-});
-
-const OrderNavigation = StackNavigator({
-    Orders: {
-        screen: OrderScreen,
-    },
-
-    DetailedOrderView: {
-        screen: DetailedOrderView,
-    },
-
-    DriverProfile: {
-        screen: DriverProfile,
-    },
-    ReviewBuilderView:{
-        screen: ReviewBuilderView,
-    },
-}, {
-    headerMode: 'none',
-});
-
-const CustomNavigation = StackNavigator({
-    Custom: {
-        screen: CustomSnackPackScreen,
-    },
-    CustomSnackPack: {
-        screen: CustomSnackPackView,
-    },
-    CustomSnackPackComponentView: {
-        screen: CustomSnackPackComponentView,
-    },
-    CustomSnackPackComponent: {
-        screen: CustomSnackPackComponent,
+        screen:ReviewBuilderView,
     }
 },{
-    headerMode: 'none',
+    headerMode:'none',
+});
+
+const PaymentNavigation=StackNavigator({
+    CartScreen:{
+        screen:CartScreen,
+    },
+    CheckoutView:{
+        screen:CheckoutView,
+    },
+    PaymentView:{
+        screen:PaymentView,
+    }
+},{
+    headerMode:"none",
+});
+
+const OrderNavigation=StackNavigator({
+    Orders:{
+        screen:OrderScreen,
+    },
+
+    DetailedOrderView:{
+        screen:DetailedOrderView,
+    },
+
+    DriverProfile:{
+        screen:DriverProfile,
+    },
+    ReviewBuilderView:{
+        screen:ReviewBuilderView,
+    },
+},{
+    headerMode:'none',
+});
+
+const CustomNavigation=StackNavigator({
+    Custom:{
+        screen:CustomSnackPackScreen,
+    },
+    CustomSnackPack:{
+        screen:CustomSnackPackView,
+    },
+    CustomSnackPackComponentView:{
+        screen:CustomSnackPackComponentView,
+    },
+    CustomSnackPackComponent:{
+        screen:CustomSnackPackComponent,
+    }
+},{
+    headerMode:'none',
 });
 
 
-export const SnackPacks = DrawerNavigator({
-    Custom: {
-        screen: CustomNavigation,
+export const SnackPacks=DrawerNavigator({
+    Custom:{
+        screen:CustomNavigation,
     },
 
-    Menu: {
-        screen: MenuScreen,
+    Menu:{
+        screen:MenuScreen,
     },
-    Cart: {
-        screen: PaymentNavigation,
+    Cart:{
+        screen:PaymentNavigation,
     },
-    Drivers: {
-        screen: DriverNavigation,
+    Drivers:{
+        screen:DriverNavigation,
     },
-    Orders: {
-        screen: OrderNavigation,
+    Orders:{
+        screen:OrderNavigation,
     },
 });
 

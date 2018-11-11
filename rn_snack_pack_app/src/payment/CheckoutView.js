@@ -1,7 +1,6 @@
 import {View,TouchableOpacity,Text,Platform,StyleSheet,WebView,TextInput} from 'react-native';
 import React,{Component} from "react";
 import PaymentView from "../components/cart/PaymentView";
-import Cart from "../function/Cart";
 
 const payment=require('./payment.html');
 
@@ -74,7 +73,7 @@ export default class CheckoutView extends Component{
                     onChangeText={(text)=>this.setState({tip:text})}
                 />
                 <PaymentView subtotal={this.props.navigation.state.params.subtotal} tip={this.state.tip}
-                             deliveryFee={1.00}
+                             serviceFee={1.00}
                              navigator={this.props.navigation} checkout={false}/>
                 <TouchableOpacity onPress={this._goBack}>
                     <Text style={styles.back_style}>Back</Text>
