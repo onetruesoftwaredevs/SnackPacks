@@ -11,15 +11,17 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Swipeout from "../../rn-swipe-out";
-import OrderManager from "../../function/OrderManager";
 import Driver from "../../function/Driver";
+import {global_stylesheet} from "../../stylesheet";
 
 export default class OrderPreview extends Component {
     name;                   // string
     number;                 // number
+    driver;                 // string
     order_status;           // string
+    delivery_time;          // string
     payment_info;           // string
     address;                // string
     subtotal;               // number
@@ -30,6 +32,7 @@ export default class OrderPreview extends Component {
     swipe_handler;          // string
     order_manager;          // object
     parent;                 // Component
+    is_reviewable;          // boolean
 
     constructor(props) {
         super();
@@ -55,13 +58,16 @@ export default class OrderPreview extends Component {
         this.props.navigation.navigate('DetailedOrderView', {
             name: this.getName(),
             number: this.getNumber(),
+            driver: this.props.driver,
             order_status: this.props.order_status,
+            delivery_time: this.props.delivery_time,
             payment_info: this.props.payment_info,
             address: this.props.address,
             subtotal: this.props.subtotal,
             tax: this.props.tax,
             total: this.props.total,
             last_screen: this.props.last_screen,
+            isReviewable: this.props.is_reviewable
         });
     };
 
@@ -132,23 +138,23 @@ export default class OrderPreview extends Component {
 
     render() {
         // create method or dictionary to dynamically change background color based on status
-        let order_status_style = [styles.status_style, {backgroundColor: '#44AAff'}];
+        let order_status_style = [styles.status_style, {backgroundColor: '#4AF'}];
         let swipe_handler = null;
         if (this.props.swipe_handler === "available_option") {
             swipe_handler = this.available_option;
         }
-        else {
+        else if (this.props.swipe_handler === "complete_order_option") {
             swipe_handler = this.completeOrderOption;
         }
         return (
-            <TouchableOpacity style={styles.container} onPress={this.showDetailedView}>
+            <TouchableOpacity style={global_stylesheet.basic_container} onPress={this.showDetailedView}>
                 <Swipeout right={swipe_handler}>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.name_style}>{this.getName()}</Text>
-                        <Text style={styles.number_style}>{this.getNumber()}</Text>
+                    <View style={global_stylesheet.horizontal_container_loose}>
+                        <Text style={global_stylesheet.data_title_style}>{this.getName()}</Text>
+                        <Text style={global_stylesheet.data_style}>{this.getNumber()}</Text>
                     </View>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.address_style}>{this.props.address}</Text>
+                    <View style={global_stylesheet.horizontal_container_loose}>
+                        <Text style={global_stylesheet.data_style}>{this.props.address}</Text>
                         <Text style={order_status_style}>{this.props.order_status}</Text>
                     </View>
                 </Swipeout>
@@ -158,17 +164,9 @@ export default class OrderPreview extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#DEDEDE'
-    },
-
-    horizontal_container: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-
-    name_style: {
-        color: '#444',
+    status_style: {
+        color: '#FFF',
+        backgroundColor: '#4AF',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: 'bold',
@@ -176,44 +174,6 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 4
-    },
-
-    number_style: {
-        color: '#444',
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-
-    },
-
-    address_style: {
-        color: '#444',
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-
-    },
-
-    status_style: {
-        color: '#fff',
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
+        padding: 8,
     }
 });
