@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FormGroup, FormControl} from "react-bootstrap";
+import { PageHeader, FormGroup, FormControl} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import "./stylesheets/NewSnackPack.css";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
@@ -70,7 +70,7 @@ export default class NewSnackPack extends Component {
     render() {
         return (
             <div className="NewSnackPack">
-                <h3>New SnackPack:</h3>
+                <PageHeader>New SnackPack:</PageHeader>
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="newName">
                         <ControlLabel>New SnackPack's name: </ControlLabel>
