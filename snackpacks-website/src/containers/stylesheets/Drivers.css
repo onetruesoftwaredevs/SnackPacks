@@ -1,8 +1,13 @@
-.Drivers form Drivers{
-    padding-bottom: 30px;
+.Drivers h3 {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 200;
+    overflow: hidden;
+    line-height: 1.5;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.Drivers form textarea {
-    height: 20px;
+.Drivers form .form-group {
+    height: 24px;
     font-size: 16px;
 }

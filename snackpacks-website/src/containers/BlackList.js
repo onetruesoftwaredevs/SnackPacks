@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
+import {ListGroup, ListGroupItem, PageHeader} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./stylesheets/BlackList.css";
 
@@ -28,12 +28,11 @@ export default class DriverList extends Component {
             .then(() => this.setState({isLoading: false}));
     }
 
-    render() {
+    renderBlackList() {
         return [{}].concat(this.state.drivers).map(
             (driver, i) =>
                 i !== 0
                     ? <ListGroup>
-                        <br></br>
                         <LinkContainer
                             key={i}
                             to={`/blacklist/${i}`}
@@ -46,28 +45,25 @@ export default class DriverList extends Component {
                         <ListGroupItem header="Phone Number:">
                             {driver._phone}
                         </ListGroupItem>
-                        <ListGroupItem header="Car Model:">
-                            {driver._carmodel}
-                        </ListGroupItem>
-                        <ListGroupItem header="Car Make:">
-                            {driver._carmake}
-                        </ListGroupItem>
                         <ListGroupItem header="Rating:">
                             {driver._rating}
                         </ListGroupItem>
                         <ListGroupItem header="Reviews:">
                             {(driver._reviews === "")?"No reviews.":(driver._reviews.split('|')).join(", ")}
                         </ListGroupItem>
+                        <br></br>
                     </ListGroup>
                     :
-                    <ListGroup>
-                        <br></br>
-                        <ListGroupItem>
-                            <h4>
-                                Blacklist:
-                            </h4>
-                        </ListGroupItem>
-                    </ListGroup>
+                    <></>
+        );
+    }
+
+    render() {
+        return (
+            <div className="BlackList">
+                <PageHeader>Blacklist:</PageHeader>
+                {this.renderBlackList()}
+            </div>
         );
     }
 
