@@ -4,6 +4,7 @@ import FormGroup from "react-bootstrap/es/FormGroup";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 import FormControl from "react-bootstrap/es/FormControl";
 import "./stylesheets/Drivers.css";
+import {PageHeader} from "react-bootstrap";
 
 export default class SnackPacks extends Component {
     constructor(props) {
@@ -129,7 +130,7 @@ export default class SnackPacks extends Component {
     render() {
         return (
             <div className="Drivers">
-                <h3>{"Driver #" + (this.state.number+1) + ":"}</h3>
+                <PageHeader>{"Driver #" + (this.state.number+1) + ":"}</PageHeader>
                 {this.state.driver &&
                 <form onSubmit={this.handleSubmit} className="form-group">
                     <FormGroup controlId="name">

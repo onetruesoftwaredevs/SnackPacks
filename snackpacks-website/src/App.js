@@ -41,7 +41,9 @@ class App extends Component {
                   ? <div>
                   {this.state.isAuthenticated
                           ? <Fragment>
-                              <Link to="/">SnackPacks</Link>
+                              <Link to="/">
+                                  <h3>SnackPacks</h3>
+                              </Link>
                               <LinkContainer to="/snackpack/new">
                                   <NavItem>New Snack Pack</NavItem>
                               </LinkContainer>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FormGroup, FormControl} from "react-bootstrap";
+import { PageHeader, FormGroup, FormControl} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import "./stylesheets/NewDriver.css";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
@@ -66,7 +66,7 @@ export default class NewDriver extends Component {
     render() {
         return (
             <div className="NewDriver">
-                <h3>New Driver:</h3>
+                <PageHeader>New Driver:</PageHeader>
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="driverName">
                         <ControlLabel>New Driver's name: </ControlLabel>
