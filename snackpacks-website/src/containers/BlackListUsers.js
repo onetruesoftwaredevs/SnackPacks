@@ -10,7 +10,7 @@ export default class SnackPacks extends Component {
         super(props);
 
         this.state = {
-            number: parseInt((window.location.pathname).substring(9))-1,
+            number: parseInt((window.location.pathname).substring(11))-1,
             isLoading: null,
             isDeleting: null,
             driver: [],
@@ -71,7 +71,7 @@ export default class SnackPacks extends Component {
             method: "PATCH",
             body: JSON.stringify(data)
         })
-        .then(response => response.json());
+            .then(response => response.json());
     }
 
     handleSubmit = async event => {
