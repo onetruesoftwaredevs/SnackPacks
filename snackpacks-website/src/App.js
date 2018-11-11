@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {Link, withRouter} from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
+import { Button, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
 import './App.css';
@@ -10,7 +10,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-        isAuthenticated: true
+        isAuthenticated: true,
+        menuIsOpen: true
     };
   }
 
@@ -32,41 +33,44 @@ class App extends Component {
       <div className="App">
           <Navbar fluid collapseOnSelect>
               <Navbar.Header>
-                  <Navbar.Brand>
-                      <Link to="/">SnackPacks</Link>
-                  </Navbar.Brand>
-                  <Navbar.Toggle />
+                  <Button onClick={() => this.setState({ menuIsOpen: !this.state.menuIsOpen })}>
+                      Menu
+                  </Button>
               </Navbar.Header>
-              <Navbar.Collapse>
+              {this.state.menuIsOpen
+                  ? <div>
                   {this.state.isAuthenticated
-                      ? <Fragment>
-                          <LinkContainer to="/snackpack/new">
-                              <NavItem>New Snack Pack</NavItem>
-                          </LinkContainer>
-                          <LinkContainer to="/drivers">
-                              <NavItem>Driver List</NavItem>
-                          </LinkContainer>
-                          <LinkContainer to="/drivers/new">
-                              <NavItem>New Driver</NavItem>
-                          </LinkContainer>
-                          <LinkContainer to="/refreq">
-                              <NavItem>Refund Requests</NavItem>
-                          </LinkContainer>
-                          <LinkContainer to="/blacklist">
-                              <NavItem>Blacklist</NavItem>
-                          </LinkContainer>
-                          <LinkContainer to="/users">
-                              <NavItem>List of Users</NavItem>
-                          </LinkContainer>
-                          <NavItem onClick={this.handleLogout}>Logout</NavItem>
-                      </Fragment>
-                      : <Fragment>
-                          <LinkContainer to="/login">
-                              <NavItem>Login</NavItem>
-                          </LinkContainer>
-                      </Fragment>
-                  }
-              </Navbar.Collapse>
+                          ? <Fragment>
+                              <Link to="/">SnackPacks</Link>
+                              <LinkContainer to="/snackpack/new">
+                                  <NavItem>New Snack Pack</NavItem>
+                              </LinkContainer>
+                              <LinkContainer to="/drivers">
+                                  <NavItem>Driver List</NavItem>
+                              </LinkContainer>
+                              <LinkContainer to="/drivers/new">
+                                  <NavItem>New Driver</NavItem>
+                              </LinkContainer>
+                              <LinkContainer to="/refreq">
+                                  <NavItem>Refund Requests</NavItem>
+                              </LinkContainer>
+                              <LinkContainer to="/blacklist">
+                                  <NavItem>Blacklist</NavItem>
+                              </LinkContainer>
+                              <LinkContainer to="/users">
+                                  <NavItem>List of Users</NavItem>
+                              </LinkContainer>
+                              <NavItem onClick={this.handleLogout}>Logout</NavItem>
+                          </Fragment>
+                          : <Fragment>
+                              <NavItem>
+                                  <Link to="/login">Login</Link>
+                              </NavItem>
+                          </Fragment>
+                      }
+                  </div>
+                  : <></>
+              }
           </Navbar>
           <Routes childProps={childProps} />
       </div>
