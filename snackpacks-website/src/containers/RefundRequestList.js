@@ -46,15 +46,6 @@ export default class DriverList extends Component {
                         <ListGroupItem header="Phone Number:">
                             {refundRequst._phone}
                         </ListGroupItem>
-                        <ListGroupItem header="Car Model:">
-                            {refundRequst._carmodel}
-                        </ListGroupItem>
-                        <ListGroupItem header="Car Make:">
-                            {refundRequst._carmake}
-                        </ListGroupItem>
-                        <ListGroupItem header="Rating:">
-                            {refundRequst._rating}
-                        </ListGroupItem>
                         <ListGroupItem header="Reviews:">
                             {(refundRequst._reviews === "")?"No reviews.":(refundRequst._reviews.split('|')).join(", ")}
                         </ListGroupItem>

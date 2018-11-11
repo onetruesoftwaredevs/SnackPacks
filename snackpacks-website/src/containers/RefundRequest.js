@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import LoaderButton from "../components/LoaderButton";
-import FormGroup from "react-bootstrap/es/FormGroup";
-import ControlLabel from "react-bootstrap/es/ControlLabel";
-import FormControl from "react-bootstrap/es/FormControl";
 import "./Drivers.css";
+import {ListGroup, ListGroupItem} from "react-bootstrap";
 
 export default class SnackPacks extends Component {
     constructor(props) {
@@ -11,14 +9,14 @@ export default class SnackPacks extends Component {
 
         this.state = {
             number: parseInt((window.location.pathname).substring(8))-1,
-            isLoading: null,
-            isDeleting: null,
-            driver: [],
+            isApproving: null,
+            isDisapproving: null,
+            refundRequest: [],
             id: 0,
             name: "",
             phoneNum: "",
-            carModel: "",
-            carMake: ""
+            status: 0,
+            reviews: ""
         };
     }
 
@@ -27,29 +25,24 @@ export default class SnackPacks extends Component {
             return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
                 .then(response => response.json())
                 .then(responseJson => this.setState({
-                    driver: responseJson[this.state.number]
+                    refundRequest: responseJson[this.state.number]
                 }))
                 .then(() => this.setState({
-                    id: this.state.driver._id,
-                    name: this.state.driver._name,
-                    phoneNum: this.state.driver._phone,
-                    carModel: this.state.driver._carmodel,
-                    carMake: this.state.driver._carmake
+                    id: this.state.refundRequest._id,
+                    name: this.state.refundRequest._name,
+                    phoneNum: this.state.refundRequest._phone,
+                    status: this.state.refundRequest._status,
+                    reviews: this.state.refundRequest._reviews
                 }))
-                .then(() => console.log(this.state.driver))
-                .then(() => this.setState({isLoading: false}));
+                .then(() => console.log(this.state.refundRequest))
+                .then(() => this.setState({isApproving: false}));
         } catch (e) {
             alert(e);
         }
     }
 
     validateForm() {
-        if(this.state.name && this.state.carMake && this.state.carModel && this.state.phoneNum) {
-            return this.state.name.length > 0 && this.state.carMake.length > 0 && this.state.carModel.length > 0
-                && this.state.phoneNum.length > 0;
-        }else{
-            return false;
-        }
+        return true;
     }
 
     handleChange = event => {
@@ -58,13 +51,11 @@ export default class SnackPacks extends Component {
         });
     }
 
-    saveDriver() {
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit";
+    approveRefReq() {
+        let url = "";//"https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit&id=" + (this.state.id);
         let data = {
-            name:(this.state.driverName === this.state.driver._name?null:this.state.driverName),
-            phone:(this.state.phoneNum === this.state.driver._phone?null:this.state.phoneNum),
-            carmodel:(this.state.carModel === this.state.driver._carmodel?null:this.state.carModel),
-            carmake:(this.state.carMake === this.state.driver._carmake?null:this.state.carMake)
+            name:(this.state.driverName === this.state.refundRequest._name?null:this.state.driverName),
+            phone:(this.state.phoneNum === this.state.refundRequest._phone?null:this.state.phoneNum)
         };
         console.log(data);
         return fetch(url, {
@@ -78,26 +69,26 @@ export default class SnackPacks extends Component {
         event.preventDefault();
 
         const confirmed = window.confirm(
-            "Are you sure you want to modify this driver?"
+            "Are you sure you want to approve this refund request?"
         );
 
         if (!confirmed) {
             return;
         }
 
-        this.setState({ isLoading: true });
+        this.setState({ isApproving: true });
 
         try {
-            await this.saveDriver();
-            this.props.history.push("/drivers");
+            await this.approveRefReq();
+            this.props.history.push("/refreq");
         } catch (e) {
             alert(e);
-            this.setState({ isLoading: false });
+            this.setState({ isApproving: false });
         }
     }
 
-    deleteDriver() {
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=delete&id=" + (this.state.id);
+    disapproveRefReq() {
+        let url = "";//"https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=delete&id=" + (this.state.id);
         return fetch(url, {
             method: "GET"
         })
@@ -108,7 +99,7 @@ export default class SnackPacks extends Component {
         event.preventDefault();
 
         const confirmed = window.confirm(
-            "Are you sure you want to delete this Driver?"
+            "Are you sure you want to disapprove this refund request?"
         );
 
         if (!confirmed) {
@@ -118,70 +109,53 @@ export default class SnackPacks extends Component {
         this.setState({ isDeleting: true });
 
         try {
-            await this.deleteDriver();
-            this.props.history.push("/drivers");
+            await this.disapproveRefReq();
+            this.props.history.push("/refreq");
         } catch (e) {
             alert(e);
-            this.setState({ isDeleting: false });
+            this.setState({ isDisapproving: false });
         }
     }
 
     render() {
         return (
             <div className="Drivers">
-                <h3>{"Driver #" + (this.state.number+1) + ":"}</h3>
-                {this.state.driver &&
+                <ListGroup>
+                    <br></br>
+                    <h3>{"Refund Request #" + (this.state.number+1) + ":"}</h3>
+                    <ListGroupItem header="Name:">
+                        {this.state.name}
+                    </ListGroupItem>
+                    <ListGroupItem header="Status:">
+                        {(this.state.status === "0")?"Not busy":"Busy delivering an order"}
+                    </ListGroupItem>
+                    <ListGroupItem header="Phone Number:">
+                        {this.state.phoneNum}
+                    </ListGroupItem>
+                    <ListGroupItem header="Reviews:">
+                        {(this.state.reviews === "")?"No reviews.":(this.state.reviews.split('|')).join(", ")}
+                    </ListGroupItem>
+                </ListGroup>
+                {this.state.refundRequest &&
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="name">
-                        <ControlLabel>Name: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.name}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="phoneNum">
-                        <ControlLabel>Phone number: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.phoneNum}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="carModel">
-                        <ControlLabel>Car Model: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.carModel}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="carMake">
-                        <ControlLabel>Car Make: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.carMake}
-                        />
-                    </FormGroup>
                     <LoaderButton
                         block
                         bsStyle="primary"
                         bsSize="large"
                         disabled={!this.validateForm()}
                         type="submit"
-                        isLoading={this.state.isLoading}
-                        text="Save"
-                        loadingText="Saving…"
+                        isLoading={this.state.isApproving}
+                        text="Approve"
+                        loadingText="Approving…"
                     />
                     <LoaderButton
                         block
                         bsStyle="danger"
                         bsSize="large"
-                        isLoading={this.state.isDeleting}
+                        isLoading={this.state.isDisapproving}
                         onClick={this.handleDelete}
-                        text="Delete"
-                        loadingText="Deleting…"
+                        text="Disapprove"
+                        loadingText="Disapproving…"
                     />
                 </form>}
             </div>
