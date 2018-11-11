@@ -59,7 +59,7 @@ export default class SnackPacks extends Component {
     }
 
     saveDriver() {
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit";
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit&id=" + (this.state.id);
         let data = {
             name:(this.state.driverName === this.state.driver._name?null:this.state.driverName),
             phone:(this.state.phoneNum === this.state.driver._phone?null:this.state.phoneNum),
