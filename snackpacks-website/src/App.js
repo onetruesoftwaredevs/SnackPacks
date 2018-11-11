@@ -20,7 +20,7 @@ class App extends Component {
 
   handleLogout = event => {
     this.userHasAuthenticated(false);
-    this.props.history.push("/login");
+    this.props.history.push("/");
   }
 
   render() {
@@ -38,27 +38,34 @@ class App extends Component {
                   <Navbar.Toggle />
               </Navbar.Header>
               <Navbar.Collapse>
-                  <Nav pullRight>
-                      {this.state.isAuthenticated
-                          ? <Fragment>
-                              <LinkContainer to="/snackpack/new">
-                                  <NavItem>New Snack Pack</NavItem>
-                              </LinkContainer>
-                              <LinkContainer to="/drivers">
-                                  <NavItem>Driver List</NavItem>
-                              </LinkContainer>
-                              <LinkContainer to="/drivers/new">
-                                  <NavItem>New Driver</NavItem>
-                              </LinkContainer>
-                              <NavItem onClick={this.handleLogout}>Logout</NavItem>
-                          </Fragment>
-                          : <Fragment>
-                              <LinkContainer to="/login">
-                                  <NavItem>Login</NavItem>
-                              </LinkContainer>
-                          </Fragment>
-                      }
-                  </Nav>
+                  {this.state.isAuthenticated
+                      ? <Fragment>
+                          <LinkContainer to="/snackpack/new">
+                              <NavItem>New Snack Pack</NavItem>
+                          </LinkContainer>
+                          <LinkContainer to="/drivers">
+                              <NavItem>Driver List</NavItem>
+                          </LinkContainer>
+                          <LinkContainer to="/drivers/new">
+                              <NavItem>New Driver</NavItem>
+                          </LinkContainer>
+                          <LinkContainer to="/refreq">
+                              <NavItem>Refund Requests</NavItem>
+                          </LinkContainer>
+                          <LinkContainer to="/blacklist">
+                              <NavItem>Blacklist</NavItem>
+                          </LinkContainer>
+                          <LinkContainer to="/users">
+                              <NavItem>List of Users</NavItem>
+                          </LinkContainer>
+                          <NavItem onClick={this.handleLogout}>Logout</NavItem>
+                      </Fragment>
+                      : <Fragment>
+                          <LinkContainer to="/login">
+                              <NavItem>Login</NavItem>
+                          </LinkContainer>
+                      </Fragment>
+                  }
               </Navbar.Collapse>
           </Navbar>
           <Routes childProps={childProps} />
