@@ -11,16 +11,17 @@ import Cart from '../../function/Cart'
 export default class QuantityComponent extends Component {
     spname;  // the name of the snack-pack
     spprice; // the price of the snack-pack
+    spkey;   // the key of the snack-pack
 
     defaultText;     // the default text of the button
     defaultTextSize; // the default text size
 
     parent;
 
-    incrementQuantity = (name, price, quantity, parent) => {
+    incrementQuantity = (name, price, key, quantity, parent) => {
         if (quantity === 0) {
             // add to cart
-            Cart.getInstance().addToCart(name, price);
+            Cart.getInstance().addToCart(name, price, key);
         }
         else {
             // update quantity
@@ -50,7 +51,7 @@ export default class QuantityComponent extends Component {
             return (
                 <View>
                     <TouchableOpacity
-                        onPress={() => this.incrementQuantity(this.props.spname, this.props.spprice, 0, this.props.parent)}
+                        onPress={() => this.incrementQuantity(this.props.spname, this.props.spprice, this.props.spkey, 0, this.props.parent)}
                     >
                         <Text style={combined_add_to_cart_style}>{this.props.defaultText}</Text>
                     </TouchableOpacity>
@@ -71,7 +72,7 @@ export default class QuantityComponent extends Component {
                         </TouchableOpacity>
                         <Text style={combined_quantity_text_style}>Quantity: {quantity}</Text>
                         <TouchableOpacity
-                            onPress={() => this.incrementQuantity(this.props.spname, this.props.spprice, quantity, this.props.parent)}
+                            onPress={() => this.incrementQuantity(this.props.spname, this.props.spprice, this.props.spkey, quantity, this.props.parent)}
                             style={styles.button_style}
                         >
                             <Text style={combined_button_text_style}> + </Text>

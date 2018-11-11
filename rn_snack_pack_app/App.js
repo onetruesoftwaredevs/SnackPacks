@@ -7,28 +7,17 @@
  */
 
 import React,{Component} from 'react';
-import {Platform,StyleSheet,Text,View,WebView} from 'react-native';
-import PriceView from "./src/components/menu/PriceView";
-import Review from "./src/components/misc/Review";
-import Rating from "./src/components/misc/Rating";
-import NutritionView from "./src/components/menu/NutritionView";
-import SnackPackView from "./src/components/menu/SnackPackView";
+import {StyleSheet,Text,View} from 'react-native';
 
 //ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
 import Amplify,{API,Analytics,Storage} from 'aws-amplify';
-import {ConfirmSignUp,ForgotPassword,SignIn,SignUp,VerifyContact,withAuthenticator} from 'aws-amplify-react-native';
-import ConfirmSignIn from "aws-amplify-react-native/dist/Auth/ConfirmSignIn"; //Can be put into upper import statement, but this includes path to files
+// import MySignIn from "./src/mySignIn"; //KEEP FOR LATER
+// import {ConfirmSignUp,ForgotPassword,SignIn,SignUp,VerifyContact,withAuthenticator} from 'aws-amplify-react-native';
+// import ConfirmSignIn from "aws-amplify-react-native/dist/Auth/ConfirmSignIn"; //Can be put into upper import statement, but this includes path to files
 import aws_exports from './src/aws-exports';
-import MySignIn from "./src/mySignIn";
 
-//import CartScreen from "./src/screens/CartScreen";
-//import MenuScreen from "./src/screens/MenuScreen";
-import OrderItemView from "./src/components/cart/OrderItemView";
-import CartScreen from "./src/screens/CartScreen";
-import MenuScreen from "./src/screens/MenuScreen";
 import {SnackPacks} from "./src/snackpacks";
 import Driver from "./src/function/Driver";
-import CheckoutView from "./src/payment/CheckoutView";
 
 import User from "./src/function/User";
 
@@ -105,7 +94,8 @@ const styles = StyleSheet.create({
         padding:4,
     }
 });
-//(TODO later)To edit this location is: /rn_snack_pack_app/node_modules/aws-amplify-react-native/dist/
+
+//(TODO later)To edit this location is: /rn_snack_pack_app/node_modules/aws-amplify-react-native/dist/ (copy to project and work from there)
 /*export default withAuthenticator(App);
 withAuthenticator(App,false,[
     <MySignIn/>,

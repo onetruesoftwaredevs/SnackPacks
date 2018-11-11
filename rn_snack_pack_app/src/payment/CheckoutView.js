@@ -1,6 +1,7 @@
 import {View,TouchableOpacity,Text,Platform,StyleSheet,WebView,TextInput} from 'react-native';
 import React,{Component} from "react";
 import PaymentView from "../components/cart/PaymentView";
+import Cart from "../function/Cart";
 
 const payment=require('./payment.html');
 
@@ -27,6 +28,7 @@ export default class CheckoutView extends Component{
             console.log("Message received from webview");
             let nonce=JSON.parse(event.nativeEvent.data).data;
             console.log(nonce);//Nonce from payment
+            let cart=Cart.getInstance();
 
             //Fetch to api with cart in query string
             fetch(`https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2`,{
@@ -58,7 +60,7 @@ export default class CheckoutView extends Component{
         return (
             <View style={styles.container}>
                 <Text style={styles.title_style}>Checkout</Text>
-                {/*<Text>{JSON.stringify(Cart.getInstance().getItemsInCart())}</Text>*/}
+                <Text>{JSON.stringify(Cart.getInstance().getItemsInCart())}</Text>
                 <WebView
                     // ref={ref=>(this.webview=ref)}
                     style={styles.WebViewStyle}

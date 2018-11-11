@@ -14,6 +14,7 @@ import {global_stylesheet} from "../../stylesheet";
 export default class OrderItemView extends Component {
     name;       // string
     price;      // number
+    spkey;      // key for item
     parent;     // object
     
     constructor(props) {
@@ -24,7 +25,7 @@ export default class OrderItemView extends Component {
     _onIncrease = (quantity) => {
         if (quantity === 1) {
             // item was added to the cart
-            Cart.getInstance().addToCart(this.props.name, this.props.price);
+            Cart.getInstance().addToCart(this.props.name, this.props.price, this.props.spkey);
         }
         else {
             // item is already inside the cart
