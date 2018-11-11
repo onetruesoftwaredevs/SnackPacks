@@ -1,9 +1,8 @@
-
 .DriverList h4 {
     font-family: "Open Sans", sans-serif;
     font-weight: 200;
     overflow: hidden;
-    line-height: 1.5;
+    line-height: 1;
     white-space: nowrap;
     text-overflow: ellipsis;
 }

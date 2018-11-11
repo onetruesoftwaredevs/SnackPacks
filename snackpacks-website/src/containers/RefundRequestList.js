@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
+import {ListGroup, ListGroupItem, PageHeader} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./stylesheets/RefundRequestList.css";
 
@@ -28,42 +28,39 @@ export default class DriverList extends Component {
             .then(() => this.setState({isLoading: false}));
     }
 
-    render() {
+    renderRefundRequests() {
         return [{}].concat(this.state.refundRequests).map(
-            (refundRequst, i) =>
+            (refundRequest, i) =>
                 i !== 0
                     ? <ListGroup>
-                        <br></br>
                         <LinkContainer
                             key={i}
                             to={`/refreq/${i}`}
                         >
-                            <ListGroupItem header={refundRequst._name+":"}>{"(Refund Request #"+i+")"}</ListGroupItem>
+                            <ListGroupItem header={refundRequest._name+":"}>{"(Refund Request #"+i+")"}</ListGroupItem>
                         </LinkContainer>
                         <ListGroupItem header="Status:">
-                            {(refundRequst._status === "0")?"Not busy":"Busy delivering an order"}
+                            {(refundRequest._status === "0")?"Not busy":"Busy delivering an order"}
                         </ListGroupItem>
                         <ListGroupItem header="Phone Number:">
-                            {refundRequst._phone}
+                            {refundRequest._phone}
                         </ListGroupItem>
                         <ListGroupItem header="Reviews:">
-                            {(refundRequst._reviews === "")?"No reviews.":(refundRequst._reviews.split('|')).join(", ")}
+                            {(refundRequest._reviews === "")?"No reviews.":(refundRequest._reviews.split('|')).join(", ")}
                         </ListGroupItem>
+                        <br></br>
                     </ListGroup>
                     :
-                    <ListGroup>
-                        <br></br>
-                        <ListGroupItem>
-                            <h4>
-                                List of Refund Requests:
-                            </h4>
-                        </ListGroupItem>
-                    </ListGroup>
+                    <></>
         );
     }
 
-    handleDriverClick = event => {
-        event.preventDefault();
-        this.props.history.push(event.currentTarget.getAttribute("href"));
+    render() {
+        return (
+            <div className="RefundRequests">
+                <PageHeader>Refund Requests:</PageHeader>
+                {this.renderRefundRequests()}
+            </div>
+        );
     }
 }

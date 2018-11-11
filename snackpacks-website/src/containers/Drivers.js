@@ -131,7 +131,7 @@ export default class SnackPacks extends Component {
             <div className="Drivers">
                 <h3>{"Driver #" + (this.state.number+1) + ":"}</h3>
                 {this.state.driver &&
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} className="form-group">
                     <FormGroup controlId="name">
                         <ControlLabel>Name: </ControlLabel>
                         <FormControl
