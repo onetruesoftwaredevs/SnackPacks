@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
-import "./NewDriver.css";
+import "./stylesheets/NewDriver.css";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 
 export default class NewDriver extends Component {

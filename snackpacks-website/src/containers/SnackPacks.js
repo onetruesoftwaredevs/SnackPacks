@@ -3,7 +3,7 @@ import LoaderButton from "../components/LoaderButton";
 import FormGroup from "react-bootstrap/es/FormGroup";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 import FormControl from "react-bootstrap/es/FormControl";
-import "./SnackPacks.css";
+import "./stylesheets/SnackPacks.css";
 
 export default class SnackPacks extends Component {
     constructor(props) {

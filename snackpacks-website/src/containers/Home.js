@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Image, PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import "./Home.css";
+import "./stylesheets/Home.css";
 
 export default class Home extends Component {
     constructor(props) {
