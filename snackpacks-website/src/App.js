@@ -11,7 +11,7 @@ class App extends Component {
 
     this.state = {
         isAuthenticated: true,
-        menuIsOpen: true
+        menuIsOpen: false
     };
   }
 
