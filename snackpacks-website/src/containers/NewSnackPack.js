@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
-import "./NewSnackPack.css";
+import "./stylesheets/NewSnackPack.css";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 
 export default class NewSnackPack extends Component {

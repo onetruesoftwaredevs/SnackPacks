@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import "./Home.css";
+import "./stylesheets/DriverList.css";
 
 export default class DriverList extends Component {
     constructor(props) {
@@ -28,7 +28,7 @@ export default class DriverList extends Component {
             .then(() => this.setState({isLoading: false}));
     }
 
-    render() {
+    renderDriverList() {
         return [{}].concat(this.state.drivers).map(
             (driver, i) =>
                 i !== 0
@@ -70,6 +70,14 @@ export default class DriverList extends Component {
                             </h4>
                         </ListGroupItem>
                     </LinkContainer>
+        );
+    }
+
+    render() {
+        return (
+            <div className="DriverList">
+                {this.renderDriverList()}
+            </div>
         );
     }
 

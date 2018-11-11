@@ -3,7 +3,7 @@ import LoaderButton from "../components/LoaderButton";
 import FormGroup from "react-bootstrap/es/FormGroup";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 import FormControl from "react-bootstrap/es/FormControl";
-import "./Drivers.css";
+import "./stylesheets/Users.css";
 
 export default class SnackPacks extends Component {
     constructor(props) {
@@ -128,7 +128,7 @@ export default class SnackPacks extends Component {
 
     render() {
         return (
-            <div className="Drivers">
+            <div className="Users">
                 <h3>{"Driver #" + (this.state.number+1) + ":"}</h3>
                 {this.state.driver &&
                 <form onSubmit={this.handleSubmit}>
