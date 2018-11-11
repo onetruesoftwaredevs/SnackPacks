@@ -11,55 +11,70 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
-import Swipeout from "../../rn-swipe-out";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {global_stylesheet} from "../../stylesheet";
+import ScreenHeader from "../misc/ScreenHeader";
+import BackButton from "../misc/BackButton";
 
 export default class DetailedOrderView extends Component {
 
-    _goBack = () => {
-        this.props.navigation.navigate(this.props.navigation.state.params.last_screen);
+    _viewDriver = () => {
+        this.props.navigation.navigate("DriverProfile", {
+            name: "Dirty Dan",
+            number: this.props.navigation.state.params.driver,
+            last_screen: "DetailedOrderView",
+            isReviewable: this.props.navigation.state.params.isReviewable
+        });
     };
 
     render() {
         let params = this.props.navigation.state.params;
+        let subtotal = Number(params.subtotal).toFixed(2);
+        let tax = Number(params.tax).toFixed(2);
+        let total = Number(params.total).toFixed(2);
 
         return (
-            <View style={styles.container}>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.text_style}>Recipient: </Text>
-                    <Text style={styles.text_style}>{params.name}</Text>
+            <View style={global_stylesheet.screen_container}>
+                <View>
+                    <ScreenHeader title={"Order Information"} navigation={this.props.navigation}
+                                  isDefaultScreen={false}/>
+                    <Field title={"Recipient"} value={params.name}/>
+                    <Field title={"Number"} value={params.number}/>
+
+                    <View style={global_stylesheet.basic_container}>
+                        <View style={global_stylesheet.horizontal_container_loose}>
+                            <TouchableOpacity onPress={this._viewDriver} style={styles.data_button_style}>
+                                <Text style={styles.text_style}>Driver</Text>
+                            </TouchableOpacity>
+                            <Text style={global_stylesheet.data_style}>{params.driver}</Text>
+                        </View>
+                    </View>
+
+                    <Field title={"Status"} value={params.order_status}/>
+                    <Field title={"ETA"} value={params.delivery_time}/>
+                    <Field title={"Payment Information"} value={params.payment_info}/>
+                    <Field title={"Address"} value={params.address}/>
+                    <Field title={"Subtotal"} value={"$" + subtotal}/>
+                    <Field title={"Tax"} value={"$" + tax}/>
+                    <Field title={"Total"} value={"$" + total}/>
                 </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.text_style}>Number: </Text>
-                    <Text style={styles.text_style}>{params.number}</Text>
+                <BackButton navigation={this.props.navigation}/>
+            </View>
+        );
+    }
+}
+
+class Field extends Component {
+    title;  // string
+    value;  // string
+
+    render() {
+        return (
+            <View style={global_stylesheet.thick_basic_container}>
+                <View style={global_stylesheet.horizontal_container_loose}>
+                    <Text style={global_stylesheet.data_title_style}>{this.props.title} </Text>
+                    <Text style={global_stylesheet.data_style}>{this.props.value}</Text>
                 </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.text_style}>Status: </Text>
-                    <Text style={styles.text_style}>{params.order_status}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.text_style}>Payment Info: </Text>
-                    <Text style={styles.text_style}>{params.payment_info}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.text_style}>Address: </Text>
-                    <Text style={styles.text_style}>{params.address}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.text_style}>Subtotal: </Text>
-                    <Text style={styles.text_style}>{params.subtotal}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.text_style}>Tax: </Text>
-                    <Text style={styles.text_style}>{params.tax}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.text_style}>Total: </Text>
-                    <Text style={styles.text_style}>{params.total}</Text>
-                </View>
-                <TouchableOpacity style={styles.button_style} onPress={this._goBack}>
-                    <Text style={styles.back_style}>Back</Text>
-                </TouchableOpacity>
             </View>
         );
     }
@@ -79,7 +94,7 @@ const styles = StyleSheet.create({
     },
 
     text_style: {
-        color: '#444',
+        color: '#FFF',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: 'bold',
@@ -87,11 +102,16 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 4
+        paddingVertical: 10,
+        paddingHorizontal: 18
     },
 
     button_style: {
         width: '100%',
+    },
+
+    data_button_style: {
+        backgroundColor: '#44AAff',
     },
 
     back_style: {

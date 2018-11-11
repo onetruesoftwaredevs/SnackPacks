@@ -10,7 +10,7 @@ import React, {Component} from 'react';
 import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
 import NutritionView from "./NutritionView";
 import PriceView from "./PriceView";
-import Rating from "./Rating";
+import Rating from "../misc/Rating";
 import QuantityComponent from "../misc/QuantityComponent";
 import Cart from "../../function/Cart";
 import { Dimensions } from "react-native";
@@ -50,7 +50,7 @@ export default class SnackPackView extends Component {
                     </TouchableOpacity>
                     <View style={styles.rating_style}>
                         <TouchableOpacity onPress={this._onRatingPressed}>
-                            <Rating starCount={this.props.sprating}/>
+                            <Rating starCount={this.props.sprating} editable={false}/>
                         </TouchableOpacity>
                     </View>
                 </View>

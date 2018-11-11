@@ -7,10 +7,12 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image} from 'react-native';
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import OrderPreview from "../components/driver/OrderPreview";
 import Driver from "../function/Driver";
 import OrderManager from "../function/OrderManager";
+import ScreenHeader from "../components/misc/ScreenHeader";
+import {global_stylesheet} from "../stylesheet";
 
 export default class DriverScreen extends Component {
 
@@ -28,6 +30,10 @@ export default class DriverScreen extends Component {
     }
 
     componentDidMount() {
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({previousOrder: null});
+        });
+
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list", {method: 'GET'})
             .then(response => response.json())
             .then(responseJson => this.loadData(responseJson));
@@ -81,37 +87,18 @@ export default class DriverScreen extends Component {
 
     render() {
         let currentOrder = Driver.getInstance().getCurrentOrder();
-        if (currentOrder === null) {
-            // no current orders
-            return (
-                <View style={styles.container}>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.name_style}>{Driver.getInstance().getName()}</Text>
-                        <Text style={styles.name_style}>{Driver.getInstance().getId()}</Text>
-                    </View>
-                    <View style={styles.horizontal_container}>
-                        <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>
-                            <Text style={styles.my_order_style}> My Orders</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button_style} onPress={this.showAvailableOrders}>
-                            <Text style={styles.available_order_style}>Available Orders</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            );
-        }
-
-        // current orders
-        return (
-            <View style={styles.container}>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.name_style}>{Driver.getInstance().getName()}</Text>
-                    <Text style={styles.name_style}>{Driver.getInstance().getId()}</Text>
-                </View>
+        let display = (currentOrder === null) ? (
+            <View>
+                <Text style={global_stylesheet.error_message_style}>No current orders :(</Text>
+            </View>
+        ) : (
+            <View>
                 <OrderPreview
                     name={currentOrder._recipient}
                     number={currentOrder._id}
-                    order_status={'not delivered'}
+                    driver={currentOrder._driver}
+                    order_status={currentOrder._status}
+                    delivery_time={currentOrder._time}
                     payment_info={currentOrder._paymentInfo}
                     address={currentOrder._address}
                     subtotal={currentOrder._subtotal}
@@ -121,8 +108,16 @@ export default class DriverScreen extends Component {
                     navigation={this.props.navigation}
                     swipe_handler={"complete_order_option"}
                     parent={this}
+                    is_reviewable={false}
                 />
-                <View style={styles.horizontal_container}>
+            </View>
+        );
+
+        return (
+            <View style={global_stylesheet.screen_container}>
+                <ScreenHeader title={Driver.getInstance().getName()} navigation={this.props.navigation} isDefaultScreen={true}/>
+                {display}
+                <View style={global_stylesheet.horizontal_container_loose}>
                     <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>
                         <Text style={styles.my_order_style}> My Orders</Text>
                     </TouchableOpacity>
@@ -133,44 +128,17 @@ export default class DriverScreen extends Component {
             </View>
         );
     }
-};
+}
+;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        justifyContent: 'space-between'
-    },
-
-    horizontal_container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-    name_style: {
-        color: '#444',
-        fontSize: 30,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    map_style: {
-        height: '75%',
-    },
-
     button_style: {
         width: '50%',
     },
 
     my_order_style: {
         color: '#fdfdfd',
-        backgroundColor: '#FF8844',
+        backgroundColor: '#4AA',
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
@@ -183,7 +151,7 @@ const styles = StyleSheet.create({
 
     available_order_style: {
         color: '#fdfdfd',
-        backgroundColor: '#44AAff',
+        backgroundColor: '#4AF',
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',

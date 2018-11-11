@@ -19,7 +19,7 @@ export default class Review extends Component {
             <View style={styles.container}>
                 <View style={styles.title_bar}>
                     <Text style={styles.title_style}>{this.props.title}</Text>
-                    <Rating starCount={this.props.rating}/>
+                    <Rating starCount={this.props.rating} editable={false}/>
                 </View>
                 <Text style={styles.author_style}>{this.props.author}</Text>
                 <Text style={styles.review_style}>{this.props.review}</Text>
@@ -44,13 +44,11 @@ const styles = StyleSheet.create({
 
     author_style: {
         color: '#444444',
-        fontSize: 14,
+        fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
         textDecorationLine: 'none',
-        // different for ios and android research proper way to use before implementing
-        //fontFamily: 'normal',
         textAlignVertical: 'center',
         textTransform: 'none',
     },
@@ -62,21 +60,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'justify',
         textDecorationLine: 'none',
-        // different for ios and android research proper way to use before implementing
-        //fontFamily: 'normal',
         textAlignVertical: 'center',
         textTransform: 'none',
     },
 
     review_style: {
         color: '#444444',
-        fontSize: 12,
+        fontSize: 16,
         fontStyle: 'normal',
         fontWeight: 'normal',
         textAlign: 'justify',
         textDecorationLine: 'none',
-        // different for ios and android research proper way to use before implementing
-        //fontFamily: 'normal',
         textAlignVertical: 'center',
         textTransform: 'none',
     }

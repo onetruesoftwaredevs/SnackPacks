@@ -1,6 +1,6 @@
 // snackpacks.js
 import React, {Component} from 'react';
-import {TabNavigator, StackNavigator} from 'react-navigation'
+import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation'
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 import MenuScreen from "./screens/MenuScreen";
 import CartScreen from "./screens/CartScreen";
@@ -8,6 +8,13 @@ import DriverScreen from "./screens/DriverScreen";
 import OrdersView from "./components/driver/OrdersView";
 import DetailedOrderView from "./components/driver/DetailedOrderView";
 import CheckoutView from "./payment/CheckoutView";
+import OrderScreen from "./screens/OrderScreen";
+import DriverProfile from "./components/driver/DriverProfile";
+import ReviewBuilderView from "./components/misc/ReviewBuilderView";
+import CustomSnackPackScreen from "./screens/CustomSnackPackScreen";
+import CustomSnackPackView from "./components/custom/CustomSnackPackView";
+import CustomSnackPackComponentView from "./components/custom/CustomSnackPackComponentView";
+import CustomSnackPackComponent from "./components/custom/CustomSnackPackComponent";
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -20,6 +27,12 @@ const DriverNavigation = StackNavigator({
     DetailedOrderView: {
         screen: DetailedOrderView,
     },
+    DriverProfile: {
+        screen: DriverProfile,
+    },
+    ReviewBuilderView:{
+        screen: ReviewBuilderView,
+    }
 }, {
     headerMode: 'none',
 });
@@ -35,8 +48,48 @@ const PaymentNavigation = StackNavigator({
     headerMode: "none",
 });
 
+const OrderNavigation = StackNavigator({
+    Orders: {
+        screen: OrderScreen,
+    },
 
-export const SnackPacks = TabNavigator({
+    DetailedOrderView: {
+        screen: DetailedOrderView,
+    },
+
+    DriverProfile: {
+        screen: DriverProfile,
+    },
+    ReviewBuilderView:{
+        screen: ReviewBuilderView,
+    },
+}, {
+    headerMode: 'none',
+});
+
+const CustomNavigation = StackNavigator({
+    Custom: {
+        screen: CustomSnackPackScreen,
+    },
+    CustomSnackPack: {
+        screen: CustomSnackPackView,
+    },
+    CustomSnackPackComponentView: {
+        screen: CustomSnackPackComponentView,
+    },
+    CustomSnackPackComponent: {
+        screen: CustomSnackPackComponent,
+    }
+},{
+    headerMode: 'none',
+});
+
+
+export const SnackPacks = DrawerNavigator({
+    Custom: {
+        screen: CustomNavigation,
+    },
+
     Menu: {
         screen: MenuScreen,
     },
@@ -46,7 +99,11 @@ export const SnackPacks = TabNavigator({
     Drivers: {
         screen: DriverNavigation,
     },
+    Orders: {
+        screen: OrderNavigation,
+    },
 });
+
 
 // legacy code
 /*
