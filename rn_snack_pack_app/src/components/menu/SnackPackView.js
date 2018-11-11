@@ -21,6 +21,7 @@ export default class SnackPackView extends Component {
     spprice;        // the price of the snack-pack
     spallergylist;  // a the list of allergies contained in this snack-pack
     spimage;
+    spkey;          // the key of the snack-pack
 
     _onImagePressed() {
         Alert.alert('image was pressed', 'test')
@@ -66,6 +67,7 @@ export default class SnackPackView extends Component {
                 <QuantityComponent
                     spname={this.props.spname}
                     spprice={this.props.spprice}
+                    spkey={this.props.spkey}
                     defaultText={'Add to Cart'}
                     defaultTextSize={18}
                     parent={this}
