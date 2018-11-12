@@ -73,6 +73,10 @@ export const global_stylesheet = StyleSheet.create({
         width: '100%',
     },
 
+    full_width_margin_style: {
+        right: 6,
+    },
+
     back_style: {
         color: '#fdfdfd',
         backgroundColor: '#4Af',
@@ -160,9 +164,26 @@ export const global_stylesheet = StyleSheet.create({
         padding: 8
     },
 
+    blue_button_style: {
+        color: '#fff',
+        backgroundColor: '#4AF',
+        fontSize: 18,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 8
+    },
+
     image_style: {
         width: image_width,
         height: image_height,
+    },
+
+    scroll_container: {
+        marginBottom: 6,
     },
 
 });
