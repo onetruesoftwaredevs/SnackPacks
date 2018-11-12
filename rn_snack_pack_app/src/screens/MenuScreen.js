@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import SnackPackView from "../components/menu/SnackPackView";
 import Menu from "../function/Menu";
 import ScreenHeader from "../components/misc/ScreenHeader";
@@ -48,6 +48,24 @@ export default class MenuScreen extends Component {
             .then(responseJson => this.loadData(responseJson));
     }
 
+    /**
+     * <FlatList
+     data={Menu.getInstance().getData()}
+     extraData={this.state}
+     keyExtractor={(item) => item._name}
+     renderItem={({item}) => <SnackPackView
+                        spname={item._name}
+                        spprice={item._cost}
+                        sprating={3}
+                        spallergylist={item._allergens}
+                        spcontentlist={item._contents}
+                        spimage={item.image_path}
+                        navigation={this.props.navigation}
+                        parent={this}
+                    />}
+     />
+     */
+
     render() {
         if (this.state.isLoading) {
             return (
@@ -61,12 +79,9 @@ export default class MenuScreen extends Component {
             <View style={global_stylesheet.screen_container}>
                 <ScreenHeader title={"SnackPacks"} navigation={this.props.navigation} isDefaultScreen={true}/>
                 <SearchBar onSearch={this._onSearch}/>
-                <View style={{position: 'relative', zIndex: 0}}>
-                    <FlatList
-                        data={Menu.getInstance().getData()}
-                        extraData={this.state}
-                        keyExtractor={(item) => item._name}
-                        renderItem={({item}) => <SnackPackView
+                <ScrollView style={global_stylesheet.scroll_container}>
+                    {Menu.getInstance().getData().map((item) =>
+                        <SnackPackView
                             spname={item._name}
                             spprice={item._cost}
                             sprating={3}
@@ -75,37 +90,14 @@ export default class MenuScreen extends Component {
                             spimage={item.image_path}
                             navigation={this.props.navigation}
                             parent={this}
-                        />}
-                    />
-                </View>
-                <View style={styles.container}>
-                    <TouchableOpacity onPress={this._goToCart}>
-                        <Text style={styles.text_style}>Go to Cart</Text>
+                        />)
+                    }
+                    <TouchableOpacity style={global_stylesheet.full_width_margin_style} onPress={this._goToCart}>
+                        <Text style={global_stylesheet.blue_button_style}>Go to Cart</Text>
                     </TouchableOpacity>
-                </View>
+                </ScrollView>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        right: 12,
-        bottom: 6,
-        zIndex: 1,
-        width: '35%',
-    },
-
-    text_style: {
-        fontSize: 18,
-        padding: 12,
-        backgroundColor: '#4AF',
-        color: '#FFF',
-        fontWeight: 'bold',
-        justifyContent: 'center',
-        textAlign: 'center',
-        borderRadius: 4,
-    },
-});
 
