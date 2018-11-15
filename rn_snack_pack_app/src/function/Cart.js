@@ -1,39 +1,39 @@
-let CartItem=require('./CartItem');
+let CartItem = require('./CartItem');
 
-class Cart{
-    constructor(){
-        if(!Cart.instance){
-            this.cart=new Array();
-            this.total_cost=0;
-            Cart.instance=this;
+class Cart {
+    constructor() {
+        if (!Cart.instance) {
+            this.cart = new Array();
+            this.total_cost = 0;
+            Cart.instance = this;
         }
 
         return Cart.instance;
     }
 
-    static getInstance(){
-        if(!Cart.instance){
-            Cart.instance=new Cart();
+    static getInstance() {
+        if (!Cart.instance) {
+            Cart.instance = new Cart();
         }
         return Cart.instance;
     }
 
-    addToCart(name,price,key){
-        let item=new CartItem(name,price,key);
+    addToCart(name, price, key) {
+        let item = new CartItem(name, price, key);
         this.cart.push(item);
-        this.total_cost=this.total_cost+price;
+        this.total_cost = this.total_cost + price;
     }
 
-    setQuantity(name,quantity){
-        if(quantity<=0){
+    setQuantity(name, quantity) {
+        if (quantity <= 0) {
             this.removeFromCart(name);
         }
-        else{
-            for(let i=0; i<this.cart.length; i++){
-                let item=this.cart[i];
-                if(item.spname===name){
-                    this.total_cost=this.total_cost+(quantity-item.spquantity)*item.spprice;
-                    item.spquantity=quantity;
+        else {
+            for (let i = 0; i < this.cart.length; i++) {
+                let item = this.cart[i];
+                if (item.spname === name) {
+                    this.total_cost = this.total_cost + (quantity - item.spquantity) * item.spprice;
+                    item.spquantity = quantity;
                     return;
                 }
             }
@@ -41,29 +41,29 @@ class Cart{
         }
     }
 
-    getQuantity(name){
-        for(let i=0; i<this.cart.length; i++){
-            let item=this.cart[i];
-            if(item.spname===name){
+    getQuantity(name) {
+        for (let i = 0; i < this.cart.length; i++) {
+            let item = this.cart[i];
+            if (item.spname === name) {
                 return item.spquantity;
             }
         }
         return 0;
     }
 
-    removeFromCart(name){
-        for(let i=0; i<this.cart.length; i++){
-            let item=this.cart[i];
-            if(item.spname===name){
-                this.cart.splice(i,1);
-                this.total_cost=this.total_cost-item.spprice*item.spquantity;
+    removeFromCart(name) {
+        for (let i = 0; i < this.cart.length; i++) {
+            let item = this.cart[i];
+            if (item.spname === name) {
+                this.cart.splice(i, 1);
+                this.total_cost = this.total_cost - item.spprice * item.spquantity;
                 return;
             }
         }
     }
 
-    getItemsInCart(){
-        if(this.cart.length<=0){
+    getItemsInCart() {
+        if (this.cart.length <= 0) {
             return [];
         }
         return this.cart;
@@ -76,7 +76,7 @@ class Cart{
     }
 }
 
-module.exports=Cart;
+module.exports = Cart;
 
 
 // legacy code
