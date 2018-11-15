@@ -1,12 +1,13 @@
-//Order.js
+//Review.js
 
 class Review {
-    constructor(id, author, title, score, description){
+    constructor(author, title, score, upvotes, downvotes, description){
         //Add Time and Status
-        this.id = id;
         this.author = author;
         this.title = title;
         this.score = score;
+        this.upvotes = upvotes;
+        this.downvotes = downvotes;
         this.description = description;
     }
 
@@ -22,6 +23,12 @@ class Review {
     get score(){ return this._score; }
     set score(value){ this._score = value; }
     
+    get upvotes(){ return this._upvotes; }
+    set upvotes(value){ this._upvotes = value; }
+    
+    get downvotes(){ return this._downvotes; }
+    set downvotes(value){ this._downvotes = value; }
+
     get description(){ return this._description; }
     set description(value){ this._description = value; }
 };
