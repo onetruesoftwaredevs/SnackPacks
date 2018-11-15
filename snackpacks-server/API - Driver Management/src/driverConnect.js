@@ -5,6 +5,7 @@
 //Required libraries
 //Custom libs
 var Driver = require("./driver");
+var Review = require("./review");
 
 //Other
 var mysql = require('mysql');
@@ -145,24 +146,48 @@ class driverConnector{
 		});
 	}
 
-	addReview(id, review_string){
+	addReview(id, rating_param, author_param, title_param, upvotes_param, downvotes_param, description_param){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
-			connection.connect(function(err){
+			connection.connect(function(err) {
 				if (err) reject(err);
-				console.log("Connected!");
-				//Get new id number by using count
-				connection.query(`select * from snackpacks.drivers where id = ${id}`, function(err, id_res, fields){
-					var review = id_res[0].reviews;
-					review = review + "|" + review_string;
-					console.log(review_string);
+				//callback to send query
+				connection.query(`SELECT * FROM snackpacks.drivers where id=${id}`, function(err, result, fields){
+					if (err) reject(err);
+					var review = JSON.parse(result[0].reviews);
+					review.push({title: title_param, author:author_param, rating:rating_param, review:description_param, upvotes:upvotes_param, downvotes:downvotes_param});
 					console.log(review);
-					connection.query(`UPDATE snackpacks.drivers SET reviews="${review}" where id = ${id}`, function(err, count_result, fields){
+					var reviewStr = JSON.stringify(review);
+					//callback to end connection
+					connection.query(`UPDATE snackpacks.drivers set reviews='${reviewStr}' where id=${id}`, function(err, res2, fields){
 						if(err) reject(err);
-						connection.end(function (err){
+						connection.end(function(err) {
 							if (err) reject(err);
-							resolve(true);
+							// var review = result[0].reviews;
+							resolve(reviewStr);
 						});
+					});
+				});
+			});
+		});
+	};
+
+	getReviewByID(id){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				connection.query(`SELECT * FROM snackpacks.drivers where id=${id}`, function(err, result, fields){
+					if (err) reject(err);
+					var review = JSON.parse(result[0].reviews);
+					connection.end(function(err) {
+						if (err) reject(err);
+						// var review = result[0].reviews;
+						for(var x in review){
+							review[x] = new Review(review[x].author, review[x].title, review[x].rating, review[x].upvotes, review[x].downvotes, review[x].review);
+						}
+						resolve(review);
 					});
 				});
 			});
