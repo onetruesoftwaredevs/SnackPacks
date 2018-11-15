@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import "./Login.css";
+import "./stylesheets/Login.css";
 import LoaderButton from "../components/LoaderButton";
-import { Auth } from "aws-amplify";
+//import { Auth } from "aws-amplify";
 
 export default class Login extends Component {
     constructor(props) {
@@ -29,8 +29,12 @@ export default class Login extends Component {
         event.preventDefault();
 
         try {
-            await Auth.signIn(this.state.username, this.state.password);
-            this.props.userHasAuthenticated(true);
+            //await Auth.signIn(this.state.username, this.state.password);
+            if(this.state.username === "snackpacks" && this.state.password === "snackpacks") {
+                this.props.userHasAuthenticated(true);
+            }else{
+                alert("Invalid username and password.")
+            }
             this.props.history.push("/");
         } catch (e) {
             alert(e.message);
