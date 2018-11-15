@@ -59,9 +59,6 @@ class App extends Component {
                               <LinkContainer to="/blacklist">
                                   <NavItem>Blacklist</NavItem>
                               </LinkContainer>
-                              <LinkContainer to="/users">
-                                  <NavItem>List of Users</NavItem>
-                              </LinkContainer>
                               <NavItem onClick={this.handleLogout}>Logout</NavItem>
                           </Fragment>
                           : <Fragment>
