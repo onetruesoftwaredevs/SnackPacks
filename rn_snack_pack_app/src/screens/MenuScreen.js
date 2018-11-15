@@ -60,7 +60,7 @@ export default class MenuScreen extends Component {
                         sprating={3}
                         spallergylist={item._allergens}
                         spimage={item.image_path}
-                        spid={item._key}
+                        spkey={item._key}
                     />}
                 />
             </View>
