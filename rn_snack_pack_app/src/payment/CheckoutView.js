@@ -29,12 +29,12 @@ export default class CheckoutView extends Component{
             let nonce=JSON.parse(event.nativeEvent.data).data;
             console.log(nonce);//Nonce from payment
             let cart=Cart.getInstance();
-
+            console.log(cart.getItemsInCart());
             //Fetch to api with cart in query string
-            fetch(`https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2`,{
-                method:'POST',
-                body:nonce
-            });
+            // fetch(`https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2`,{
+            //     method:'POST',
+            //     body:nonce
+            // });
 
         }
         // let msgData=JSON.parse(event.nativeEvent.data);
