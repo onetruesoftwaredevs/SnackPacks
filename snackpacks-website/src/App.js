@@ -4,6 +4,7 @@ import { Button, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
 import './App.css';
+import NavLink from "react-router-dom/es/NavLink";
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class App extends Component {
 
     this.state = {
         isAuthenticated: true,
-        menuIsOpen: false
+        menuIsOpen: false,
+        ms: 0
     };
   }
 
@@ -41,30 +43,28 @@ class App extends Component {
                   ? <div>
                   {this.state.isAuthenticated
                           ? <Fragment>
-                              <Link to="/">
-                                  <h3>SnackPacks</h3>
-                              </Link>
-                              <LinkContainer to="/snackpack/new">
-                                  <NavItem>New Snack Pack</NavItem>
-                              </LinkContainer>
-                              <LinkContainer to="/drivers">
-                                  <NavItem>Driver List</NavItem>
-                              </LinkContainer>
-                              <LinkContainer to="/drivers/new">
-                                  <NavItem>New Driver</NavItem>
-                              </LinkContainer>
-                              <LinkContainer to="/refreq">
-                                  <NavItem>Refund Requests</NavItem>
-                              </LinkContainer>
-                              <LinkContainer to="/blacklist">
-                                  <NavItem>Blacklist</NavItem>
-                              </LinkContainer>
-                              <NavItem onClick={this.handleLogout}>Logout</NavItem>
+                              <NavLink className={this.state.ms===0?"menuSelect":"menu"} to="/" onClick={()=>this.setState({ms: 0})}>
+                                  <h3 className={this.state.ms===0?"menuSelect":"menu"}>SnackPacks</h3>
+                              </NavLink>
+                              <NavLink className={this.state.ms===1?"menuSelect":"menu"} to="/snackpack/new" onClick={()=>this.setState({ms: 1})}>
+                                  New Snack Pack</NavLink>
+                              <br></br>
+                              <NavLink className={this.state.ms===2?"menuSelect":"menu"} to="/drivers" onClick={()=>this.setState({ms: 2})}>
+                                  Driver List</NavLink>
+                              <br></br>
+                              <NavLink className={this.state.ms===3?"menuSelect":"menu"} to="/drivers/new" onClick={()=>this.setState({ms: 3})}>
+                                  New Driver</NavLink>
+                              <br></br>
+                              <NavLink className={this.state.ms===4?"menuSelect":"menu"} to="/refreq" onClick={()=>this.setState({ms: 4})}>
+                                  Refund Requests</NavLink>
+                              <br></br>
+                              <NavLink className={this.state.ms===5?"menuSelect":"menu"} to="/blacklist" onClick={()=>this.setState({ms: 5})}>
+                                  Blacklist</NavLink>
+                              <br></br>
+                              <NavLink className="menu" to="/" onClick={this.handleLogout}>Logout</NavLink>
                           </Fragment>
                           : <Fragment>
-                              <NavItem>
-                                  <Link to="/login">Login</Link>
-                              </NavItem>
+                              <NavLink className="menu" to="/login" onClick={()=>this.setState({ms: 0})}>Login</NavLink>
                           </Fragment>
                       }
                   </div>
