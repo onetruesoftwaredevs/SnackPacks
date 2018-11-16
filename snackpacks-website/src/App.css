@@ -1,5 +1,7 @@
 body{
-    background-color: azure;
+    background-color: rgb(173, 210, 233);
+    #red: #8B0000;
+    #navy: #1D597F;
 }
 
 .App {
@@ -13,4 +15,21 @@ body{
 
 .App h3{
     line-height: 0;
+    text-decoration: none;
+}
+
+.App .menu{
+    color: #1D597F;
+    text-decoration: none;
+}
+
+.App .menuSelect{
+    color: #8B0000;
+    text-decoration: none;
+}
+
+.App Button{
+    color: white;
+    background-color: #1D597F;
+    border-color: #1D597F;
 }
