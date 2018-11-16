@@ -27,15 +27,25 @@ export default class CheckoutView extends Component{
         if(event.nativeEvent.data.charAt(0)=='{'){
             console.log("Message received from webview");
             let nonce=JSON.parse(event.nativeEvent.data).data;
-            console.log(nonce);//Nonce from payment
-            let cart=Cart.getInstance();
-            console.log(cart.getItemsInCart());
-            //Fetch to api with cart in query string
-            // fetch(`https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2`,{
-            //     method:'POST',
-            //     body:nonce
-            // });
+            console.log("NONCE: "+nonce);//Nonce from payment
+            let cart=Cart.getInstance().getItemsInCart();
+            console.log("CART: "+"key: "+cart[0].spkey+" quantity"+cart[0].spquantity);
 
+            //Variable to store cart keys and quantities
+            let cartKQ=[];
+
+            //Add keys and quantities to cart
+            cart.forEach(function(item){
+                cartKQ.push({"key":item.spkey,"quantity":item.spquantity});
+            });
+
+            //Fetch to api with cart in body
+            //Example body of post: {"nonce":"nonce","tip":0,"cart":[{"key":0,"quantity":6},{"key":3,"quantity":10}]}
+            let url="https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2";
+            fetch(url,{
+                method:'POST',
+                body:JSON.stringify({"nonce":nonce,"tip":this.state.tip,"cart":cartKQ})
+            });
         }
         // let msgData=JSON.parse(event.nativeEvent.data);
         // try{
@@ -56,11 +66,22 @@ export default class CheckoutView extends Component{
         this.props.navigation.navigate("CartScreen");
     };
 
+    _test=()=>{
+        let cart=Cart.getInstance().getItemsInCart();
+        console.log("CART: "+"key: "+cart[0].spkey+" quantity: "+cart[0].spquantity);
+
+        let cartKQ=[];
+        cart.forEach(function(item){
+            cartKQ.push({"key":item.spkey,"quantity":item.spquantity});
+        });
+        console.log(cartKQ);
+        console.log(JSON.stringify({"nonce":"nonce","tip":this.state.tip,"cart":cartKQ}));
+    };
     render(){
         return (
             <View style={styles.container}>
                 <Text style={styles.title_style}>Checkout</Text>
-                <Text>{JSON.stringify(Cart.getInstance().getItemsInCart())}</Text>
+                {/*<Text>{JSON.stringify(Cart.getInstance().getItemsInCart())}</Text>*/}
                 <WebView
                     // ref={ref=>(this.webview=ref)}
                     style={styles.WebViewStyle}
@@ -77,6 +98,9 @@ export default class CheckoutView extends Component{
                 <PaymentView subtotal={this.props.navigation.state.params.subtotal} tip={this.state.tip}
                              serviceFee={1.00}
                              navigator={this.props.navigation} checkout={false}/>
+                <TouchableOpacity onPress={this._test}>
+                    <Text style={styles.back_style}>Test</Text>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={this._goBack}>
                     <Text style={styles.back_style}>Back</Text>
                 </TouchableOpacity>

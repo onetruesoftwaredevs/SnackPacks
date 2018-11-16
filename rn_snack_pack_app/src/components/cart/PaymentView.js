@@ -62,9 +62,6 @@ export default class PaymentView extends Component{
                         <Field title={"Service Fee"} value={serviceFee}/>
                         <Field title={"Total"} value={roundedTotal}/>
                     </View>
-                    <TouchableOpacity onPress={this._handlePayment} style={global_stylesheet.full_width_style}>
-                        <Text style={global_stylesheet.green_button_style}>Checkout</Text>
-                    </TouchableOpacity>
                 </View>
             );
         }

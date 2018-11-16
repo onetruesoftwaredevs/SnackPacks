@@ -68,12 +68,6 @@ class Cart {
         }
         return this.cart;
     }
-
-    getKeysInCart(){
-        if(this.cart.length<=0){
-            return [];
-        }
-    }
 }
 
 module.exports = Cart;
