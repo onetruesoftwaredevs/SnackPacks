@@ -49,7 +49,7 @@ export default class Home extends Component {
                             {"$" + snackpack._cost.toFixed(2)}
                         </ListGroupItem>
                         <ListGroupItem header="Reviews:">
-                            {(snackpack.reviews === "")?"No reviews.":snackpack.reviews}
+                            {(snackpack.reviews === "[]")?"No reviews.":snackpack.reviews}
                         </ListGroupItem>
                         <ListGroupItem header="Image:">
                             <Image src={snackpack.image_path} className="image" thumbnail />

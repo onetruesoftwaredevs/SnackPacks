@@ -13,7 +13,7 @@ export default class SnackPacks extends Component {
             number: parseInt((window.location.pathname).substring(11))-1,
             isLoading: null,
             isDeleting: null,
-            driver: [],
+            blacklistedUser: [],
             id: 0,
             name: "",
             phoneNum: "",
@@ -27,7 +27,7 @@ export default class SnackPacks extends Component {
             return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
                 .then(response => response.json())
                 .then(responseJson => this.setState({
-                    driver: responseJson[this.state.number]
+                    blacklistedUser: responseJson[this.state.number]
                 }))
                 .then(() => this.setState({
                     id: this.state.driver._id,
@@ -36,7 +36,7 @@ export default class SnackPacks extends Component {
                     carModel: this.state.driver._carmodel,
                     carMake: this.state.driver._carmake
                 }))
-                .then(() => console.log(this.state.driver))
+                .then(() => console.log(this.state.blacklistedUser))
                 .then(() => this.setState({isLoading: false}));
         } catch (e) {
             alert(e);

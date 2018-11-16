@@ -9,7 +9,7 @@ export default class DriverList extends Component {
 
         this.state = {
             isLoading: true,
-            drivers: []
+            blacklistedUsers: []
         };
     }
 
@@ -22,39 +22,45 @@ export default class DriverList extends Component {
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
             .then(response => response.json())
             .then(responseJson => this.setState({
-                drivers: responseJson
+                blacklistedUsers: responseJson
             }))
-            .then(() => console.log(this.state.drivers))
+            .then(() => console.log(this.state.blacklistedUsers))
             .then(() => this.setState({isLoading: false}));
     }
 
     renderBlackList() {
-        return [{}].concat(this.state.drivers).map(
-            (driver, i) =>
+        return [{}].concat(this.state.blacklistedUsers).map(
+            (blacklistUser, i) =>
                 i !== 0
                     ? <ListGroup>
+                        <br></br>
                         <LinkContainer
                             key={i}
                             to={`/blacklist/${i}`}
                         >
-                            <ListGroupItem header={driver._name+":"}>{"(Driver #"+i+")"}</ListGroupItem>
+                            <ListGroupItem header={"Blacklisted User #"+i+":"}>{}</ListGroupItem>
                         </LinkContainer>
-                        <ListGroupItem header="Status:">
-                            {(driver._status === "0")?"Not busy":"Busy delivering an order"}
+                        <ListGroupItem header="Name:">
+                            {blacklistUser._name}
                         </ListGroupItem>
                         <ListGroupItem header="Phone Number:">
-                            {driver._phone}
+                            {blacklistUser._phone}
                         </ListGroupItem>
-                        <ListGroupItem header="Rating:">
-                            {driver._rating}
+                        <ListGroupItem header="Address:">
+                            {blacklistUser._rating}
                         </ListGroupItem>
-                        <ListGroupItem header="Reviews:">
-                            {(driver._reviews === "")?"No reviews.":(driver._reviews.split('|')).join(", ")}
-                        </ListGroupItem>
-                        <br></br>
                     </ListGroup>
                     :
-                    <></>
+                    <LinkContainer
+                        key="new"
+                        to="/blacklist/new"
+                    >
+                        <ListGroupItem>
+                            <h4>
+                                <b>{"\uFF0B"}</b> Add User to Blacklist
+                            </h4>
+                        </ListGroupItem>
+                    </LinkContainer>
         );
     }
 
