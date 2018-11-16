@@ -27,15 +27,14 @@ class PaymentConnector{
             //Create the cart string used for the SQL command
             var cartString="(";
 
-            console.log("cart from connector: "+cart);
             //Create array of items in the cart in the form: [[KEY, QUANTITY],...]
             var newCart=[];
             for(var i=0; i<cart.length; i++){
-                console.log("key: "+cart[i].key+" quantity: "+cart[i].quantity);
+                // console.log("key: "+cart[i].key+" quantity: "+cart[i].quantity);
                 newCart.push([cart[i].key,cart[i].quantity]);//Add [KEY,QUANTITY] to array
                 cartString+=`\"${cart[i].key}\",`;//Append item.key to cartString
             }
-            console.log("newCart: "+newCart);
+            // console.log("newCart: "+newCart);
             cartString=cartString.substr(0,cartString.length-1);//Remove trailing comma from cartString
             cartString+=")";
             console.log(cartString);
@@ -53,14 +52,13 @@ class PaymentConnector{
                         reject(err);
                         return;
                     }
-                    //callback to end connection
+                    //Callback to end connection
                     connection.end(function(err){
                         var total_cost=0;
                         for(var x in result){
-                            console.log(`${result[x]['cost']} * ${newCart[x][1]}`);
+                            // console.log(`${result[x]['cost']} * ${newCart[x][1]}`);
                             total_cost+=(result[x]['cost']*newCart[x][1]);
                         }
-                        console.log("total cost: "+total_cost);
                         resolve(total_cost);
                     });
                 });
