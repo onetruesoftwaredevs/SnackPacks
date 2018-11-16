@@ -29,10 +29,10 @@ export default class PaymentView extends Component{
 
     render(){
         let serviceFee=Number(this.props.serviceFee).toFixed(2);
-        let tax=Number(Number(this.props.subtotal)*0.06).toFixed(2);
+        let tax=Number(Number(Number(this.props.subtotal)*0.06).toFixed(2));
 
         if(this.props.checkout==true){
-            let roundedTotal=Number(Number(this.props.subtotal)+Number(tax)+Number(this.props.serviceFee)).toFixed(2);
+            let roundedTotal=Number(Number(this.props.subtotal)+Number(tax)+Number(this.props.serviceFee)).toFixed(2);//TODO: total has 2 extra zeros
             return (
                 <View>
                     <View style={global_stylesheet.basic_container}>
@@ -52,7 +52,7 @@ export default class PaymentView extends Component{
                 </View>
             );
         }else{
-            let roundedTotal=Number(Number(this.props.subtotal)+Number(tax)+Number(this.props.serviceFee))+Number(this.props.tip).toFixed(2);
+            let roundedTotal=Number(Number(this.props.subtotal)+Number(tax)+Number(this.props.serviceFee)+Number(this.props.tip)).toFixed(2);
             return (
                 <View>
                     <View style={global_stylesheet.basic_container}>

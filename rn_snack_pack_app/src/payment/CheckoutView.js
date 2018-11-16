@@ -19,7 +19,7 @@ export default class CheckoutView extends Component{
             text2:`Message from web view ${msgData.data}`
         });
         msgData.isSuccessfull=true;
-        msgData.args=[msgData.data%2? "green": "red"];
+        msgData.args=[msgData.data%2?"green":"red"];
         this.myWebView.postMessage(JSON.stringify(msgData));
     }
 
@@ -39,13 +39,20 @@ export default class CheckoutView extends Component{
                 cartKQ.push({"key":item.spkey,"quantity":item.spquantity});
             });
 
+            console.log("body: "+JSON.stringify({"nonce":nonce,"tip":Number(this.state.tip),"cart":cartKQ}));
             //Fetch to api with cart in body
             //Example body of post: {"nonce":"nonce","tip":0,"cart":[{"key":0,"quantity":6},{"key":3,"quantity":10}]}
             let url="https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2";
-            fetch(url,{
-                method:'POST',
-                body:JSON.stringify({"nonce":nonce,"tip":this.state.tip,"cart":cartKQ})
-            });
+
+            (async () => {
+                const rawResponse = await fetch(url, {
+                    method: 'POST',
+                    body:JSON.stringify({"nonce":nonce,"tip":Number(this.state.tip),"cart":cartKQ})
+                });
+                const content = await rawResponse;
+
+                console.log(content);
+            })();
         }
         // let msgData=JSON.parse(event.nativeEvent.data);
         // try{
@@ -74,9 +81,13 @@ export default class CheckoutView extends Component{
         cart.forEach(function(item){
             cartKQ.push({"key":item.spkey,"quantity":item.spquantity});
         });
+
+        let nonce="nonce";
         console.log(cartKQ);
-        console.log(JSON.stringify({"nonce":"nonce","tip":this.state.tip,"cart":cartKQ}));
+        console.log("body: "+JSON.stringify({"nonce":nonce,"tip":this.state.tip,"cart":JSON.stringify(cartKQ)}));
+        // console.log(JSON.stringify({"nonce":"nonce","tip":this.state.tip,"cart":cartKQ}));
     };
+
     render(){
         return (
             <View style={styles.container}>
@@ -134,7 +145,7 @@ const styles=StyleSheet.create({
         flex:1,
         width:'100%',
         height:'90%',
-        marginTop:(Platform.OS)==='ios'? 20: 0
+        marginTop:(Platform.OS)==='ios'?20:0
     },
     checkout_style:{
         width:50,
