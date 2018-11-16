@@ -199,8 +199,15 @@ exports.handler=function(event,context,callback){
                 let nonce=null; //Declare nonce variable
                 let amount=null; //Declare amount variable
                 let serviceFee=1; //Declare serviceFee variable
+                //event.body="{\"nonce\":\"tokencc_bc_9k6r9p_dcg5w3_2sfgn8_p5vgj7_52z\",\"tip\":0,\"cart\":[{\"key\":0,\"quantity\":1}]}";
                 console.log("EVENT BODY: "+JSON.stringify(event.body));
-
+                try{
+                    event.body=JSON.parse(event.body);
+                }
+                catch(e){
+                    console.log("caught!");
+                    //Do nothing, running in test mode
+                }
                 if(event.body!=null&&event.body!==undefined){
                     nonce=event.body.nonce;//Set nonce to body's nonce
                     console.log("nonce: "+nonce);
@@ -211,7 +218,8 @@ exports.handler=function(event,context,callback){
 
                         if(nonce!=null&&amount!=null){
                             //Check for int & absolute value of tip
-                            if(event.body.tip===parseInt(event.body.tip,10)&&tip!=null&&tip!==undefined) tip=Math.abs(event.body.tip);
+                            console.log(parseFloat(event.body.tip,10));
+                            if(event.body.tip==parseFloat(event.body.tip,10)&&event.body.tip!=null&&event.body.tip!==undefined) tip=Math.abs(event.body.tip);
                             else tip=0;
                             let tax=Number(Number(amount*0.06).toFixed(2)); //Calculate tax
                             console.log("amount: "+amount+"\ntip: "+tip+"\nservice fee: "+serviceFee+"\ntax: "+tax+"\ntotal: "+Number(amount+tip+serviceFee+tax));//Logging
@@ -262,15 +270,8 @@ exports.handler=function(event,context,callback){
                             };
                             callback(null,response);
                         }
-                    }).catch(function(err){
-                        console.log("INTO DB CATCH ERROR");
-                        let response={
-                            "statusCode":500,
-                            "headers":{},
-                            "body":JSON.stringify(err),
-                            "isBase64Encoded":"false"
-                        };
-                        callback(null,response);
+
+
                     });
                 }
             }else if(command.localeCompare("client")===0){
