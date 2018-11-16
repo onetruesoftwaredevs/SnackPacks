@@ -32,7 +32,7 @@ export default class SnackPacks extends Component {
                     name: this.state.refundRequest._name,
                     phoneNum: this.state.refundRequest._phone,
                     status: this.state.refundRequest._status,
-                    reviews: this.state.refundRequest._reviews
+                    reviews: this.state.refundRequest._carmake
                 }))
                 .then(() => console.log(this.state.refundRequest))
                 .then(() => this.setState({isApproving: false}));
@@ -133,7 +133,7 @@ export default class SnackPacks extends Component {
                         {this.state.phoneNum}
                     </ListGroupItem>
                     <ListGroupItem header="Reviews:">
-                        {(this.state.reviews === "")?"No reviews.":(this.state.reviews.split('|')).join(", ")}
+                        {this.state.reviews}
                     </ListGroupItem>
                 </ListGroup>
                 {this.state.refundRequest &&

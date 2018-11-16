@@ -37,16 +37,23 @@ export default class DriverList extends Component {
                             key={i}
                             to={`/refreq/${i}`}
                         >
-                            <ListGroupItem header={refundRequest._name+":"}>{"(Refund Request #"+i+")"}</ListGroupItem>
+                            <ListGroupItem header={"Refund Request #"+i+":"}>{}</ListGroupItem>
                         </LinkContainer>
-                        <ListGroupItem header="Status:">
-                            {(refundRequest._status === "0")?"Not busy":"Busy delivering an order"}
+                        <ListGroupItem header="Reason for Refund Request:">
+                            {(refundRequest._status === "0")?"Damaged":"Undelivered"}
                         </ListGroupItem>
-                        <ListGroupItem header="Phone Number:">
-                            {refundRequest._phone}
+                        <ListGroupItem header="Cost of Refund:">
+                            {"$"+refundRequest._rating}
                         </ListGroupItem>
-                        <ListGroupItem header="Reviews:">
-                            {(refundRequest._reviews === "")?"No reviews.":(refundRequest._reviews.split('|')).join(", ")}
+                        <ListGroupItem header="Refund Requesting User's Information:">
+                            {"Name: "+refundRequest._name}
+                            <br></br>
+                            {"Phone Number: "+refundRequest._phone}
+                            <br></br>
+                            {"Address: "+refundRequest._carmake}
+                        </ListGroupItem>
+                        <ListGroupItem header="SnackPacks being Refunded:">
+                            {refundRequest._reviews}
                         </ListGroupItem>
                         <br></br>
                     </ListGroup>

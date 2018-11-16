@@ -56,7 +56,7 @@ export default class DriverList extends Component {
                             {driver._rating}
                         </ListGroupItem>
                         <ListGroupItem header="Reviews:">
-                            {(driver._reviews === "")?"No reviews.":(driver._reviews.split('|')).join(", ")}
+                            {(driver._reviews === "[]")?"No reviews.":(driver._reviews.split('|')).join(", ")}
                         </ListGroupItem>
                     </ListGroup>
                     :
