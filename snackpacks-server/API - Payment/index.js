@@ -193,57 +193,77 @@ exports.handler=function(event,context,callback){
                     callback(null,response);
                 }
             }else if(command.localeCompare("checkout2")===0){//API CALL POST to checkout with payment_nonce
+                //{"nonce":"nonce","tip":0,"cart":[{"key":0,"quantity":6},{"key":3,"quantity":10}]}
                 let transactionErrors;
-
+                let tip=null; //Declare tip variable
                 let nonce=null; //Declare nonce variable
                 let amount=null; //Declare amount variable
-                console.log("EVENT BODY: "+event.body.toString());
-                if(event.body!=null&&event.body!=undefined){
-                    let post=JSON.stringify(event.body);
-                    console.log("post: "+post);
+                let serviceFee=1; //Declare serviceFee variable
+                console.log("EVENT BODY: "+JSON.stringify(event.body));
+
+                if(event.body!=null&&event.body!==undefined){
                     nonce=event.body.nonce;//Set nonce to body's nonce
                     console.log("nonce: "+nonce);
 
-                    let paymentConnector= new PaymentConnector();
-                    amount=paymentConnector.getCartCost(event.body.cart);
-                    //amount=paymentConnector.getCartCost(event.body.cart);
-                    console.log("amount: "+amount);
-                }
+                    let paymentConnector=new PaymentConnector();
+                    paymentConnector.getCartCost(event.body.cart).then(function(data){//Calculate cost of cart
+                        amount=Number(data);//Amount
 
-
-
-                if(nonce!=null&&amount!=null){
-                    //Use Braintree gateway to complete the transaction
-                    gateway.transaction.sale({
-                        amount:amount,
-                        //paymentMethodNonce: "fake-valid-nonce",//Testing
-
-                        paymentMethodNonce:nonce,//nonce from request
-                        options:{
-                            submitForSettlement:true//Send payment
-                        }
-                    }).then(function(result){
-                        if(result.success||result.transaction){//SUCCESS
+                        if(nonce!=null&&amount!=null){
+                            //Check for int & absolute value of tip
+                            if(event.body.tip===parseInt(event.body.tip,10)&&tip!=null&&tip!==undefined) tip=Math.abs(event.body.tip);
+                            else tip=0;
+                            let tax=Number(Number(amount*0.06).toFixed(2)); //Calculate tax
+                            console.log("amount: "+amount+"\ntip: "+tip+"\nservice fee: "+serviceFee+"\ntax: "+tax+"\ntotal: "+Number(amount+tip+serviceFee+tax));//Logging
+                            //Use Braintree gateway to complete the transaction
+                            gateway.transaction.sale({
+                                amount:Number(amount+tip+serviceFee+tax), //Calculate final cost
+                                paymentMethodNonce:nonce, //Nonce from request
+                                options:{
+                                    submitForSettlement:true //Send payment
+                                }
+                            }).then(function(result){
+                                if(result.success||result.transaction){//SUCCESS
+                                    let response={
+                                        "statusCode":200,
+                                        "headers":{},
+                                        "body":JSON.stringify(result),
+                                        "isBase64Encoded":"false"
+                                    };
+                                    callback(null,response);
+                                }else{//ERROR
+                                    transactionErrors=result.errors.deepErrors();
+                                    console.log("INTO CHECKOUT ERROR");
+                                    let response={
+                                        "statusCode":500,
+                                        "headers":{},
+                                        "body":JSON.stringify(formatErrors(transactionErrors)),
+                                        "isBase64Encoded":"false"
+                                    };
+                                    callback(null,response);
+                                }
+                            }).catch((err)=>{
+                                console.log("INTO CHECKOUT CATCH ERROR");
+                                let response={
+                                    "statusCode":500,
+                                    "headers":{},
+                                    "body":JSON.stringify(err),
+                                    "isBase64Encoded":"false"
+                                };
+                                callback(null,response);
+                            });
+                        }else{
+                            console.log("INTO NO NONCE ERROR");
                             let response={
-                                "statusCode":200,
+                                "statusCode":400,
                                 "headers":{},
-                                "body":JSON.stringify(result),
+                                "body":event.body,
                                 "isBase64Encoded":"false"
                             };
                             callback(null,response);
-                        }else{//ERROR
-                            transactionErrors=result.errors.deepErrors();
-                            console.log("INTO CHECKOUT ERROR");
-                            let response={
-                                "statusCode":500,
-                                "headers":{},
-                                "body":JSON.stringify(formatErrors(transactionErrors)),
-                                "isBase64Encoded":"false"
-                            };
-                            callback(null,response);
                         }
-                    }).catch((err)=>{
-                        console.log("INTO CHECKOUT CATCH ERROR");
+                    }).catch(function(err){
+                        console.log("INTO DB CATCH ERROR");
                         let response={
                             "statusCode":500,
                             "headers":{},
@@ -252,15 +272,6 @@ exports.handler=function(event,context,callback){
                         };
                         callback(null,response);
                     });
-                }else{
-                    console.log("INTO NO NONCE ERROR");
-                    let response={
-                        "statusCode":400,
-                        "headers":{},
-                        "body":event.body,
-                        "isBase64Encoded":"false"
-                    };
-                    callback(null,response);
                 }
             }else if(command.localeCompare("client")===0){
                 //Testing client functionality for transaction
