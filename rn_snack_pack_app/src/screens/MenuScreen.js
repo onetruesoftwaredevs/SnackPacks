@@ -88,6 +88,7 @@ export default class MenuScreen extends Component {
                             spallergylist={item._allergens}
                             spcontentlist={item._contents}
                             spimage={item.image_path}
+                            spkey={item._key}
                             navigation={this.props.navigation}
                             parent={this}
                         />)

@@ -29,18 +29,6 @@ export default class CartScreen extends Component {
         this.props.navigation.navigate("Menu");
     };
 
-    /*<FlatList
-                        data={Cart.getInstance().getItemsInCart()}
-                        keyExtractor={(item) => item.spname}
-                        extraData={this.state}
-                        renderItem={({item}) =>
-                            <OrderItemView
-                                name={item.spname}
-                                price={item.spprice}
-                                parent={this}
-                            />
-                        }
-                    />*/
 
     render() {
         let cartSubtotal = Number(Cart.getInstance().total_cost).toFixed(2);
@@ -60,7 +48,7 @@ export default class CartScreen extends Component {
                         <Text style={global_stylesheet.blue_button_style}>Back to Menu</Text>
                     </TouchableOpacity>
                 </ScrollView>
-                <PaymentView subtotal={cartSubtotal} serviceFee={1.00}/>
+                <PaymentView subtotal={cartSubtotal} serviceFee={1.00} tip={0.00} />
             </View>
         );
     }
