@@ -89,6 +89,27 @@ class snackConnector{
 		});
 	}
 
+	getLocationByID(id){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			//Start the descent into callback hell
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				connection.query(`select * from snackpacks.Orders where id=${id}`, function(err, result, fields){
+					if (err) reject(err);
+					//callback to end connection
+					connection.end(function(err) {
+						if (err) reject(err);
+						res = result[0];
+						ret_val = {'x': res.loc_x, 'y': res.loc_y};
+						resolve(retval);
+					});
+				});
+			});
+		});
+	}
+
 	getOrderByID(id){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
