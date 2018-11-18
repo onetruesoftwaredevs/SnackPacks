@@ -16,7 +16,7 @@ export default class PaymentView extends Component{
     tip;
     serviceFee;
 
-    _handlePayment=()=>{//TODO react-native create new instance?
+    _handlePayment=()=>{
         //Alert.alert("Payment button pressed", "test");
         this.props.navigation.navigate('CheckoutView', {
             title: 'Checkout',
@@ -32,7 +32,7 @@ export default class PaymentView extends Component{
         let tax=Number(Number(Number(this.props.subtotal)*0.06).toFixed(2));
 
         if(this.props.checkout==true){
-            let roundedTotal=Number(Number(this.props.subtotal)+Number(tax)+Number(this.props.serviceFee)).toFixed(2);//TODO: total has 2 extra zeros
+            let roundedTotal=Number(Number(this.props.subtotal)+Number(tax)+Number(this.props.serviceFee)).toFixed(2);
             return (
                 <View>
                     <View style={global_stylesheet.basic_container}>

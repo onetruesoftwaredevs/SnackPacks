@@ -48,7 +48,7 @@ export default class CartScreen extends Component {
                         <Text style={global_stylesheet.blue_button_style}>Back to Menu</Text>
                     </TouchableOpacity>
                 </ScrollView>
-                <PaymentView subtotal={cartSubtotal} serviceFee={1.00} tip={0.00} />
+                <PaymentView subtotal={cartSubtotal} serviceFee={1.00} tip={0.00} checkout={true} navigation={this.props.navigation}/>
             </View>
         );
     }
