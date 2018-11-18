@@ -6,31 +6,26 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import PriceView from "./src/components/menu/PriceView";
-import Review from "./src/components/misc/Review";
-import Rating from "./src/components/misc/Rating";
-import NutritionView from "./src/components/menu/NutritionView";
-import SnackPackView from "./src/components/menu/SnackPackView";
+import React,{Component} from 'react';
+import {StyleSheet,Text,View} from 'react-native';
 
 //ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
-import Amplify, {API, Analytics, Storage} from 'aws-amplify';
-import {withAuthenticator} from 'aws-amplify-react-native';
-import aws_exports from './src/api/aws-exports';
-import PaymentView from "./src/components/cart/PaymentView";
-import OrderItemView from "./src/components/cart/OrderItemView";
-import CartScreen from "./src/screens/CartScreen";
-import MenuScreen from "./src/screens/MenuScreen";
+import Amplify,{API,Analytics,Storage} from 'aws-amplify';
+// import MySignIn from "./src/mySignIn"; //KEEP FOR LATER
+// import {ConfirmSignUp,ForgotPassword,SignIn,SignUp,VerifyContact,withAuthenticator} from 'aws-amplify-react-native';
+// import ConfirmSignIn from "aws-amplify-react-native/dist/Auth/ConfirmSignIn"; //Can be put into upper import statement, but this includes path to files
+import aws_exports from './src/aws-exports';
+
 import {SnackPacks} from "./src/snackpacks";
 import Driver from "./src/function/Driver";
+
 import User from "./src/function/User";
 
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
 
-export default class App extends Component {
-    constructor(props) {
+export default class App extends Component{
+    constructor(props){
         super();
         this.state = {isLoading: true};
         User.setInstance("Steve", "1");
@@ -72,23 +67,43 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 0,
-        width: '100%',
-        height: '100%',
+    container:{
+        flex:1,
+        padding:0,
+        width:'100%',
+        height:'100%',
     },
 
-    loading_text: {
-        flex: 1,
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
+    /* container:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'#F5FCFF',
+        */
+
+    loading_text:{
+        flex:1,
+        color:'#444',
+        fontSize:20,
+        fontStyle:'normal',
+        fontWeight:'bold',
+        textAlign:'center',
+        textDecorationLine:'none',
+        textAlignVertical:'center',
+        textTransform:'none',
+        padding:4,
+    }
 });
+
+//(TODO later)To edit this location is: /rn_snack_pack_app/node_modules/aws-amplify-react-native/dist/ (copy to project and work from there)
+/*export default withAuthenticator(App);
+withAuthenticator(App,false,[
+    <MySignIn/>,
+    //<SignIn/>,
+    <ConfirmSignIn/>,
+    <VerifyContact/>,
+    <SignUp/>,//TODO custom sign up that doesn't make you use the '+' at the begnning
+    <ConfirmSignUp/>,
+    <ForgotPassword/>
+]);*/
+

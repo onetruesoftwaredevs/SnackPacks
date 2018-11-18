@@ -21,6 +21,7 @@ export default class SnackPackView extends Component {
     spallergylist;  // list(string)
     spcontentlist;  // list(string)
     spimage;        // string
+    spkey;          // the key of the snack-pack
     navigation;     // object
     parent;
 
@@ -46,7 +47,7 @@ export default class SnackPackView extends Component {
     _onIncrease = (quantity) => {
         if (quantity === 1) {
             // item was added to the cart
-            Cart.getInstance().addToCart(this.props.spname, this.props.spprice);
+            Cart.getInstance().addToCart(this.props.spname, this.props.spprice, this.props.spkey);
         }
         else {
             // item is already inside the cart

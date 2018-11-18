@@ -7,7 +7,6 @@ import React from 'react'
 var SnackPack = require('./SnackPack');
 
 class SnackConnector {
-
 	static getSnackPacks(){
 		var url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list";
 		var jsonSnackPacks = fetch(url, {method: 'GET'});

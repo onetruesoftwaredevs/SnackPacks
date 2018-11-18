@@ -1,2 +1,0 @@
-// PriceComponent
-// @author - Stephen

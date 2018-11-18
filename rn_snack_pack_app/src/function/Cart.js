@@ -18,8 +18,8 @@ class Cart {
         return Cart.instance;
     }
 
-    addToCart(name, price) {
-        let item = new CartItem(name, price);
+    addToCart(name, price, key) {
+        let item = new CartItem(name, price, key);
         this.cart.push(item);
         this.total_cost = this.total_cost + price;
     }
@@ -63,7 +63,9 @@ class Cart {
     }
 
     getItemsInCart() {
-        if (this.cart.length <= 0) { return []; }
+        if (this.cart.length <= 0) {
+            return [];
+        }
         return this.cart;
     }
 }
