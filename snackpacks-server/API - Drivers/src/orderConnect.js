@@ -101,9 +101,9 @@ class snackConnector{
 					//callback to end connection
 					connection.end(function(err) {
 						if (err) reject(err);
-						res = result[0];
-						ret_val = {'x': res.loc_x, 'y': res.loc_y};
-						resolve(retval);
+						let res = result[0];
+						let ret_val = {'x': res.loc_x, 'y': res.loc_y};
+						resolve(ret_val);
 					});
 				});
 			});
