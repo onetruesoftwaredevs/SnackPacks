@@ -32,7 +32,7 @@ class OrderManager {
         for (let i = 0; i < this._orders.length; i++) {
             let order = this._orders[i];
             if (isDriver) {
-                if (order._driver === driver_id) {
+                if (Number(order._driver) === Number(driver_id)) {
                     orders.push(order);
                 }
             }
