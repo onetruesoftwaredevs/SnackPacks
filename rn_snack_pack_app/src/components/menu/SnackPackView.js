@@ -41,8 +41,6 @@ export default class SnackPackView extends Component {
             allergens: this.props.spallergylist,
             contents: this.props.spcontentlist,
             reviews: this.props.spreviews,
-            onIncrease: this._onIncrease,
-            onDecrease: this._onDecrease,
             parent: this.props.parent,
         })
     };
@@ -58,9 +56,7 @@ export default class SnackPackView extends Component {
         }
 
         // set the state to force an update
-        this.setState({quantity: quantity}, () => {
-            this.forceUpdate();
-        });
+        this.setState({quantity: quantity});
     };
 
     _onDecrease = (quantity) => {
@@ -72,9 +68,7 @@ export default class SnackPackView extends Component {
             Cart.getInstance().setQuantity(this.props.spname, quantity);
         }
         // set the state to force an update
-        this.setState({quantity: quantity}, () => {
-            this.forceUpdate();
-        });
+        this.setState({quantity: quantity});
     };
 
     render() {

@@ -26,8 +26,6 @@ export default class DetailedSnackPackView extends Component {
     contents;           // list (string)
     reviews;            // list (object);
     navigation;         // object
-    onIncrease;         // function(int)
-    onDecrease;         // function(int)
     parent;             // object
 
     constructor(props) {
@@ -40,26 +38,6 @@ export default class DetailedSnackPackView extends Component {
             this.setState({quantity: this.props.navigation.state.params.quantity});
         });
     }
-
-    _onIncrease = (quantity) => {
-        let params = this.props.navigation.state.params;
-        if (params.onIncrease !== undefined) {
-            params.onIncrease(quantity);
-        }
-        this.setState({quantity: quantity}, () => {
-            this.forceUpdate();
-        });
-    };
-
-    _onDecrease = (quantity) => {
-        let params = this.props.navigation.state.params;
-        if (params.onDecrease !== undefined) {
-            params.onDecrease(quantity);
-        }
-        this.setState({quantity: quantity}, () => {
-            this.forceUpdate();
-        });
-    };
 
     reviews = [
         {title: "Great", author: "Person", rating: 3, review: "test testtesttesttesttest test test"},
@@ -90,10 +68,6 @@ export default class DetailedSnackPackView extends Component {
                         </View>
                     </View>
                     <View style={global_stylesheet.basic_container}>
-                        <NewQuantityComponent quantity={this.state.quantity} onIncrease={this._onIncrease}
-                                              onDecrease={this._onDecrease}/>
-                    </View>
-                    <View style={global_stylesheet.basic_container}>
                         <Text style={global_stylesheet.data_title_style}>Allergy Information</Text>
                         <FlatList
                             horizontal={true}
@@ -116,9 +90,15 @@ export default class DetailedSnackPackView extends Component {
                     <View style={global_stylesheet.basic_container}>
                         <Text style={global_stylesheet.data_title_style}>Reviews</Text>
                     </View>
-                    {this.reviews.map((item) => <Review title={item.title} author={item.author} rating={item.rating} review={item.review}/>)}
+                    {this.reviews.map((item) =>
+                        <Review
+                            title={item.title}
+                            author={item.author}
+                            rating={item.rating}
+                            review={item.review}
+                        />
+                    )}
                 </ScrollView>
-                <BackButton navigation={this.props.navigation}/>
             </View>
         );
     }
