@@ -9,6 +9,7 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import Rating from "./Rating";
 import {global_stylesheet} from "../../stylesheet";
 import NewRating from "./NewRating";
+import VotingComponent from "./VotingComponent";
 
 export default class Review extends Component {
     title;  // string
@@ -26,7 +27,10 @@ export default class Review extends Component {
                     </View>
                     <NewRating size={12} rating={this.props.rating} enabled={false}/>
                 </View>
-                <Text style={styles.review_style}>{this.props.review}</Text>
+                <View style={global_stylesheet.horizontal_container_loose}>
+                    <Text style={styles.review_style}>{this.props.review}</Text>
+                    <VotingComponent upvotes={10} downvotes={5}/>
+                </View>
             </View>
         );
     }

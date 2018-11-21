@@ -2,7 +2,7 @@
  *
  * @author Stephen Davis
  *
- * @description the default back button for a screen
+ * @description the default rating component
  *
  *
  * */
