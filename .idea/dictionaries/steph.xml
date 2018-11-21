@@ -2,6 +2,9 @@
   <dictionary name="steph">
     <words>
       <w>dname</w>
+      <w>downstyle</w>
+      <w>downvote</w>
+      <w>downvotes</w>
       <w>fcff</w>
       <w>flatlist</w>
       <w>meriem</w>
@@ -19,6 +22,9 @@
       <w>spreviews</w>
       <w>swipeout</w>
       <w>swiper</w>
+      <w>upstyle</w>
+      <w>upvote</w>
+      <w>upvotes</w>
     </words>
   </dictionary>
 </component>
