@@ -13,6 +13,7 @@ import Cart from "../../function/Cart";
 import {global_stylesheet} from "../../stylesheet";
 import AllergyView from "../misc/AllergyView";
 import NewQuantityComponent from "../misc/NewQuantityComponent";
+import NewRating from "../misc/NewRating";
 
 export default class SnackPackView extends Component {
     spname;         // string
@@ -22,6 +23,7 @@ export default class SnackPackView extends Component {
     spcontentlist;  // list(string)
     spimage;        // string
     spkey;          // the key of the snack-pack
+    spreviews;      // list(object)
     navigation;     // object
     parent;
 
@@ -38,6 +40,7 @@ export default class SnackPackView extends Component {
             quantity: this.state.quantity,
             allergens: this.props.spallergylist,
             contents: this.props.spcontentlist,
+            reviews: this.props.spreviews,
             onIncrease: this._onIncrease,
             onDecrease: this._onDecrease,
             parent: this.props.parent,
@@ -92,7 +95,7 @@ export default class SnackPackView extends Component {
                             renderItem={({item}) => <AllergyView allergy={item}/>}
                             keyExtractor={(item) => item}
                         />
-                        <Rating starCount={this.props.sprating} editable={false}/>
+                        <NewRating size={12} rating={this.props.sprating} enabled={false}/>
                     </View>
                 </TouchableOpacity>
                 <NewQuantityComponent quantity={this.state.quantity} navigation={this.props.navigation}

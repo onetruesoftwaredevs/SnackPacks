@@ -48,24 +48,6 @@ export default class MenuScreen extends Component {
             .then(responseJson => this.loadData(responseJson));
     }
 
-    /**
-     * <FlatList
-     data={Menu.getInstance().getData()}
-     extraData={this.state}
-     keyExtractor={(item) => item._name}
-     renderItem={({item}) => <SnackPackView
-                        spname={item._name}
-                        spprice={item._cost}
-                        sprating={3}
-                        spallergylist={item._allergens}
-                        spcontentlist={item._contents}
-                        spimage={item.image_path}
-                        navigation={this.props.navigation}
-                        parent={this}
-                    />}
-     />
-     */
-
     render() {
         if (this.state.isLoading) {
             return (
@@ -89,6 +71,7 @@ export default class MenuScreen extends Component {
                             spcontentlist={item._contents}
                             spimage={item.image_path}
                             spkey={item._key}
+                            spreviews={item.reviews}
                             navigation={this.props.navigation}
                             parent={this}
                         />)

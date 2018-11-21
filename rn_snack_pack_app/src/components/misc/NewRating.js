@@ -39,7 +39,7 @@ export default class NewRating extends Component {
 
     render() {
         return (
-            <View style={global_stylesheet.horizontal_container_tight}>
+            <View style={[global_stylesheet.horizontal_container_tight, {paddingLeft: 6}]}>
                 {this.styleRating(1)}
                 {this.styleRating(2)}
                 {this.styleRating(3)}
@@ -53,11 +53,13 @@ export default class NewRating extends Component {
 const styles = StyleSheet.create({
     filled_star: {
         backgroundColor: "#FD0",
+        marginVertical: 6,
         marginRight: 6,
     },
 
     empty_star: {
         backgroundColor: "#DDD",
+        marginVertical: 6,
         marginRight: 6,
     }
 });

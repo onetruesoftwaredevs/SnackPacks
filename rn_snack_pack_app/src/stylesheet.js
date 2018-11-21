@@ -95,7 +95,7 @@ export const global_stylesheet = StyleSheet.create({
         fontSize: 24,
         fontStyle: 'normal',
         fontWeight: 'bold',
-        textAlign: 'justify',
+        textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
