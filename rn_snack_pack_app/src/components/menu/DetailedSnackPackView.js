@@ -12,6 +12,9 @@ import ScreenHeader from "../misc/ScreenHeader";
 import NewQuantityComponent from "../misc/NewQuantityComponent";
 import AllergyView from "../misc/AllergyView";
 import ContentView from "../misc/ContentView";
+import NewRating from "../misc/NewRating";
+import ReviewBuilderView from "../misc/ReviewBuilderView";
+import Review from "../misc/Review";
 
 export default class DetailedSnackPackView extends Component {
     // display
@@ -100,6 +103,7 @@ export default class DetailedSnackPackView extends Component {
                             renderItem={({item}) => <ContentView content={item}/>}
                         />
                     </View>
+                    <Review rating={4} review={"this was a great product"}/>
                 </View>
                 <BackButton navigation={this.props.navigation}/>
             </View>

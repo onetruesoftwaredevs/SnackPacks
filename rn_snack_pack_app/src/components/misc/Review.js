@@ -7,21 +7,17 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import Rating from "./Rating";
+import {global_stylesheet} from "../../stylesheet";
+import NewRating from "./NewRating";
 
 export default class Review extends Component {
-    author; // the review author
-    title;  // the title of the review
     review; // the review the author wrote
     rating; // the rating of the review
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.title_bar}>
-                    <Text style={styles.title_style}>{this.props.title}</Text>
-                    <Rating starCount={this.props.rating} editable={false}/>
-                </View>
-                <Text style={styles.author_style}>{this.props.author}</Text>
+            <View style={global_stylesheet.thick_basic_container}>
+                <NewRating size={12} rating={this.props.rating} enabled={false}/>
                 <Text style={styles.review_style}>{this.props.review}</Text>
             </View>
         );
