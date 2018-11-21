@@ -13,6 +13,9 @@ import Driver from "../function/Driver";
 import OrderManager from "../function/OrderManager";
 import ScreenHeader from "../components/misc/ScreenHeader";
 import {global_stylesheet} from "../stylesheet";
+import Mapbox from '@mapbox/react-native-mapbox-gl';
+
+Mapbox.setAccessToken('pk.eyJ1Ijoic3RlcGhlbmQwMTciLCJhIjoiY2pvZXpzNDh6MWRmMzNxbzRjaGwzcHIzMCJ9.EILVrZZjETyxqQVPk_h8Cg');
 
 export default class DriverScreen extends Component {
 
@@ -33,6 +36,7 @@ export default class DriverScreen extends Component {
         this.props.navigation.addListener('willFocus', () => {
             this.setState({previousOrder: null});
         });
+
 
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list", {method: 'GET'})
             .then(response => response.json())
@@ -115,8 +119,15 @@ export default class DriverScreen extends Component {
 
         return (
             <View style={global_stylesheet.screen_container}>
-                <ScreenHeader title={Driver.getInstance().getName()} navigation={this.props.navigation} isDefaultScreen={true}/>
+                <ScreenHeader title={Driver.getInstance().getName()} navigation={this.props.navigation}
+                              isDefaultScreen={true}/>
                 {display}
+                <Mapbox.MapView
+                    styleURL={Mapbox.StyleURL.Street}
+                    zoomLevel={15}
+                    centerCoordinate={[11.256, 43.770]}
+                    style={styles.container}>
+                </Mapbox.MapView>
                 <View style={global_stylesheet.horizontal_container_loose}>
                     <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>
                         <Text style={styles.my_order_style}> My Orders</Text>
@@ -132,6 +143,12 @@ export default class DriverScreen extends Component {
 ;
 
 const styles = StyleSheet.create({
+
+    container: {
+        width: '100%',
+        height: '50%'
+    },
+
     button_style: {
         width: '50%',
     },

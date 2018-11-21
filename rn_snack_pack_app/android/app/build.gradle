@@ -137,6 +137,11 @@ android {
 }
 
 dependencies {
+    compile (project(':mapbox-react-native-mapbox-gl')) {
+            compile ('com.squareup.okhttp3:okhttp:3.6.0') {
+                force = true
+            }
+    }
     compile project(':amazon-cognito-identity-js')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
