@@ -16,21 +16,25 @@ export default class NewRating extends Component {
     size;       // number
     rating;     // number
     enabled;    // boolean
-    onPress;    // function
 
-    _onPress = () => {
-        this.props.onPress();
+    constructor(props) {
+        super();
+        this.state = {rating: props.rating};
+    }
+
+    _onPress = (index) => {
+        this.setState({rating: index});
     };
 
     styleRating(index) {
-        let filled = index <= this.props.rating;
+        let filled = index <= this.state.rating;
         let _style = [filled ? styles.filled_star : styles.empty_star, {
             width: this.props.size,
             height: this.props.size
         }];
 
         if (this.props.enabled) {
-            return (<TouchableOpacity onPress={this._onPress} style={_style}/>);
+            return (<TouchableOpacity onPress={this._onPress.bind(this, index)} style={_style}/>);
         }
         else {
             return (<View style={_style}/>);
