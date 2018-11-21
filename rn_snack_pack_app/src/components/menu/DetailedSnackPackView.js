@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, Image, Text, View} from 'react-native';
+import {FlatList, Image, ScrollView, Text, View} from 'react-native';
 import BackButton from "../misc/BackButton";
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
@@ -24,6 +24,7 @@ export default class DetailedSnackPackView extends Component {
     quantity;           // number (initial value)
     allergens;          // list (string)
     contents;           // list (string)
+    reviews;            // list (object);
     navigation;         // object
     onIncrease;         // function(int)
     onDecrease;         // function(int)
@@ -60,13 +61,22 @@ export default class DetailedSnackPackView extends Component {
         });
     };
 
+    reviews = [
+        {title: "Great", author: "Person", rating: 3, review: "test testtesttesttesttest test test"},
+        {title: "Great", author: "Person", rating: 3, review: "test"},
+        {title: "Great", author: "Person", rating: 3, review: "test"},
+        {title: "Great", author: "Person", rating: 3, review: "test"},
+        {title: "Great", author: "Person", rating: 3, review: "test"},
+    ];
+
+
     render() {
         let props = this.props.navigation.state.params;
         let price = Number(props.price).toFixed(2);
 
         return (
             <View style={global_stylesheet.screen_container}>
-                <View>
+                <ScrollView>
                     <ScreenHeader title={props.name} navigation={this.props.navigation} isDefaultScreen={false}/>
 
                     <View style={global_stylesheet.basic_container}>
@@ -103,8 +113,11 @@ export default class DetailedSnackPackView extends Component {
                             renderItem={({item}) => <ContentView content={item}/>}
                         />
                     </View>
-                    <Review rating={4} review={"this was a great product"}/>
-                </View>
+                    <View style={global_stylesheet.basic_container}>
+                        <Text style={global_stylesheet.data_title_style}>Reviews</Text>
+                    </View>
+                    {this.reviews.map((item) => <Review title={item.title} author={item.author} rating={item.rating} review={item.review}/>)}
+                </ScrollView>
                 <BackButton navigation={this.props.navigation}/>
             </View>
         );

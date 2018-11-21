@@ -11,13 +11,21 @@ import {global_stylesheet} from "../../stylesheet";
 import NewRating from "./NewRating";
 
 export default class Review extends Component {
-    review; // the review the author wrote
-    rating; // the rating of the review
+    title;  // string
+    author; // string
+    review; // string
+    rating; // number
 
     render() {
         return (
             <View style={global_stylesheet.thick_basic_container}>
-                <NewRating size={12} rating={this.props.rating} enabled={false}/>
+                <View style={global_stylesheet.horizontal_container_loose}>
+                    <View style={global_stylesheet.horizontal_container_tight}>
+                        <Text style={global_stylesheet.header_style}>{this.props.title}</Text>
+                        <Text style={global_stylesheet.data_style}>- {this.props.author}</Text>
+                    </View>
+                    <NewRating size={12} rating={this.props.rating} enabled={false}/>
+                </View>
                 <Text style={styles.review_style}>{this.props.review}</Text>
             </View>
         );
