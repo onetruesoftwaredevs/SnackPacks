@@ -60,38 +60,44 @@ export default class OrdersView extends Component {
         }
 
         let swipe_option = this.props.navigation.state.params.isDriver ? "none" : "available_option";
+        let message = this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getId()).length === 0 ?
+            <View>
+                <Text style={global_stylesheet.error_message_style}>No orders to display</Text>
+            </View> : <View/>;
 
         return (
             <View style={global_stylesheet.screen_container}>
-                <ScreenHeader title={this.props.navigation.state.params.title} navigation={this.props.navigation} isDefaultScreen={false}/>
-                <FlatList
-                    horizontal={false}
-                    data={this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getId())}
-                    keyExtractor={(item) => item}
-                    extraData={this.state}
-                    renderItem={({item}) =>
-                        <OrderPreview
-                            name={item._recipient}
-                            number={item._id}
-                            driver={item._driver}
-                            order_status={item._status}
-                            delivery_time={item._time}
-                            payment_info={item._paymentInfo}
-                            address={item._address}
-                            subtotal={item._subtotal}
-                            tax={item._tax}
-                            total={item._total}
-                            last_screen={'OrdersView'}
-                            navigation={this.props.navigation}
-                            swipe_handler={swipe_option}
-                            order_manager={this.orderManager}
-                            parent={this}
-                            is_reviewable={false}
-                        />
-                    }
-                />
-
-                <BackButton navigation={this.props.navigation}/>
+                <View>
+                    <ScreenHeader title={this.props.navigation.state.params.title} navigation={this.props.navigation}
+                                  isDefaultScreen={false}/>
+                    <FlatList
+                        horizontal={false}
+                        data={this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getId())}
+                        keyExtractor={(item) => item}
+                        extraData={this.state}
+                        renderItem={({item}) =>
+                            <OrderPreview
+                                name={item._recipient}
+                                number={item._id}
+                                driver={item._driver}
+                                order_status={item._status}
+                                delivery_time={item._time}
+                                payment_info={item._paymentInfo}
+                                address={item._address}
+                                subtotal={item._subtotal}
+                                tax={item._tax}
+                                total={item._total}
+                                last_screen={'OrdersView'}
+                                navigation={this.props.navigation}
+                                swipe_handler={swipe_option}
+                                order_manager={this.orderManager}
+                                parent={this}
+                                is_reviewable={false}
+                            />
+                        }
+                    />
+                    {message}
+                </View>
             </View>
         );
     }

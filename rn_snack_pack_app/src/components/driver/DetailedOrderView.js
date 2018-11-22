@@ -15,6 +15,8 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
 import BackButton from "../misc/BackButton";
+import Mapbox from "@mapbox/react-native-mapbox-gl";
+import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 export default class DetailedOrderView extends Component {
 
@@ -35,30 +37,35 @@ export default class DetailedOrderView extends Component {
 
         return (
             <View style={global_stylesheet.screen_container}>
-                <View>
-                    <ScreenHeader title={"Order Information"} navigation={this.props.navigation}
-                                  isDefaultScreen={false}/>
-                    <Field title={"Recipient"} value={params.name}/>
-                    <Field title={"Number"} value={params.number}/>
+                <ScreenHeader title={"Order Information"} navigation={this.props.navigation}
+                              isDefaultScreen={false}/>
+                <Field title={"Recipient"} value={params.name}/>
+                <Field title={"Number"} value={params.number}/>
 
-                    <View style={global_stylesheet.basic_container}>
-                        <View style={global_stylesheet.horizontal_container_loose}>
-                            <TouchableOpacity onPress={this._viewDriver} style={styles.data_button_style}>
-                                <Text style={styles.text_style}>Driver</Text>
-                            </TouchableOpacity>
-                            <Text style={global_stylesheet.data_style}>{params.driver}</Text>
-                        </View>
+                <View style={global_stylesheet.basic_container}>
+                    <View style={global_stylesheet.horizontal_container_loose}>
+                        <TouchableOpacity onPress={this._viewDriver} style={styles.data_button_style}>
+                            <Text style={styles.text_style}>Driver</Text>
+                        </TouchableOpacity>
+                        <Text style={global_stylesheet.data_style}>{params.driver}</Text>
                     </View>
-
-                    <Field title={"Status"} value={params.order_status}/>
-                    <Field title={"ETA"} value={params.delivery_time}/>
-                    <Field title={"Payment Information"} value={params.payment_info}/>
-                    <Field title={"Address"} value={params.address}/>
-                    <Field title={"Subtotal"} value={"$" + subtotal}/>
-                    <Field title={"Tax"} value={"$" + tax}/>
-                    <Field title={"Total"} value={"$" + total}/>
                 </View>
-                <BackButton navigation={this.props.navigation}/>
+
+                <Field title={"Status"} value={params.order_status}/>
+                <Field title={"ETA"} value={params.delivery_time}/>
+                <Field title={"Payment Information"} value={params.payment_info}/>
+                <Field title={"Address"} value={params.address}/>
+                <Mapbox.MapView
+                    styleURL={Mapbox.StyleURL.Street}
+                    zoomLevel={15}
+                    centerCoordinate={[11.256, 43.770]}
+                    showUserLocation={true}
+                    userTrackingMode={MapboxGL.UserTrackingModes.FollowWithHeading}
+                    style={styles.container}>
+                </Mapbox.MapView>
+                <Field title={"Subtotal"} value={"$" + subtotal}/>
+                <Field title={"Tax"} value={"$" + tax}/>
+                <Field title={"Total"} value={"$" + total}/>
             </View>
         );
     }
@@ -83,14 +90,8 @@ class Field extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: '100%',
-        justifyContent: 'space-between',
-        backgroundColor: '#DEDEDE'
-    },
-
-    horizontal_container: {
-        flexDirection: "row",
-        justifyContent: "space-between",
+        marginBottom: 6,
+        marginRight: 6
     },
 
     text_style: {
@@ -106,24 +107,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 18
     },
 
-    button_style: {
-        width: '100%',
-    },
-
     data_button_style: {
         backgroundColor: '#44AAff',
-    },
-
-    back_style: {
-        color: '#fdfdfd',
-        backgroundColor: '#44AAff',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 8
     },
 });
