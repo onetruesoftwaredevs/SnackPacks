@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, Image, ScrollView, Text, View} from 'react-native';
+import {TouchableOpacity, FlatList, Image, ScrollView, Text, View} from 'react-native';
 import BackButton from "../misc/BackButton";
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
@@ -38,6 +38,10 @@ export default class DetailedSnackPackView extends Component {
             this.setState({quantity: this.props.navigation.state.params.quantity});
         });
     }
+
+    _showReviewBuilder = () => {
+        this.props.navigation.navigate("ReviewBuilder");
+    };
 
     reviews = [
         {title: "Great", author: "Person", rating: 3, review: "test testtesttesttesttest test test"},
@@ -88,7 +92,13 @@ export default class DetailedSnackPackView extends Component {
                         />
                     </View>
                     <View style={global_stylesheet.basic_container}>
-                        <Text style={global_stylesheet.data_title_style}>Reviews</Text>
+                        <View style={global_stylesheet.horizontal_container_loose}>
+                            <Text style={global_stylesheet.data_title_style}>Reviews</Text>
+                            <TouchableOpacity onPress={this._showReviewBuilder}>
+                                <Text style={global_stylesheet.data_style}>Leave Review</Text>
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
                     {this.reviews.map((item) =>
                         <Review

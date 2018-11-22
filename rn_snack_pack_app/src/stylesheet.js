@@ -126,6 +126,18 @@ export const global_stylesheet = StyleSheet.create({
         padding: 4
     },
 
+    data_style_thin: {
+        color: '#444',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 4
+    },
+
     loading_text: {
         flex: 1,
         color: '#444',

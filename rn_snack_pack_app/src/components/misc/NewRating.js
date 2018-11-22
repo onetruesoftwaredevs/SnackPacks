@@ -16,6 +16,7 @@ export default class NewRating extends Component {
     size;       // number
     rating;     // number
     enabled;    // boolean
+    onPress;    // function (int)
 
     constructor(props) {
         super();
@@ -24,6 +25,10 @@ export default class NewRating extends Component {
 
     _onPress = (index) => {
         this.setState({rating: index});
+        if (this.props.onPress !== undefined)
+        {
+            this.props.onPress(index);
+        }
     };
 
     styleRating(index) {
