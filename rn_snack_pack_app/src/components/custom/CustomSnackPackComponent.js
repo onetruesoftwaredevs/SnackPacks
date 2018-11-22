@@ -20,8 +20,8 @@ export default class CustomSnackPackComponent extends Component {
     image;              // string
     quantity;           // number (initial value)
     allergens;          // list (string)
+    contents;           // list (string)
     navigation;         // object
-    onQuantityChanged;  // function
 
     render() {
         let props = this.props.navigation.state.params;
