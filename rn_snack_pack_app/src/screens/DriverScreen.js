@@ -14,6 +14,9 @@ import OrderManager from "../function/OrderManager";
 import ScreenHeader from "../components/misc/ScreenHeader";
 import {global_stylesheet} from "../stylesheet";
 import Mapbox from '@mapbox/react-native-mapbox-gl';
+import MapboxGL from '@mapbox/react-native-mapbox-gl';
+
+import { PermissionsAndroid } from 'react-native';
 
 Mapbox.setAccessToken('pk.eyJ1Ijoic3RlcGhlbmQwMTciLCJhIjoiY2pvZXpzNDh6MWRmMzNxbzRjaGwzcHIzMCJ9.EILVrZZjETyxqQVPk_h8Cg');
 
@@ -32,11 +35,28 @@ export default class DriverScreen extends Component {
         });
     }
 
+
     componentDidMount() {
         this.props.navigation.addListener('willFocus', () => {
             this.setState({previousOrder: null});
         });
 
+        PermissionsAndroid.requestMultiple(
+            [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION],
+            {
+                title: 'Give Location Permission',
+                message: 'App needs location permission to find your position.'
+            }
+        ).then(granted => {
+            console.log(granted);
+            resolve();
+        }).catch(err => {
+            console.warn(err);
+            reject(err);
+        });
+
+        this.forceUpdate();
 
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=list", {method: 'GET'})
             .then(response => response.json())
@@ -126,16 +146,16 @@ export default class DriverScreen extends Component {
                     styleURL={Mapbox.StyleURL.Street}
                     zoomLevel={15}
                     centerCoordinate={[11.256, 43.770]}
+                    showUserLocation={true}
+                    userTrackingMode={MapboxGL.UserTrackingModes.FollowWithHeading}
                     style={styles.container}>
                 </Mapbox.MapView>
-                <View style={global_stylesheet.horizontal_container_loose}>
-                    <TouchableOpacity style={styles.button_style} onPress={this.showMyOrders}>
-                        <Text style={styles.my_order_style}> My Orders</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button_style} onPress={this.showAvailableOrders}>
-                        <Text style={styles.available_order_style}>Available Orders</Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity style={global_stylesheet.full_width_margin_style} onPress={this.showMyOrders}>
+                    <Text style={styles.my_order_style}> My Orders</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={global_stylesheet.full_width_margin_style} onPress={this.showAvailableOrders}>
+                    <Text style={styles.available_order_style}>Available Orders</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -145,12 +165,9 @@ export default class DriverScreen extends Component {
 const styles = StyleSheet.create({
 
     container: {
-        width: '100%',
-        height: '50%'
-    },
-
-    button_style: {
-        width: '50%',
+        flex: 1,
+        marginRight: 6,
+        marginBottom: 6,
     },
 
     my_order_style: {
@@ -163,7 +180,8 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 8
+        padding: 8,
+        marginBottom: 6,
     },
 
     available_order_style: {
@@ -176,7 +194,9 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 8
+        padding: 8,
+        marginBottom: 6,
+
     },
 });
 
