@@ -63,6 +63,16 @@ For POST and PATCH, the body is used to send additional information in the form 
       }
 
     * Return: true/false
+    
+##### Create Order
+    * Method: POST
+    * QueryString: command=add
+    * Header: NA
+    * Body: Order JSON, with cart, recipient, paymentInfo,
+    address, driver, subtotal, tax, total, and status.
+    Note that the Array values must be strings delimited by commas.
+
+    * Return: true/false
 
 #### Update Orders
     * Method: PATCH
@@ -73,7 +83,9 @@ For POST and PATCH, the body is used to send additional information in the form 
     "body": {
         "_recipient": "meep",
         "_paymentInfo": null,
-        "_address": "Alpher Sigmer Per",
+        "_
+        
+      ress": "Alpher Sigmer Per",
         "_driver": "0",
         "_subtotal": null,
         "_tax": null,
