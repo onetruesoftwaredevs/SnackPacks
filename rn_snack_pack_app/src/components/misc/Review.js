@@ -12,10 +12,12 @@ import NewRating from "./NewRating";
 import VotingComponent from "./VotingComponent";
 
 export default class Review extends Component {
-    title;  // string
-    author; // string
-    review; // string
-    rating; // number
+    title;      // string
+    author;     // string
+    review;     // string
+    rating;     // number
+    upvotes;    // number
+    downvotes;  // number
 
     render() {
         return (
@@ -29,7 +31,7 @@ export default class Review extends Component {
                 </View>
                 <View style={global_stylesheet.horizontal_container_loose}>
                     <Text style={styles.review_style}>{this.props.review}</Text>
-                    <VotingComponent upvotes={10} downvotes={5}/>
+                    <VotingComponent upvotes={this.props.upvotes} downvotes={this.props.downvotes}/>
                 </View>
             </View>
         );
