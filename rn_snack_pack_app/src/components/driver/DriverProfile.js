@@ -12,6 +12,11 @@ import Rating from "../misc/Rating";
 import Review from "../misc/Review";
 import Driver from '../../function/Driver';
 import DriverReview from "./DriverReview";
+import {global_stylesheet} from "../../stylesheet";
+import ScreenHeader from "../misc/ScreenHeader";
+import NewRating from "../misc/NewRating";
+import Menu from "../../function/Menu";
+import SnackPackView from "../menu/SnackPackView";
 
 export default class DriverProfile extends Component {
 
@@ -85,57 +90,66 @@ export default class DriverProfile extends Component {
 
         let reviews = this.driver.getReviews().length > 0 ?
             (<View>
-                <FlatList
-                    horizontal={false}
-                    data={this.driver.getReviews()}
-                    keyExtractor={(item) => item}
-                    extraData={this.state}
-                    renderItem={({item}) =>
-                        <DriverReview
-                            description={item._value}
-                        />
-                    }
-                />
+                {this.driver.getReviews().map((item) =>
+                    <Review
+                        title={item.title}
+                        author={item.author}
+                        review={item.review}
+                        rating={Number(item.rating)}
+                        upvotes={Number(item.upvotes)}
+                        downvotes={Number(item.downvotes)}
+                    />)
+                }
             </View>) :
             (<View>
-                <Text style={styles.loading_text}>No reviews for this driver</Text>
+                <Text style={global_stylesheet.loading_text}>No reviews for this driver</Text>
             </View>);
 
         return (
-            <ScrollView style={styles.container}>
-                <View style={styles.horizontal_container_space}>
-                    <Text style={styles.title_style}>{this.driver.getName()}</Text>
-                    {review}
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.data_style}>Number: </Text>
-                    <Text style={styles.data_style}>{this.driver.getId()}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.data_style}>Phone: </Text>
-                    <Text style={styles.data_style}>{this.driver.getPhone()}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.data_style}>Car Model: </Text>
-                    <Text style={styles.data_style}>{this.driver.getCarModel()}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.data_style}>Car Make: </Text>
-                    <Text style={styles.data_style}>{this.driver.getCarMake()}</Text>
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.data_style}>Rating: </Text>
-                    <Rating starCount={this.driver.getRating()} editable={false}/>
-                </View>
-                <Text style={styles.data_style}>Reviews:</Text>
-                {reviews}
-                <TouchableOpacity onPress={this._goBack} style={styles.button_style}>
-                    <Text style={styles.back_style}>Back</Text>
-                </TouchableOpacity>
-            </ScrollView>
+            <View style={global_stylesheet.screen_container}>
+                <ScreenHeader title={this.driver.getName()} navigation={this.props.navigation} isDefaultScreen={false}/>
+
+                <ScrollView>
+                    <Field title={"Number"} value={this.driver.getId()}/>
+                    <Field title={"Phone"} value={this.driver.getPhone()}/>
+                    <Field title={"Car Model"} value={this.driver.getCarModel()}/>
+                    <Field title={"Car Make"} value={this.driver.getCarMake()}/>
+
+                    <View style={global_stylesheet.basic_container}>
+                        <View style={global_stylesheet.horizontal_container_loose}>
+                            <Text style={global_stylesheet.data_title_style}>Rating: </Text>
+                            <View style={{justifyContent: 'center'}}>
+                                <NewRating size={16} rating={this.driver.getRating()} enabled={false}/>
+                            </View>
+                        </View>
+                    </View>
+
+                    <View style={global_stylesheet.basic_container}>
+                        <Text style={global_stylesheet.data_title_style}>Reviews:</Text>
+                    </View>
+
+                    {reviews}
+                </ScrollView>
+            </View>
         );
     }
 
+}
+
+class Field extends Component {
+    title;  // string
+    value;  // string
+
+    render() {
+        return (
+            <View style={global_stylesheet.thick_basic_container}>
+                <View style={global_stylesheet.horizontal_container_loose}>
+                    <Text style={global_stylesheet.data_title_style}>{this.props.title} </Text>
+                    <Text style={global_stylesheet.data_style}>{this.props.value}</Text>
+                </View>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
