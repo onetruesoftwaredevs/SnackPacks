@@ -14,16 +14,16 @@ export default class CustomSnackPackScreen extends Component {
     // display
     custom_snackpacks;  // list (snackpack components)
 
-    // TODO: implement this method go to custom snack pack creation screen
     _createNew = () => {
-        Alert.alert("test", "testing");
+        this.props.navigation.navigate("CustomSnackPackCreatorView");
     };
 
     render() {
         return (
             <View style={global_stylesheet.screen_container}>
                 <View>
-                    <ScreenHeader title={"My Custom SnackPacks"} navigation={this.props.navigation} isDefaultScreen={true}/>
+                    <ScreenHeader title={"My Custom SnackPacks"} navigation={this.props.navigation}
+                                  isDefaultScreen={true}/>
 
                     <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00}
                                             navigation={this.props.navigation}/>
@@ -36,11 +36,10 @@ export default class CustomSnackPackScreen extends Component {
                     <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00}
                                             navigation={this.props.navigation}/>
 
+                    <TouchableOpacity style={global_stylesheet.full_width_margin_style} onPress={this._createNew}>
+                        <Text style={global_stylesheet.green_button_style}>Create new custom SnackPack</Text>
+                    </TouchableOpacity>
                 </View>
-
-                <TouchableOpacity style={global_stylesheet.full_width_style} onPress={this._createNew}>
-                    <Text style={global_stylesheet.green_button_style}>Create new custom SnackPack</Text>
-                </TouchableOpacity>
             </View>
         );
     }

@@ -27,7 +27,8 @@ export default class CustomSnackPackView extends Component {
     render() {
         return (
             <View style={global_stylesheet.screen_container}>
-                <ScreenHeader title={this.props.navigation.state.params.name} navigation={this.props.navigation} isDefaultScreen={false}/>
+                <ScreenHeader title={this.props.navigation.state.params.name} navigation={this.props.navigation}
+                              isDefaultScreen={false}/>
 
                 <ScrollView style={styles.scroll_container}>
                     <CustomSnackPackComponentPreview name={"meat"} price={1.00} quantity={2}
@@ -54,16 +55,14 @@ export default class CustomSnackPackView extends Component {
                                                      navigation={this.props.navigation}/>
                     <CustomSnackPackComponentPreview name={"bologna"} price={4.20} quantity={4}
                                                      navigation={this.props.navigation}/>
+                    <View style={{marginBottom: 6}}>
+                        <TouchableOpacity style={global_stylesheet.full_width_margin_style} onPress={this._addNewItems}>
+                            <Text style={global_stylesheet.green_button_style}>Add New Items</Text>
+                        </TouchableOpacity>
+                    </View>
 
-                    <TouchableOpacity onPress={this._addNewItems}>
-                        <Text style={global_stylesheet.green_button_style}>Add New Items</Text>
-                    </TouchableOpacity>
-                </ScrollView>
-                <View>
                     <CustomSnackPackPriceView price={this.props.navigation.state.params.price} quantity={1}/>
-
-                    <BackButton navigation={this.props.navigation}/>
-                </View>
+                </ScrollView>
             </View>
         );
     }
