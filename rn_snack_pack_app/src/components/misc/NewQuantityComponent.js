@@ -46,6 +46,14 @@ export default class NewQuantityComponent extends Component {
     };
 
     render() {
+        if (this.state.quantity === 0) {
+            return (
+                <TouchableOpacity onPress={this._increaseQuantity}>
+                    <Text style={styles.add_to_cart_style}>Add to Cart</Text>
+                </TouchableOpacity>
+            );
+        }
+
         return (
             <View style={global_stylesheet.horizontal_container_loose}>
                 <View style={global_stylesheet.horizontal_container_tight}>
@@ -88,6 +96,21 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: 'bold',
         textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        paddingVertical: 4,
+        paddingHorizontal: 24,
+
+    },
+
+    add_to_cart_style: {
+        color: '#fff',
+        backgroundColor: "#4AF",
+        fontSize: 20,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
