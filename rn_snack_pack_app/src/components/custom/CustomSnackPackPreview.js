@@ -6,6 +6,8 @@
 
 import React, {Component} from 'react';
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
+import {global_stylesheet} from "../../stylesheet";
+import NewQuantityComponent from "../misc/NewQuantityComponent";
 
 export default class CustomSnackPackPreview extends Component {
     // display
@@ -24,15 +26,17 @@ export default class CustomSnackPackPreview extends Component {
         });
     };
 
+    // TODO: integrate with functionality and server
     render() {
         let price = Number(this.props.price).toFixed(2);
         return (
             <TouchableOpacity onPress={this._openDetailedView}>
-                <View style={styles.container}>
-                    <View style={styles.horizontal_container}>
-                        <Text style={styles.name_style}>{this.props.name}</Text>
-                        <Text style={styles.price_style}>${price}</Text>
+                <View style={global_stylesheet.basic_container}>
+                    <View style={global_stylesheet.horizontal_container_loose}>
+                        <Text style={styles.title}>{this.props.name}</Text>
+                        <Text style={global_stylesheet.data_style}>${price}</Text>
                     </View>
+                    <NewQuantityComponent quantity={0} navigation={this.props.navigation}/>
                 </View>
             </TouchableOpacity>
 
@@ -41,40 +45,15 @@ export default class CustomSnackPackPreview extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        paddingBottom: 32,
-        marginBottom: 6,
-        marginRight: 6,
-        //width: '100%',
-        backgroundColor: '#fff'
-    },
-
-    horizontal_container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-
-    name_style: {
+    title: {
         color: '#444',
         fontSize: 20,
         fontStyle: 'normal',
         fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'top',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    price_style: {
-        color: '#44aa44',
-        fontSize: 16,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
+        textAlign: 'center',
         textDecorationLine: 'none',
         textAlignVertical: 'center',
         textTransform: 'none',
-        padding: 2
-    },
+        padding: 8
+    }
 });

@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {FlatList, Image, Text, View} from 'react-native';
 import BackButton from "../misc/BackButton";
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
@@ -20,19 +20,8 @@ export default class CustomSnackPackComponent extends Component {
     image;              // string
     quantity;           // number (initial value)
     allergens;          // list (string)
-    contents;           // list (string)
     navigation;         // object
     onQuantityChanged;  // function
-
-    constructor(props) {
-        super();
-        this.state = {quantity: props.navigation.state.params.quantity};
-    }
-
-    _onQuantityChanged = (q) => {
-        this.setState({quantity: q});
-        this.props.navigation.state.params.onQuantityChanged(q);
-    };
 
     render() {
         let props = this.props.navigation.state.params;
@@ -49,8 +38,13 @@ export default class CustomSnackPackComponent extends Component {
                         </View>
                     </View>
                     <View style={global_stylesheet.basic_container}>
-                        <NewQuantityComponent quantity={this.state.quantity} onIncrease={this._onQuantityChanged}
-                                              onDecrease={this._onQuantityChanged}/>
+                        <View style={global_stylesheet.horizontal_container_loose}>
+                            <Text style={global_stylesheet.data_title_style}>Quantity</Text>
+                            <Text style={global_stylesheet.data_style}>{props.quantity}</Text>
+                        </View>
+                    </View>
+                    <View style={global_stylesheet.basic_container}>
+                        <Image style={global_stylesheet.image_style} source={{uri: this.props.image}}/>
                     </View>
                     <View style={global_stylesheet.basic_container}>
                         <Text style={global_stylesheet.data_title_style}>Allergy Information</Text>
@@ -62,18 +56,7 @@ export default class CustomSnackPackComponent extends Component {
                             renderItem={({item}) => <AllergyView allergy={item}/>}
                         />
                     </View>
-                    <View style={global_stylesheet.basic_container}>
-                        <Text style={global_stylesheet.data_title_style}>Contents</Text>
-                        <FlatList
-                            horizontal={true}
-                            data={props.contents}
-                            keyExtractor={(item) => item}
-                            extraData={this.state}
-                            renderItem={({item}) => <ContentView content={item}/>}
-                        />
-                    </View>
                 </View>
-                <BackButton navigation={this.props.navigation}/>
             </View>
         );
     }

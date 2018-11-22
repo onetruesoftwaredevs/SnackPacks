@@ -28,7 +28,6 @@ export default class CustomSnackPackComponentPreview extends Component {
             price: this.props.price,
             quantity: this.state.quantity,
             allergens: ["rice", "beans", "toast"],
-            contents: ["pepper", "potato", "onion"],
             onQuantityChanged: this._onQuantityChanged,
         });
     };

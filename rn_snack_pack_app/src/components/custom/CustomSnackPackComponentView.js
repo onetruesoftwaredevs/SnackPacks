@@ -46,8 +46,6 @@ export default class CustomSnackPackComponentView extends Component {
                     <CustomSnackPackComponentPreview name={"bologna"} price={4.20} quantity={4}
                                                      navigation={this.props.navigation}/>
                 </ScrollView>
-
-                <BackButton navigation={this.props.navigation}/>
             </View>
         );
     }
