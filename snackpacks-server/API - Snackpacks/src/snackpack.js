@@ -13,7 +13,7 @@ class SnackPack{
 		this.contents = contents.split(",");
 		this.allergens = allergens.split(",");
 		this.image_path = image_path;
-		this.reviews = reviews;
+		this.reviews = JSON.parse(reviews);
 		this.cost = cost;
 	}
 
@@ -23,19 +23,22 @@ class SnackPack{
 	//}
 
 	get key(){ return this._key }
-    set key(value){ this._key = value }
-    
+	set key(value){ this._key = value }
+
 	get name(){ return this._name }
-    set name(value){ this._name = value }
+	set name(value){ this._name = value }
 
 	get contents(){ return this._contents }
-    set contents(value){ this._contents = value }
+	set contents(value){ this._contents = value }
 
 	get allergens(){ return this._allergens }
-    set allergens(value){ this._allergens = value }
-    
-    get cost(){ return this._cost }
-    set cost(value){ this._cost = value }
+	set allergens(value){ this._allergens = value }
+
+	get cost(){ return this._cost }
+	set cost(value){ this._cost = value }
+
+	get reviews(){ return this._reviews }
+	set reviews(value){ this._reviews = value}
 };
 
 module.exports = SnackPack;
