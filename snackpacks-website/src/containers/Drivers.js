@@ -46,6 +46,8 @@ export default class SnackPacks extends Component {
 
     validateForm() {
         if(this.state.name && this.state.carMake && this.state.carModel && this.state.phoneNum) {
+            if(this.state.name === this.state.driver._name && this.state.phoneNum === this.state.driver._phone &&
+                this.state.carMake === this.state.driver._carmake && this.state.carModel === this.state.driver._carmodel){ return false; }
             return this.state.name.length > 0 && this.state.carMake.length > 0 && this.state.carModel.length > 0
                 && this.state.phoneNum.length > 0;
         }else{
