@@ -42,24 +42,35 @@
 }
 
 .Home .snackpacks .list-group {
-    margin: 10px;
+    margin: 0px;
 }
 
 .Home .snackpacks .image {
     margin: 0;
-    max-width: 20vw;
-    max-height: 20vw;
+    max-width: 15vw;
+    max-height: 15vw;
     height: auto;
     width: auto;
+}
+
+.Home .snackpacks .listed {
+    display: inline-block;
+    vertical-align: top;
+    align-self: center;
+    margin-left: 1.2em;
+    margin-right: 1.2em;
 }
 
 .Home .snackpacks .all {
     display: inline-block;
     vertical-align: top;
     align-self: center;
-    margin-left: 5em;
+    margin-left: .4em;
+    width: 15vw;
 }
-
 .Home .snackpacks .all:nth-child(1){
     margin-left: 0em;
+}
+.Home .snackpacks .all:nth-child(2){
+    margin-left: .1em;
 }

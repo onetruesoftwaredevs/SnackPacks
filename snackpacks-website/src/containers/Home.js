@@ -31,7 +31,7 @@ export default class Home extends Component {
         return [{}].concat(snackpacks).map(
             (snackpack, i) =>
                 i !== 0
-                    ? <div>
+                    ? <div className="listed">
                         <LinkContainer
                             key={i}
                             to={`/snackpack/${i}`}
