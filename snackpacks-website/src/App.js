@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react';
-import {Link, withRouter} from "react-router-dom";
-import { Button, Navbar, NavItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import {withRouter} from "react-router-dom";
+import {Button, Image, Navbar} from "react-bootstrap";
 import Routes from "./Routes";
 import './App.css';
 import NavLink from "react-router-dom/es/NavLink";
@@ -33,6 +32,7 @@ class App extends Component {
     };
     return (
       <div className="App">
+          <Image src={require('./SnackPacksLogo.jpg')} className="image" thumbnail />
           <Navbar fluid collapseOnSelect>
               <Navbar.Header>
                   <Button onClick={() => this.setState({ menuIsOpen: !this.state.menuIsOpen })}>
@@ -46,22 +46,16 @@ class App extends Component {
                               <NavLink className={this.state.ms===0?"menuSelect":"menu"} to="/" onClick={()=>this.setState({ms: 0})}>
                                   <h3 className={this.state.ms===0?"menuSelect":"menu"}>SnackPacks</h3>
                               </NavLink>
-                              <NavLink className={this.state.ms===1?"menuSelect":"menu"} to="/snackpack/new" onClick={()=>this.setState({ms: 1})}>
-                                  New Snack Pack</NavLink>
-                              <br></br>
-                              <NavLink className={this.state.ms===2?"menuSelect":"menu"} to="/drivers" onClick={()=>this.setState({ms: 2})}>
-                                  Driver List</NavLink>
-                              <br></br>
-                              <NavLink className={this.state.ms===3?"menuSelect":"menu"} to="/drivers/new" onClick={()=>this.setState({ms: 3})}>
-                                  New Driver</NavLink>
-                              <br></br>
-                              <NavLink className={this.state.ms===4?"menuSelect":"menu"} to="/refreq" onClick={()=>this.setState({ms: 4})}>
-                                  Refund Requests</NavLink>
-                              <br></br>
-                              <NavLink className={this.state.ms===5?"menuSelect":"menu"} to="/blacklist" onClick={()=>this.setState({ms: 5})}>
-                                  Blacklist</NavLink>
-                              <br></br>
-                              <NavLink className="menu" to="/" onClick={this.handleLogout}>Logout</NavLink>
+                              <NavLink className={this.state.ms===1?"menuSelect":"menu"} to="/drivers" onClick={()=>this.setState({ms: 1})}>
+                                  <h3 className={this.state.ms===1?"menuSelect":"menu"}>Driver List</h3>
+                              </NavLink>
+                              <NavLink className={this.state.ms===2?"menuSelect":"menu"} to="/refreq" onClick={()=>this.setState({ms: 2})}>
+                                  <h3 className={this.state.ms===2?"menuSelect":"menu"}>Refund Requests</h3>
+                              </NavLink>
+                              <NavLink className={this.state.ms===3?"menuSelect":"menu"} to="/blacklist" onClick={()=>this.setState({ms: 3})}>
+                                  <h3 className={this.state.ms===3?"menuSelect":"menu"}>Blacklist</h3>
+                              </NavLink>
+                              <NavLink className="menu" to="/" onClick={this.handleLogout}><h3>Logout</h3></NavLink>
                           </Fragment>
                           : <Fragment>
                               <NavLink className="menu" to="/login" onClick={()=>this.setState({ms: 0})}>Login</NavLink>
