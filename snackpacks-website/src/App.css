@@ -1,11 +1,14 @@
 body{
-    background-color: rgb(173, 210, 233);
+    background-color: #ADD2E9;
     #red: #8B0000;
     #navy: #1D597F;
+    #yellow: #6F662C;
+    #brown: #422E21;
 }
 
 .App {
   margin-top: 15px;
+  margin-bottom: 25px;
   text-align: center;
 }
 
@@ -16,6 +19,13 @@ body{
 .App h3{
     line-height: 0;
     text-decoration: none;
+    margin-bottom: 25px;
+}
+
+.App .image {
+    max-width: 450px;
+    height: auto;
+    margin-bottom: 15px;
 }
 
 .App .menu{
@@ -30,6 +40,6 @@ body{
 
 .App Button{
     color: white;
-    background-color: #1D597F;
-    border-color: #1D597F;
+    background-color: #422E21;
+    border-color: #422E21;
 }
