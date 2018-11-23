@@ -58,7 +58,7 @@ class App extends Component {
                               <NavLink className="menu" to="/" onClick={this.handleLogout}><h3>Logout</h3></NavLink>
                           </Fragment>
                           : <Fragment>
-                              <NavLink className="menu" to="/login" onClick={()=>this.setState({ms: 0})}>Login</NavLink>
+                              <NavLink className="menu" to="/login" onClick={()=>this.setState({ms: 0})}><h3>Login</h3></NavLink>
                           </Fragment>
                       }
                   </div>
