@@ -31,41 +31,50 @@ export default class Home extends Component {
         return [{}].concat(snackpacks).map(
             (snackpack, i) =>
                 i !== 0
-                    ? <ListGroup>
-                        <br></br>
+                    ? <div>
                         <LinkContainer
                             key={i}
                             to={`/snackpack/${i}`}
+                            className="links"
                         >
-                            <ListGroupItem header={snackpack._name+":"}>{"(SnackPack #"+snackpack._key+")"}</ListGroupItem>
+                            <ListGroupItem className="links"><h3>{snackpack._name+":"}</h3></ListGroupItem>
                         </LinkContainer>
-                        <ListGroupItem header="Contents:">
-                            {snackpack._contents.join(", ")}
-                        </ListGroupItem>
-                        <ListGroupItem header="Allergens:">
-                            {snackpack._allergens.join(", ")}
-                        </ListGroupItem>
-                        <ListGroupItem header="Cost:">
-                            {"$" + snackpack._cost.toFixed(2)}
-                        </ListGroupItem>
-                        <ListGroupItem header="Reviews:">
-                            {(snackpack.reviews === "[]")?"No reviews.":snackpack.reviews}
-                        </ListGroupItem>
-                        <ListGroupItem header="Image:">
-                            <Image src={snackpack.image_path} className="image" thumbnail />
-                        </ListGroupItem>
+                    <ListGroup>
+                        <div className="all">
+                            <ListGroupItem header="Contents:">
+                                {snackpack._contents.join(", ")}
+                            </ListGroupItem>
+                            <ListGroupItem header="Allergens:">
+                                {snackpack._allergens.join(", ")}
+                            </ListGroupItem>
+                        </div>
+                        <div className="all">
+                            <ListGroupItem header="Cost:">
+                                {"$" + snackpack._cost.toFixed(2)}
+                            </ListGroupItem>
+                            <ListGroupItem header="Reviews:">
+                                {(snackpack.reviews === "[]")?"No reviews.":snackpack.reviews}
+                            </ListGroupItem>
+                        </div>
+                        <div className="all">
+                            <ListGroupItem header="Image:">
+                                <Image src={snackpack.image_path} className="image" thumbnail />
+                            </ListGroupItem>
+                        </div>
                     </ListGroup>
+                    </div>
                 :
-                    <LinkContainer
-                        key="new"
-                        to="/snackpack/new"
-                    >
-                        <ListGroupItem>
-                            <h4>
-                                <b>{"\uFF0B"}</b> Create new SnackPack
-                            </h4>
-                        </ListGroupItem>
-                    </LinkContainer>
+                    <div>
+                        <LinkContainer
+                            key="new"
+                            to="/snackpack/new"
+                            className="links"
+                        >
+                            <ListGroupItem className="links">
+                                <h3><b>{"\uFF0B"}</b> Create new SnackPack</h3>
+                            </ListGroupItem>
+                        </LinkContainer>
+                    </div>
         );
     }
 
