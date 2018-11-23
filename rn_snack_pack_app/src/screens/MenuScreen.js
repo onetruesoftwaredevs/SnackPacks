@@ -71,7 +71,7 @@ export default class MenuScreen extends Component {
                             spcontentlist={item._contents}
                             spimage={item.image_path}
                             spkey={item._key}
-                            spreviews={item.reviews}
+                            spreviews={JSON.parse(item.reviews)}
                             navigation={this.props.navigation}
                             parent={this}
                         />)
