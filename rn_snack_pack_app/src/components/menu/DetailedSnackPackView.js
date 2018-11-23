@@ -100,12 +100,14 @@ export default class DetailedSnackPackView extends Component {
                         </View>
 
                     </View>
-                    {this.reviews.map((item) =>
+                    {props.reviews.map((item) =>
                         <Review
                             title={item.title}
                             author={item.author}
                             rating={item.rating}
                             review={item.review}
+                            upvotes={item.upvotes}
+                            downvotes={item.downvotes}
                         />
                     )}
                 </ScrollView>
