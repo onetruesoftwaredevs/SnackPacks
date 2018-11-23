@@ -23,7 +23,7 @@ class Driver {
         this._car_make = car_make;
         this._rating = rating;
         this._status = status;
-        this._reviews = this.parse_reviews(reviews);
+        this._reviews = JSON.parse(reviews);
         this._current_order = null;
         this._orderManager = null;
     }
@@ -36,8 +36,8 @@ class Driver {
         return Driver.instance;
     }
 
-    parse_reviews(reviews) {
-        let out = new Array();
+    static parse_reviews(reviews) {
+        let out = [];
         let array = reviews.split('|');
         for (let i = 0; i < array.length; i++) {
             let review = array[i];
