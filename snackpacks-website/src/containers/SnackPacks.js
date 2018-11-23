@@ -3,6 +3,7 @@ import LoaderButton from "../components/LoaderButton";
 import FormGroup from "react-bootstrap/es/FormGroup";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 import FormControl from "react-bootstrap/es/FormControl";
+import PageHeader from "react-bootstrap/es/PageHeader";
 import "./stylesheets/SnackPacks.css";
 
 export default class SnackPacks extends Component {
@@ -143,7 +144,7 @@ export default class SnackPacks extends Component {
     render() {
         return (
             <div className="SnackPacks">
-                <h3>{"SnackPack #" + (this.state.number+1) + ":"}</h3>
+                <PageHeader>{"SnackPack #" + (this.state.number+1) + ":"}</PageHeader>
                 {this.state.snackpack &&
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="name">
