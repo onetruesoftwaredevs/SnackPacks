@@ -1,19 +1,25 @@
 body{
     background-color: #ADD2E9;
-    #red: #8B0000;
-    #navy: #1D597F;
-    #yellow: #6F662C;
-    #brown: #422E21;
+    red: #8B0000;
+    navy: #1D597F;
+    darkNavy: #1A2855;
+    yellow: #6F662C;
+    brown: #422E21;
+    orange: #92483D;
 }
 
 .App {
+  font-family: "Ebrima", sans-serif;
   margin-top: 15px;
-  margin-bottom: 25px;
   text-align: center;
 }
 
 .App .navbar-brand{
   font-weight: bold;
+}
+
+.App nav {
+    margin-bottom: 25px;
 }
 
 .App h3{
