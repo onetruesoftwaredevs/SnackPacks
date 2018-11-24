@@ -28,48 +28,57 @@ export default class DriverList extends Component {
             .then(() => this.setState({isLoading: false}));
     }
 
-    renderDriverList() {
-        return [{}].concat(this.state.drivers).map(
+    renderDriverList(drivers) {
+        return [{}].concat(drivers).map(
             (driver, i) =>
                 i !== 0
-                    ? <ListGroup>
-                        <br></br>
+                    ? <div className="listed">
                         <LinkContainer
                             key={i}
                             to={`/drivers/${i}`}
+                            className="links"
                         >
-                            <ListGroupItem header={driver._name+":"}>{"(Driver #"+i+")"}</ListGroupItem>
+                            <ListGroupItem className="links"><h3>{driver._name+":"}</h3></ListGroupItem>
                         </LinkContainer>
-                        <ListGroupItem header="Status:">
-                            {(driver._status === "0")?"Not busy":"Busy delivering an order"}
-                        </ListGroupItem>
-                        <ListGroupItem header="Phone Number:">
-                            {driver._phone}
-                        </ListGroupItem>
-                        <ListGroupItem header="Car Model:">
-                            {driver._carmodel}
-                        </ListGroupItem>
-                        <ListGroupItem header="Car Make:">
-                            {driver._carmake}
-                        </ListGroupItem>
-                        <ListGroupItem header="Rating:">
-                            {driver._rating}
-                        </ListGroupItem>
-                        <ListGroupItem header="Reviews:">
-                            {(driver._reviews === "[]")?"No reviews.":(driver._reviews.split('|')).join(", ")}
-                        </ListGroupItem>
-                    </ListGroup>
+                        <ListGroup>
+                            <div className="all">
+                                <ListGroupItem header="Status:">
+                                    {(driver._status === "0")?"Not busy":"Busy delivering an order"}
+                                </ListGroupItem>
+                                <ListGroupItem header="Phone Number:">
+                                    {driver._phone}
+                                </ListGroupItem>
+                            </div>
+                            <div className="all">
+                                <ListGroupItem header="Car Model:">
+                                    {driver._carmodel}
+                                </ListGroupItem>
+                                <ListGroupItem header="Car Make:">
+                                    {driver._carmake}
+                                </ListGroupItem>
+                            </div>
+                            <div className="all">
+                                <ListGroupItem header="Rating:">
+                                    {driver._rating}
+                                </ListGroupItem>
+                                <ListGroupItem header="Reviews:">
+                                    {(driver._reviews === "[]")?"No reviews.":(driver._reviews.split('|')).join(", ")}
+                                </ListGroupItem>
+                            </div>
+                        </ListGroup>
+                    </div>
                     :
-                    <LinkContainer
-                        key="new"
-                        to="/drivers/new"
-                    >
-                        <ListGroupItem>
-                            <h4>
-                                <b>{"\uFF0B"}</b> Create new Driver
-                            </h4>
-                        </ListGroupItem>
-                    </LinkContainer>
+                    <div>
+                        <LinkContainer
+                            key="new"
+                            to="/drivers/new"
+                            className="links"
+                        >
+                            <ListGroupItem className="links">
+                                <h3><b>{"\uFF0B"}</b> Create new Driver</h3>
+                            </ListGroupItem>
+                        </LinkContainer>
+                    </div>
         );
     }
 
@@ -77,7 +86,9 @@ export default class DriverList extends Component {
         return (
             <div className="DriverList">
                 <PageHeader>Drivers:</PageHeader>
-                {this.renderDriverList()}
+                <ListGroup>
+                {this.renderDriverList(this.state.drivers)}
+                </ListGroup>
             </div>
         );
     }
