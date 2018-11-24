@@ -145,49 +145,52 @@ export default class SnackPacks extends Component {
         return (
             <div className="SnackPacks">
                 <PageHeader>{"SnackPack #" + (this.state.number+1) + ":"}</PageHeader>
+                <br></br>
                 {this.state.snackpack &&
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="name">
-                        <ControlLabel>Name: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.name}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="contents">
-                        <ControlLabel>Contents: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.contents}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="allergens">
-                        <ControlLabel>Allergens: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.allergens}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="imageURL">
-                        <ControlLabel>Picture URL: </ControlLabel>
-                        <FormControl
-                            type="url"
-                            onChange={this.handleChange}
-                            value={this.state.imageURL}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="cost">
-                        <ControlLabel>Cost: </ControlLabel>
-                        <FormControl
-                            type="number"
-                            step="0.01"
-                            onChange={this.handleChange}
-                            value={this.state.cost}
-                        />
-                    </FormGroup>
+                    <div className="snacks">
+                        <FormGroup controlId="name">
+                            <ControlLabel>Name: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.name}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="contents">
+                            <ControlLabel>Contents: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.contents}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="allergens">
+                            <ControlLabel>Allergens: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.allergens}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="imageURL">
+                            <ControlLabel>Picture URL: </ControlLabel>
+                            <FormControl
+                                type="url"
+                                onChange={this.handleChange}
+                                value={this.state.imageURL}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="cost">
+                            <ControlLabel>Cost: </ControlLabel>
+                            <FormControl
+                                type="number"
+                                step="0.01"
+                                onChange={this.handleChange}
+                                value={this.state.cost}
+                            />
+                        </FormGroup>
+                    </div>
                     <LoaderButton
                         block
                         bsStyle="primary"
@@ -197,6 +200,7 @@ export default class SnackPacks extends Component {
                         isLoading={this.state.isLoading}
                         text="Save"
                         loadingText="Saving…"
+                        className="but"
                     />
                     <LoaderButton
                         block
