@@ -38,41 +38,6 @@ export default class Review extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 0,
-        padding: 16,
-        backgroundColor: '#ffffff',
-    },
-
-    title_bar: {
-        flex: 0,
-        backgroundColor: '#ffffff',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-    author_style: {
-        color: '#444444',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-    },
-
-    title_style: {
-        color: '#444444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-    },
-
     review_style: {
         color: '#444444',
         fontSize: 16,

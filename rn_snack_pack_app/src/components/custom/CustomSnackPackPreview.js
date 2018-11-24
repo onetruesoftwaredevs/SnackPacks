@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import NewQuantityComponent from "../misc/NewQuantityComponent";
 
@@ -33,7 +33,7 @@ export default class CustomSnackPackPreview extends Component {
             <TouchableOpacity onPress={this._openDetailedView}>
                 <View style={global_stylesheet.basic_container}>
                     <View style={global_stylesheet.horizontal_container_loose}>
-                        <Text style={styles.title}>{this.props.name}</Text>
+                        <Text style={global_stylesheet.data_title_style}>{this.props.name}</Text>
                         <Text style={global_stylesheet.data_style}>${price}</Text>
                     </View>
                     <NewQuantityComponent quantity={0} navigation={this.props.navigation}/>
@@ -44,16 +44,3 @@ export default class CustomSnackPackPreview extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    title: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 8
-    }
-});

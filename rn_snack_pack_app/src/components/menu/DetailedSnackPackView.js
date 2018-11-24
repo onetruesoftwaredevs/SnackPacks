@@ -39,15 +39,6 @@ export default class DetailedSnackPackView extends Component {
         this.props.navigation.navigate("ReviewBuilder");
     };
 
-    reviews = [
-        {title: "Great", author: "Person", rating: 3, review: "test testtesttesttesttest test test"},
-        {title: "Great", author: "Person", rating: 3, review: "test"},
-        {title: "Great", author: "Person", rating: 3, review: "test"},
-        {title: "Great", author: "Person", rating: 3, review: "test"},
-        {title: "Great", author: "Person", rating: 3, review: "test"},
-    ];
-
-
     render() {
         let props = this.props.navigation.state.params;
         let price = Number(props.price).toFixed(2);
