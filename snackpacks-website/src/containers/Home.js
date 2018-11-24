@@ -99,6 +99,7 @@ export default class Home extends Component {
                 <ListGroup>
                     {!this.state.isLoading && this.renderSnackPacksList(this.state.snackpacks)}
                 </ListGroup>
+                <br></br>
             </div>
         );
     }

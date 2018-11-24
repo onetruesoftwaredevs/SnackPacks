@@ -17,7 +17,8 @@
 .Home .snackpacks h4 {
     font-family: "Ebrima", sans-serif;
     color: #1A2855;
-    font-weight: bold;
+    font-weight: normal;
+    font-size: 18px;
     line-height: 1.3;
 }
 
