@@ -10,6 +10,7 @@
 }
 
 .Home .lander p {
+    font-family: "Ebrima", sans-serif;
     color: #92483D;
 }
 
@@ -36,6 +37,7 @@
 }
 
 .Home .snackpacks p {
+    font-family: "Ebrima", sans-serif;
     color: #92483D;
     text-decoration: none;
     text-overflow: ellipsis;
