@@ -1,8 +1,36 @@
-.RefundRequest form RefundRequest{
-    padding-bottom: 30px;
+.RefundRequest h4 {
+    font-family: "Ebrima", sans-serif;
+    color: #1A2855;
+    font-weight: bold;
+    line-height: 1.3;
+    width: 130px;
+    display: inline-block;
+    text-align: left;
+    margin: 8px;
 }
 
-.RefundRequest form textarea {
-    height: 20px;
-    font-size: 16px;
+.RefundRequest p {
+    font-family: "Ebrima", sans-serif;
+    color: #92483D;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    width: 150px;
+    display: inline-block;
+    margin: 8px;
+}
+
+.RefundRequest h1 {
+    font-family: "Ebrima", sans-serif;
+    color: #8B0000;
+    font-weight: 600;
+    margin-bottom: 0;
+    line-height: .8;
+}
+
+.RefundRequest .refreq {
+    margin-bottom: 20px;
+}
+
+.RefundRequest .but {
+    margin-right: 30px;
 }

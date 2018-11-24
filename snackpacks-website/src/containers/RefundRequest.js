@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import LoaderButton from "../components/LoaderButton";
 import "./stylesheets/RefundRequest.css";
-import {ListGroup, ListGroupItem} from "react-bootstrap";
+import {ListGroupItem, PageHeader} from "react-bootstrap";
 
 export default class SnackPacks extends Component {
     constructor(props) {
@@ -45,12 +45,6 @@ export default class SnackPacks extends Component {
         return true;
     }
 
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    }
-
     approveRefReq() {
         let url = "";//"https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit&id=" + (this.state.id);
         let data = {
@@ -65,7 +59,7 @@ export default class SnackPacks extends Component {
             .then(response => response.json());
     }
 
-    handleSubmit = async event => {
+    handleApprove = async event => {
         event.preventDefault();
 
         const confirmed = window.confirm(
@@ -95,7 +89,7 @@ export default class SnackPacks extends Component {
             .then(response => response.json());
     }
 
-    handleDelete = async event => {
+    handleDisapprove = async event => {
         event.preventDefault();
 
         const confirmed = window.confirm(
@@ -120,24 +114,42 @@ export default class SnackPacks extends Component {
     render() {
         return (
             <div className="RefundRequest">
-                <ListGroup>
-                    <br></br>
-                    <h3>{"Refund Request #" + (this.state.number+1) + ":"}</h3>
-                    <ListGroupItem header="Name:">
-                        {this.state.name}
-                    </ListGroupItem>
-                    <ListGroupItem header="Status:">
-                        {(this.state.status === "0")?"Not busy":"Busy delivering an order"}
-                    </ListGroupItem>
-                    <ListGroupItem header="Phone Number:">
-                        {this.state.phoneNum}
-                    </ListGroupItem>
-                    <ListGroupItem header="Reviews:">
-                        {this.state.reviews}
-                    </ListGroupItem>
-                </ListGroup>
+                <PageHeader>{"Refund Request #" + (this.state.number+1) + ":"}</PageHeader>
+                <br></br>
+                <div className="refreq">
+                    <div>
+                        <ListGroupItem header="Reason:">
+                            {(this.state.status === "0")?"Not busy":"Busy delivering an order"}
+                        </ListGroupItem>
+                    </div>
+                    <div>
+                        <ListGroupItem header="Cost:">
+                            {this.state.status}
+                        </ListGroupItem>
+                    </div>
+                    <div>
+                        <ListGroupItem header="Name:">
+                            {this.state.name}
+                        </ListGroupItem>
+                    </div>
+                    <div>
+                        <ListGroupItem header="Address:">
+                            {this.state.status}
+                        </ListGroupItem>
+                    </div>
+                    <div>
+                        <ListGroupItem header="Phone Number:">
+                            {this.state.phoneNum}
+                        </ListGroupItem>
+                    </div>
+                    <div>
+                        <ListGroupItem header="SnackPacks:">
+                            {this.state.reviews}
+                        </ListGroupItem>
+                    </div>
+                </div>
                 {this.state.refundRequest &&
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleApprove}>
                     <LoaderButton
                         block
                         bsStyle="primary"
@@ -147,13 +159,14 @@ export default class SnackPacks extends Component {
                         isLoading={this.state.isApproving}
                         text="Approve"
                         loadingText="Approving…"
+                        className="but"
                     />
                     <LoaderButton
                         block
                         bsStyle="danger"
                         bsSize="large"
                         isLoading={this.state.isDisapproving}
-                        onClick={this.handleDelete}
+                        onClick={this.handleDisapprove}
                         text="Disapprove"
                         loadingText="Disapproving…"
                     />
