@@ -16,6 +16,7 @@
     text-overflow: ellipsis;
     width: 150px;
     display: inline-block;
+    text-align: left;
     margin: 8px;
 }
 
