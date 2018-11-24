@@ -8,7 +8,6 @@
 
 import React, {Component} from 'react';
 import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
-import Rating from "../misc/Rating";
 import Cart from "../../function/Cart";
 import {global_stylesheet} from "../../stylesheet";
 import AllergyView from "../misc/AllergyView";

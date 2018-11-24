@@ -9,7 +9,6 @@ import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native
 import CustomSnackPackPriceView from "./CustomSnackPackPriceView";
 import CustomSnackPackComponentPreview from "./CustomSnackPackComponentPreview";
 import ScreenHeader from "../misc/ScreenHeader";
-import BackButton from "../misc/BackButton";
 import {global_stylesheet} from "../../stylesheet";
 
 export default class CustomSnackPackView extends Component {

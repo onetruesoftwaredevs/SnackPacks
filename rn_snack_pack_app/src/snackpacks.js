@@ -1,7 +1,6 @@
 // snackpacks.js
-import React, {Component} from 'react';
-import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation'
-import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {DrawerNavigator, StackNavigator} from 'react-navigation'
 import MenuScreen from "./screens/MenuScreen";
 import CartScreen from "./screens/CartScreen";
 import DriverScreen from "./screens/DriverScreen";
@@ -10,7 +9,6 @@ import DetailedOrderView from "./components/driver/DetailedOrderView";
 import CheckoutView from "./payment/CheckoutView";
 import OrderScreen from "./screens/OrderScreen";
 import DriverProfile from "./components/driver/DriverProfile";
-import ReviewBuilderView from "./components/misc/ReviewBuilderView";
 import CustomSnackPackScreen from "./screens/CustomSnackPackScreen";
 import CustomSnackPackView from "./components/custom/CustomSnackPackView";
 import CustomSnackPackComponentView from "./components/custom/CustomSnackPackComponentView";

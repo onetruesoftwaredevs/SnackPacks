@@ -14,9 +14,8 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
-import BackButton from "../misc/BackButton";
 import Mapbox from "@mapbox/react-native-mapbox-gl";
-import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import MapboxGL from "@mapbox/react-native-mapbox-gl";
 
 export default class DetailedOrderView extends Component {
 

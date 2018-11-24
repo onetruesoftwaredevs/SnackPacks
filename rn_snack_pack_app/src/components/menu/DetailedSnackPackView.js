@@ -5,15 +5,11 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, FlatList, Image, ScrollView, Text, View} from 'react-native';
-import BackButton from "../misc/BackButton";
+import {FlatList, Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
-import NewQuantityComponent from "../misc/NewQuantityComponent";
 import AllergyView from "../misc/AllergyView";
 import ContentView from "../misc/ContentView";
-import NewRating from "../misc/NewRating";
-import ReviewBuilderView from "../misc/ReviewBuilderView";
 import Review from "../misc/Review";
 
 export default class DetailedSnackPackView extends Component {

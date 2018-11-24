@@ -7,16 +7,12 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, TouchableOpacity, ScrollView, FlatList, StyleSheet, Text, View} from 'react-native';
-import Rating from "../misc/Rating";
+import {Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Review from "../misc/Review";
 import Driver from '../../function/Driver';
-import DriverReview from "./DriverReview";
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
 import NewRating from "../misc/NewRating";
-import Menu from "../../function/Menu";
-import SnackPackView from "../menu/SnackPackView";
 
 export default class DriverProfile extends Component {
 

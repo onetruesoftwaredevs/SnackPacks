@@ -11,7 +11,6 @@ import {FlatList, Text, View} from 'react-native';
 import OrderPreview from "./OrderPreview";
 import OrderManager from '../../function/OrderManager'
 import Driver from "../../function/Driver";
-import BackButton from "../misc/BackButton";
 import ScreenHeader from "../misc/ScreenHeader";
 import {global_stylesheet} from "../../stylesheet";
 

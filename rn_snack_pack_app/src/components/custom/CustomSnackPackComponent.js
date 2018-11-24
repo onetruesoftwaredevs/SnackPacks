@@ -6,12 +6,9 @@
 
 import React, {Component} from 'react';
 import {FlatList, Image, Text, View} from 'react-native';
-import BackButton from "../misc/BackButton";
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
-import NewQuantityComponent from "../misc/NewQuantityComponent";
 import AllergyView from "../misc/AllergyView";
-import ContentView from "../misc/ContentView";
 
 export default class CustomSnackPackComponent extends Component {
     // display
