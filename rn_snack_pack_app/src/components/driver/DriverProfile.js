@@ -81,7 +81,7 @@ export default class DriverProfile extends Component {
         if (this.state.isLoading) {
             return (
                 <View style={styles.container}>
-                    <Text style={styles.loading_text}>Loading . . .</Text>
+                    <Text style={global_stylesheet.loading_text}>Loading . . .</Text>
                 </View>
             );
         }
@@ -157,79 +157,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        //justifyContent: "space-between",
         padding: 0,
-    },
-
-    loading_text: {
-        flex: 1,
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-
-    horizontal_container_space: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-    horizontal_container: {
-        flexDirection: 'row',
-    },
-
-    flatlist_style: {
-        height: '30%'
-    },
-
-    title_style: {
-        color: '#444',
-        fontSize: 30,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-
-    data_style: {
-        color: '#444',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-
-    button_style: {
-        width: '100%',
     },
 
     review_style: {
         color: '#4AF',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 8
-    },
-
-    back_style: {
-        color: '#fdfdfd',
-        backgroundColor: '#44AAff',
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',

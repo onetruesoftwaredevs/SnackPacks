@@ -8,7 +8,7 @@
  * */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 
 export default class ScreenHeader extends Component {
@@ -38,5 +38,3 @@ export default class ScreenHeader extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({});

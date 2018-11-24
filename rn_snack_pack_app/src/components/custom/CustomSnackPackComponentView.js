@@ -5,9 +5,10 @@
  */
 
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import ScreenHeader from "../misc/ScreenHeader";
 import CustomSnackPackComponentPreview from "./CustomSnackPackComponentPreview";
+import {global_stylesheet} from "../../stylesheet";
 
 export default class CustomSnackPackComponentView extends Component {
     // display
@@ -16,10 +17,10 @@ export default class CustomSnackPackComponentView extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={global_stylesheet.screen_container}>
                 <ScreenHeader title={"All Components"} navigation={this.props.navigation} isDefaultScreen={false}/>
 
-                <ScrollView style={styles.scroll_container}>
+                <ScrollView style={global_stylesheet.scroll_container}>
                     <CustomSnackPackComponentPreview name={"meat"} price={1.00} quantity={2}
                                                      navigation={this.props.navigation}/>
                     <CustomSnackPackComponentPreview name={"cheese"} price={3.5} quantity={4}
@@ -49,16 +50,3 @@ export default class CustomSnackPackComponentView extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 0,
-        width: '100%',
-        height: '100%',
-        justifyContent: 'space-between',
-    },
-
-    scroll_container: {
-        marginBottom: 6
-    },
-});

@@ -32,8 +32,8 @@ const DriverNavigation = StackNavigator({
     DriverProfile: {
         screen: DriverProfile,
     },
-    ReviewBuilderView: {
-        screen: ReviewBuilderView,
+    ReviewBuilder: {
+        screen: ReviewBuilder,
     }
 }, {
     headerMode: 'none',
@@ -65,8 +65,8 @@ const OrderNavigation = StackNavigator({
     DriverProfile: {
         screen: DriverProfile,
     },
-    ReviewBuilderView: {
-        screen: ReviewBuilderView,
+    ReviewBuilder: {
+        screen: ReviewBuilder,
     },
 }, {
     headerMode: 'none',

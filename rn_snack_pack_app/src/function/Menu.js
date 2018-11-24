@@ -10,7 +10,7 @@ class Menu {
         if (!Menu.instance) {
             this._menu = [];
             this._names = [];
-            this._search_filter = "none";
+            this._search_filter = "name";
             this._search = 'none';
             Menu.instance = this;
         }

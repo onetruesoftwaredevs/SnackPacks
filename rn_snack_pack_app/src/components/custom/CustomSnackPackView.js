@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import CustomSnackPackPriceView from "./CustomSnackPackPriceView";
 import CustomSnackPackComponentPreview from "./CustomSnackPackComponentPreview";
 import ScreenHeader from "../misc/ScreenHeader";
@@ -29,7 +29,7 @@ export default class CustomSnackPackView extends Component {
                 <ScreenHeader title={this.props.navigation.state.params.name} navigation={this.props.navigation}
                               isDefaultScreen={false}/>
 
-                <ScrollView style={styles.scroll_container}>
+                <ScrollView style={global_stylesheet.scroll_container}>
                     <CustomSnackPackComponentPreview name={"meat"} price={1.00} quantity={2}
                                                      navigation={this.props.navigation}/>
                     <CustomSnackPackComponentPreview name={"cheese"} price={3.5} quantity={4}
@@ -66,9 +66,3 @@ export default class CustomSnackPackView extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    scroll_container: {
-        marginBottom: 6
-    },
-});
