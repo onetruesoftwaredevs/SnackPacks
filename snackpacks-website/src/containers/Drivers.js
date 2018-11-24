@@ -133,40 +133,43 @@ export default class SnackPacks extends Component {
         return (
             <div className="Drivers">
                 <PageHeader>{"Driver #" + (this.state.number+1) + ":"}</PageHeader>
+                <br></br>
                 {this.state.driver &&
                 <form onSubmit={this.handleSubmit} className="form-group">
-                    <FormGroup controlId="name">
-                        <ControlLabel>Name: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.name}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="phoneNum">
-                        <ControlLabel>Phone number: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.phoneNum}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="carModel">
-                        <ControlLabel>Car Model: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.carModel}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="carMake">
-                        <ControlLabel>Car Make: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.carMake}
-                        />
-                    </FormGroup>
+                    <div className="drive">
+                        <FormGroup controlId="name">
+                            <ControlLabel>Name: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.name}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="phoneNum">
+                            <ControlLabel>Phone number: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.phoneNum}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="carModel">
+                            <ControlLabel>Car Model: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.carModel}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="carMake">
+                            <ControlLabel>Car Make: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.carMake}
+                            />
+                        </FormGroup>
+                    </div>
                     <LoaderButton
                         block
                         bsStyle="primary"
@@ -176,6 +179,7 @@ export default class SnackPacks extends Component {
                         isLoading={this.state.isLoading}
                         text="Save"
                         loadingText="Saving…"
+                        className="but"
                     />
                     <LoaderButton
                         block
