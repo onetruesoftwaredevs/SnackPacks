@@ -7,7 +7,6 @@
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import ScreenHeader from "../misc/ScreenHeader";
-import BackButton from "../misc/BackButton";
 import CustomSnackPackComponentPreview from "./CustomSnackPackComponentPreview";
 
 export default class CustomSnackPackComponentView extends Component {

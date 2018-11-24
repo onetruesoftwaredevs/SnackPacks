@@ -5,8 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import Rating from "./Rating";
+import {StyleSheet, Text, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import NewRating from "./NewRating";
 import VotingComponent from "./VotingComponent";
