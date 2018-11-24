@@ -69,10 +69,15 @@ export default class DriverProfile extends Component {
     };
 
     _leaveReview = () => {
-        this.props.navigation.navigate("ReviewBuilderView", {
-            has_title: false,
-            driver_id: this.props.navigation.state.params.number,
-        });
+        this.props.navigation.navigate("ReviewBuilder");
+    };
+
+    renderReviewButton = () => {
+        return this.props.navigation.state.params.isReviewable ? (
+                <TouchableOpacity onPress={this._leaveReview}>
+                    <Text style={styles.review_style}>Review</Text>
+                </TouchableOpacity>)
+            : (<View/>);
     };
 
     render() {
@@ -84,9 +89,6 @@ export default class DriverProfile extends Component {
                 </View>
             );
         }
-
-        let review = this.props.navigation.state.params.isReviewable ? (<TouchableOpacity onPress={this._leaveReview}>
-            <Text style={styles.review_style}>Review</Text></TouchableOpacity>) : (<View/>);
 
         let reviews = this.driver.getReviews().length > 0 ?
             (<View>
@@ -117,7 +119,7 @@ export default class DriverProfile extends Component {
 
                     <View style={global_stylesheet.basic_container}>
                         <View style={global_stylesheet.horizontal_container_loose}>
-                            <Text style={global_stylesheet.data_title_style}>Rating: </Text>
+                            <Text style={global_stylesheet.data_title_style}>Rating </Text>
                             <View style={{justifyContent: 'center'}}>
                                 <NewRating size={16} rating={this.driver.getRating()} enabled={false}/>
                             </View>
@@ -125,7 +127,10 @@ export default class DriverProfile extends Component {
                     </View>
 
                     <View style={global_stylesheet.basic_container}>
-                        <Text style={global_stylesheet.data_title_style}>Reviews:</Text>
+                        <View style={global_stylesheet.horizontal_container_loose}>
+                            <Text style={global_stylesheet.data_title_style}>Reviews</Text>
+                            {this.renderReviewButton()}
+                        </View>
                     </View>
 
                     {reviews}
@@ -215,7 +220,7 @@ const styles = StyleSheet.create({
     },
 
     review_style: {
-        color: '#44AAff',
+        color: '#4AF',
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
