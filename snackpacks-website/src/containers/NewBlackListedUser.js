@@ -64,35 +64,38 @@ export default class NewBlackListedUser extends Component {
     render() {
         return (
             <div className="NewBlackListedUser">
-                <PageHeader>New blacklisted user:</PageHeader>
+                <PageHeader>New Blacklisted User:</PageHeader>
+                <br></br>
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="newName">
-                        <ControlLabel>Blacklisted user's name: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            placeholder="Enter user's name"
-                            onChange={this.handleChange}
-                            value={this.state.driverName}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="phoneNum">
-                        <ControlLabel>Blacklisted user's phone number: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            placeholder="Enter user's phone number"
-                            onChange={this.handleChange}
-                            value={this.state.phoneNum}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="addr">
-                        <ControlLabel>Blacklisted user's address: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            placeholder="Enter user's address"
-                            onChange={this.handleChange}
-                            value={this.state.carModel}
-                        />
-                    </FormGroup>
+                    <div className="blacklisted">
+                        <FormGroup controlId="newName">
+                            <ControlLabel>Blacklisted user's name: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                placeholder="Enter user's name"
+                                onChange={this.handleChange}
+                                value={this.state.driverName}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="phoneNum">
+                            <ControlLabel>Blacklisted user's phone number: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                placeholder="Enter user's phone number"
+                                onChange={this.handleChange}
+                                value={this.state.phoneNum}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="addr">
+                            <ControlLabel>Blacklisted user's address: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                placeholder="Enter user's address"
+                                onChange={this.handleChange}
+                                value={this.state.carModel}
+                            />
+                        </FormGroup>
+                    </div>
                     <LoaderButton
                         block
                         bsStyle="primary"
