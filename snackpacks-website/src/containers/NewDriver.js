@@ -67,7 +67,9 @@ export default class NewDriver extends Component {
         return (
             <div className="NewDriver">
                 <PageHeader>New Driver:</PageHeader>
+                <br></br>
                 <form onSubmit={this.handleSubmit}>
+                    <div className="driver">
                     <FormGroup controlId="driverName">
                         <ControlLabel>New Driver's name: </ControlLabel>
                         <FormControl
@@ -104,6 +106,7 @@ export default class NewDriver extends Component {
                             value={this.state.carMake}
                         />
                     </FormGroup>
+                    </div>
                     <LoaderButton
                         block
                         bsStyle="primary"
