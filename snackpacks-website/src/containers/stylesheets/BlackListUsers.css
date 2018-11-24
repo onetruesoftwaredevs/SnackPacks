@@ -1,8 +1,36 @@
-.BlackListUsers form BlackListUsers{
-    padding-bottom: 30px;
+.BlackListUsers .form-group {
+    margin-bottom: 7px;
 }
 
-.BlackListUsers form textarea {
-    height: 20px;
-    font-size: 16px;
+.BlackListUsers .form-group .control-label {
+    font-family: "Ebrima", sans-serif;
+    color: #1A2855;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 1.3;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    width: 150px;
+    display: inline-block;
+    text-align: left;
+}
+
+.BlackListUsers .form-group .form-control {
+    width: 180px;
+    font-size: 18px;
+    color: #92483D;
+    border-color: #A5D0E0;
+    background-color: #ADD2E9;
+}
+
+.BlackListUsers h1 {
+    font-family: "Ebrima", sans-serif;
+    color: #8B0000;
+    font-weight: 600;
+    margin-bottom: 0;
+    line-height: .8;
+}
+
+.BlackListUsers .blacklisted {
+    margin-bottom: 20px;
 }
