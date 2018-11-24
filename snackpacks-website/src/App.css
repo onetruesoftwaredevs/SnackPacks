@@ -18,6 +18,10 @@ body{
   font-weight: bold;
 }
 
+.App .options {
+    margin-bottom: 38px;
+}
+
 .App nav {
     margin-bottom: 25px;
 }

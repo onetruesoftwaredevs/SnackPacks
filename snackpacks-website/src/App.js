@@ -40,7 +40,7 @@ class App extends Component {
                   </Button>
               </Navbar.Header>
               {this.state.menuIsOpen
-                  ? <div>
+                  ? <div className="options">
                   {this.state.isAuthenticated
                           ? <Fragment>
                               <NavLink className={this.state.ms===0?"menuSelect":"menu"} to="/" onClick={()=>this.setState({ms: 0})}>
