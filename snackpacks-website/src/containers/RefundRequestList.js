@@ -32,31 +32,41 @@ export default class DriverList extends Component {
         return [{}].concat(this.state.refundRequests).map(
             (refundRequest, i) =>
                 i !== 0
-                    ? <ListGroup>
+                    ? <div className="listed">
                         <LinkContainer
                             key={i}
                             to={`/refreq/${i}`}
+                            className="links"
                         >
-                            <ListGroupItem header={"Refund Request #"+i+":"}>{}</ListGroupItem>
+                            <ListGroupItem className="links"><h3>{"Refund Request #"+i+":"}</h3></ListGroupItem>
                         </LinkContainer>
-                        <ListGroupItem header="Reason for Refund Request:">
-                            {(refundRequest._status === "0")?"Damaged":"Undelivered"}
-                        </ListGroupItem>
-                        <ListGroupItem header="Cost of Refund:">
-                            {"$"+refundRequest._rating}
-                        </ListGroupItem>
-                        <ListGroupItem header="Refund Requesting User's Information:">
-                            {"Name: "+refundRequest._name}
-                            <br></br>
-                            {"Phone Number: "+refundRequest._phone}
-                            <br></br>
-                            {"Address: "+refundRequest._carmake}
-                        </ListGroupItem>
-                        <ListGroupItem header="SnackPacks being Refunded:">
-                            {refundRequest._reviews}
-                        </ListGroupItem>
-                        <br></br>
-                    </ListGroup>
+                        <ListGroup>
+                            <div className="all">
+                                <ListGroupItem header="Name:">
+                                    {refundRequest._name}
+                                </ListGroupItem>
+                                <ListGroupItem header="Reason:">
+                                    {(refundRequest._status === "0")?"Damaged":"Undelivered"}
+                                </ListGroupItem>
+                            </div>
+                            <div className="all">
+                                <ListGroupItem header="Phone Number: ">
+                                    {refundRequest._phone}
+                                </ListGroupItem>
+                                <ListGroupItem header="Cost:">
+                                    {"$"+refundRequest._rating}
+                                </ListGroupItem>
+                            </div>
+                            <div className="all">
+                                <ListGroupItem header="Address: ">
+                                    {refundRequest._carmake}
+                                </ListGroupItem>
+                                <ListGroupItem header="SnackPacks:">
+                                    {"snackpacks"}
+                                </ListGroupItem>
+                            </div>
+                        </ListGroup>
+                    </div>
                     :
                     <></>
         );
@@ -67,6 +77,7 @@ export default class DriverList extends Component {
             <div className="RefundRequests">
                 <PageHeader>Refund Requests:</PageHeader>
                 {this.renderRefundRequests()}
+                <br></br>
             </div>
         );
     }
