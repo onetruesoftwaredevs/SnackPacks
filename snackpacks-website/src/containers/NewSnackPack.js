@@ -71,7 +71,9 @@ export default class NewSnackPack extends Component {
         return (
             <div className="NewSnackPack">
                 <PageHeader>New SnackPack:</PageHeader>
+                <br></br>
                 <form onSubmit={this.handleSubmit}>
+                    <div className="snacks">
                     <FormGroup controlId="newName">
                         <ControlLabel>New SnackPack's name: </ControlLabel>
                         <FormControl
@@ -117,6 +119,7 @@ export default class NewSnackPack extends Component {
                             value={this.state.cost}
                         />
                     </FormGroup>
+                    </div>
                     <LoaderButton
                         block
                         bsStyle="primary"
