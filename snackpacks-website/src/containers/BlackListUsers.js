@@ -3,6 +3,7 @@ import LoaderButton from "../components/LoaderButton";
 import FormGroup from "react-bootstrap/es/FormGroup";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 import FormControl from "react-bootstrap/es/FormControl";
+import PageHeader from "react-bootstrap/es/PageHeader";
 import "./stylesheets/BlackListUsers.css";
 
 export default class SnackPacks extends Component {
@@ -17,8 +18,7 @@ export default class SnackPacks extends Component {
             id: 0,
             name: "",
             phoneNum: "",
-            carModel: "",
-            carMake: ""
+            address: ""
         };
     }
 
@@ -30,11 +30,10 @@ export default class SnackPacks extends Component {
                     blacklistedUser: responseJson[this.state.number]
                 }))
                 .then(() => this.setState({
-                    id: this.state.driver._id,
-                    name: this.state.driver._name,
-                    phoneNum: this.state.driver._phone,
-                    carModel: this.state.driver._carmodel,
-                    carMake: this.state.driver._carmake
+                    id: this.state.blacklistedUser._id,
+                    name: this.state.blacklistedUser._name,
+                    phoneNum: this.state.blacklistedUser._phone,
+                    address: this.state.blacklistedUser._carmodel
                 }))
                 .then(() => console.log(this.state.blacklistedUser))
                 .then(() => this.setState({isLoading: false}));
@@ -44,8 +43,8 @@ export default class SnackPacks extends Component {
     }
 
     validateForm() {
-        if(this.state.name && this.state.carMake && this.state.carModel && this.state.phoneNum) {
-            return this.state.name.length > 0 && this.state.carMake.length > 0 && this.state.carModel.length > 0
+        if(this.state.name && this.state.address && this.state.phoneNum) {
+            return this.state.name.length > 0 && this.state.address.length > 0
                 && this.state.phoneNum.length > 0;
         }else{
             return false;
@@ -59,12 +58,11 @@ export default class SnackPacks extends Component {
     }
 
     saveDriver() {
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit";
+        let url = "";
         let data = {
-            name:(this.state.driverName === this.state.driver._name?null:this.state.driverName),
-            phone:(this.state.phoneNum === this.state.driver._phone?null:this.state.phoneNum),
-            carmodel:(this.state.carModel === this.state.driver._carmodel?null:this.state.carModel),
-            carmake:(this.state.carMake === this.state.driver._carmake?null:this.state.carMake)
+            name:(this.state.name === this.state.blacklistedUser._name?null:this.state.name),
+            phone:(this.state.phoneNum === this.state.blacklistedUser._phone?null:this.state.phoneNum),
+            address:(this.state.address === this.state.blacklistedUser._carmodel?null:this.state.address)
         };
         console.log(data);
         return fetch(url, {
@@ -96,8 +94,8 @@ export default class SnackPacks extends Component {
         }
     }
 
-    deleteDriver() {
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=delete&id=" + (this.state.id);
+    deleteBLUser() {
+        let url = "";//"https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=delete&id=" + (this.state.id);
         return fetch(url, {
             method: "GET"
         })
@@ -118,7 +116,7 @@ export default class SnackPacks extends Component {
         this.setState({ isDeleting: true });
 
         try {
-            await this.deleteDriver();
+            await this.deleteBLUser();
             this.props.history.push("/drivers");
         } catch (e) {
             alert(e);
@@ -129,51 +127,36 @@ export default class SnackPacks extends Component {
     render() {
         return (
             <div className="BlackListUsers">
-                <h3>{"Driver #" + (this.state.number+1) + ":"}</h3>
-                {this.state.driver &&
+                <PageHeader>{"Blacklisted User #" + (this.state.number+1) + ":"}</PageHeader>
+                <br></br>
+                {this.state.blacklistedUser &&
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="name">
-                        <ControlLabel>Name: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.name}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="phoneNum">
-                        <ControlLabel>Phone number: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.phoneNum}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="carModel">
-                        <ControlLabel>Car Model: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.carModel}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="carMake">
-                        <ControlLabel>Car Make: </ControlLabel>
-                        <FormControl
-                            type="text"
-                            onChange={this.handleChange}
-                            value={this.state.carMake}
-                        />
-                    </FormGroup>
-                    <LoaderButton
-                        block
-                        bsStyle="primary"
-                        bsSize="large"
-                        disabled={!this.validateForm()}
-                        type="submit"
-                        isLoading={this.state.isLoading}
-                        text="Save"
-                        loadingText="Saving…"
-                    />
+                    <div className="blacklisted">
+                        <FormGroup controlId="name">
+                            <ControlLabel>Name: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.name}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="phoneNum">
+                            <ControlLabel>Phone number: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.phoneNum}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="address">
+                            <ControlLabel>Address: </ControlLabel>
+                            <FormControl
+                                type="text"
+                                onChange={this.handleChange}
+                                value={this.state.address}
+                            />
+                        </FormGroup>
+                    </div>
                     <LoaderButton
                         block
                         bsStyle="danger"
