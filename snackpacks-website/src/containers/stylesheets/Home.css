@@ -76,4 +76,5 @@
 }
 .Home .snackpacks .all:nth-child(2){
     margin-left: .1em;
+    width: 13vw;
 }
