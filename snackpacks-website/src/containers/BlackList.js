@@ -33,34 +33,35 @@ export default class DriverList extends Component {
             (blacklistUser, i) =>
                 i !== 0
                     ? <ListGroup>
-                        <br></br>
                         <LinkContainer
                             key={i}
                             to={`/blacklist/${i}`}
+                            className="links"
                         >
-                            <ListGroupItem header={"Blacklisted User #"+i+":"}>{}</ListGroupItem>
+                            <ListGroupItem className="links"><h3>{"Blacklisted User #"+i+":"}</h3></ListGroupItem>
                         </LinkContainer>
-                        <ListGroupItem header="Name:">
+                        <ListGroupItem className="all" header="Name:">
                             {blacklistUser._name}
                         </ListGroupItem>
-                        <ListGroupItem header="Phone Number:">
+                        <ListGroupItem className="all" header="Phone Number:">
                             {blacklistUser._phone}
                         </ListGroupItem>
-                        <ListGroupItem header="Address:">
+                        <ListGroupItem className="all" header="Address:">
                             {blacklistUser._rating}
                         </ListGroupItem>
                     </ListGroup>
                     :
-                    <LinkContainer
-                        key="new"
-                        to="/blacklist/new"
-                    >
-                        <ListGroupItem>
-                            <h4>
-                                <b>{"\uFF0B"}</b> Add User to Blacklist
-                            </h4>
-                        </ListGroupItem>
-                    </LinkContainer>
+                    <div>
+                        <LinkContainer
+                            key="new"
+                            to="/blacklist/new"
+                            className="links"
+                        >
+                            <ListGroupItem className="links">
+                                <h3><b>{"\uFF0B"}</b>Add User to Blacklist</h3>
+                            </ListGroupItem>
+                        </LinkContainer>
+                    </div>
         );
     }
 
@@ -69,6 +70,7 @@ export default class DriverList extends Component {
             <div className="BlackList">
                 <PageHeader>Blacklist:</PageHeader>
                 {this.renderBlackList()}
+                <br></br>
             </div>
         );
     }
