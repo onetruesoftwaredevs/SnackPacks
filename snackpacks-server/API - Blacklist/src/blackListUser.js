@@ -3,25 +3,25 @@
 //Purpose: define the blackListUser data type
 
 class blackListUser{
-	constructor(user_id, reason, status){
-		this.user_id = user_id;
-		this.reason = reason;
-		this.status = status;
+	constructor(id, reason, status){
+		this.user_id = id; // int
+		this.reason = reason; // string
+		this.status = status; // int
 	}
 
-	get user_id(){ return _user_id; }
-	set user_id(value){ _user_id = val; }
+	get user_id(){ return this._user_id; }
+	set user_id(value){ this._user_id = value; }
 
-	get reason(){ return _reason; }
-	set reason(value){ _reason = value; }
+	get reason(){ return this._reason; }
+	set reason(value){ this._reason = value; }
 
-	get status(){ return _stats; }
+	get status(){ return this._status; }
 	set status(value){ 
-		if(isNaN(value)){
+		console.log(value);
+		if(isNaN(value) == true){
 			console.log("Please input a number!");
 		}else{
-			status = value;
-			
+			this._status = value;
 		}
 	}
 };
