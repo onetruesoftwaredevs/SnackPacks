@@ -53,6 +53,10 @@ class Menu {
         return this._search;
     }
 
+    getSortFilter() {
+        return this._sort_filter;
+    }
+
     static getAverageRating(item) {
         let rating = 0;
         for (let i = 0; i < item.reviews.length; i++) {

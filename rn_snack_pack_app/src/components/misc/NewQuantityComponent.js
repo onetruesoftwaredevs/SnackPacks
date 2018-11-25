@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
     },
 
     add_to_cart_style: {
-        color: '#fff',
-        backgroundColor: "#4AF",
+        color: '#4AA',
+        backgroundColor: "#FFF",
         fontSize: 20,
         fontStyle: 'normal',
         fontWeight: 'bold',

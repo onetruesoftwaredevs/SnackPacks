@@ -14,16 +14,21 @@ import SearchBar from "../components/menu/SearchBar";
 
 export default class MenuScreen extends Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             isLoading: true,
             dataSource: [],
             search: 'none',
+            sort: 'popularity',
         };
     }
 
     _onSearch = () => {
         this.setState({search: Menu.getInstance().getSearchTerm()});
+    };
+
+    _onSort = () => {
+        this.setState({sort: Menu.getInstance().getSortFilter()});
     };
 
     _goToCart = () => {
@@ -60,7 +65,7 @@ export default class MenuScreen extends Component {
         return (
             <View style={global_stylesheet.screen_container}>
                 <ScreenHeader title={"SnackPacks"} navigation={this.props.navigation} isDefaultScreen={true}/>
-                <SearchBar onSearch={this._onSearch}/>
+                <SearchBar onSearch={this._onSearch} onSort={this._onSort}/>
                 <ScrollView style={global_stylesheet.scroll_container}>
                     {Menu.getInstance().getData().map((item) =>
                         <SnackPackView

@@ -12,6 +12,7 @@ import Menu from "../../function/Menu";
 export default class SearchBar extends Component {
 
     onSearch; // function
+    onSort;   // function
 
     constructor(props) {
         super();
@@ -51,11 +52,17 @@ export default class SearchBar extends Component {
     _selectPopularity = () => {
         this.setState({selectedSortOption: 'popularity'});
         Menu.getInstance().setSortFilter('popularity');
+        if (this.props.onSort !== undefined) {
+            this.props.onSort();
+        }
     };
 
     _selectReviews = () => {
         this.setState({selectedSortOption: 'reviews'});
         Menu.getInstance().setSortFilter('reviews');
+        if (this.props.onSort !== undefined) {
+            this.props.onSort();
+        }
     };
 
     renderFilters() {
@@ -100,13 +107,13 @@ export default class SearchBar extends Component {
                 <View style={global_stylesheet.horizontal_container_loose}>
                     <View style={global_stylesheet.horizontal_container_tight}>
                         <TouchableOpacity onPress={this._onFilter}>
-                            <Text style={global_stylesheet.header_style}> = </Text>
+                            <Text style={styles.icon_style}> = </Text>
                         </TouchableOpacity>
                         <TextInput style={global_stylesheet.header_style} placeholder={placeholder} editable={true}
                                    multiline={false} onChangeText={(text) => this.setState({search: text})}/>
                     </View>
                     <TouchableOpacity onPress={this._onSearch}>
-                        <Text style={global_stylesheet.header_style}>> </Text>
+                        <Text style={styles.icon_style}>> </Text>
                     </TouchableOpacity>
                 </View>
 
@@ -153,5 +160,18 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textTransform: 'none',
         padding: 8
-    }
+    },
+
+    icon_style: {
+        color: '#444',
+        fontSize: 32,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        paddingHorizontal: 16,
+        padding: 4
+    },
 });
