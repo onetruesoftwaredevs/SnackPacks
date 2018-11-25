@@ -29,8 +29,8 @@ class refundConnector{
 						let retList = [];
 						for(var refundIndex in result){
 							let refundCase = result[refundIndex];
-							console.log(refundCase.status);
-							retList.push(new refund(refundCase.userID, refundCase.reason, parseInt(refundCase.status)));
+							// console.log(refundCase.status);
+							retList.push(new refund(refundCase.orderID, refundCase.userID, refundCase.reason, parseInt(refundCase.amount), refundCase.status));
 						}
 						resolve(retList);
 					});
@@ -134,11 +134,13 @@ class refundConnector{
 					connection.end(function(err){
 						if(err) reject(err);
 						if(foundUser.length > 0){
-							let blackListUser = foundUser[0];
-							if(blackListUser.status == 0){
+							let refundCase = foundUser[0];
+							if(refundCase.status == 0){
 								resolve(1);
-							}else{
-								resolve(2);
+							}else if(refundCase.status == 1){
+                                resolve(2);
+                            }else{
+								resolve(3);
 							}
 						}else{
                             // Refund order not found!

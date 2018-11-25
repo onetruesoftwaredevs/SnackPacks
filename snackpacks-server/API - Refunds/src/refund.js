@@ -13,7 +13,7 @@ class refund{
     get orderID(){ return this._orderID; }
     set orderID(value){
         if(isNaN(value)){
-            console.log("ERROR: Value is not a Number!");
+            console.log("ERROR: ORDERID is not a Number!");
         }else{
             this._orderID = value;
         }
@@ -22,7 +22,8 @@ class refund{
     get userID(){ return this._userID; }
     set userID(value){
         if(isNaN(value)){
-            console.log("ERROR: Value is not a Number!");
+            // console.log(value);
+            console.log("ERROR: USERID is not a Number!");
         }else{
             this._userID = value;
         }
@@ -44,7 +45,7 @@ class refund{
     set status(value){
         if(isNaN(value)){
             console.log("ERROR: Value is not a Number!");
-        }else if(value != 1 || value != 0){
+        }else if(value != 1 && value != 0){
             console.log("ERROR: Please enter either 1 or 0 as the status.")
         }else{
             this._status = value;
