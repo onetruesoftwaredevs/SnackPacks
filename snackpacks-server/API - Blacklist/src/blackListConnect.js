@@ -85,6 +85,36 @@ class blackListUserConnector{
 			});
 		});
 	}
+
+	// checkUserStatus(int user_id)
+	// Returns the status of a particular userID. 0 for not found in the blackList, 1 for pending, and 2 for banned!
+	checkUserStatus(user_id){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password: this.password, port: this.port});
+			connection.connect(function(err){
+				if(err) reject(err);
+				connection.query(`select * from snackpacks.blacklist where userID=${user_id}`, function(err, foundUser, fields){
+					// console.log(foundUser);
+					connection.end(function(err){
+						if(err) reject(err);
+						if(foundUser.length > 0){
+							let blackListUser = foundUser[0];
+							if(blackListUser.status == 0){
+								resolve(1);
+							}else{
+								resolve(2);
+							}
+						}else{
+							connection.end(function(err){
+								if(err) reject(err);
+								resolve(0);
+							});
+						}
+					});
+				});
+			});
+		});
+	}
 }
 
 module.exports = blackListUserConnector;
