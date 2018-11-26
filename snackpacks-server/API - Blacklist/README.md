@@ -8,7 +8,7 @@
     * 1 -> user been banned
     * 2 -> user not banned
 
-## Methods in refundConnector.js
+## Methods in blackListConnector.js
 * `getBlackListedUsers`
     * get all cases
     * no arguments
