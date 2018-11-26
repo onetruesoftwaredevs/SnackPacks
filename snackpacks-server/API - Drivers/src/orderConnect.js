@@ -10,6 +10,14 @@ var Order = require("./order");
 var mysql = require('mysql');
 
 class snackConnector{
+	enum = {
+		NOT_DELIVERED: 0,
+		IN_TRANSIT: 1,
+		DELIVERED: 2,
+		CANCELLED: 3,
+		REFUNDED: 4
+	}
+
 	//snackConnector constructor
 	constructor(){
 		this.host = "snackpacksdb.cawigtgndeba.us-east-2.rds.amazonaws.com";
@@ -237,6 +245,40 @@ class snackConnector{
 			});
 		});
 	}
+
+	// setOrderStatus(int orderID, int status)
+	// sets the status of the order specified
+	setOrderStatus(orderID, status){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			if(isNaN(orderID) || isNaN(status)){
+				console.log("Inputted value is NaN!");
+				return;
+			}
+			connection.connect(function(err) {
+				if (err) reject(err);
+				//callback to send query
+				connection.query(`select * from snackpacks.Orders where id=${orderID}`, function(err, foundOrder, fields){
+					if (err) reject(err);
+					if(foundOrder.length > 0){
+						connection.query(`updated snackpacks.Orders set status=${status} where id=${orderID}`, function(err, res, fields){
+							connection.end(function(err) {
+								if (err) reject(err);
+								resolve(true);
+							});
+						});
+					}else{
+						//callback to end connection
+						connection.end(function(err) {
+							if (err) reject(err);
+							reject("ERROR: ORDERID NOT FOUND IN DATABASE");
+						});
+					}
+				});
+			});
+		});
+	}
+	
 	/*
 	getTimeById(id){
 		return new Promise((resolve, reject) => {
