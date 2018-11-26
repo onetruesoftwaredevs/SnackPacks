@@ -15,7 +15,9 @@ class snackConnector{
 		IN_TRANSIT: 1,
 		DELIVERED: 2,
 		CANCELLED: 3,
-		REFUNDED: 4
+		DAMAGED: 4,
+		UNDELIVERED: 5,
+		REFUND: 6
 	}
 
 	//snackConnector constructor
@@ -278,7 +280,7 @@ class snackConnector{
 			});
 		});
 	}
-	
+
 	/*
 	getTimeById(id){
 		return new Promise((resolve, reject) => {
