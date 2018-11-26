@@ -16,7 +16,6 @@ class Order {
         this.status = status;
     }
 
-
     get id(){ return this._id; }
     set id(value){ this._id = value; }
 
