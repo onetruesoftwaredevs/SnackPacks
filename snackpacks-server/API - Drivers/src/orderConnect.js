@@ -69,14 +69,14 @@ class snackConnector{
 		});
 	}
 	
-	updateLocation(order_id, x, y){
+	updateLocation(orderID, longitude, latitude){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			//Start the descent into callback hell
 			connection.connect(function(err) {
 				if (err) reject(err);
 				//callback to send query
-				connection.query(`update snackpacks.Orders set loc_x=${x}, loc_y=${y} where id=${order_id}`, function(err, result, fields){
+				connection.query(`update snackpacks.Orders set loc_x=${longitude}, loc_y=${latitude} where id=${orderID}`, function(err, result, fields){
 					if (err) reject(err);
 					//callback to end connection
 					connection.end(function(err) {
@@ -89,14 +89,14 @@ class snackConnector{
 		});
 	}
 
-	getLocationByID(id){
+	getLocationByID(orderID){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
 			//Start the descent into callback hell
 			connection.connect(function(err) {
 				if (err) reject(err);
 				//callback to send query
-				connection.query(`select * from snackpacks.Orders where id=${id}`, function(err, result, fields){
+				connection.query(`select * from snackpacks.Orders where id=${orderID}`, function(err, result, fields){
 					if (err) reject(err);
 					//callback to end connection
 					connection.end(function(err) {
@@ -124,7 +124,8 @@ class snackConnector{
 					connection.end(function(err) {
 						if (err) reject(err);
 						//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
-						var orderItem = result[0];
+						var res = result[0];
+						var orderItem = new Order(res.id, "", res.recipient, res.paymentInfo, res.address, res.driver, res.subtotal, res.tax, res.total, res.time_left, res.status);
 						resolve(orderItem);
 					});
 				});
@@ -143,7 +144,7 @@ class snackConnector{
 				connection.query(`SELECT id FROM snackpacks.Orders ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields) {
 					if (err) reject(err);
 					var index = count_result[0]["id"] + 1;
-					connection.query(`INSERT INTO snackpacks.Orders VALUES(${index}, "${paymentInfo}", "${recipient}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}", 30)`, function(err, result, fields){
+					connection.query(`INSERT INTO snackpacks.Orders VALUES(${index}, "${paymentInfo}", "${recipient}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}", 30, 0, 0)`, function(err, result, fields){
 						if (err) reject(err);
 						console.log(index);
 						//callback to end connection
@@ -157,11 +158,12 @@ class snackConnector{
 		});
 	}
 	
-	editOrderByID(id, orderjson){
+	editOrderByID(id, orderJSON){
 		var updateString = "";
-		for(var key in orderjson){
-			var x = ((key + "=" + `"${orderjson[key]}" `));
-			if(orderjson[key] != null){
+		// creating the update portion of the SQL string
+		for(var key in orderJSON){
+			// var x = ((key + "=" + `"${orderJSON[key]}" `));
+			if(orderJSON[key] != null){
 				var tempkey;
 				if(key[0] == '_'){
 					tempkey = key.substr(1);
@@ -170,16 +172,16 @@ class snackConnector{
 				}
 				console.log(key);
 				if(tempkey == "subtotal" || tempkey == "tax" || tempkey == "total"){
-					updateString += ((tempkey + "=" + `${orderjson[key]}, `));
+					updateString += ((tempkey + "=" + `${orderJSON[key]}, `));
 				}else{
-					updateString += ((tempkey + "=" + `"${orderjson[key]}", `));
+					updateString += ((tempkey + "=" + `"${orderJSON[key]}", `));
 				}
 			}
 		}
 		
 		updateString = updateString.substring(0, updateString.length - 2);
 
-		console.log(updateString);
+		// console.log(updateString);
 
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
@@ -191,13 +193,23 @@ class snackConnector{
 				if (err) reject(err);
 				//callback to send query
 				//Instead of trying to iterate thru an array
-				connection.query(`update snackpacks.Orders set ${updateString} where id = ${id}`, function(err, result, fields){
-					if (err) reject(err);
-					//callback to end connection
-					connection.end(function(err) {
-						if (err) reject(err);
-						resolve(true);
-					});
+				connection.query(`select * from snackpacks.Orders where id=${id}`, function(err, result, fields){
+					if(err) resolve(err);
+					if(result.length > 0){
+						connection.query(`update snackpacks.Orders set ${updateString} where id = ${id}`, function(err, result, fields){
+							if (err) reject(err);
+							//callback to end connection
+							connection.end(function(err) {
+								if (err) reject(err);
+								resolve(true);
+							});
+						});
+					}else{
+						connection.end(function(err) {
+							if (err) reject(err);
+							reject("ERROR: ID NOT FOUND.");
+						});
+					}
 				});
 			});
 		});
@@ -225,7 +237,7 @@ class snackConnector{
 			});
 		});
 	}
-	
+	/*
 	getTimeById(id){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
@@ -271,6 +283,7 @@ class snackConnector{
 			});
 		});
 	}
+	*/
 }
 
 //Allows module to be exposed
