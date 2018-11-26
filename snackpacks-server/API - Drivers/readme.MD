@@ -16,6 +16,9 @@ Disclaimer: Though this is named the Drivers API, it's more about what Drivers c
 * `loc_x` (float)
 * `loc_y` (float)
 
+## Variables in orderConnect.js
+* enum
+
 ## Methods in orderConnect.js
 * `getOrders`
     * get all orders
@@ -57,3 +60,8 @@ Disclaimer: Though this is named the Drivers API, it's more about what Drivers c
     * takes `id` (int)
     * returns true if all goes well
     * tested: ryan
+* `setOrderStatus`
+    * modifies the status of the order specified
+    * takes `orderID` (int), `status` (int)
+    * returns true if all goes well, will let you know if there's an error
+    * tested: none
