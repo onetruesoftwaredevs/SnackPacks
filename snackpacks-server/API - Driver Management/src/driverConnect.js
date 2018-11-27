@@ -5,7 +5,6 @@
 //Required libraries
 //Custom libs
 var Driver = require("./driver");
-var Review = require("./review");
 
 //Other
 var mysql = require('mysql');
@@ -124,14 +123,16 @@ class driverConnector{
 				//Get new id number by using count
 				connection.query(`select * from snackpacks.drivers where id = ${id}`, function(err, id_res, fields){
 					var rating = id_res[0].rating;
-					var rating_count = id_res[0].rating_cnt + 1;
+					var rating_count = id_res[0].rating_cnt;
 					console.log(rating_count);
 					
 					console.log(new_rating);
 					
-					var step1 = parseInt(rating)+parseInt(new_rating);
-					console.log("step 1 done: " + step1);
-					var new_final_rating = step1/ (rating_count);
+					var step1 = parseInt(rating) * rating_count;
+					var step2 = step1 + new_rating;
+					// console.log("step 1 done: " + step1);
+					rating_count++;
+					var new_final_rating = step2/ (rating_count);
 					console.log(new_final_rating);
 					
 					connection.query(`UPDATE snackpacks.drivers SET rating=${new_final_rating}, rating_cnt=${rating_count} where id = ${id}`, function(err, count_result, fields){
@@ -146,48 +147,24 @@ class driverConnector{
 		});
 	}
 
-	addReview(id, rating_param, author_param, title_param, upvotes_param, downvotes_param, description_param){
+	addReview(id, review_string){
 		return new Promise((resolve, reject) => {
 			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
-			connection.connect(function(err) {
+			connection.connect(function(err){
 				if (err) reject(err);
-				//callback to send query
-				connection.query(`SELECT * FROM snackpacks.drivers where id=${id}`, function(err, result, fields){
-					if (err) reject(err);
-					var review = JSON.parse(result[0].reviews);
-					review.push({title: title_param, author:author_param, rating:rating_param, review:description_param, upvotes:upvotes_param, downvotes:downvotes_param});
+				console.log("Connected!");
+				//Get new id number by using count
+				connection.query(`select * from snackpacks.drivers where id = ${id}`, function(err, id_res, fields){
+					var review = id_res[0].reviews;
+					review = review + "|" + review_string;
+					console.log(review_string);
 					console.log(review);
-					var reviewStr = JSON.stringify(review);
-					//callback to end connection
-					connection.query(`UPDATE snackpacks.drivers set reviews='${reviewStr}' where id=${id}`, function(err, res2, fields){
+					connection.query(`UPDATE snackpacks.drivers SET reviews="${review}" where id = ${id}`, function(err, count_result, fields){
 						if(err) reject(err);
-						connection.end(function(err) {
+						connection.end(function (err){
 							if (err) reject(err);
-							// var review = result[0].reviews;
-							resolve(reviewStr);
+							resolve(true);
 						});
-					});
-				});
-			});
-		});
-	};
-
-	getReviewByID(id){
-		return new Promise((resolve, reject) => {
-			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
-			connection.connect(function(err) {
-				if (err) reject(err);
-				//callback to send query
-				connection.query(`SELECT * FROM snackpacks.drivers where id=${id}`, function(err, result, fields){
-					if (err) reject(err);
-					var review = JSON.parse(result[0].reviews);
-					connection.end(function(err) {
-						if (err) reject(err);
-						// var review = result[0].reviews;
-						for(var x in review){
-							review[x] = new Review(review[x].author, review[x].title, review[x].rating, review[x].upvotes, review[x].downvotes, review[x].review);
-						}
-						resolve(review);
 					});
 				});
 			});
@@ -204,7 +181,7 @@ class driverConnector{
 				connection.query(`SELECT id FROM snackpacks.drivers ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields) {
 					var index = count_result[0]["id"] + 1;
 					if(err) reject(err); // `insert into snackpackds.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0`)
-					connection.query((`insert into snackpacks.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0, "", 0)`), function(err, result, fields){
+					connection.query((`insert into snackpacks.drivers values(${index}, "${name}", "${phone}", "${carmodel}", "${carmake}", 0, 0, 0, '[]', 0)`), function(err, result, fields){
 						if(err) reject(err);
 						connection.end(function (err){
 							if (err) reject(err);

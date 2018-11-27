@@ -114,10 +114,43 @@ class snackConnector{
 					var index = count_result[0]['id'] + 1;
 					console.log(index);
 					if(err) reject(err); //`INSERT INTO snackpacks.snackpacks VALUES(${index}, ${name}, ${contents}, ${allergens}, ${image_path}, ${reviews}, ${cost}, ${rating})`
-					connection.query((`INSERT INTO snackpacks.snackpacks VALUES(${index}, "${name}", "${contents}", "${allergens}", "${image_path}", "${reviews}", ${cost}, ${rating})`), function(err, result, fields){
+					connection.query((`INSERT INTO snackpacks.snackpacks VALUES(${index}, "${name}", "${contents}", "${allergens}", "${image_path}", '[]', ${cost}, ${rating}, 0)`), function(err, result, fields){
 						if(err) reject(err);
 						connection.end(function (err){
 							console.log("success");
+							if (err) reject(err);
+							resolve(true);
+						});
+					});
+				});
+			});
+		});
+	}
+
+	addRating(id, new_rating){
+		return new Promise((resolve, reject) => {
+			var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+			connection.connect(function(err){
+				if (err) reject(err);
+				console.log("Connected!");
+				//Get new id number by using count
+				connection.query(`select * from snackpacks.snackpacks where id = ${id}`, function(err, id_res, fields){
+					var rating = id_res[0].rating;
+					var rating_count = id_res[0].rating_cnt;
+					console.log(rating_count);
+					
+					console.log(new_rating);
+					
+					var step1 = parseInt(rating) * rating_count;
+					var step2 = step1 + new_rating;
+					// console.log("step 1 done: " + step1);
+					rating_count++;
+					var new_final_rating = step2/ (rating_count);
+					console.log(new_final_rating);
+					
+					connection.query(`UPDATE snackpacks.snackpacks SET rating=${new_final_rating}, rating_cnt=${rating_count} where id = ${id}`, function(err, count_result, fields){
+						if(err) reject(err);
+						connection.end(function (err){
 							if (err) reject(err);
 							resolve(true);
 						});

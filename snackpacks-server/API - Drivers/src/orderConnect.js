@@ -10,15 +10,15 @@ var Order = require("./order");
 var mysql = require('mysql');
 
 class snackConnector{
-	enum = {
-		NOT_DELIVERED: 0,
-		IN_TRANSIT: 1,
-		DELIVERED: 2,
-		CANCELLED: 3,
-		DAMAGED: 4,
-		UNDELIVERED: 5,
-		REFUND: 6
-	}
+	// enum = {
+	// 	NOT_DELIVERED: 0,
+	// 	IN_TRANSIT: 1,
+	// 	DELIVERED: 2,
+	// 	CANCELLED: 3,
+	// 	DAMAGED: 4,
+	// 	UNDELIVERED: 5,
+	// 	REFUND: 6
+	// }
 
 	//snackConnector constructor
 	constructor(){
@@ -154,7 +154,7 @@ class snackConnector{
 				connection.query(`SELECT id FROM snackpacks.Orders ORDER BY id DESC LIMIT 0, 1`, function(err, count_result, fields) {
 					if (err) reject(err);
 					var index = count_result[0]["id"] + 1;
-					connection.query(`INSERT INTO snackpacks.Orders VALUES(${index}, "${paymentInfo}", "${recipient}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}", 30, 0, 0)`, function(err, result, fields){
+					connection.query(`INSERT INTO snackpacks.Orders VALUES(${index},'${cart}', "${paymentInfo}", "${recipient}", "${address}", "${driver}", ${subtotal}, ${tax}, ${total}, "${status}", 30, 0, 0)`, function(err, result, fields){
 						if (err) reject(err);
 						console.log(index);
 						//callback to end connection
