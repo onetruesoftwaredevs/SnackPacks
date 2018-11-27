@@ -31,7 +31,90 @@ exports.handler = function(event, context, callback){
                 SnackConnector.getSnackPacks(function(error, result){
                     
                 });
-            } else {
+            }
+            
+            else if(command.localeCompare("rate") === 0) {
+                console.log("Rate\n");
+                
+                // let x = JSON.parse(event.body);
+                x = event.body;
+                console.log(x);
+                let promise = SnackConnector.addRating(x.id, x.rating);
+                
+                promise.then(function(result) {
+                    let response = {
+                      "statusCode": 200,
+                      "headers": {},
+                      "body": JSON.stringify(result),
+                      "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                console.log(err);
+              });
+            }
+            
+            else if(command.localeCompare("review") === 0) {
+                console.log("Review\n");
+                
+                let review = JSON.parse(event.body)
+                
+                let promise = SnackConnector.addReview(queryString.id, review.review);
+                
+                promise.then(function(result) {
+                    let response = {
+                      "statusCode": 200,
+                      "headers": {},
+                      "body": JSON.stringify(result),
+                      "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                console.log(err);
+              });
+            }
+            
+            else if(command.localeCompare("upvote") === 0) {
+                console.log("Review\n");
+                
+                let promise = SnackConnector.upvote(1, queryString.id);
+                
+                promise.then(function(result) {
+                    let response = {
+                      "statusCode": 200,
+                      "headers": {},
+                      "body": JSON.stringify(result),
+                      "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                console.log(err);
+              });
+            }
+            
+            else if(command.localeCompare("downvote") === 0) {
+                console.log("Review\n");
+                
+                let promise = SnackConnector.downvote(queryString.id);
+                
+                promise.then(function(result) {
+                    let response = {
+                      "statusCode": 200,
+                      "headers": {},
+                      "body": JSON.stringify(result),
+                      "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+                    console.log("Callback sent");
+                }, function(err) {
+                console.log(err);
+              });
+            }
+            
+            else {
                 console.log("Invalid\n");
                 
                 let response = {
