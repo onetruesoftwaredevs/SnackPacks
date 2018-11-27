@@ -86,14 +86,25 @@ class snackConnector{
 			connection.connect(function(err) {
 				if (err) reject(err);
 				//callback to send query
-				connection.query(`update snackpacks.Orders set loc_x=${longitude}, loc_y=${latitude} where id=${orderID}`, function(err, result, fields){
-					if (err) reject(err);
-					//callback to end connection
-					connection.end(function(err) {
-						if (err) reject(err);
-						//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
-						resolve(true);
-					});
+				connection.query(`select * from snackpacks.Orders where id=${orderID}`, function(err, foundOrder, fields){
+					if(err) reject(err);
+					if(foundOrder.length > 0){
+						connection.query(`update snackpacks.Orders set loc_x=${longitude}, loc_y=${latitude} where id=${orderID}`, function(err, result, fields){
+							if (err) reject(err);
+							//callback to end connection
+							connection.end(function(err) {
+								if (err) reject(err);
+								//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
+								resolve(true);
+							});
+						});
+					}else{
+						connection.end(function(err) {
+							if (err) reject(err);
+							//Iterate through JSON object returned by SQL query and add new SnackPack objects to list_snackpacks
+							reject("ERROR: ORDER NOT FOUND");
+						});
+					}
 				});
 			});
 		});
