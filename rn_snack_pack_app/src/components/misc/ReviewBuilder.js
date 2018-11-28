@@ -5,22 +5,32 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "./ScreenHeader";
 import NewRating from "./NewRating";
+import User from "../../function/User";
 
 export default class ReviewBuilder extends Component {
     navigation;
+    url;
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {title: "", review: "", rating: 0}
     }
 
     _submitReview = () => {
-        // TODO: implement integration
-        Alert.alert("Review", "Title: " + this.state.title + "\nReview: " + this.state.review + "\nRating: " + this.state.rating);
+        fetch(this.props.navigation.state.params.url, {
+            method: 'POST',
+            body: JSON.stringify({
+                "name": User.getInstance().getName(),
+                "rating": this.state.rating,
+                "title": this.state.title,
+                "review": this.state.review,
+            })
+        }).then(response => response.json())
+            .then(responseJSON => Alert.alert("" + responseJSON.message, ""));
         this.props.navigation.goBack();
     };
 
