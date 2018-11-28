@@ -40,12 +40,17 @@ export default class PaymentView extends Component {
                         <Field title={"Total"} value={roundedTotal}/>
                     </View>
 
-                    <TouchableOpacity onPress={this._handleCash} style={global_stylesheet.green_button_style}>
-                        <Text style={global_stylesheet.green_button_style}>Checkout With Cash</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this._handlePayment} style={global_stylesheet.full_width_style}>
-                        <Text style={global_stylesheet.green_button_style}>Checkout</Text>
-                    </TouchableOpacity>
+                    <View style={{marginBottom: 6}}>
+                        <TouchableOpacity onPress={this._handleCash} style={global_stylesheet.full_width_margin_style}>
+                            <Text style={global_stylesheet.green_button_style}>Checkout With Cash</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{marginBottom: 6}}>
+                        <TouchableOpacity onPress={this._handlePayment}
+                                          style={global_stylesheet.full_width_margin_style}>
+                            <Text style={global_stylesheet.green_button_style}>Checkout</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             );
         } else {
