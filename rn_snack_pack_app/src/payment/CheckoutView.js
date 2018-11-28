@@ -1,5 +1,5 @@
-import {View,TouchableOpacity,Text,Platform,StyleSheet,WebView,TextInput} from 'react-native';
-import React,{Component} from "react";
+import {Platform, StyleSheet, Text, TextInput, TouchableOpacity, View, WebView} from 'react-native';
+import React, {Component} from "react";
 import PaymentView from "../components/cart/PaymentView";
 import Cart from "../function/Cart";
 
@@ -70,7 +70,7 @@ export default class CheckoutView extends Component{
     }
 
     _goBack=()=>{
-        this.props.navigation.navigate("CartScreen");
+        this.props.navigation.goBack();
     };
 
     _test=()=>{

@@ -8,7 +8,6 @@
 import React, {Component} from 'react';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import NumberFormat from 'react-number-format'
-import CheckoutView from '../../payment/CheckoutView'
 import {global_stylesheet} from "../../stylesheet";
 
 export default class PaymentView extends Component {
@@ -17,8 +16,7 @@ export default class PaymentView extends Component {
     serviceFee;
 
     _handlePayment = () => {
-        this.props.navigation.navigate('CheckoutView', {
-            title: 'Checkout',
+        this.props.navigation.navigate('AddressBuilder', {
             subtotal: this.props.subtotal,
         });
     };
