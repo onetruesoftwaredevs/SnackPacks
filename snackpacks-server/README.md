@@ -28,6 +28,54 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: NA
 
     * Return: JSON Array of SnackPack JSON Objects
+    
+##### Rate SnackPacks
+    * Method: POST
+    * QueryString: command=rate&id={SNACKPACK_ID}
+    * Header: NA
+    * Body: JSON with key "rating" and int value between 1 - 5.
+
+    * Return: true/false
+    
+##### Review SnackPacks
+    * Method: POST
+    * QueryString: command=review&id={SNACKPACK_ID}
+    * Header: NA
+    * Body: JSON with key "name", "rating", "title", and "review" keys.
+    
+    "body": {
+      "name": "Steve",
+      "rating": 3,
+      "title": "This could've been better",
+      "review": "He was aight"
+    }
+    
+    * Please note that this rating does not influence SnackPack rating
+
+    * Return: true/false
+    
+##### Upvote
+    * Method: GET
+    * QueryString: command=upvote&id={SNACKPACK_ID}&rev={REVIEW_INDEX}
+    * Header: NA
+
+    * Return: true/false
+    
+##### Downvote
+    * Method: GET
+    * QueryString: command=downvote&id={SNACKPACK_ID}&rev={REVIEW_INDEX}
+    * Header: NA
+
+    * Return: true/false
+    
+### __/snacks__
+##### Get Snacks
+    * Method: GET
+    * QueryString: command=list
+    * Header: NA
+    * Body: NA
+
+    * Return: JSON Array of Snack JSON Objects
 
 ### ____/drivers__
 ##### Get Orders
@@ -158,6 +206,15 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Method: POST
     * QueryString: command=review&id={DRIVER_ID}
     * Header: NA
-    * Body: JSON with key "review" and string of the review.
+    * Body: JSON with key "name", "rating", "title", and "review" keys.
+    
+    "body": {
+      "name": "Steve",
+      "rating": 3,
+      "title": "This could've been better",
+      "review": "He was aight"
+    }
+    
+    * Please note that this rating does not influence driver rating
 
     * Return: true/false
