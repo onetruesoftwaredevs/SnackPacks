@@ -15,12 +15,15 @@ export default class ScreenHeader extends Component {
     title;              // string
     navigation;         // object
     isDefaultScreen;    // boolean
+    onGoBack;           // function
 
     _openDrawer = () => {
         if (this.props.isDefaultScreen) {
             this.props.navigation.openDrawer();
-        }
-        else {
+        } else {
+            if (this.props.onGoBack !== undefined) {
+                this.props.onGoBack();
+            }
             this.props.navigation.goBack();
         }
     };

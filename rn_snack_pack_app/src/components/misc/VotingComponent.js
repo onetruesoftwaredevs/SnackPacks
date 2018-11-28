@@ -8,20 +8,22 @@
  * */
 
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 
-export default class NewRating extends Component {
+export default class VotingComponent extends Component {
 
 
     vote;       // number (1 is upvote, 0 is no vote, -1 is downvote);
     upvotes;    // number
     downvotes;  // number
+    id;         // number
+    index;      // number
     onUpvote;   // function
     onDownvote; // function
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             upvotes: props.upvotes,
             downvotes: props.downvotes,
@@ -29,14 +31,22 @@ export default class NewRating extends Component {
         }
     }
 
+    // TODO: refactor to execute only when the vote was changed from an initial 0 and the screen was navigated away from
+
     _on_upvote = () => {
         if (this.state.vote === -1) {
             this.setState({downvotes: this.state.downvotes - 1});
         }
         if (this.state.vote === 1) {
             this.setState({upvotes: this.state.upvotes - 1, vote: 0});
-        }
-        else {
+        } else {
+            let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks";
+            url += "?command=upvote";
+            url += "&id=" + this.props.id;
+            url += "&rev=" + this.props.index;
+
+            fetch(url, {method: "GET"});
+
             this.setState({upvotes: this.state.upvotes + 1, vote: 1});
         }
     };
@@ -47,8 +57,13 @@ export default class NewRating extends Component {
         }
         if (this.state.vote === -1) {
             this.setState({downvotes: this.state.downvotes - 1, vote: 0});
-        }
-        else {
+        } else {
+            let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks";
+            url += "?command=downvote";
+            url += "&id=" + this.props.id;
+            url += "&rev=" + this.props.index;
+
+            fetch(url, {method: "GET"});
             this.setState({downvotes: this.state.downvotes + 1, vote: -1});
         }
     };

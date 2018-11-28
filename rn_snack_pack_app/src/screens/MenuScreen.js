@@ -35,17 +35,20 @@ export default class MenuScreen extends Component {
         this.props.navigation.navigate("Cart");
     };
 
-    loadData(responseJson) {
+    loadData = (responseJson) => {
         Menu.getInstance().setData(responseJson);
         this.setState({
             isLoading: false,
             dataSource: responseJson
         });
-    }
+    };
 
     componentDidMount() {
         this.props.navigation.addListener('willFocus', () => {
-            this.setState({dataSource: this.state.dataSource});
+            this.setState({isLoading: true});
+            fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
+                .then(response => response.json())
+                .then(responseJson => this.loadData(responseJson));
         });
 
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})

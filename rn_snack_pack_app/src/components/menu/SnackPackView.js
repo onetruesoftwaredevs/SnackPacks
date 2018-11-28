@@ -27,7 +27,7 @@ export default class SnackPackView extends Component {
     parent;
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {quantity: Cart.getInstance().getQuantity(props.spname)};
     }
 

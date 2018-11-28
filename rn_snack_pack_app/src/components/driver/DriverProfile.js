@@ -97,8 +97,7 @@ export default class DriverProfile extends Component {
                         author={item.author}
                         review={item.review}
                         rating={Number(item.rating)}
-                        upvotes={Number(item.upvotes)}
-                        downvotes={Number(item.downvotes)}
+                        showVotes={false}
                     />)
                 }
             </View>) :

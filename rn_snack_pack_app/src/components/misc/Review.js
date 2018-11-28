@@ -15,8 +15,19 @@ export default class Review extends Component {
     author;     // string
     review;     // string
     rating;     // number
+
+    showVotes;  // boolean
     upvotes;    // number
     downvotes;  // number
+    id;         // number
+    index;      // number
+
+    renderVotingComponent() {
+        if (this.props.showVotes) {
+            return (<VotingComponent upvotes={this.props.upvotes} downvotes={this.props.downvotes} id={this.props.id}
+                                     index={this.props.index}/>);
+        }
+    }
 
     render() {
         return (
@@ -30,7 +41,7 @@ export default class Review extends Component {
                 </View>
                 <View style={global_stylesheet.horizontal_container_loose}>
                     <Text style={styles.review_style}>{this.props.review}</Text>
-                    <VotingComponent upvotes={this.props.upvotes} downvotes={this.props.downvotes}/>
+                    {this.renderVotingComponent()}
                 </View>
             </View>
         );
