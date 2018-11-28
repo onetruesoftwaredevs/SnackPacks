@@ -65,7 +65,10 @@ export default class DriverProfile extends Component {
     };
 
     _leaveReview = () => {
-        this.props.navigation.navigate("ReviewBuilder");
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=review&id=" + this.driver.getId();
+        this.props.navigation.navigate("ReviewBuilder", {
+            url: url
+        });
     };
 
     renderReviewButton = () => {

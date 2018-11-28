@@ -41,6 +41,7 @@ export default class SnackPackView extends Component {
             contents: this.props.spcontentlist,
             reviews: this.props.spreviews,
             parent: this.props.parent,
+            id: this.props.spkey
         })
     };
 

@@ -23,9 +23,10 @@ export default class DetailedSnackPackView extends Component {
     reviews;            // list (object);
     navigation;         // object
     parent;             // object
+    id;                 // number
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {quantity: props.navigation.state.params.quantity};
     }
 
@@ -36,7 +37,10 @@ export default class DetailedSnackPackView extends Component {
     }
 
     _showReviewBuilder = () => {
-        this.props.navigation.navigate("ReviewBuilder");
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=review&id=" + this.props.navigation.state.params.id;
+        this.props.navigation.navigate("ReviewBuilder", {
+            url: url
+        });
     };
 
     render() {
