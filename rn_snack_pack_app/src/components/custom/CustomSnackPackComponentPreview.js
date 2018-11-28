@@ -14,12 +14,15 @@ export default class CustomSnackPackComponentPreview extends Component {
     name;       // string
     price;      // number
     quantity;   // number (initial value)
+    calories;   // number
+    allergens;  // list (string)
+
     // metadata
     id;         // number
     navigation; // object
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {quantity: props.quantity};
     }
 
@@ -28,7 +31,8 @@ export default class CustomSnackPackComponentPreview extends Component {
             name: this.props.name,
             price: this.props.price,
             quantity: this.state.quantity,
-            allergens: ["rice", "beans", "toast"],
+            calories: this.props.calories,
+            allergens: this.props.allergens,
             onQuantityChanged: this._onQuantityChanged,
         });
     };
@@ -39,6 +43,7 @@ export default class CustomSnackPackComponentPreview extends Component {
 
     render() {
         let price = Number(this.props.price).toFixed(2);
+
         return (
             <TouchableOpacity style={global_stylesheet.basic_container} onPress={this._displayDetailedView}>
                 <View style={global_stylesheet.horizontal_container_loose}>

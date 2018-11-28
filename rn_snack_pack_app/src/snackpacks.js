@@ -80,7 +80,7 @@ const CustomNavigation = StackNavigator({
     Custom: {
         screen: CustomSnackPackScreen,
     },
-    CustomSnackPack: {
+    CustomSnackPackView: {
         screen: CustomSnackPackView,
     },
     CustomSnackPackComponentView: {
