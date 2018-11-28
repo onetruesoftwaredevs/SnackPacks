@@ -157,4 +157,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 // for rating component
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
-RR

@@ -53,7 +53,11 @@ export default AmplifyTheme = StyleSheet.create({
     },
     sectionFooterLink: {
         fontSize: 14,
-        color: '#ff9900',
+        //Green
+        //color: '#44AA44',
+
+        //Blue
+        color: '#44AAFF',
         alignItems: 'baseline',
         textAlign: 'center'
     },
@@ -86,17 +90,25 @@ export default AmplifyTheme = StyleSheet.create({
         width: '100%'
     },
     button: {
-        backgroundColor: '#ff9900',
+        //Green
+        //backgroundColor: '#44AA44',
+
+        //Blue
+        backgroundColor: '#44AAFF',
         alignItems: 'center',
         padding: 16
     },
     buttonDisabled: {
-        backgroundColor: '#ff990080',
+        //Green
+        //backgroundColor: '#77AA77',
+
+        //Blue
+        backgroundColor: '#B2DCFF',
         alignItems: 'center',
         padding: 16
     },
     buttonText: {
-        color: '#fff',
+        color: '#FFF',
         fontSize: 14,
         fontWeight: '600'
     },
