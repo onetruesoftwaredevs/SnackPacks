@@ -21,30 +21,16 @@ export default class CustomSnackPackComponentView extends Component {
                 <ScreenHeader title={"All Components"} navigation={this.props.navigation} isDefaultScreen={false}/>
 
                 <ScrollView style={global_stylesheet.scroll_container}>
-                    <CustomSnackPackComponentPreview name={"meat"} price={1.00} quantity={2}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"cheese"} price={3.5} quantity={4}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"beans"} price={4.25} quantity={5}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"bread"} price={9.99} quantity={1}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"doritos"} price={6.75} quantity={8}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"beans"} price={4.20} quantity={4}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"snack"} price={1.00} quantity={2}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"chex mix"} price={3.5} quantity={4}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"pizza"} price={4.25} quantity={5}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"flatbread"} price={9.99} quantity={1}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"oreos"} price={6.75} quantity={8}
-                                                     navigation={this.props.navigation}/>
-                    <CustomSnackPackComponentPreview name={"bologna"} price={4.20} quantity={4}
-                                                     navigation={this.props.navigation}/>
+                    {this.props.navigation.state.params.components.map((item) =>
+                        <CustomSnackPackComponentPreview
+                            name={item._name}
+                            price={Number(item._price)}
+                            calories={Number(item._calories)}
+                            allergens={item._allergens}
+                            quantity={0}
+                            navigation={this.props.navigation}
+                        />
+                    )}
                 </ScrollView>
             </View>
         );

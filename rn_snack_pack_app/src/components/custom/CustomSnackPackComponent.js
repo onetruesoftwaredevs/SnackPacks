@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, Image, Text, View} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
 import AllergyView from "../misc/AllergyView";
@@ -14,10 +14,9 @@ export default class CustomSnackPackComponent extends Component {
     // display
     name;               // string
     price;              // number
-    image;              // string
     quantity;           // number (initial value)
+    calories;           // number
     allergens;          // list (string)
-    contents;           // list (string)
     navigation;         // object
 
     render() {
@@ -41,7 +40,10 @@ export default class CustomSnackPackComponent extends Component {
                         </View>
                     </View>
                     <View style={global_stylesheet.basic_container}>
-                        <Image style={global_stylesheet.image_style} source={{uri: this.props.image}}/>
+                        <View style={global_stylesheet.horizontal_container_loose}>
+                            <Text style={global_stylesheet.data_title_style}>Calories</Text>
+                            <Text style={global_stylesheet.data_style}>{props.calories}</Text>
+                        </View>
                     </View>
                     <View style={global_stylesheet.basic_container}>
                         <Text style={global_stylesheet.data_title_style}>Allergy Information</Text>

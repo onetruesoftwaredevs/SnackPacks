@@ -20,9 +20,10 @@ export default class CustomSnackPackPreview extends Component {
     components; // list (snackpack-components)
 
     _openDetailedView = () => {
-        this.props.navigation.navigate("CustomSnackPack", {
+        this.props.navigation.navigate("CustomSnackPackView", {
             name: this.props.name,
             price: this.props.price,
+            components: this.props.components
         });
     };
 
