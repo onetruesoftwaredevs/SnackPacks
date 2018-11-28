@@ -26,6 +26,8 @@ class Menu {
     }
 
     setData(data) {
+        this._names = [];
+        this._menu = [];
         for (let i = 0; i < data.length; i++) {
             let item = data[i];
             if (item != null) {
