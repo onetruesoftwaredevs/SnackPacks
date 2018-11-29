@@ -6,7 +6,7 @@ import FormControl from "react-bootstrap/es/FormControl";
 import PageHeader from "react-bootstrap/es/PageHeader";
 import "./stylesheets/BlackListUsers.css";
 
-export default class SnackPacks extends Component {
+export default class BlackListUsers extends Component {
     constructor(props) {
         super(props);
 
@@ -24,6 +24,7 @@ export default class SnackPacks extends Component {
 
     async componentDidMount() {
         try {
+            //TODO: replace this fetch with what actually fetches the blacklisted users (sets blacklistedUser to a certain number from that list)
             return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
                 .then(response => response.json())
                 .then(responseJson => this.setState({
@@ -42,71 +43,21 @@ export default class SnackPacks extends Component {
         }
     }
 
-    validateForm() {
-        if(this.state.name && this.state.address && this.state.phoneNum) {
-            return this.state.name.length > 0 && this.state.address.length > 0
-                && this.state.phoneNum.length > 0;
-        }else{
-            return false;
-        }
-    }
-
     handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
         });
     }
 
-    saveDriver() {
-        let url = "";
-        let data = {
-            name:(this.state.name === this.state.blacklistedUser._name?null:this.state.name),
-            phone:(this.state.phoneNum === this.state.blacklistedUser._phone?null:this.state.phoneNum),
-            address:(this.state.address === this.state.blacklistedUser._carmodel?null:this.state.address)
-        };
-        console.log(data);
-        return fetch(url, {
-            method: "PATCH",
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json());
-    }
-
-    handleSubmit = async event => {
-        event.preventDefault();
-
-        const confirmed = window.confirm(
-            "Are you sure you want to modify this driver?"
-        );
-
-        if (!confirmed) {
-            return;
-        }
-
-        this.setState({ isLoading: true });
-
-        try {
-            await this.saveDriver();
-            this.props.history.push("/drivers");
-        } catch (e) {
-            alert(e);
-            this.setState({ isLoading: false });
-        }
-    }
-
-    deleteBLUser() {
-        let url = "";//"https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=delete&id=" + (this.state.id);
-        return fetch(url, {
-            method: "GET"
-        })
-            .then(response => response.json());
+    deleteBLUser() { // This is the method that is used to remove a user from the blacklist (re-enable them)
+        //TODO: make this function such that it re-enables the user whose info is in this.state.<name/phoneNum/address>
     }
 
     handleDelete = async event => {
         event.preventDefault();
 
         const confirmed = window.confirm(
-            "Are you sure you want to delete this Driver?"
+            "Are you sure you want to remove this user from the blacklist?"
         );
 
         if (!confirmed) {
@@ -117,7 +68,7 @@ export default class SnackPacks extends Component {
 
         try {
             await this.deleteBLUser();
-            this.props.history.push("/drivers");
+            this.props.history.push("/blacklist");
         } catch (e) {
             alert(e);
             this.setState({ isDeleting: false });
@@ -130,7 +81,7 @@ export default class SnackPacks extends Component {
                 <PageHeader>{"Blacklisted User #" + (this.state.number+1) + ":"}</PageHeader>
                 <br></br>
                 {this.state.blacklistedUser &&
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleDelete}>
                     <div className="blacklisted">
                         <FormGroup controlId="name">
                             <ControlLabel>Name: </ControlLabel>

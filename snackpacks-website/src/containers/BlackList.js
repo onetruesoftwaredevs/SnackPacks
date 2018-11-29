@@ -3,7 +3,7 @@ import {ListGroup, ListGroupItem, PageHeader} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./stylesheets/BlackList.css";
 
-export default class DriverList extends Component {
+export default class BlackList extends Component {
     constructor(props) {
         super(props);
 
@@ -19,6 +19,7 @@ export default class DriverList extends Component {
             return;
         }
 
+        //TODO: replace this fetch with what actually fetches the blacklisted users (sets blacklistedUsers to that list)
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
             .then(response => response.json())
             .then(responseJson => this.setState({
@@ -75,7 +76,7 @@ export default class DriverList extends Component {
         );
     }
 
-    handleDriverClick = event => {
+    handleBLUserClick = event => {
         event.preventDefault();
         this.props.history.push(event.currentTarget.getAttribute("href"));
     }

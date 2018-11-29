@@ -10,14 +10,14 @@ export default class NewBlackListedUser extends Component {
 
         this.state = {
             isLoading: null,
-            newName: "",
+            name: "",
             phoneNum: "",
             addr: ""
         };
     }
 
     validateForm() {
-        if(this.state.newName && this.state.addr && this.state.phoneNum) {
+        if(this.state.name && this.state.addr && this.state.phoneNum) {
             return true;
         }else{
             return false;
@@ -36,7 +36,7 @@ export default class NewBlackListedUser extends Component {
         this.setState({ isLoading: true });
 
         try {
-            await this.addNewDriver();
+            await this.addNewBLUser();
             this.props.history.push("/blacklist");
         } catch (e) {
             alert(e);
@@ -44,21 +44,8 @@ export default class NewBlackListedUser extends Component {
         }
     }
 
-    addNewDriver() {
-        let url = "";//https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=add";
-        let data = {
-            name:this.state.newName,
-            phone:this.state.phoneNum,
-            addr:this.state.addr
-        };
-        let outputData = JSON.stringify(data);
-        console.log(outputData);
-        return fetch(url, {
-            method: "POST",
-            body: outputData
-        })
-            .then(response => response.json())
-            .then(response => console.log(response));
+    addNewBLUser() { // This is the method that is used to add a user to the blacklist (disable them)
+        //TODO: make this function such that it disables the user whose info is in this.state.<name/phoneNum/addr>
     }
 
     render() {
@@ -68,13 +55,13 @@ export default class NewBlackListedUser extends Component {
                 <br></br>
                 <form onSubmit={this.handleSubmit}>
                     <div className="blacklisted">
-                        <FormGroup controlId="newName">
+                        <FormGroup controlId="name">
                             <ControlLabel>Blacklisted user's name: </ControlLabel>
                             <FormControl
                                 type="text"
                                 placeholder="Enter user's name"
                                 onChange={this.handleChange}
-                                value={this.state.driverName}
+                                value={this.state.name}
                             />
                         </FormGroup>
                         <FormGroup controlId="phoneNum">
@@ -103,8 +90,8 @@ export default class NewBlackListedUser extends Component {
                         disabled={!this.validateForm()}
                         type="submit"
                         isLoading={this.state.isLoading}
-                        text="Create"
-                        loadingText="Creating…"
+                        text="Add to Blacklist"
+                        loadingText="Adding…"
                     />
                 </form>
             </div>
