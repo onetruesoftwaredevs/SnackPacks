@@ -12,7 +12,7 @@
 * `getBlackListedUsers`
     * get all cases
     * no arguments
-    * returns a list of all cases in the blackList databae as an array of `blackListUser` objects
+    * returns a list of all cases in the blackList database as an array of `blackListUser` objects
     * tested: ryan
 * `getBlackListedUserByID`
     * get a certain entry in the blacklist database by sepcifying ID
