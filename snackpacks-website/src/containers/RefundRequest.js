@@ -9,33 +9,33 @@ export default class SnackPacks extends Component {
 
         this.state = {
             number: parseInt((window.location.pathname).substring(8))-1,
-            isApproving: null,
+            isLoading: null,
             isDisapproving: null,
             refundRequest: [],
             id: 0,
             name: "",
-            phoneNum: "",
             status: 0,
-            reviews: ""
+            cost: 0,
+            address: ""
         };
     }
 
     async componentDidMount() {
         try {
-            return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
+            return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers/?command=list")
                 .then(response => response.json())
                 .then(responseJson => this.setState({
                     refundRequest: responseJson[this.state.number]
                 }))
                 .then(() => this.setState({
                     id: this.state.refundRequest._id,
-                    name: this.state.refundRequest._name,
-                    phoneNum: this.state.refundRequest._phone,
+                    name: this.state.refundRequest._recipient,
                     status: this.state.refundRequest._status,
-                    reviews: this.state.refundRequest._carmake
+                    cost: this.state.refundRequest._total,
+                    address: this.state.refundRequest._address
                 }))
                 .then(() => console.log(this.state.refundRequest))
-                .then(() => this.setState({isApproving: false}));
+                .then(() => this.setState({isLoading: false}));
         } catch (e) {
             alert(e);
         }
@@ -46,14 +46,13 @@ export default class SnackPacks extends Component {
     }
 
     approveRefReq() {
-        let url = "";//"https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit&id=" + (this.state.id);
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=edit&id=" + (this.state.id);
+        console.log(url);
         let data = {
-            name:(this.state.driverName === this.state.refundRequest._name?null:this.state.driverName),
-            phone:(this.state.phoneNum === this.state.refundRequest._phone?null:this.state.phoneNum)
+            status:"6"
         };
-        console.log(data);
         return fetch(url, {
-            method: "PATCH",
+            method: "POST",
             body: JSON.stringify(data)
         })
             .then(response => response.json());
@@ -70,21 +69,26 @@ export default class SnackPacks extends Component {
             return;
         }
 
-        this.setState({ isApproving: true });
+        this.setState({ isLoading: true });
 
         try {
             await this.approveRefReq();
             this.props.history.push("/refreq");
         } catch (e) {
             alert(e);
-            this.setState({ isApproving: false });
+            this.setState({ isLoading: false });
         }
     }
 
     disapproveRefReq() {
-        let url = "";//"https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=delete&id=" + (this.state.id);
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=edit&id=" + (this.state.id);
+        console.log(url);
+        let data = {
+            status:"7"
+        };
         return fetch(url, {
-            method: "GET"
+            method: "POST",
+            body: JSON.stringify(data)
         })
             .then(response => response.json());
     }
@@ -111,6 +115,28 @@ export default class SnackPacks extends Component {
         }
     }
 
+    renderReason(status){
+        if(status === "0"){
+            return "Not Delivered"
+        }else if(status === "1"){
+            return "In Transit"
+        }else if(status === "2"){
+            return "Delivered"
+        }else if(status === "3"){
+            return "Cancelled"
+        }else if(status === "4"){
+            return "Damaged"
+        }else if(status === "5"){
+            return "Lost"
+        }else if(status === "6"){
+            return "Refunded"
+        }else if(status === "7"){
+            return "Not Refunded"
+        }else{
+            return "Status Error"
+        }
+    }
+
     render() {
         return (
             <div className="RefundRequest">
@@ -119,12 +145,12 @@ export default class SnackPacks extends Component {
                 <div className="refreq">
                     <div>
                         <ListGroupItem header="Reason:">
-                            {(this.state.status === "0")?"Not busy":"Busy delivering an order"}
+                            {this.renderReason(this.state.status)}
                         </ListGroupItem>
                     </div>
                     <div>
                         <ListGroupItem header="Cost:">
-                            {this.state.status}
+                            {"$"+this.state.cost}
                         </ListGroupItem>
                     </div>
                     <div>
@@ -134,17 +160,7 @@ export default class SnackPacks extends Component {
                     </div>
                     <div>
                         <ListGroupItem header="Address:">
-                            {this.state.status}
-                        </ListGroupItem>
-                    </div>
-                    <div>
-                        <ListGroupItem header="Phone Number:">
-                            {this.state.phoneNum}
-                        </ListGroupItem>
-                    </div>
-                    <div>
-                        <ListGroupItem header="SnackPacks:">
-                            {this.state.reviews}
+                            {this.state.address}
                         </ListGroupItem>
                     </div>
                 </div>
@@ -156,7 +172,7 @@ export default class SnackPacks extends Component {
                         bsSize="large"
                         disabled={!this.validateForm()}
                         type="submit"
-                        isLoading={this.state.isApproving}
+                        isLoading={this.state.isLoading}
                         text="Approve"
                         loadingText="Approving…"
                         className="but"
