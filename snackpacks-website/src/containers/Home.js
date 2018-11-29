@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Image, PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import Link from "react-router-dom/es/Link";
 import "./stylesheets/Home.css";
 
 export default class Home extends Component {
@@ -25,6 +26,63 @@ export default class Home extends Component {
             }))
             .then(() => console.log(this.state.snackpacks))
             .then(() => this.setState({isLoading: false}));
+    }
+
+    renderReview(review){
+        if(review && review.length > 23){
+            review = review.substr(0,20);
+            return <div className="reviews">
+                <p>{review+"..."}</p>
+            </div>
+        }
+        return <div className="reviews">
+            <p>{review}</p>
+        </div>
+    }
+
+    renderReviews(reviews, i){
+        // title, author, rating, review, upvotes, downvotes
+        if(reviews.length === 1){
+            return <div className="reviews">
+                <Link className="links" to={`/snackpack/reviews/${i}`}>
+                    <h3 className="links">{"Reviews:"}</h3>
+                </Link>
+                <div>
+                    <h4>{reviews[0].title+": "+reviews[0].rating+"/5"}</h4>
+                </div>
+                {this.renderReview(reviews[0].review)}
+            </div>
+        }
+        let review1 = reviews[0];
+        let review2 = reviews[1];
+        for(let j=1; j<reviews.length; j++){
+            if(reviews[j].upvotes - reviews[j].downvotes > review1.upvotes - review1.downvotes){
+                review2 = review1;
+                review1 = reviews[j];
+            }else if(reviews[j].upvotes - reviews[j].downvotes > review2.upvotes - review2.downvotes){
+                review2 = reviews[j];
+            }
+        }
+        return <div className="reviews">
+            <Link className="links" to={`/snackpack/reviews/${i}`}>
+                <h3 className="links">{"Reviews:"}</h3>
+            </Link>
+            <div>
+                <h4>{review1.title+": "+review1.rating+"/5"}</h4>
+            </div>
+            {this.renderReview(review1.review)}
+            <div>
+                <h4>{review2.title+": "+review2.rating+"/5"}</h4>
+            </div>
+            {this.renderReview(review2.review)}
+            {(reviews.length > 2)?
+                <div>
+                    <h4>...</h4>
+                </div>
+                :
+                <></>
+            }
+        </div>
     }
 
     renderSnackPacksList(snackpacks) {
@@ -52,9 +110,15 @@ export default class Home extends Component {
                             <ListGroupItem header="Cost:">
                                 {"$" + snackpack._cost.toFixed(2)}
                             </ListGroupItem>
-                            <ListGroupItem header="Reviews:">
-                                {(snackpack.reviews === "[]")?"No reviews.":snackpack.reviews}
-                            </ListGroupItem>
+                            {(snackpack.reviews === "[]") ?
+                                <ListGroupItem header="Reviews:">
+                                    {"No reviews"}
+                                </ListGroupItem>
+                                :
+                                <div>
+                                    {this.renderReviews(JSON.parse(snackpack.reviews), i)}
+                                </div>
+                            }
                         </div>
                         <div className="all">
                             <ListGroupItem header="Image:">
