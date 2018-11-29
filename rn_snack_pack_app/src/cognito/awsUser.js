@@ -3,7 +3,6 @@ import {Auth} from 'aws-amplify';
 class AWSUser{
     constructor(user){
         if(!AWSUser.instance){
-            console.log("constructor user: "+user);
             this.user=user;
             AWSUser.instance=this;
         }
@@ -38,6 +37,11 @@ class AWSUser{
     getEmail(){
         //Returns the email of a user
         return this.user.idToken.payload.email;
+    }
+
+    getPhone(){
+        //Returns the phone number of a user
+        return this.user.idToken.payload.phone_number;
     }
 }
 
