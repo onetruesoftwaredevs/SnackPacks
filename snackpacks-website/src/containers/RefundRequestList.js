@@ -3,7 +3,7 @@ import {ListGroup, ListGroupItem, PageHeader} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./stylesheets/RefundRequestList.css";
 
-export default class DriverList extends Component {
+export default class RefundRequestList extends Component {
     constructor(props) {
         super(props);
 
@@ -19,7 +19,7 @@ export default class DriverList extends Component {
             return;
         }
 
-        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
+        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers/?command=list")
             .then(response => response.json())
             .then(responseJson => this.setState({
                 refundRequests: responseJson
@@ -28,55 +28,83 @@ export default class DriverList extends Component {
             .then(() => this.setState({isLoading: false}));
     }
 
+    renderThis(status){
+        if(status === "3"){ return true; }
+        else if(status === "4"){ return true; }
+        else if(status === "5"){ return true; }
+        else{ return false; }
+    }
+
+    renderReason(status){
+        if(status === "0"){
+            return "Not Delivered"
+        }else if(status === "1"){
+            return "In Transit"
+        }else if(status === "2"){
+            return "Delivered"
+        }else if(status === "3"){
+            return "Cancelled"
+        }else if(status === "4"){
+            return "Damaged"
+        }else if(status === "5"){
+            return "Lost"
+        }else if(status === "6"){
+            return "Refunded"
+        }else if(status === "7"){
+            return "Not Refunded"
+        }else{
+            return "Status Error"
+        }
+    }
+
     renderRefundRequests() {
-        return [{}].concat(this.state.refundRequests).map(
-            (refundRequest, i) =>
-                i !== 0
-                    ? <div className="listed">
-                        <LinkContainer
-                            key={i}
-                            to={`/refreq/${i}`}
-                            className="links"
-                        >
-                            <ListGroupItem className="links"><h3>{"Refund Request #"+i+":"}</h3></ListGroupItem>
-                        </LinkContainer>
-                        <ListGroup>
-                            <div className="all">
-                                <ListGroupItem header="Name:">
-                                    {refundRequest._name}
-                                </ListGroupItem>
-                                <ListGroupItem header="Reason:">
-                                    {(refundRequest._status === "0")?"Damaged":"Undelivered"}
-                                </ListGroupItem>
+        for(let j=0; j<this.state.refundRequests.length; j++) {
+            if (this.renderThis(this.state.refundRequests[j]._status)) {
+                return [{}].concat(this.state.refundRequests).map(
+                    (refundRequest, i) =>
+                        (i !== 0 && this.renderThis(refundRequest._status))
+                            ? <div className="listed">
+                                <LinkContainer
+                                    key={i}
+                                    to={`/refreq/${i}`}
+                                    className="links"
+                                >
+                                    <ListGroupItem className="links"><h3>{"Refund Request #" + i + ":"}</h3></ListGroupItem>
+                                </LinkContainer>
+                                <ListGroup>
+                                    <div className="left">
+                                        <ListGroupItem header="Reason:">
+                                            {this.renderReason(refundRequest._status)}
+                                        </ListGroupItem>
+                                        <ListGroupItem header="Cost:">
+                                            {"$" + refundRequest._total}
+                                        </ListGroupItem>
+                                    </div>
+                                    <div className="right">
+                                        <ListGroupItem header="Name:">
+                                            {refundRequest._recipient}
+                                        </ListGroupItem>
+                                        <ListGroupItem header="Address: ">
+                                            {refundRequest._address}
+                                        </ListGroupItem>
+                                    </div>
+                                </ListGroup>
                             </div>
-                            <div className="all">
-                                <ListGroupItem header="Phone Number: ">
-                                    {refundRequest._phone}
-                                </ListGroupItem>
-                                <ListGroupItem header="Cost:">
-                                    {"$"+refundRequest._rating}
-                                </ListGroupItem>
-                            </div>
-                            <div className="all">
-                                <ListGroupItem header="Address: ">
-                                    {refundRequest._carmake}
-                                </ListGroupItem>
-                                <ListGroupItem header="SnackPacks:">
-                                    {"snackpacks"}
-                                </ListGroupItem>
-                            </div>
-                        </ListGroup>
-                    </div>
-                    :
-                    <></>
-        );
+                            :
+                            <></>
+                );
+            }
+        }
+        return <div>
+            <h3>No Pending Refund Requests</h3>
+        </div>
     }
 
     render() {
         return (
             <div className="RefundRequests">
                 <PageHeader>Refund Requests:</PageHeader>
-                {this.renderRefundRequests()}
+                {!this.isLoading && this.renderRefundRequests()}
                 <br></br>
             </div>
         );
