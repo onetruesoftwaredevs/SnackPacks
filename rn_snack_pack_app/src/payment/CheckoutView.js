@@ -12,7 +12,6 @@ export default class CheckoutView extends Component {
         super(props);
         this.onWebViewMessage = this.onWebViewMessage.bind(this);
 
-        super();
         this.state = {tip: 0};
     }
 
@@ -43,39 +42,59 @@ export default class CheckoutView extends Component {
 
             console.log("body: " + JSON.stringify({"nonce": nonce, "tip": Number(this.state.tip), "cart": cartKQ}));
             //Fetch to api with cart in body
-            //Example body of post: {"nonce":"nonce","tip":0,"cart":[{"key":0,"quantity":6},{"key":3,"quantity":10}]}
+            //Example body of post: 
+            //{
+            //  "nonce":"nonce",
+            //  "tip":0,
+            //  "cart":
+            //  [
+            //      {
+            //          "key":0,
+            //          "quantity":6
+            //      },
+            //      {
+            //          "key":3,
+            //          "quantity":10
+            //      }
+            //  ],
+            //  "address":{
+            //      "street":"street",
+            //      "city":"city",
+            //      "state":"state",
+            //      "zip":"zip"
+            //  }
+            //}
             let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2";
 
             (async () => {
                 const rawResponse = await fetch(url, {
                     method: 'POST',
-                    body: JSON.stringify({"nonce": nonce, "tip": Number(this.state.tip), "cart": cartKQ})
+                    body: JSON.stringify({
+                        "nonce": nonce,
+                        "tip": Number(this.state.tip),
+                        "cart": cartKQ,
+                        "address":{
+                            "street":this.props.navigation.state.params.street,
+                            "city":this.props.navigation.state.params.city,
+                            "state":this.props.navigation.state.params.state,
+                            "zip":this.props.navigation.state.params.zip,
+                        },
+                    })
                 });
                 const content = await rawResponse;
+
+                //TODO: check status of payment
 
                 console.log(content);
             })();
         }
-        // let msgData=JSON.parse(event.nativeEvent.data);
-        // try{
-        //     msgData=JSON.parse(event.nativeEvent.data);
-        // }catch(err){
-        //     console.warn(err);
-        //     return;
-        // }
-
-        // switch(msgData.targetFunc){
-        //     case "handleDataReceived":
-        //         this[msgData.targetFunc].apply(this,[msgData]);
-        //         break;
-        // }
     }
 
     _goBack = () => {
         this.props.navigation.goBack();
     };
 
-    _test = () => {
+    test = () => {
         let cart = Cart.getInstance().getItemsInCart();
         console.log("CART: " + "key: " + cart[0].spkey + " quantity: " + cart[0].spquantity);
 
@@ -88,6 +107,11 @@ export default class CheckoutView extends Component {
         console.log(cartKQ);
         console.log("body: " + JSON.stringify({"nonce": nonce, "tip": this.state.tip, "cart": JSON.stringify(cartKQ)}));
         // console.log(JSON.stringify({"nonce":"nonce","tip":this.state.tip,"cart":cartKQ}));
+        console.log(this.props.navigation.state.params.subtotal);
+        console.log(this.props.navigation.state.params.street);
+        console.log(this.props.navigation.state.params.city);
+        console.log(this.props.navigation.state.params.state);
+        console.log(this.props.navigation.state.params.zip);
     };
 
     render() {
@@ -112,7 +136,7 @@ export default class CheckoutView extends Component {
                              serviceFee={1.00}
                              navigator={this.props.navigation} checkout={false}/>
                 <View style={{marginBottom: 6}}>
-                    <TouchableOpacity onPress={this._test} style={global_stylesheet.full_width_margin_style}>
+                    <TouchableOpacity onPress={this.test} style={global_stylesheet.full_width_margin_style}>
                         <Text style={styles.back_style}>Test</Text>
                     </TouchableOpacity>
                 </View>

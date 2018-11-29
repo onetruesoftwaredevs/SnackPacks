@@ -7,17 +7,15 @@ import MySignIn from "./src/cognito/mySignIn";
 import MySignUp from "./src/cognito/mySignUp";
 import MyRequireNewPassword from "./src/cognito/myRequireNewPassword";
 import {ConfirmSignIn,ConfirmSignUp,ForgotPassword,SignIn,SignUp,VerifyContact,withAuthenticator} from './src/aws-amplify-react-native'; 
-//import {ConfirmSignIn,ConfirmSignUp,ForgotPassword,SignIn,SignUp,WithAuthenticator,VerifyContact}from './src/aws-amplify-react-native/';
-//import ConfirmSignIn from "aws-amplify-react-native/dist/Auth/ConfirmSignIn"; //Can be put into upper import statement, but this includes path to files
 import aws_exports from './src/aws-exports';
+import {Auth} from 'aws-amplify';
+import AWSUser from "./src/cognito/awsUser";
 
 import {SnackPacks} from "./src/snackpacks";
 import Driver from "./src/function/Driver";
 
 import User from "./src/function/User";
-//import AWSUser from "./src/cognito/awsUser";
-import AWSUser from "./src/cognito/awsUser";
-import {Auth} from 'aws-amplify';
+
 
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
@@ -83,7 +81,7 @@ class App extends Component{
             );
         }
 
-        return <Button onPress={this.test} title="AWSUser Test"/>//<SnackPacks/>
+        return <SnackPacks/>//<Button onPress={this.test} title="AWSUser Test"/>
     }
 }
 
@@ -108,18 +106,6 @@ const styles = StyleSheet.create({
         padding:4,
     }
 });
-
-//(TODO later)To edit this location is: /rn_snack_pack_app/node_modules/aws-amplify-react-native/dist/ (copy to project and work from there)
-/*export default withAuthenticator(App, 
-                // Render a sign out button once logged in
-                includeGreetings = false, 
-                // Show only certain components
-                authenticatorComponents = [MyComponents],
-                // display federation/social provider buttons 
-                federated = {myFederatedConfig}, 
-                // customize the UI/styling
-                theme = {myCustomTheme}
-);*/
 
 export default withAuthenticator(App,false,[
     <MySignIn/>,
