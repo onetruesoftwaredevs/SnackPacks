@@ -147,6 +147,17 @@ class Menu {
         }
         return this.getSearch();
     }
+
+    getReviews(id) {
+        for (let i = 0; i < this._menu.length; i++) {
+            let item = this._menu[i];
+            if (Number(item._key) === Number(id)) {
+                return item.reviews;
+            }
+        }
+
+        return [];
+    }
 }
 
 module.exports = Menu;
