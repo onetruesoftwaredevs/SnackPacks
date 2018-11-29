@@ -5,6 +5,24 @@
     <!-- includes the Braintree JS client SDK -->
     <script src="https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js"></script>
     <script src="webViewBridge.js"></script>
+    <style>
+        div {
+            text-align:center;
+        }
+        button {
+            color: #fff;
+            background-color: #4AF;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            padding: 8px;
+            border: none;
+            display: inline-block;
+            width: 80%;
+        }
+    </style>
 </head>
 <body>
 <div id="dropin-wrapper">
@@ -12,7 +30,6 @@
     <div id="dropin-container"></div>
     <div id="console"></div>
     <button id="submit-button">Submit payment</button>
-
 </div>
 
 <script>

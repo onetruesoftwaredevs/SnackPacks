@@ -6,7 +6,7 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import NumberFormat from 'react-number-format'
 import {global_stylesheet} from "../../stylesheet";
 
@@ -19,10 +19,6 @@ export default class PaymentView extends Component {
         this.props.navigation.navigate('AddressBuilder', {
             subtotal: this.props.subtotal,
         });
-    };
-
-    _handleCash = () => {
-        Alert.alert("Send order to server", "");
     };
 
     render() {
@@ -40,11 +36,6 @@ export default class PaymentView extends Component {
                         <Field title={"Total"} value={roundedTotal}/>
                     </View>
 
-                    <View style={{marginBottom: 6}}>
-                        <TouchableOpacity onPress={this._handleCash} style={global_stylesheet.full_width_margin_style}>
-                            <Text style={global_stylesheet.green_button_style}>Checkout With Cash</Text>
-                        </TouchableOpacity>
-                    </View>
                     <View style={{marginBottom: 6}}>
                         <TouchableOpacity onPress={this._handlePayment}
                                           style={global_stylesheet.full_width_margin_style}>

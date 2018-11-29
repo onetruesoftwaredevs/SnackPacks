@@ -15,8 +15,8 @@ import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Auth, I18n, Logger, JS } from 'aws-amplify';
 
-import AuthPiece from '../node_modules/aws-amplify-react-native/dist/Auth/AuthPiece';
-import { AmplifyButton, FormField, LinkCell, Header, ErrorRow } from '../node_modules/aws-amplify-react-native/dist/AmplifyUI';
+import AuthPiece from '../aws-amplify-react-native/dist/Auth/AuthPiece';
+import { AmplifyButton, FormField, LinkCell, Header, ErrorRow } from '../aws-amplify-react-native/dist/AmplifyUI';
 
 const logger = new Logger('SignIn');
 
@@ -49,7 +49,7 @@ export default class SignIn extends AuthPiece {
 
     signIn() {
         const { username, password } = this.state;
-        logger.debug('Sign In for ' + username);
+        console.log('Sign In for ' + username);
         Auth.signIn(username, password).then(user => {
             logger.debug(user);
             const requireMFA = user.Session !== null;
