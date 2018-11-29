@@ -1,7 +1,7 @@
 'use strict';
 
 let braintree=require('braintree');
-let gateway=require('./src/gateway.js');
+let gateway=require('./src/gateway');
 let PaymentConnector=require('./src/paymentConnect');
 let OrderConnector=require('./src/orderConnect');
 let TRANSACTION_SUCCESS_STATUSES=[
@@ -137,51 +137,121 @@ exports.handler=function(event,context,callback){
                 //{"nonce":"nonce","tip":0,"cart":[{"key":0,"quantity":6},{"key":3,"quantity":10}]}
                 let transactionErrors;
                 //Declare variables (initialized to undefined)
-                let tip,nonce,cart,amount,street,city,state,zip;
-
-                //let tip=null; //Declare tip variable
-                //let nonce=null; //Declare nonce variable
-                //let amount=null; //Declare amount variable
+                let tip,nonce,cart,amount,street,city,state,zip,recipient;
                 let serviceFee=1; //Declare serviceFee variable
-                //event.body="{\"nonce\":\"tokencc_bc_9k6r9p_dcg5w3_2sfgn8_p5vgj7_52z\",\"tip\":0,\"cart\":[{\"key\":0,\"quantity\":1}]}";
+
+                //OLD: event.body="{\"nonce\":\"tokencc_bc_9k6r9p_dcg5w3_2sfgn8_p5vgj7_52z\",\"tip\":0,\"cart\":[{\"key\":0,\"quantity\":1}]}";
                 console.log("EVENT BODY: "+JSON.stringify(event.body));
-                try{
+                /*try{
                     event.body=JSON.parse(event.body);
                 }
                 catch(e){
-                    console.log("caught!");
-                    //Do nothing, running in test mode
-                }
-                if(event.body!=null&&event.body!==undefined){
-                    nonce=event.body.nonce;//Set nonce to body's nonce
-                    console.log("nonce: "+nonce);
+                    console.log("INTO PARSE JSON ERROR");
+                    let response={
+                        "statusCode":500,
+                        "headers":{},
+                        "body":"bad body",
+                        "isBase64Encoded":"false"
+                    };
+                    callback(null,response);
+                    return;
+                }*/
 
+                if(event.body!=null&&event.body!==undefined){
+                    //Get variables from event.body
+                    nonce=event.body.nonce;
                     cart=event.body.cart;
-                    if(cart===undefined){
+                    street=event.body.address.street;
+                    city=event.body.address.city;
+                    state=event.body.address.state;
+                    zip=event.body.address.zip;
+                    recipient=event.body.recipient;
+
+                    //Get value of tip in float
+                    if(event.body.tip==parseFloat(event.body.tip,10)&&event.body.tip!=null&&event.body.tip!==undefined) tip=Math.abs(event.body.tip);
+                    else tip=0;
+
+                    //Check to see if variables were proccessed properly
+                    if(nonce===undefined){
+                        console.log("INTO NO NONCE ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no nonce received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
+                    }else if(cart===undefined){
                         console.log("INTO NO CART ERROR");
                         let response={
                             "statusCode":400,
                             "headers":{},
-                            "body":event.body,
+                            "body":"no cart received",
                             "isBase64Encoded":"false"
                         };
                         callback(null,response);
+                        return;
+                    }else if(street===undefined){
+                        console.log("INTO NO STREET ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no street received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
+                    }else if(city===undefined){
+                        console.log("INTO NO CITY ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no city received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
+                    }else if(state===undefined){
+                        console.log("INTO NO STATE ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no state received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
+                    }else if(zip===undefined){
+                        console.log("INTO NO ZIP ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no zip received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
+                    }else if(recipient===undefined){
+                        console.log("INTO NO RECIPIENT ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no recipient received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
                     }
-
-                    //Check for int & absolute value of tip
-                    console.log(parseFloat(event.body.tip,10));
-                    //Get value of tip in float
-                    if(event.body.tip==parseFloat(event.body.tip,10)&&event.body.tip!=null&&event.body.tip!==undefined) tip=Math.abs(event.body.tip);
-                    else tip=0;
 
                     let paymentConnector=new PaymentConnector();
                     paymentConnector.getCartCost(cart).then(function(data){//Calculate cost of cart
                         amount=Number(data);//Amount
 
-                        if(nonce!==undefined&&amount!==undefined){
+                        if(amount!==undefined){
                             let tax=Number(Number(amount*0.06).toFixed(2)); //Calculate tax
                             console.log("amount: "+amount+"\ntip: "+tip+"\nservice fee: "+serviceFee+"\ntax: "+tax+"\ntotal: "+Number(amount+tip+serviceFee+tax));//Logging
-                            let subtotal=amount;
+
                             //Use Braintree gateway to complete the transaction
                             gateway.transaction.sale({
                                 amount:Number(amount+tip+serviceFee+tax), //Calculate final cost
@@ -191,29 +261,36 @@ exports.handler=function(event,context,callback){
                                 }
                             }).then(function(result){
                                 if(result.success||result.transaction){//SUCCESS
-                                    //TODO: submit order to server
+                                    //Submit order to server
                                     let orderConnector=new OrderConnector();
 
                                     //id (any #?)
-                                    //cart (what format)
-                                    //recipient (username?)
+                                    let id=null;
+                                    //cart (done)
+                                    //recipient (done)
                                     //paymentInfo (cash, card)
-                                    //address (what format)
-                                    //driver (null?)
+                                    let paymentInfo="card";
+                                    //address (done)
+                                    let address=""+street+", "+city+", "+state+", "+zip;
+                                    //driver (done)
+                                    let driver="-1";
                                     //subtotal (done)
+                                    let subtotal=amount;
                                     //tax (done)
                                     //total (amount)
-                                    //status (?)
-                                    let total=amount;
-                                    let dbResult=orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,status);
+                                    let total=Number(amount)+Number(tip)+Number(serviceFee)+Number(tax);
+                                    //status (done)
+                                    let dbStatus="0";
+
+                                    let dbResult=orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,dbStatus);
                                     if(dbResult){
                                         let response={
                                             "statusCode":200,
                                             "headers":{},
-                                            "body":JSON.stringify(result),
+                                            "body":result,
                                             "isBase64Encoded":"false"
                                         };
-                                        callback(null,response);
+                                    callback(null,response);
                                     }else{
                                         //db err
                                         console.log("INTO CREATE ORDER ERROR");
@@ -247,11 +324,11 @@ exports.handler=function(event,context,callback){
                                 callback(null,response);
                             });
                         }else{
-                            console.log("INTO NO NONCE ERROR");
+                            console.log("INTO NO AMOUNT ERROR");
                             let response={
                                 "statusCode":400,
                                 "headers":{},
-                                "body":event.body,
+                                "body":"no amount",
                                 "isBase64Encoded":"false"
                             };
                             callback(null,response);
@@ -260,29 +337,93 @@ exports.handler=function(event,context,callback){
                 }
             }else if(command.localeCompare("checkout2")===0){//API CALL POST to create cash order
                 //Declare variables (initialized to undefined)
-                let cart,amount,street,city,state,zip;
+                let cart,amount,street,city,state,zip,recipient;
                 let serviceFee=1; //Declare serviceFee variable
 
                 console.log("EVENT BODY: "+JSON.stringify(event.body));
-                try{
+                /*try{
                     event.body=JSON.parse(event.body);
                 }
                 catch(e){
-                    console.log("caught!");
-                    //Do nothing, running in test mode
-                }
+                    console.log("INTO PARSE JSON ERROR");
+                    let response={
+                        "statusCode":500,
+                        "headers":{},
+                        "body":"bad body",
+                        "isBase64Encoded":"false"
+                    };
+                    callback(null,response);
+                    return;
+                }*/
 
                 if(event.body!=null&&event.body!==undefined){
                     cart=event.body.cart;
+                    street=event.body.address.street;
+                    city=event.body.address.city;
+                    state=event.body.address.state;
+                    zip=event.body.address.zip;
+                    recipient=event.body.recipient;
+                    //Check to see if variables were proccessed properly
                     if(cart===undefined){
                         console.log("INTO NO CART ERROR");
                         let response={
                             "statusCode":400,
                             "headers":{},
-                            "body":event.body,
+                            "body":"no cart received",
                             "isBase64Encoded":"false"
                         };
                         callback(null,response);
+                        return;
+                    }else if(street===undefined){
+                        console.log("INTO NO STREET ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no street received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
+                    }else if(city===undefined){
+                        console.log("INTO NO CITY ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no city received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
+                    }else if(state===undefined){
+                        console.log("INTO NO STATE ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no state received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
+                    }else if(zip===undefined){
+                        console.log("INTO NO ZIP ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no zip received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
+                    }else if(recipient===undefined){
+                        console.log("INTO NO RECIPIENT ERROR");
+                        let response={
+                            "statusCode":400,
+                            "headers":{},
+                            "body":"no recipient received",
+                            "isBase64Encoded":"false"
+                        };
+                        callback(null,response);
+                        return;
                     }
 
                     let paymentConnector=new PaymentConnector();
@@ -290,29 +431,34 @@ exports.handler=function(event,context,callback){
                         amount=Number(data);//Amount
 
                         if(amount!==undefined){
-                            let tax=Number(Number(amount*0.06).toFixed(2)); //Calculate tax
-                            console.log("amount: "+amount+"\nservice fee: "+serviceFee+"\ntax: "+tax+"\ntotal: "+Number(amount+serviceFee+tax));//Logging
-                            let subtotal=amount;
-                            //TODO: submit order to server
                             let orderConnector=new OrderConnector();
 
                             //id (any #?)
-                            //cart (what format)
-                            //recipient (username?)
-                            //paymentInfo (cash, card)
-                            //address (what format)
-                            //driver (null?)
-                            //subtotal (done)
+                            let id=null;
+                            //cart (done)
+                            //recipient (done)
+                            //paymentInfo (done)
+                            let paymentInfo="cash";
+                            //address (done)
+                            let address=""+street+", "+city+", "+state+", "+zip;
+                            //driver (done)
+                            let driver="-1";
                             //tax (done)
+                            let tax=Number(Number(amount*0.06).toFixed(2)); //Calculate tax
+                            //subtotal (done)
+                            let subtotal=amount;
                             //total (done)
-                            //status (?)
-                            let total=amount;
-                            let dbResult=orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,status);
+                            let total=Number(amount)+Number(serviceFee)+Number(tax);
+                            //status (done)
+                            let dbStatus="0";
+
+                            //Submit order to server
+                            let dbResult=orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,dbStatus);
                             if(dbResult){
                                 let response={
                                     "statusCode":200,
                                     "headers":{},
-                                    "body":JSON.stringify(result),
+                                    "body":"success",
                                     "isBase64Encoded":"false"
                                 };
                                 callback(null,response);
@@ -328,7 +474,7 @@ exports.handler=function(event,context,callback){
                                 callback(null,response);
                             }
                         }
-                    }
+                    });
                 }
             }else if(command.localeCompare("client")===0){
                 //Testing client functionality for transaction

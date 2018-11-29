@@ -10,6 +10,19 @@ class OrderConnector{
     createOrder(id, cart, recipient, paymentInfo, address, driver, subtotal, tax, total, status){
         return new Promise((resolve, reject) => {
             var connection = mysql.createConnection({host:this.host, user:this.user, password:this.password, port:this.port});
+
+            var cartString="[";
+
+            //Create cartstring in the form: [{"0":1},{"1",2}]
+            for(var i=0; i<cart.length; i++){
+                // console.log("key: "+cart[i].key+" quantity: "+cart[i].quantity);
+                cartString+=`\{\"${cart[i].key}\":${cart[i].quantity}\},`;//Append item.key to cartString
+            }
+            cartString=cartString.substr(0,cartString.length-1);//Remove trailing comma from cartString
+            cartString+="]";
+            console.log(cartString);
+            return;
+
             //Start the descent into callback hell
             connection.connect(function(err) {
                 if (err) reject(err);
@@ -32,4 +45,5 @@ class OrderConnector{
         });
     }
 }
-module.exports=PaymentConnector;
+module.exports=OrderConnector;
+
