@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "./ScreenHeader";
 import NewRating from "./NewRating";
@@ -29,9 +29,7 @@ export default class ReviewBuilder extends Component {
                 "title": this.state.title,
                 "review": this.state.review,
             })
-        }).then(response => response.json())
-            .then(responseJSON => Alert.alert("" + responseJSON.message, ""));
-        this.props.navigation.goBack();
+        }).then(this.props.navigation.goBack());
     };
 
     render() {

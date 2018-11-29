@@ -11,6 +11,7 @@ import ScreenHeader from "../misc/ScreenHeader";
 import AllergyView from "../misc/AllergyView";
 import ContentView from "../misc/ContentView";
 import Review from "../misc/Review";
+import Menu from "../../function/Menu";
 
 export default class DetailedSnackPackView extends Component {
     // display
@@ -31,8 +32,14 @@ export default class DetailedSnackPackView extends Component {
 
     componentDidMount() {
         this.props.navigation.addListener('willFocus', () => {
-
+            fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
+                .then(response => response.json())
+                .then(responseJson => Menu.getInstance().setData(responseJson)).then(() => this.forceUpdate());
         });
+        fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
+            .then(response => response.json())
+            .then(responseJson => Menu.getInstance().setData(responseJson));
+        this.forceUpdate();
     }
 
     _showReviewBuilder = () => {
@@ -90,7 +97,7 @@ export default class DetailedSnackPackView extends Component {
                         </View>
 
                     </View>
-                    {props.reviews.map((item, index) =>
+                    {JSON.parse(Menu.getInstance().getReviews(props.id)).map((item, index) =>
                         <Review
                             title={item.title}
                             author={item.author}
