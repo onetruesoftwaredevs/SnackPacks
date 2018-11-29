@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {ListGroup, ListGroupItem, PageHeader} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./stylesheets/DriverList.css";
+import Link from "react-router-dom/es/Link";
 
 export default class DriverList extends Component {
     constructor(props) {
@@ -26,6 +27,63 @@ export default class DriverList extends Component {
             }))
             .then(() => console.log(this.state.drivers))
             .then(() => this.setState({isLoading: false}));
+    }
+
+    renderReview(review){
+        if(review && review.length > 23){
+            review = review.substr(0,20);
+            return <div className="reviews">
+                <p>{review+"..."}</p>
+            </div>
+        }
+        return <div className="reviews">
+            <p>{review}</p>
+        </div>
+    }
+
+    renderReviews(reviews, i){
+        // title, author, rating, review, upvotes, downvotes
+        if(reviews.length === 1){
+            return <div className="reviews">
+                <Link className="links" to={`/drivers/reviews/${i}`}>
+                    <h3 className="links">{"Reviews:"}</h3>
+                </Link>
+                <div>
+                    <h4>{reviews[0].title+": "+reviews[0].rating+"/5"}</h4>
+                </div>
+                {this.renderReview(reviews[0].review)}
+            </div>
+        }
+        let review1 = reviews[0];
+        let review2 = reviews[1];
+        for(let j=1; j<reviews.length; j++){
+            if(reviews[j].upvotes - reviews[j].downvotes > review1.upvotes - review1.downvotes){
+                review2 = review1;
+                review1 = reviews[j];
+            }else if(reviews[j].upvotes - reviews[j].downvotes > review2.upvotes - review2.downvotes){
+                review2 = reviews[j];
+            }
+        }
+        return <div className="reviews">
+            <Link className="links" to={`/drivers/reviews/${i}`}>
+                <h3 className="links">{"Reviews:"}</h3>
+            </Link>
+            <div>
+                <h4>{review1.title+": "+review1.rating+"/5"}</h4>
+            </div>
+            {this.renderReview(review1.review)}
+            <div>
+                <h4>{review2.title+": "+review2.rating+"/5"}</h4>
+            </div>
+            {this.renderReview(review2.review)}
+            {(reviews.length > 2)?
+                <div>
+                    <h4>...</h4>
+                </div>
+                :
+                <></>
+            }
+        </div>
     }
 
     renderDriverList(drivers) {
@@ -61,9 +119,15 @@ export default class DriverList extends Component {
                                 <ListGroupItem header="Rating:">
                                     {driver._rating}
                                 </ListGroupItem>
-                                <ListGroupItem header="Reviews:">
-                                    {(driver._reviews === "[]")?"No reviews.":(driver._reviews.split('|')).join(", ")}
-                                </ListGroupItem>
+                                {(driver._reviews === "[]") ?
+                                    <ListGroupItem header="Reviews:">
+                                        {"No reviews"}
+                                    </ListGroupItem>
+                                    :
+                                    <div>
+                                        {this.renderReviews(JSON.parse(driver._reviews), i)}
+                                    </div>
+                                }
                             </div>
                         </ListGroup>
                     </div>
