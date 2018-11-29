@@ -31,7 +31,7 @@ class App extends Component{
         //Set current AWSUser data
         Auth.currentSession()
             .then(user=>{
-                console.log("user from auth: ");
+                console.log("user from app.js: ");
                 console.log(user);
                 AWSUser.setInstance(user);
             })
@@ -70,6 +70,8 @@ class App extends Component{
         console.log(user.getGroup());
         console.log("Email:");
         console.log(user.getEmail());
+        console.log("Phone:");
+        console.log(user.getPhone());
     }
 
     render() {
@@ -81,7 +83,7 @@ class App extends Component{
             );
         }
 
-        return <Button onPress={this.test} title="Click Me"/>//<SnackPacks/>
+        return <Button onPress={this.test} title="AWSUser Test"/>//<SnackPacks/>
     }
 }
 
