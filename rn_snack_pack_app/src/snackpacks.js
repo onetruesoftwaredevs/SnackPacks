@@ -111,7 +111,7 @@ const MenuNavigation = StackNavigator({
 });
 
 
-export const SnackPacks = DrawerNavigator({
+export const Users = DrawerNavigator({
     Menu: {
         screen: MenuNavigation,
     },
@@ -121,12 +121,15 @@ export const SnackPacks = DrawerNavigator({
     Cart: {
         screen: PaymentNavigation,
     },
-    Drivers: {
-        screen: DriverNavigation,
-    },
     Orders: {
         screen: OrderNavigation,
     },
+});
+
+export const Drivers = DrawerNavigator({
+    Drivers: {
+        screen: DriverNavigation,
+    }
 });
 
 
