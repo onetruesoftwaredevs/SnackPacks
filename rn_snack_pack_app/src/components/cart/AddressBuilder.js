@@ -5,9 +5,10 @@
  */
 
 import React, {Component} from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert,Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
+import Cart from "../../function/Cart";
 
 export default class AddressBuilder extends Component {
 
@@ -29,6 +30,42 @@ export default class AddressBuilder extends Component {
         });
     };
 
+    _handleCash = () => {
+        Alert.alert("Send order to server", "");
+
+        let cart = Cart.getInstance().getItemsInCart();
+
+        //Variable to store cart keys and quantities
+        let cartKQ = [];
+
+        //Add keys and quantities to cart
+        cart.forEach(function (item) {
+            cartKQ.push({"key": item.spkey, "quantity": item.spquantity});
+        });
+
+        (async () => {
+            let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2";
+            const rawResponse = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({
+                    "cart": cartKQ,
+                    "address":{
+                        "street":this.props.navigation.state.params.street,
+                        "city":this.props.navigation.state.params.city,
+                        "state":this.props.navigation.state.params.state,
+                        "zip":this.props.navigation.state.params.zip,
+                    },
+                })
+            });
+            const content = await rawResponse;
+
+            //TODO: check status of payment
+
+            console.log(content);
+        })();
+        //Confirmation page?
+    };
+
     render() {
         return (
             <View style={global_stylesheet.screen_container}>
@@ -44,8 +81,13 @@ export default class AddressBuilder extends Component {
                     <InputField title={"Zip Code"} value={this.state.zip}
                                 onChanged={(value) => this.setState({zip: value})}/>
 
+                    <View style={{marginBottom: 6}}>
+                        <TouchableOpacity onPress={this._handleCash} style={global_stylesheet.full_width_margin_style}>
+                            <Text style={global_stylesheet.green_button_style}>Checkout With Cash</Text>
+                        </TouchableOpacity>
+                    </View>
                     <TouchableOpacity onPress={this._nextScreen} style={global_stylesheet.full_width_margin_style}>
-                        <Text style={global_stylesheet.green_button_style}>Next</Text>
+                        <Text style={global_stylesheet.green_button_style}>Checkout With Card</Text>
                     </TouchableOpacity>
                 </View>
             </View>
