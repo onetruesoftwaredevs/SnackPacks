@@ -64,7 +64,7 @@ export default class CheckoutView extends Component {
             //      "zip":"zip"
             //  }
             //}
-            let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout2";
+            let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout";
 
             (async () => {
                 const rawResponse = await fetch(url, {
