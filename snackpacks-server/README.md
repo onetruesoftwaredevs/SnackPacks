@@ -117,7 +117,7 @@ For POST and PATCH, the body is used to send additional information in the form 
     * QueryString: command=add
     * Header: NA
     * Body: Order JSON, with cart, recipient, paymentInfo,
-    address, driver, subtotal, tax, total, and status.
+    address, driver, subtotal, tax, and total.
     Note that the Array values must be strings delimited by commas.
 
     * Return: true/false
