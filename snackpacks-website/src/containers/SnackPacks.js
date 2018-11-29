@@ -15,7 +15,7 @@ export default class SnackPacks extends Component {
             key: 0,
             isLoading: null,
             isDeleting: null,
-            snackpack: [],
+            driver: [],
             name: "",
             contents: "",
             allergens: "",
@@ -30,18 +30,18 @@ export default class SnackPacks extends Component {
             return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks/?command=list")
                 .then(response => response.json())
                 .then(responseJson => this.setState({
-                    snackpack: responseJson[this.state.number]
+                    driver: responseJson[this.state.number]
                 }))
                 .then(() => this.setState({
-                    key: this.state.snackpack._key,
-                    name: this.state.snackpack._name,
-                    contents: this.state.snackpack._contents,
-                    allergens: this.state.snackpack._allergens,
-                    reviews: this.state.snackpack.reviews,
-                    imageURL: this.state.snackpack.image_path,
-                    cost: this.state.snackpack._cost
+                    key: this.state.driver._key,
+                    name: this.state.driver._name,
+                    contents: this.state.driver._contents,
+                    allergens: this.state.driver._allergens,
+                    reviews: this.state.driver.reviews,
+                    imageURL: this.state.driver.image_path,
+                    cost: this.state.driver._cost
                 }))
-                .then(() => console.log(this.state.snackpack))
+                .then(() => console.log(this.state.driver))
                 .then(() => this.setState({isLoading: false}));
         } catch (e) {
             alert(e);
@@ -50,9 +50,9 @@ export default class SnackPacks extends Component {
 
     validateForm() {
         if(this.state.contents && this.state.name && this.state.imageURL) {
-            if(this.state.name === this.state.snackpack._name && this.state.contents === this.state.snackpack._contents &&
-                this.state.allergens === this.state.snackpack._allergens && this.state.imageURL === this.state.snackpack.image_path
-                && parseFloat(this.state.cost) === this.state.snackpack._cost){ return false; }
+            if(this.state.name === this.state.driver._name && this.state.contents === this.state.driver._contents &&
+                this.state.allergens === this.state.driver._allergens && this.state.imageURL === this.state.driver.image_path
+                && parseFloat(this.state.cost) === this.state.driver._cost){ return false; }
             return this.state.contents.length > 0 && this.state.name.length > 0 && this.state.cost > 0;
         }else{
             return false;
@@ -70,12 +70,12 @@ export default class SnackPacks extends Component {
         console.log(url);
         let cost = parseFloat(this.state.cost)
         let data = {
-            name:(this.state.name === this.state.snackpack._name?null:this.state.name),
-            contents:(this.state.contents === this.state.snackpack._contents?null:this.state.contents),
-            allergens:(this.state.allergens === this.state.snackpack._allergens?null:this.state.allergens),
-            image_path:(this.state.imageURL === this.state.snackpack.image_path?null:this.state.imageURL),
+            name:(this.state.name === this.state.driver._name?null:this.state.name),
+            contents:(this.state.contents === this.state.driver._contents?null:this.state.contents),
+            allergens:(this.state.allergens === this.state.driver._allergens?null:this.state.allergens),
+            image_path:(this.state.imageURL === this.state.driver.image_path?null:this.state.imageURL),
             reviews:null,
-            cost:(this.state.cost === this.state.snackpack._cost?null:cost),
+            cost:(this.state.cost === this.state.driver._cost?null:cost),
             rating:null
         };
         let outputData = JSON.stringify(data);
@@ -146,7 +146,7 @@ export default class SnackPacks extends Component {
             <div className="SnackPacks">
                 <PageHeader>{"SnackPack #" + (this.state.number+1) + ":"}</PageHeader>
                 <br></br>
-                {this.state.snackpack &&
+                {this.state.driver &&
                 <form onSubmit={this.handleSubmit}>
                     <div className="snacks">
                         <FormGroup controlId="name">

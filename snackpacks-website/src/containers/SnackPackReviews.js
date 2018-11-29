@@ -10,7 +10,7 @@ export default class SnackPacks extends Component {
             number: parseInt((window.location.pathname).substring(19))-1,
             key: 0,
             isLoading: true,
-            snackpack: [],
+            driver: [],
             name: "",
             reviews: []
         };
@@ -22,12 +22,12 @@ export default class SnackPacks extends Component {
             return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks/?command=list")
                 .then(response => response.json())
                 .then(responseJson => this.setState({
-                    snackpack: responseJson[this.state.number]
+                    driver: responseJson[this.state.number]
                 }))
                 .then(() => this.setState({
-                    key: this.state.snackpack._key,
-                    name: this.state.snackpack._name,
-                    reviews: JSON.parse(this.state.snackpack.reviews)
+                    key: this.state.driver._key,
+                    name: this.state.driver._name,
+                    reviews: JSON.parse(this.state.driver.reviews)
                 }))
                 .then(() => console.log(this.state.reviews))
                 .then(() => this.setState({isLoading: false}));
@@ -40,8 +40,11 @@ export default class SnackPacks extends Component {
         if(reviews.length === 1){
             return <div className="reviews">
                 <h4>
-                    {reviews[0].title+": "+reviews[0].rating+"/5 +"+reviews[0].upvotes+" -"+reviews[0].downvotes}
+                    {reviews[0].title+": "+reviews[0].rating+"/5 👍x"+reviews[0].upvotes+" 👎x"+reviews[0].downvotes}
                 </h4>
+                <h3>
+                    {"By: "+reviews[0].author}
+                </h3>
                 <p>
                     {reviews[0].review}
                 </p>
@@ -65,8 +68,11 @@ export default class SnackPacks extends Component {
                 i !== 0
                     ? <div className="reviews">
                         <h4>
-                            {review.title+": "+review.rating+"/5 +"+review.upvotes+" -"+review.downvotes}
+                            {review.title+": "+review.rating+"/5 👍x"+review.upvotes+" 👎x"+review.downvotes}
                         </h4>
+                        <h3>
+                            {"By: "+review.author}
+                        </h3>
                         <p>
                             {review.review}
                         </p>

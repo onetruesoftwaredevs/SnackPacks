@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-import LoaderButton from "../components/LoaderButton";
-import FormGroup from "react-bootstrap/es/FormGroup";
-import ControlLabel from "react-bootstrap/es/ControlLabel";
-import FormControl from "react-bootstrap/es/FormControl";
-import "./stylesheets/Drivers.css";
-import {PageHeader} from "react-bootstrap";
+import PageHeader from "react-bootstrap/es/PageHeader";
+import "./stylesheets/SnackPackReviews.css";
 
 export default class SnackPacks extends Component {
     constructor(props) {
@@ -12,18 +8,16 @@ export default class SnackPacks extends Component {
 
         this.state = {
             number: parseInt((window.location.pathname).substring(17))-1,
-            isLoading: null,
-            isDeleting: null,
+            key: 0,
+            isLoading: true,
             driver: [],
-            id: 0,
             name: "",
-            phoneNum: "",
-            carModel: "",
-            carMake: ""
+            reviews: []
         };
     }
 
     async componentDidMount() {
+        // title, author, rating, review, upvotes, downvotes
         try {
             return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
                 .then(response => response.json())
@@ -31,166 +25,72 @@ export default class SnackPacks extends Component {
                     driver: responseJson[this.state.number]
                 }))
                 .then(() => this.setState({
-                    id: this.state.driver._id,
+                    key: this.state.driver._key,
                     name: this.state.driver._name,
-                    phoneNum: this.state.driver._phone,
-                    carModel: this.state.driver._carmodel,
-                    carMake: this.state.driver._carmake
+                    reviews: JSON.parse(this.state.driver._reviews)
                 }))
-                .then(() => console.log(this.state.driver))
+                .then(() => console.log(this.state.reviews))
                 .then(() => this.setState({isLoading: false}));
         } catch (e) {
             alert(e);
         }
     }
 
-    validateForm() {
-        if(this.state.name && this.state.carMake && this.state.carModel && this.state.phoneNum) {
-            if(this.state.name === this.state.driver._name && this.state.phoneNum === this.state.driver._phone &&
-                this.state.carMake === this.state.driver._carmake && this.state.carModel === this.state.driver._carmodel){ return false; }
-            return this.state.name.length > 0 && this.state.carMake.length > 0 && this.state.carModel.length > 0
-                && this.state.phoneNum.length > 0;
-        }else{
-            return false;
+    renderAllReviews(reviews){
+        if(reviews.length === 1){
+            return <div className="reviews">
+                <h4>
+                    {reviews[0].title+": "+reviews[0].rating+"/5 👍x"+reviews[0].upvotes+" 👎x"+reviews[0].downvotes}
+                </h4>
+                <h3>
+                    {"By: "+reviews[0].author}
+                </h3>
+                <p>
+                    {reviews[0].review}
+                </p>
+            </div>
         }
-    }
-
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    }
-
-    saveDriver() {
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/?command=edit&id=" + (this.state.id);
-        let data = {
-            name:(this.state.driverName === this.state.driver._name?null:this.state.driverName),
-            phone:(this.state.phoneNum === this.state.driver._phone?null:this.state.phoneNum),
-            carmodel:(this.state.carModel === this.state.driver._carmodel?null:this.state.carModel),
-            carmake:(this.state.carMake === this.state.driver._carmake?null:this.state.carMake)
-        };
-        console.log(data);
-        return fetch(url, {
-            method: "PATCH",
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json());
-    }
-
-    handleSubmit = async event => {
-        event.preventDefault();
-
-        const confirmed = window.confirm(
-            "Are you sure you want to modify this driver?"
+        let revs = [];
+        for(let j=0; j<reviews.length; j++){
+            revs.push(reviews[j]);
+        }
+        for(let j=0; j<reviews.length; j++){
+            for(let k=j+1; k<reviews.length; k++) {
+                if (revs[j].upvotes - revs[j].downvotes < revs[k].upvotes - revs[k].downvotes) {
+                    let a = revs[j];
+                    revs[j] = revs[k];
+                    revs[k] = a;
+                }
+            }
+        }
+        return [{}].concat(revs).map(
+            (review, i) =>
+                i !== 0
+                    ? <div className="reviews">
+                        <h4>
+                            {review.title+": "+review.rating+"/5 👍x"+review.upvotes+" 👎x"+review.downvotes}
+                        </h4>
+                        <h3>
+                            {"By: "+review.author}
+                        </h3>
+                        <p>
+                            {review.review}
+                        </p>
+                    </div>
+                    : <></>
         );
-
-        if (!confirmed) {
-            return;
-        }
-
-        this.setState({ isLoading: true });
-
-        try {
-            await this.saveDriver();
-            this.props.history.push("/drivers");
-        } catch (e) {
-            alert(e);
-            this.setState({ isLoading: false });
-        }
-    }
-
-    deleteDriver() {
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=delete&id=" + (this.state.id);
-        return fetch(url, {
-            method: "GET"
-        })
-            .then(response => response.json());
-    }
-
-    handleDelete = async event => {
-        event.preventDefault();
-
-        const confirmed = window.confirm(
-            "Are you sure you want to delete this Driver?"
-        );
-
-        if (!confirmed) {
-            return;
-        }
-
-        this.setState({ isDeleting: true });
-
-        try {
-            await this.deleteDriver();
-            this.props.history.push("/drivers");
-        } catch (e) {
-            alert(e);
-            this.setState({ isDeleting: false });
-        }
     }
 
     render() {
         return (
-            <div className="Drivers">
-                <PageHeader>{"Driver #" + (this.state.number+1) + ":"}</PageHeader>
+            <div className="SnackPacks">
+                <PageHeader>
+                    {"Reviews of Driver #"+(this.state.number+1)+", "+(this.state.name)+":"}
+                </PageHeader>
                 <br></br>
-                {this.state.driver &&
-                <form onSubmit={this.handleSubmit} className="form-group">
-                    <div className="drive">
-                        <FormGroup controlId="name">
-                            <ControlLabel>Name: </ControlLabel>
-                            <FormControl
-                                type="text"
-                                onChange={this.handleChange}
-                                value={this.state.name}
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="phoneNum">
-                            <ControlLabel>Phone number: </ControlLabel>
-                            <FormControl
-                                type="text"
-                                onChange={this.handleChange}
-                                value={this.state.phoneNum}
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="carModel">
-                            <ControlLabel>Car Model: </ControlLabel>
-                            <FormControl
-                                type="text"
-                                onChange={this.handleChange}
-                                value={this.state.carModel}
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="carMake">
-                            <ControlLabel>Car Make: </ControlLabel>
-                            <FormControl
-                                type="text"
-                                onChange={this.handleChange}
-                                value={this.state.carMake}
-                            />
-                        </FormGroup>
-                    </div>
-                    <LoaderButton
-                        block
-                        bsStyle="primary"
-                        bsSize="large"
-                        disabled={!this.validateForm()}
-                        type="submit"
-                        isLoading={this.state.isLoading}
-                        text="Save"
-                        loadingText="Saving…"
-                        className="but"
-                    />
-                    <LoaderButton
-                        block
-                        bsStyle="danger"
-                        bsSize="large"
-                        isLoading={this.state.isDeleting}
-                        onClick={this.handleDelete}
-                        text="Delete"
-                        loadingText="Deleting…"
-                    />
-                </form>}
+                <div>
+                    {!this.state.isLoading && this.renderAllReviews(this.state.reviews)}
+                </div>
             </div>
         );
     }
