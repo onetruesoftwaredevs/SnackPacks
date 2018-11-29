@@ -28,7 +28,7 @@ class OrderManager {
 
 
     getOrders(isDriver, driver_id) {
-        let orders = new Array();
+        let orders = [];
         for (let i = 0; i < this._orders.length; i++) {
             let order = this._orders[i];
             if (isDriver) {

@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, PermissionsAndroid, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import OrderPreview from "../components/driver/OrderPreview";
 import Driver from "../function/Driver";
 import OrderManager from "../function/OrderManager";
@@ -16,25 +16,41 @@ import {global_stylesheet} from "../stylesheet";
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
-import { PermissionsAndroid } from 'react-native';
-
 Mapbox.setAccessToken('pk.eyJ1Ijoic3RlcGhlbmQwMTciLCJhIjoiY2pvZXpzNDh6MWRmMzNxbzRjaGwzcHIzMCJ9.EILVrZZjETyxqQVPk_h8Cg');
 
 export default class DriverScreen extends Component {
 
+    currentOrder = undefined;
+
     constructor(props) {
-        super();
+        super(props);
         this.state = {previousOrder: null}
     }
 
     loadData(responseJson) {
         this.orderManager = new OrderManager(responseJson);
         Driver.getInstance().setOrderManager(this.orderManager);
+        this.setNextOrder();
         this.setState({
             previousOrder: null,
         });
     }
 
+    setNextOrder() {
+        if (this.currentOrder === undefined) {
+            this.currentOrder = Driver.getInstance().getCurrentOrder();
+            if (this.currentOrder !== null) {
+                // update status to in transit
+                let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers";
+                url += "?command=edit";
+                url += "&id=" + this.currentOrder._id;
+                fetch(url, {
+                    method: "POST", body: JSON.stringify({"status": 1})
+                });
+                this.currentOrder._status = 1;
+            }
+        }
+    }
 
     componentDidMount() {
         this.props.navigation.addListener('willFocus', () => {
@@ -69,7 +85,7 @@ export default class DriverScreen extends Component {
 
     completeCurrentOrder() {
         // create query string
-        let currentOrder = Driver.getInstance().getCurrentOrder();
+        let currentOrder = this.currentOrder;
         let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers?command=delete&id=";
         url = url + currentOrder._id;
         // delete from database
@@ -78,6 +94,7 @@ export default class DriverScreen extends Component {
             .then(responseJson => this.validateDeletion(responseJson, currentOrder._id));
         // update driver order manager
         Driver.getInstance().removeCurrentOrder();
+        this.setNextOrder();
         // update ui
         this.setState({previousOrder: currentOrder});
     }
@@ -110,8 +127,8 @@ export default class DriverScreen extends Component {
     };
 
     render() {
-        let currentOrder = Driver.getInstance().getCurrentOrder();
-        let display = (currentOrder === null) ? (
+        let currentOrder = this.currentOrder;
+        let display = (currentOrder === undefined) ? (
             <View>
                 <Text style={global_stylesheet.error_message_style}>No current orders :(</Text>
             </View>
