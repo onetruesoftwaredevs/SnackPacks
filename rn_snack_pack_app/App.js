@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {StyleSheet,Text,View} from 'react-native';
+import {Button,StyleSheet,Text,View} from 'react-native';
 
 //ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
 import Amplify,{API,Analytics,Storage} from 'aws-amplify';
@@ -15,7 +15,9 @@ import {SnackPacks} from "./src/snackpacks";
 import Driver from "./src/function/Driver";
 
 import User from "./src/function/User";
+//import AWSUser from "./src/cognito/awsUser";
 import AWSUser from "./src/cognito/awsUser";
+import {Auth} from 'aws-amplify';
 
 //Allow analytics & other aws backend to connect to mobile hub
 Amplify.configure(aws_exports);
@@ -25,7 +27,17 @@ class App extends Component{
         super();
         this.state = {isLoading: true};
         User.setInstance("Steve", "16");
-        var awsUser=AWSUser.getInstance();
+
+        //Set current AWSUser data
+        Auth.currentSession()
+            .then(user=>{
+                console.log("user from auth: ");
+                console.log(user);
+                AWSUser.setInstance(user);
+            })
+            .catch(err=>{
+                console.log(err);
+            });
     }
 
     componentDidMount() {
@@ -50,6 +62,16 @@ class App extends Component{
         this.setState({isLoading: false});
     };
 
+    test(){
+        let user=AWSUser.getInstance();
+        console.log("AWSUSER:");
+        console.log(user.getUser());
+        console.log("Group:");
+        console.log(user.getGroup());
+        console.log("Email:");
+        console.log(user.getEmail());
+    }
+
     render() {
         if (this.state.isLoading) {
             return (
@@ -59,7 +81,7 @@ class App extends Component{
             );
         }
 
-        return <SnackPacks/>
+        return <Button onPress={this.test} title="Click Me"/>//<SnackPacks/>
     }
 }
 
@@ -70,13 +92,6 @@ const styles = StyleSheet.create({
         width:'100%',
         height:'100%',
     },
-
-    /* container:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'#F5FCFF',
-        */
 
     loading_text:{
         flex:1,
