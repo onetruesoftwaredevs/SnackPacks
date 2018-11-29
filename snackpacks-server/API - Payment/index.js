@@ -260,7 +260,7 @@ exports.handler=function(event,context,callback){
                 }
             }else if(command.localeCompare("checkout2")===0){//API CALL POST to create cash order
                 //Declare variables (initialized to undefined)
-                let tip,cart,amount,street,city,state,zip;
+                let cart,amount,street,city,state,zip;
                 let serviceFee=1; //Declare serviceFee variable
 
                 console.log("EVENT BODY: "+JSON.stringify(event.body));
@@ -284,12 +284,6 @@ exports.handler=function(event,context,callback){
                         };
                         callback(null,response);
                     }
-                    //Get value of tip in float
-                    if(event.body.tip==parseFloat(event.body.tip,10)&&event.body.tip!=null&&event.body.tip!==undefined) tip=Math.abs(event.body.tip);
-                    else tip=0;
-
-                    //Check for int & absolute value of tip
-                    console.log(parseFloat(event.body.tip,10));
 
                     let paymentConnector=new PaymentConnector();
                     paymentConnector.getCartCost(cart).then(function(data){//Calculate cost of cart
@@ -297,7 +291,7 @@ exports.handler=function(event,context,callback){
 
                         if(amount!==undefined){
                             let tax=Number(Number(amount*0.06).toFixed(2)); //Calculate tax
-                            console.log("amount: "+amount+"\ntip: "+tip+"\nservice fee: "+serviceFee+"\ntax: "+tax+"\ntotal: "+Number(amount+tip+serviceFee+tax));//Logging
+                            console.log("amount: "+amount+"\nservice fee: "+serviceFee+"\ntax: "+tax+"\ntotal: "+Number(amount+serviceFee+tax));//Logging
                             let subtotal=amount;
                             //TODO: submit order to server
                             let orderConnector=new OrderConnector();
