@@ -34,6 +34,8 @@ export default class AddressBuilder extends Component {
         Alert.alert("Send order to server", "");
 
         let cart = Cart.getInstance().getItemsInCart();
+        let user=AWSUser.getInstance().getUser();
+        console.log(user);
 
         //Variable to store cart keys and quantities
         let cartKQ = [];
@@ -48,13 +50,14 @@ export default class AddressBuilder extends Component {
             const rawResponse = await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify({
-                    "cart": cartKQ,
+                    "recipient":user,
                     "address":{
                         "street":this.props.navigation.state.params.street,
                         "city":this.props.navigation.state.params.city,
                         "state":this.props.navigation.state.params.state,
                         "zip":this.props.navigation.state.params.zip,
                     },
+                    "cart": cartKQ,
                 })
             });
             const content = await rawResponse;
