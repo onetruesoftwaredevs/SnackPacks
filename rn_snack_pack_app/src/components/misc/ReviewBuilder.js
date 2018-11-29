@@ -24,7 +24,7 @@ export default class ReviewBuilder extends Component {
         fetch(this.props.navigation.state.params.url, {
             method: 'POST',
             body: JSON.stringify({
-                "name": User.getInstance().getName(),
+                "author": User.getInstance().getName(),
                 "rating": this.state.rating,
                 "title": this.state.title,
                 "review": this.state.review,

@@ -27,12 +27,11 @@ export default class DetailedSnackPackView extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {quantity: props.navigation.state.params.quantity};
     }
 
     componentDidMount() {
         this.props.navigation.addListener('willFocus', () => {
-            this.setState({quantity: this.props.navigation.state.params.quantity});
+
         });
     }
 
