@@ -1,40 +1,45 @@
 import {Auth} from 'aws-amplify';
 
 class AWSUser{
-    constructor(){
-        //If user has an instance, return the instance
-        //If usre does not have an instance, create instance
-            //If there is an error creating the instance, it will be set to null
+    constructor(user){
         if(!AWSUser.instance){
-            Auth.currentSession()
-                .then(user=>{
-                    console.log(user);
-                    console.log("GROUP: "+user.idToken.payload['cognito:groups']);
-                    this.user=user;
-                    AWSUser.instance=this;
-                })
-                .catch(err=>{
-                    console.log(err);
-                    this.user=null;
-                    AWSUser.instancee=null;
-                });
+            console.log("constructor user: "+user);
+            this.user=user;
+            AWSUser.instance=this;
         }
         return AWSUser.instance;
     }
 
+    static setInstance(user){
+        AWSUser.instance=new AWSUser(user);
+    }
+
     static getInstance(){
         //Returns user instance
-        if (!AWSUser.instance){
-            AWSUser.instance=new AWSUser();
+        if(!AWSUser.instance){
+            return null;
         }
         return AWSUser.instance;
     }
 
     getGroup(){
-        //Returns undefined if not a member of a group or array of groups ex: ['Drivers'])
-        return this.user.idToken.payload['cognito:groups'];
+        //Returns 'Drivers' or 'Users'
+        var group=this.user.idToken.payload['cognito:groups'];
+        if(group===undefined)group="Users";//Not member of Drivers group
+        else group=group[0];//Returns array of groups, select 0'th one
+        return group;
     }
 
+    getUser(){
+        //Returns the username of a user
+        return this.user.idToken.payload['cognito:username'];
+    }
+
+    getEmail(){
+        //Returns the email of a user
+        return this.user.idToken.payload.email;
+    }
 }
 
 module.exports=AWSUser;
+
