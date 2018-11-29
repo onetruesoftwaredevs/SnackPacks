@@ -15,6 +15,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Swipeout from "../../rn-swipe-out";
 import Driver from "../../function/Driver";
 import {global_stylesheet} from "../../stylesheet";
+import StatusManager from '../../function/StatusManager';
 
 export default class OrderPreview extends Component {
     name;                   // string
@@ -138,12 +139,11 @@ export default class OrderPreview extends Component {
 
     render() {
         // create method or dictionary to dynamically change background color based on status
-        let order_status_style = [styles.status_style, {backgroundColor: '#4AF'}];
+        let order_status_style = [styles.status_style, {backgroundColor: StatusManager.getColor(this.props.order_status)}];
         let swipe_handler = null;
         if (this.props.swipe_handler === "available_option") {
             swipe_handler = this.available_option;
-        }
-        else if (this.props.swipe_handler === "complete_order_option") {
+        } else if (this.props.swipe_handler === "complete_order_option") {
             swipe_handler = this.completeOrderOption;
         }
         return (
@@ -155,7 +155,7 @@ export default class OrderPreview extends Component {
                     </View>
                     <View style={global_stylesheet.horizontal_container_loose}>
                         <Text style={global_stylesheet.data_style}>{this.props.address}</Text>
-                        <Text style={order_status_style}>{this.props.order_status}</Text>
+                        <Text style={order_status_style}>{StatusManager.getString(this.props.order_status)}</Text>
                     </View>
                 </Swipeout>
             </TouchableOpacity>
