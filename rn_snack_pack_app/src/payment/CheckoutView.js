@@ -6,6 +6,7 @@ import {global_stylesheet} from "../stylesheet";
 import ScreenHeader from "../components/misc/ScreenHeader";
 
 const payment = require('./payment.html');
+import AWSUser from "./src/cognito/awsUser";
 
 export default class CheckoutView extends Component {
     constructor(props) {
@@ -31,6 +32,9 @@ export default class CheckoutView extends Component {
             console.log("NONCE: " + nonce);//Nonce from payment
             let cart = Cart.getInstance().getItemsInCart();
             console.log("CART: " + "key: " + cart[0].spkey + " quantity" + cart[0].spquantity);
+            let user=AWSUser.getInstance().getUser();
+            console.log("AWSUSER:");
+            console.log(user);
 
             //Variable to store cart keys and quantities
             let cartKQ = [];
@@ -46,6 +50,13 @@ export default class CheckoutView extends Component {
             //{
             //  "nonce":"nonce",
             //  "tip":0,
+            //  "address":{
+            //      "street":"street",
+            //      "city":"city",
+            //      "state":"state",
+            //      "zip":"zip"
+            //  }
+            //  "recipient":"username",
             //  "cart":
             //  [
             //      {
@@ -57,12 +68,6 @@ export default class CheckoutView extends Component {
             //          "quantity":10
             //      }
             //  ],
-            //  "address":{
-            //      "street":"street",
-            //      "city":"city",
-            //      "state":"state",
-            //      "zip":"zip"
-            //  }
             //}
             let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout";
 
@@ -72,13 +77,14 @@ export default class CheckoutView extends Component {
                     body: JSON.stringify({
                         "nonce": nonce,
                         "tip": Number(this.state.tip),
-                        "cart": cartKQ,
+                        "recipient":user,
                         "address":{
                             "street":this.props.navigation.state.params.street,
                             "city":this.props.navigation.state.params.city,
                             "state":this.props.navigation.state.params.state,
                             "zip":this.props.navigation.state.params.zip,
                         },
+                        "cart": cartKQ,
                     })
                 });
                 const content = await rawResponse;
