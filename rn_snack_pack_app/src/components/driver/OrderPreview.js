@@ -199,7 +199,7 @@ export default class OrderPreview extends Component {
             swipe_handler = this.available_option;
         } else if (this.props.swipe_handler === "complete_order_option") {
             swipe_handler = this.completeOrderOption;
-        } else if (this.props.swipe_handler === "user_options") {
+        } else if (this.props.swipe_handler === "user_options" && this.state.status < 2) {
             swipe_handler = [this.reportDamaged, this.reportNonDelivered, this.cancelOrderOption];
         }
 
