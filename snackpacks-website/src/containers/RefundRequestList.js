@@ -14,18 +14,17 @@ export default class RefundRequestList extends Component {
     }
 
     async componentDidMount() {
-
         if (!this.props.isAuthenticated) {
             return;
         }
-
-        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers/?command=list")
+        let url="https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/refund?command=list"
+        fetch(url)
             .then(response => response.json())
-            .then(responseJson => this.setState({
-                refundRequests: responseJson
-            }))
-            .then(() => console.log(this.state.refundRequests))
-            .then(() => this.setState({isLoading: false}));
+            .then(responseJson => {
+                this.setState({refundRequests: responseJson});
+                console.log(this.state.refundRequests);
+                this.setState({isLoading: false});
+            });
     }
 
     renderThis(status){
@@ -36,21 +35,21 @@ export default class RefundRequestList extends Component {
     }
 
     renderReason(status){
-        if(status === "0"){
+        if(status === 0){
             return "Not Delivered"
-        }else if(status === "1"){
+        }else if(status === 1){
             return "In Transit"
-        }else if(status === "2"){
+        }else if(status === 2){
             return "Delivered"
-        }else if(status === "3"){
+        }else if(status === 3){
             return "Cancelled"
-        }else if(status === "4"){
+        }else if(status === 4){
             return "Damaged"
-        }else if(status === "5"){
+        }else if(status === 5){
             return "Lost"
-        }else if(status === "6"){
+        }else if(status === 6){
             return "Refunded"
-        }else if(status === "7"){
+        }else if(status === 7){
             return "Not Refunded"
         }else{
             return "Status Error"
@@ -58,7 +57,59 @@ export default class RefundRequestList extends Component {
     }
 
     renderRefundRequests() {
-        for(let j=0; j<this.state.refundRequests.length; j++) {
+        // {
+        //      "_orderID": 0,
+        //      "_userID": 15,
+        //      "_reason": "Not delivered",
+        //      "_amount": 5,
+        //      "_status": 0
+        // },
+        if(this.state.refundRequests.length>0) {
+            return [{}].concat(this.state.refundRequests).map(
+                (refundRequest, i) =>{
+                    if(i!==0){
+                        return(
+                            <ListGroup key={i}>
+                                <LinkContainer
+                                    key={i}
+                                    to={`/refreq/${i}`}
+                                    className="links"
+                                >
+                                    <ListGroupItem className="links"><h3>{"Refund Request #"+i+":"}</h3></ListGroupItem>
+                                </LinkContainer>
+                                <ListGroupItem className="all" header="Order ID:">
+                                    {refundRequest._orderID}
+                                </ListGroupItem>
+                                <ListGroupItem className="all" header="User ID:">
+                                    {refundRequest._userID}
+                                </ListGroupItem>
+                                <ListGroupItem className="all" header="Reason:">
+                                    {refundRequest._reason}
+                                </ListGroupItem>
+                                <ListGroupItem className="all" header="Amount:">
+                                    {refundRequest._amount}
+                                </ListGroupItem>
+                                <ListGroupItem className="all" header="Status:">
+                                    {this.renderReason(refundRequest._status)}
+                                </ListGroupItem>
+                            </ListGroup>
+                        );
+                    }else{
+                        return(
+                            <div key={i}>
+                            </div>
+                        );
+                    }
+                }
+            );
+        }else{
+            return (
+                <div>
+                    <h3>No Pending Refund Requests</h3>
+                </div>
+            );
+        }
+        /*for(let j=0; j<this.state.refundRequests.length; j++) {
             if (this.renderThis(this.state.refundRequests[j]._status)) {
                 return [{}].concat(this.state.refundRequests).map(
                     (refundRequest, i) =>
@@ -94,17 +145,14 @@ export default class RefundRequestList extends Component {
                             <></>
                 );
             }
-        }
-        return <div>
-            <h3>No Pending Refund Requests</h3>
-        </div>
+        }*/
     }
 
     render() {
         return (
             <div className="RefundRequests">
                 <PageHeader>Refund Requests:</PageHeader>
-                {!this.isLoading && this.renderRefundRequests()}
+                {this.renderRefundRequests()}
                 <br></br>
             </div>
         );
