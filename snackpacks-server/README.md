@@ -225,10 +225,10 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: JSON with key "name", "rating", "title", and "review" keys.
     
     "body": {
-      "name": "Steve",
+      "author": "Steve",
       "rating": 3,
       "title": "This could've been better",
-      "review": "He was aight"
+      "description": "He was aight"
     }
     
     * Please note that this rating does not influence driver rating
