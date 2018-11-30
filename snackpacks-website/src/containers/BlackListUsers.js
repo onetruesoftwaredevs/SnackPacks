@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import LoaderButton from "../components/LoaderButton";
 import PageHeader from "react-bootstrap/es/PageHeader";
 import "./stylesheets/BlackListUsers.css";
-import AWS from 'aws-sdk';
 
 export default class BlackListUsers extends Component {
     constructor(props) {
