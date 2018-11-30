@@ -13,7 +13,8 @@ class Menu {
             this._search_filter = "name";
             this._sort_filter = "popularity";
             this._price_filter = 'none';
-            this._search = 'none';
+            this._allergy_filter = 'none',
+                this._search = 'none';
             Menu.instance = this;
         }
         return Menu.instance;
@@ -56,6 +57,10 @@ class Menu {
         this._price_filter = filter;
     }
 
+    setAllergyFilter(filter) {
+        this._allergy_filter = filter;
+    }
+
     getSearchTerm() {
         return this._search;
     }
@@ -66,6 +71,10 @@ class Menu {
 
     getPriceFilter() {
         return this._price_filter;
+    }
+
+    getAllergyFilter() {
+        return this._allergy_filter;
     }
 
     static getAverageRating(item) {
@@ -107,15 +116,28 @@ class Menu {
     }
 
     filter(current_data) {
+        let data = current_data;
         if (this._price_filter === 'none') {
-            return this.filterPriceRange(0, current_data);
+            data = this.filterPriceRange(0, data);
         }
         if (this._price_filter === 'range1') {
-            return this.filterPriceRange(5, current_data);
+            data = this.filterPriceRange(5, data);
         }
         if (this._price_filter === 'range2') {
-            return this.filterPriceRange(10, current_data);
+            data = this.filterPriceRange(10, data);
         }
+
+        if (this._allergy_filter === 'none') {
+            data = this.filterAllergy('none', data);
+        }
+        if (this._allergy_filter === 'peanut') {
+            data = this.filterAllergy('peanuts', data);
+        }
+        if (this._allergy_filter === 'dairy') {
+            data = this.filterAllergy('dairy', data);
+        }
+
+        return data;
     }
 
     filterPriceRange(range, current_data) {
@@ -126,6 +148,27 @@ class Menu {
         let data = [];
         for (let i = 0; i < current_data.length; i++) {
             if (current_data[i]._cost <= range) {
+                data.push(current_data[i]);
+            }
+        }
+        return data;
+    }
+
+    filterAllergy(allergy, current_data) {
+        if (allergy === 'none') {
+            return current_data;
+        }
+
+        let data = [];
+        for (let i = 0; i < current_data.length; i++) {
+            let allergies = current_data[i]._allergens;
+            let seen = false;
+            for (let j = 0; j < allergies.length; j++) {
+                if (allergies[j] === allergy) {
+                    seen = true;
+                }
+            }
+            if (!seen) {
                 data.push(current_data[i]);
             }
         }
