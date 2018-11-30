@@ -19,7 +19,7 @@ export default class DriverProfile extends Component {
     driver;
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             isLoading: true,
             data: null,
@@ -27,6 +27,9 @@ export default class DriverProfile extends Component {
     }
 
     componentDidMount() {
+        this.props.navigation.addListener("willFocus", () => {
+            this._refresh();
+        });
         this._refresh();
     }
 
@@ -49,7 +52,7 @@ export default class DriverProfile extends Component {
                 return;
             }
         }
-        Alert.alert("Something went wrong", "please try again later");
+        Alert.alert("Driver Not Found", "please try again later");
         this._goBack();
     }
 

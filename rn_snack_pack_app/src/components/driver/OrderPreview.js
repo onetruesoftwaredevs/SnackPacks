@@ -38,7 +38,7 @@ export default class OrderPreview extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {order: null};
+        this.state = {order: null, status: props.order_status};
     }
 
 
@@ -150,6 +150,7 @@ export default class OrderPreview extends Component {
             method: "POST", body: JSON.stringify({"status": status})
         });
         order._status = status;
+        this.setState({status: status});
         this.props.parent.forceUpdate();
     }
 
@@ -192,7 +193,7 @@ export default class OrderPreview extends Component {
 
     render() {
         // create method or dictionary to dynamically change background color based on status
-        let order_status_style = [styles.status_style, {backgroundColor: StatusManager.getColor(this.props.order_status)}];
+        let order_status_style = [styles.status_style, {backgroundColor: StatusManager.getColor(this.state.status)}];
         let swipe_handler = null;
         if (this.props.swipe_handler === "available_option") {
             swipe_handler = this.available_option;
@@ -211,7 +212,7 @@ export default class OrderPreview extends Component {
                     </View>
                     <View style={global_stylesheet.horizontal_container_loose}>
                         <Text style={global_stylesheet.data_style}>{this.props.address}</Text>
-                        <Text style={order_status_style}>{StatusManager.getString(this.props.order_status)}</Text>
+                        <Text style={order_status_style}>{StatusManager.getString(this.state.status)}</Text>
                     </View>
                 </Swipeout>
             </TouchableOpacity>
