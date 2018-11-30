@@ -9,7 +9,7 @@
 class OrderManager {
 
     constructor(orders) {
-        this._orders = new Array();
+        this._orders = [];
         for (let i = 0; i < orders.length; i++) {
             let order = orders[i];
             if (order != null) {

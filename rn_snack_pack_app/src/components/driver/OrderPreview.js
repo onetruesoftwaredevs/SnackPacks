@@ -16,6 +16,7 @@ import Swipeout from "../../rn-swipe-out";
 import Driver from "../../function/Driver";
 import {global_stylesheet} from "../../stylesheet";
 import StatusManager from '../../function/StatusManager';
+import User from "../../function/User";
 
 export default class OrderPreview extends Component {
     name;                   // string
@@ -103,8 +104,10 @@ export default class OrderPreview extends Component {
     available_option = {
         text: 'Take Order',
         style: {
-            backgroundColor: '#44aa44',
-            padding: 2,
+            backgroundColor: '#4A4',
+            padding: 4,
+            fontWeight: 'bold'
+
         },
         onPress: () => {
             this.takeOrder(this.getNumber());
@@ -129,11 +132,61 @@ export default class OrderPreview extends Component {
     completeOrderOption = {
         text: 'complete',
         style: {
-            backgroundColor: '#44aa44',
-            padding: 2,
+            backgroundColor: '#4A4',
+            padding: 4,
+            fontWeight: 'bold'
         },
         onPress: () => {
             this.completeCurrentOrder();
+        },
+    };
+
+    setStatus(status) {
+        let order = User.getInstance().getOrderById(this.props.number);
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers";
+        url += "?command=edit";
+        url += "&id=" + order;
+        fetch(url, {
+            method: "POST", body: JSON.stringify({"status": status})
+        });
+        order._status = status;
+        this.props.parent.forceUpdate();
+    }
+
+    cancelOrderOption = {
+        text: 'cancel',
+        style: {
+            backgroundColor: '#F44',
+            padding: 4,
+            fontWeight: 'bold'
+
+        },
+        onPress: () => {
+            this.setStatus(3);
+        },
+    };
+
+    reportDamaged = {
+        text: 'Report Damaged',
+        style: {
+            backgroundColor: '#F44',
+            padding: 4,
+            fontWeight: 'bold'
+        },
+        onPress: () => {
+            this.setStatus(4);
+        },
+    };
+
+    reportNonDelivered = {
+        text: 'Report Not Delivered',
+        style: {
+            backgroundColor: '#F44',
+            padding: 4,
+            fontWeight: 'bold'
+        },
+        onPress: () => {
+            this.setStatus(5);
         },
     };
 
@@ -145,7 +198,10 @@ export default class OrderPreview extends Component {
             swipe_handler = this.available_option;
         } else if (this.props.swipe_handler === "complete_order_option") {
             swipe_handler = this.completeOrderOption;
+        } else if (this.props.swipe_handler === "user_options") {
+            swipe_handler = [this.reportDamaged, this.reportNonDelivered, this.cancelOrderOption];
         }
+
         return (
             <TouchableOpacity style={global_stylesheet.basic_container} onPress={this.showDetailedView}>
                 <Swipeout right={swipe_handler}>

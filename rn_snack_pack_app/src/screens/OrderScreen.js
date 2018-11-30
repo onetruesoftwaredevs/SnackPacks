@@ -14,7 +14,7 @@ import {global_stylesheet} from "../stylesheet";
 export default class OrderScreen extends Component {
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {isLoading: true,};
     }
 
@@ -56,7 +56,7 @@ export default class OrderScreen extends Component {
                             total={item._total}
                             last_screen={'Orders'}
                             navigation={this.props.navigation}
-                            swipe_handler={"none"}
+                            swipe_handler={"user_options"}
                             parent={this}
                             is_reviewable={true}
                         />
