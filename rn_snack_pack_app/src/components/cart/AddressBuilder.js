@@ -32,7 +32,7 @@ export default class AddressBuilder extends Component {
     };
 
     _handleCash = () => {
-        Alert.alert("Send order to server", "");
+        Alert.alert("Sent order to server", "");
 
         let cart = Cart.getInstance().getItemsInCart();
         let user=AWSUser.getInstance().getUser();
