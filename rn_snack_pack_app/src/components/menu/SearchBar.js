@@ -11,15 +11,17 @@ import Menu from "../../function/Menu";
 
 export default class SearchBar extends Component {
 
-    onSearch; // function
-    onSort;   // function
+    onSearch;       // function
+    onSort;         // function
+    onFilterPrice;  // function
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             showFilters: false,
             selectedSearchOption: 'name',
             selectedSortOption: 'popularity',
+            selectedPriceRange: 'none',
             search: 'none'
         };
     }
@@ -65,11 +67,42 @@ export default class SearchBar extends Component {
         }
     };
 
+    _selectNoPriceRange = () => {
+        this.setState({selectedPriceRange: 'none'});
+        Menu.getInstance().setPriceFilter('none');
+        if (this.props.onFilterPrice !== undefined) {
+            this.props.onFilterPrice();
+        }
+    };
+
+    _selectPriceRange1 = () => {
+        this.setState({selectedPriceRange: 'range1'});
+        Menu.getInstance().setPriceFilter('range1');
+        if (this.props.onFilterPrice !== undefined) {
+            this.props.onFilterPrice();
+        }
+    };
+
+    _selectPriceRange2 = () => {
+        this.setState({selectedPriceRange: 'range2'});
+        Menu.getInstance().setPriceFilter('range2');
+        if (this.props.onFilterPrice !== undefined) {
+            this.props.onFilterPrice();
+        }
+    };
+
     renderFilters() {
+        let price_ranges = ["< $5", "< $10"];
+
         let nameStyle = this.state.selectedSearchOption === 'name' ? styles.selected_search_option : styles.not_selected_option;
         let contentsStyle = this.state.selectedSearchOption === 'name' ? styles.not_selected_option : styles.selected_search_option;
+
         let popularityStyle = this.state.selectedSortOption === 'popularity' ? styles.selected_sort_option : styles.not_selected_option;
         let reviewStyle = this.state.selectedSortOption === 'popularity' ? styles.not_selected_option : styles.selected_sort_option;
+
+        let no_range_style = this.state.selectedPriceRange === 'none' ? styles.selected_price_style : styles.not_selected_option;
+        let range_1_style = this.state.selectedPriceRange === 'range1' ? styles.selected_price_style : styles.not_selected_option;
+        let range_2_style = this.state.selectedPriceRange === 'range2' ? styles.selected_price_style : styles.not_selected_option;
 
         return this.state.showFilters ? (
             <View>
@@ -92,6 +125,20 @@ export default class SearchBar extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this._selectReviews}>
                             <Text style={reviewStyle}>reviews</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={global_stylesheet.horizontal_container_loose}>
+                    <Text style={global_stylesheet.data_title_style}>Price Range</Text>
+                    <View style={global_stylesheet.horizontal_container_tight}>
+                        <TouchableOpacity onPress={this._selectNoPriceRange}>
+                            <Text style={no_range_style}>None</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this._selectPriceRange1}>
+                            <Text style={range_1_style}>{price_ranges[0]}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this._selectPriceRange2}>
+                            <Text style={range_2_style}>{price_ranges[1]}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -140,6 +187,19 @@ const styles = StyleSheet.create({
     selected_sort_option: {
         color: '#fff',
         backgroundColor: '#4AA',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 8
+    },
+
+    selected_price_style: {
+        color: '#fff',
+        backgroundColor: '#4A4',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: 'bold',

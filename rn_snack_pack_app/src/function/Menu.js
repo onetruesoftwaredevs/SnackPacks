@@ -12,6 +12,7 @@ class Menu {
             this._names = [];
             this._search_filter = "name";
             this._sort_filter = "popularity";
+            this._price_filter = 'none';
             this._search = 'none';
             Menu.instance = this;
         }
@@ -51,12 +52,20 @@ class Menu {
         this._sort_filter = filter;
     }
 
+    setPriceFilter(filter) {
+        this._price_filter = filter;
+    }
+
     getSearchTerm() {
         return this._search;
     }
 
     getSortFilter() {
         return this._sort_filter;
+    }
+
+    getPriceFilter() {
+        return this._price_filter;
     }
 
     static getAverageRating(item) {
@@ -95,6 +104,32 @@ class Menu {
                 }
             }
         }
+    }
+
+    filter(current_data) {
+        if (this._price_filter === 'none') {
+            return this.filterPriceRange(0, current_data);
+        }
+        if (this._price_filter === 'range1') {
+            return this.filterPriceRange(5, current_data);
+        }
+        if (this._price_filter === 'range2') {
+            return this.filterPriceRange(10, current_data);
+        }
+    }
+
+    filterPriceRange(range, current_data) {
+        if (range === 0) {
+            return current_data;
+        }
+
+        let data = [];
+        for (let i = 0; i < current_data.length; i++) {
+            if (current_data[i]._cost <= range) {
+                data.push(current_data[i]);
+            }
+        }
+        return data;
     }
 
     sort() {
@@ -143,9 +178,9 @@ class Menu {
         this.sort();
 
         if (this._search === 'none') {
-            return this._menu;
+            return this.filter(this._menu);
         }
-        return this.getSearch();
+        return this.filter(this.getSearch());
     }
 
     _sortReviewsByScore(reviews) {
