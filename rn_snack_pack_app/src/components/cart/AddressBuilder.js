@@ -9,6 +9,7 @@ import {Alert,Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
 import Cart from "../../function/Cart";
+import AWSUser from "../../cognito/awsUser";
 
 export default class AddressBuilder extends Component {
 
@@ -52,10 +53,10 @@ export default class AddressBuilder extends Component {
                 body: JSON.stringify({
                     "recipient":user,
                     "address":{
-                        "street":this.props.navigation.state.params.street,
-                        "city":this.props.navigation.state.params.city,
-                        "state":this.props.navigation.state.params.state,
-                        "zip":this.props.navigation.state.params.zip,
+                        "street":this.state.street,
+                        "city":this.state.city,
+                        "state":this.state.state,
+                        "zip":this.state.zip,
                     },
                     "cart": cartKQ,
                 })
