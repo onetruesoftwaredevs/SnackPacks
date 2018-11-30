@@ -11,7 +11,7 @@ export default class SnackPacks extends Component {
             number: parseInt((window.location.pathname).substring(8))-1,
             isLoading: null,
             isDisapproving: null,
-            refundRequest: [],
+            paymentInfo:"",
             id: 0,
             name: "",
             status: 0,
@@ -32,9 +32,9 @@ export default class SnackPacks extends Component {
                     name: this.state.refundRequest._recipient,
                     status: this.state.refundRequest._status,
                     cost: this.state.refundRequest._total,
-                    address: this.state.refundRequest._address
+                    address: this.state.refundRequest._address,
+                    paymentInfo: this.state.refundRequest._paymentInfo,
                 }))
-                .then(() => console.log(this.state.refundRequest))
                 .then(() => this.setState({isLoading: false}));
         } catch (e) {
             alert(e);
@@ -55,7 +55,25 @@ export default class SnackPacks extends Component {
             method: "POST",
             body: JSON.stringify(data)
         })
-            .then(response => response.json());
+        .then(response => response.json());
+    }
+
+    approveRefund() {
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/payment?command=refund";
+        let data = {
+            transactionID:this.state.paymentInfo,
+        };
+        console.log(data);
+        return fetch(url, {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(json=>{
+            console.log("RESPONSE JSON");
+            console.log(json);
+            json=false;
+        });
     }
 
     handleApprove = async event => {
@@ -73,6 +91,7 @@ export default class SnackPacks extends Component {
 
         try {
             await this.approveRefReq();
+            if(this.state.paymentInfo!=="cash")await this.approveRefund();
             this.props.history.push("/refreq");
         } catch (e) {
             alert(e);
