@@ -78,6 +78,17 @@ class User {
         return this._orders;
     }
 
+    getOrderById(id) {
+        for (let i = 0; i < this._orders.length; i++) {
+            let order = this._orders[i];
+            if (order !== null) {
+                if (order._id === id) {
+                    return order;
+                }
+            }
+        }
+    }
+
     getCurrentOrder() {
         if (this._orders.length === 0) {
             return null;
