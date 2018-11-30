@@ -4,6 +4,7 @@ import {DrawerNavigator, StackNavigator} from 'react-navigation'
 import MenuScreen from "./screens/MenuScreen";
 import CartScreen from "./screens/CartScreen";
 import DriverScreen from "./screens/DriverScreen";
+import LogoutScreen from "./screens/LogoutScreen";
 import OrdersView from "./components/driver/OrdersView";
 import DetailedOrderView from "./components/driver/DetailedOrderView";
 import CheckoutView from "./payment/CheckoutView";
@@ -18,7 +19,6 @@ import PaymentView from "./components/cart/PaymentView";
 import CustomSnackPackCreatorView from "./components/custom/CustomSnackPackCreatorView";
 import ReviewBuilder from "./components/misc/ReviewBuilder";
 import AddressBuilder from "./components/cart/AddressBuilder";
-import { Auth } from 'aws-amplify';
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -111,6 +111,14 @@ const MenuNavigation = StackNavigator({
     headerMode: 'none',
 });
 
+const LogoutNavigation = StackNavigator({
+    Logout: {
+        screen: LogoutScreen,
+    },
+}, {
+    headerMode: 'none',
+});
+
 
 export const Users = DrawerNavigator({
     Menu: {
@@ -125,19 +133,19 @@ export const Users = DrawerNavigator({
     Orders: {
         screen: OrderNavigation,
     },
+    Logout: {
+        screen: LogoutNavigation,
+    },
 });
 
 export const Drivers = DrawerNavigator({
     Drivers: {
         screen: DriverNavigation,
-    }
+    },
+    Logout: {
+        screen: LogoutNavigation,
+    },
 });
-
-export function logout(){
-    Auth.signOut()
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
-}
 
 
 // legacy code

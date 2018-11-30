@@ -10,6 +10,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import com.mapbox.rctmgl.RCTMGLPackage;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new RNAWSCognitoPackage(),
-          new RCTMGLPackage()
+          new RCTMGLPackage(),
+          new ReactNativeRestartPackage()
       );
     }
 
