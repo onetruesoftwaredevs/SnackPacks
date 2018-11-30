@@ -59,7 +59,7 @@ class User {
         for (let i = 0; i < orders.length; i++) {
             let order = orders[i];
             if (order !== null) {
-                if (Number(order._recipient) === Number(this._name)) {
+                if (order._recipient === this._name) {
                     this._orders.push(order);
                 }
             }
