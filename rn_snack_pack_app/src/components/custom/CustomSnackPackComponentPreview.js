@@ -9,6 +9,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import NewQuantityComponent from "../misc/NewQuantityComponent";
 import {global_stylesheet} from "../../stylesheet";
 import User from "../../function/User";
+import Cart from "../../function/Cart";
 
 export default class CustomSnackPackComponentPreview extends Component {
     // display
@@ -58,6 +59,7 @@ export default class CustomSnackPackComponentPreview extends Component {
         }
 
         this.setState({quantity: q});
+        Cart.getInstance().updatePrice(this.props.parent_name, true, User.getInstance().getCustomSnackPackPrice(this.props.parent_name));
         this.props.parent.forceUpdate();
     };
 

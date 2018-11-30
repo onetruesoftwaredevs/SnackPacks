@@ -41,6 +41,7 @@ export default class CartScreen extends Component {
                         <OrderItemView
                             name={item.spname}
                             price={item.spprice}
+                            is_custom={item.is_custom}
                             parent={this}
                         />)
                     }
@@ -48,7 +49,8 @@ export default class CartScreen extends Component {
                         <Text style={global_stylesheet.blue_button_style}>Back to Menu</Text>
                     </TouchableOpacity>
                 </ScrollView>
-                <PaymentView subtotal={cartSubtotal} serviceFee={1.00} tip={0.00} checkout={true} navigation={this.props.navigation}/>
+                <PaymentView subtotal={cartSubtotal} serviceFee={1.00} tip={0.00} checkout={true}
+                             navigation={this.props.navigation}/>
             </View>
         );
     }
