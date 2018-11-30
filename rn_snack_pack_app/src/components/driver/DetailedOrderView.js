@@ -15,7 +15,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
 import Mapbox from "@mapbox/react-native-mapbox-gl";
-import {GMAP_API_KEY} from "../../function/Constants";
+import StatusManager from "../../function/StatusManager";
 
 export default class DetailedOrderView extends Component {
 
@@ -25,7 +25,7 @@ export default class DetailedOrderView extends Component {
     }
 
     loadCoordinates() {
-        let formatted_address = this.props.navigation.state.params.address;
+        /*let formatted_address = this.props.navigation.state.params.address;
         formatted_address.replace(" ", "+");
         let url = "https://maps.googleapis.com/maps/api/geocode/json";
         url += "?address=" + formatted_address;
@@ -35,6 +35,15 @@ export default class DetailedOrderView extends Component {
             .then(responseJSON => this.setState({
                 longitude: responseJSON.geometry.location.lng,
                 latitude: responseJSON.geometry.location.lat
+            }));*/
+        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers";
+        url += "?command=getloc";
+        url += "&id=" + this.props.navigation.state.params.number;
+        fetch(url, {method: 'GET'})
+            .then(response => response.json())
+            .then(responseJSON => this.setState({
+                longitude: responseJSON.long,
+                latitude: responseJSON.lat
             }));
     }
 
@@ -88,7 +97,7 @@ export default class DetailedOrderView extends Component {
                     </View>
                 </View>
 
-                <Field title={"Status"} value={params.order_status}/>
+                <Field title={"Status"} value={StatusManager.getString(params.order_status)}/>
                 <Field title={"ETA"} value={params.delivery_time}/>
                 <Field title={"Payment Information"} value={params.payment_info}/>
                 <Field title={"Address"} value={params.address}/>

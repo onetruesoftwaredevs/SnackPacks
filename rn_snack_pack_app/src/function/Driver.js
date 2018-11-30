@@ -30,20 +30,25 @@ class Driver {
         this._orderManager = null;
 
         setInterval(() => {
-            // get location
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers";
-                    url += "?command=updateloc&id=" + this._id;
-                    fetch(url, {
-                        method: "POST",
-                        body: JSON.stringify({lat: position.coords.latitude, long: position.coords.longitude})
-                    });
-                },
-                (error) => {
-                },
-                {enableHighAccuracy: false, timeout: 200000, maximumAge: 1000},
-            );
+            if (this._orderManager) {
+                let orders = this.getOrders();
+                for (let i = 0; i < orders.length; i++) {
+                    let order_id = orders[i]._id;
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers";
+                            url += "?command=updateloc&id=" + order_id;
+                            fetch(url, {
+                                method: "POST",
+                                body: JSON.stringify({lat: position.coords.latitude, long: position.coords.longitude})
+                            });
+                        },
+                        (error) => {
+                        },
+                        {enableHighAccuracy: false, timeout: 200000, maximumAge: 1000},
+                    );
+                }
+            }
         }, 60 * 1000);
     }
 
