@@ -5,6 +5,7 @@ import Cart from "../function/Cart";
 import ScreenHeader from "../components/misc/ScreenHeader";
 
 const payment = require('./payment.html');
+import AWSUser from "../cognito/awsUser";
 
 export default class CheckoutView extends Component {
     constructor(props) {
