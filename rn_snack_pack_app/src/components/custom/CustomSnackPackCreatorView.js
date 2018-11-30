@@ -5,14 +5,20 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, StyleSheet, View, Text, TextInput} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
+import User from "../../function/User";
 
 export default class CustomSnackPackCreatorView extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {name: ""};
+    }
+
     _submit = () => {
-        // TODO: submit new custom snackpack to the database
+        User.getInstance().createCustomSnackPack(this.state.name);
         this.props.navigation.goBack();
     };
 
@@ -32,6 +38,8 @@ export default class CustomSnackPackCreatorView extends Component {
                             placeholder={"Enter the Custom SnackPack name here"}
                             placeholderTextColor={"#AAA"}
                             style={global_stylesheet.data_style}
+                            value={this.state.name}
+                            onChangeText={(value) => this.setState({name: value})}
                         />
                     </View>
                     <TouchableOpacity style={global_stylesheet.full_width_margin_style} onPress={this._submit}>

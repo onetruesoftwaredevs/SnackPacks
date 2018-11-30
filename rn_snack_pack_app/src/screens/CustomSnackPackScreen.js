@@ -9,6 +9,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import CustomSnackPackPreview from "../components/custom/CustomSnackPackPreview";
 import {global_stylesheet} from "../stylesheet";
 import ScreenHeader from "../components/misc/ScreenHeader";
+import User from "../function/User";
 
 export default class CustomSnackPackScreen extends Component {
     // display
@@ -20,6 +21,14 @@ export default class CustomSnackPackScreen extends Component {
     }
 
     componentDidMount() {
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({isLoading: true});
+            let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snacks?command=list";
+            fetch(url, {method: "GET"})
+                .then(response => response.json())
+                .then(responseJson => this.setState({components: responseJson, isLoading: false}));
+        });
+
         let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snacks?command=list";
         fetch(url, {method: "GET"})
             .then(response => response.json())
@@ -46,9 +55,14 @@ export default class CustomSnackPackScreen extends Component {
                     <ScreenHeader title={"My Custom SnackPacks"} navigation={this.props.navigation}
                                   isDefaultScreen={true}/>
 
-                    <CustomSnackPackPreview name={"steve's sandwiches"} price={1.00}
-                                            navigation={this.props.navigation} components={this.state.components}/>
-
+                    {User.getInstance().getCustomSnackPacks().map((item) =>
+                        <CustomSnackPackPreview
+                            name={item.name}
+                            price={User.getInstance().getCustomSnackPackPrice(item.name)}
+                            navigation={this.props.navigation}
+                            components={item.snacks}
+                        />)
+                    }
 
                     <TouchableOpacity style={global_stylesheet.full_width_margin_style} onPress={this._createNew}>
                         <Text style={global_stylesheet.green_button_style}>Create new custom SnackPack</Text>

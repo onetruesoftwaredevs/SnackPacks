@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Alert, AsyncStorage, StyleSheet, Text, View} from 'react-native';
 //ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
 import Amplify, {Auth} from 'aws-amplify';
 import MySignIn from "./src/cognito/mySignIn";
@@ -28,14 +28,13 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {isLoading: true};
-        User.setInstance("Steve", "16");
-
         //Set current AWSUser data
         Auth.currentSession()
             .then(user => {
                 console.log("user from app.js: ");
                 console.log(user);
                 AWSUser.setInstance(user);
+                this.loadUserData();
             })
             .catch(err => {
                 console.log(err);
@@ -43,18 +42,42 @@ class App extends Component {
     }
 
     componentDidMount() {
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers?command=list";
-        fetch(url, {method: "GET"})
-            .then(response => response.json())
-            .then(responseJson => this.loadData(responseJson));
+    }
 
+    loadUserData() {
         let user = AWSUser.getInstance();
-        // set user instance here
+        AsyncStorage.getItem("USER", (err, result) => {
+            result = JSON.parse(result);
+            if (user.getGroup() === "Users") {
+                if (result !== null) {
+                    // returning user
+                    Alert.alert('', '' + result.custom_snackpacks);
+                    User.setInstance(user.name, result.custom_snackpacks);
+                } else {
+                    // new user
+                    User.setInstance(user.getName(), []);
+                }
+                this.setState({isLoading: false});
+            } else {
+                // set driver (must already be in the database)
+                let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers?command=list";
+                fetch(url, {method: "GET"})
+                    .then(response => response.json())
+                    .then(responseJson => this.loadData(responseJson, user.getName()));
+            }
+        });
+
     }
 
 
-    loadData = (responseJson) => {
-        let driver = responseJson[0]; // load the first driver (temporary but more complete)
+    loadData = (responseJson, name) => {
+        let driver = null;
+        for (let i = 0; i < responseJson.length; i++) {
+            driver = responseJson[i];
+            if (driver._name === name) {
+                break;
+            }
+        }
         Driver.setInstance(
             driver._name,
             driver._id,
@@ -65,6 +88,7 @@ class App extends Component {
             driver._status,
             driver._reviews
         );
+
         this.setState({isLoading: false});
     };
 
@@ -131,4 +155,5 @@ export default withAuthenticator(App, false, [
     <ConfirmSignUp/>,
     <ForgotPassword/>
 ]);
+
 
