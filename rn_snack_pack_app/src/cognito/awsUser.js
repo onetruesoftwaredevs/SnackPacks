@@ -1,4 +1,6 @@
-class AWSUser {
+import {Auth} from 'aws-amplify';
+
+export default class AWSUser {
     constructor(user) {
         if (!AWSUser.instance) {
             this.user = user;
@@ -42,6 +44,4 @@ class AWSUser {
         return this.user.idToken.payload.phone_number;
     }
 }
-
-module.exports = AWSUser;
 
