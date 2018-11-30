@@ -18,20 +18,19 @@ class Cart {
         return Cart.instance;
     }
 
-    addToCart(name, price, key) {
-        let item = new CartItem(name, price, key);
+    addToCart(name, price, key, is_custom) {
+        let item = new CartItem(name, price, key, is_custom);
         this.cart.push(item);
         this.total_cost = this.total_cost + price;
     }
 
-    setQuantity(name, quantity) {
+    setQuantity(name, quantity, is_custom) {
         if (quantity <= 0) {
-            this.removeFromCart(name);
-        }
-        else {
+            this.removeFromCart(name, is_custom);
+        } else {
             for (let i = 0; i < this.cart.length; i++) {
                 let item = this.cart[i];
-                if (item.spname === name) {
+                if (item.spname === name && item.is_custom === is_custom) {
                     this.total_cost = this.total_cost + (quantity - item.spquantity) * item.spprice;
                     item.spquantity = quantity;
                     return;
@@ -41,20 +40,31 @@ class Cart {
         }
     }
 
-    getQuantity(name) {
+    getQuantity(name, is_custom) {
         for (let i = 0; i < this.cart.length; i++) {
             let item = this.cart[i];
-            if (item.spname === name) {
+            if (item.spname === name && item.is_custom === is_custom) {
                 return item.spquantity;
             }
         }
         return 0;
     }
 
-    removeFromCart(name) {
+    updatePrice(name, is_custom, new_price) {
         for (let i = 0; i < this.cart.length; i++) {
             let item = this.cart[i];
-            if (item.spname === name) {
+            if (item.spname === name && item.is_custom === is_custom) {
+                this.total_cost = this.total_cost - (item.spquantity) * item.spprice;
+                item.spprice = new_price;
+                this.total_cost = this.total_cost + (item.spquantity) * item.spprice;
+            }
+        }
+    }
+
+    removeFromCart(name, is_custom) {
+        for (let i = 0; i < this.cart.length; i++) {
+            let item = this.cart[i];
+            if (item.spname === name && item.is_custom === is_custom) {
                 this.cart.splice(i, 1);
                 this.total_cost = this.total_cost - item.spprice * item.spquantity;
                 return;

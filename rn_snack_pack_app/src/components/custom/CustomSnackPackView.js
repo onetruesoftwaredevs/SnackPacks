@@ -11,6 +11,7 @@ import CustomSnackPackComponentPreview from "./CustomSnackPackComponentPreview";
 import ScreenHeader from "../misc/ScreenHeader";
 import {global_stylesheet} from "../../stylesheet";
 import User from "../../function/User";
+import Cart from "../../function/Cart";
 
 export default class CustomSnackPackView extends Component {
     // display
@@ -62,7 +63,7 @@ export default class CustomSnackPackView extends Component {
 
                     <CustomSnackPackPriceView
                         price={User.getInstance().getCustomSnackPackPrice(this.props.navigation.state.params.name)}
-                        quantity={1}/>
+                        quantity={Cart.getInstance().getQuantity(this.props.navigation.state.params.name, true)}/>
                 </ScrollView>
             </View>
         );

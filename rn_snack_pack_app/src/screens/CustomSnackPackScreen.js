@@ -55,12 +55,13 @@ export default class CustomSnackPackScreen extends Component {
                     <ScreenHeader title={"My Custom SnackPacks"} navigation={this.props.navigation}
                                   isDefaultScreen={true}/>
 
-                    {User.getInstance().getCustomSnackPacks().map((item) =>
+                    {User.getInstance().getCustomSnackPacks().map((item, index) =>
                         <CustomSnackPackPreview
                             name={item.name}
                             price={User.getInstance().getCustomSnackPackPrice(item.name)}
                             navigation={this.props.navigation}
                             components={this.state.components}
+                            id={index}
                         />)
                     }
 

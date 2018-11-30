@@ -28,7 +28,7 @@ export default class SnackPackView extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {quantity: Cart.getInstance().getQuantity(props.spname)};
+        this.state = {quantity: Cart.getInstance().getQuantity(props.spname, false)};
     }
 
     _pressed = () => {
@@ -48,11 +48,10 @@ export default class SnackPackView extends Component {
     _onIncrease = (quantity) => {
         if (quantity === 1) {
             // item was added to the cart
-            Cart.getInstance().addToCart(this.props.spname, this.props.spprice, this.props.spkey);
-        }
-        else {
+            Cart.getInstance().addToCart(this.props.spname, this.props.spprice, this.props.spkey, false);
+        } else {
             // item is already inside the cart
-            Cart.getInstance().setQuantity(this.props.spname, quantity);
+            Cart.getInstance().setQuantity(this.props.spname, quantity, false);
         }
 
         // set the state to force an update
@@ -62,10 +61,9 @@ export default class SnackPackView extends Component {
     _onDecrease = (quantity) => {
         if (quantity < 1) {
             // item was removed from the cart
-            Cart.getInstance().removeFromCart(this.props.spname);
-        }
-        else {
-            Cart.getInstance().setQuantity(this.props.spname, quantity);
+            Cart.getInstance().removeFromCart(this.props.spname, false);
+        } else {
+            Cart.getInstance().setQuantity(this.props.spname, quantity, false);
         }
         // set the state to force an update
         this.setState({quantity: quantity});

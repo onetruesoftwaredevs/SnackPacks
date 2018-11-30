@@ -16,20 +16,20 @@ export default class OrderItemView extends Component {
     price;      // number
     spkey;      // key for item
     parent;     // object
-    
+    is_custom;  // boolean
+
     constructor(props) {
-        super();
-        this.state = {quantity: Cart.getInstance().getQuantity(props.name)};
+        super(props);
+        this.state = {quantity: Cart.getInstance().getQuantity(props.name, props.is_custom)};
     }
 
     _onIncrease = (quantity) => {
         if (quantity === 1) {
             // item was added to the cart
-            Cart.getInstance().addToCart(this.props.name, this.props.price, this.props.spkey);
-        }
-        else {
+            Cart.getInstance().addToCart(this.props.name, this.props.price, this.props.spkey, this.props.is_custom);
+        } else {
             // item is already inside the cart
-            Cart.getInstance().setQuantity(this.props.name, quantity);
+            Cart.getInstance().setQuantity(this.props.name, quantity, this.props.is_custom);
         }
 
         // set the state to force an update
@@ -40,10 +40,9 @@ export default class OrderItemView extends Component {
     _onDecrease = (quantity) => {
         if (quantity < 1) {
             // item was removed from the cart
-            Cart.getInstance().removeFromCart(this.props.name);
-        }
-        else {
-            Cart.getInstance().setQuantity(this.props.name, quantity);
+            Cart.getInstance().removeFromCart(this.props.name, this.props.is_custom);
+        } else {
+            Cart.getInstance().setQuantity(this.props.name, quantity, this.props.is_custom);
         }
         // set the state to force an update
         this.setState({quantity: quantity});
