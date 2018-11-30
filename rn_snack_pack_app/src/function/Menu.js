@@ -148,11 +148,28 @@ class Menu {
         return this.getSearch();
     }
 
+    _sortReviewsByScore(reviews) {
+        for (let i = 0; i < reviews.length - 1; i++) {
+            for (let j = i + 1; j < reviews.length; j++) {
+                let review_i = reviews[i];
+                let review_j = reviews[j];
+                let score_i = review_i.upvotes - review_i.downvotes;
+                let score_j = review_j.upvotes - review_j.downvotes;
+                if (score_j > score_i) {
+                    reviews[i] = review_j;
+                    reviews[j] = review_i;
+                }
+            }
+        }
+        return reviews;
+    }
+
     getReviews(id) {
         for (let i = 0; i < this._menu.length; i++) {
             let item = this._menu[i];
             if (Number(item._key) === Number(id)) {
-                return item.reviews;
+                // sort reviews
+                return this._sortReviewsByScore(JSON.parse(item.reviews));
             }
         }
 
