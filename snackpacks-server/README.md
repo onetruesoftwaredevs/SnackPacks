@@ -152,15 +152,15 @@ For POST and PATCH, the body is used to send additional information in the form 
 
 ##### Update Location
     * Method: POST
-    * QueryString: command=updateloc&id={DRIVER_ID}
+    * QueryString: command=updateloc&id={ORDER_ID}
     * Header: NA
-    * Body: NA
+    * Body: longitude, latitude
 
     * Return: Stringified JSON with keys lat and long
     
 ##### Get Location
     * Method: GET
-    * QueryString: command=getloc&id={DRIVER_ID}
+    * QueryString: command=getloc&id={ORDER_ID}
     * Header: NA
     * Body: NA
 
@@ -232,5 +232,54 @@ For POST and PATCH, the body is used to send additional information in the form 
     }
     
     * Please note that this rating does not influence driver rating
+
+    * Return: true/false
+    
+ ### __/blacklist__
+##### List Banned Users
+    * Method: GET
+    * QueryString: command=list
+    * Header: NA
+    * Body: NA
+
+    * Return: JSON Array of Blacklist User JSON Objects
+    
+##### List Banned User by ID
+    * Method: GET
+    * QueryString: command=listById&id={USER_ID}
+    * Header: NA
+    * Body: NA
+
+    * Return: JSON of Blacklist User JSON Object or null if no user exists
+    
+##### Add Report
+    * Method: POST
+    * QueryString: command=addReport
+    * Header: NA
+    * Body: JSON with key "reason" with string value
+
+    * Return: true/false
+
+##### Set Status
+    * Method: GET
+    * QueryString: command=setStatus&status={INT}
+    * Header: NA
+    * Body: NA
+
+    * Return: true/false
+    
+##### Get Status
+    * Method: GET
+    * QueryString: command=checkStatus&id={INT}
+    * Header: NA
+    * Body: NA
+
+    * Return: true/false
+   
+##### Clear Blacklisted Users
+    * Method: GET
+    * QueryString: command=clear
+    * Header: NA
+    * Body: NA
 
     * Return: true/false
