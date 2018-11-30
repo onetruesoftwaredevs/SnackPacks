@@ -152,15 +152,15 @@ For POST and PATCH, the body is used to send additional information in the form 
 
 ##### Update Location
     * Method: POST
-    * QueryString: command=updateloc&id={DRIVER_ID}
+    * QueryString: command=updateloc&id={ORDER_ID}
     * Header: NA
-    * Body: NA
+    * Body: longitude, latitude
 
     * Return: Stringified JSON with keys lat and long
     
 ##### Get Location
     * Method: GET
-    * QueryString: command=getloc&id={DRIVER_ID}
+    * QueryString: command=getloc&id={ORDER_ID}
     * Header: NA
     * Body: NA
 
