@@ -18,6 +18,7 @@ class snackConnector{
 	// 	DAMAGED: 4,
 	// 	UNDELIVERED: 5,
 	// 	REFUND: 6
+	//  NOT REFUNDED: 7
 	// }
 
 	//snackConnector constructor
@@ -123,7 +124,7 @@ class snackConnector{
 					connection.end(function(err) {
 						if (err) reject(err);
 						let res = result[0];
-						let ret_val = {'x': res.loc_x, 'y': res.loc_y};
+						let ret_val = {'lat': res.loc_x, 'long': res.loc_y};
 						resolve(ret_val);
 					});
 				});
@@ -171,6 +172,7 @@ class snackConnector{
 						//callback to end connection
 						connection.end(function(err) {
 							if (err) reject(err);
+							console.log("AWA");
 							resolve(true);
 						});
 					});
@@ -274,7 +276,8 @@ class snackConnector{
 				connection.query(`select * from snackpacks.Orders where id=${orderID}`, function(err, foundOrder, fields){
 					if (err) reject(err);
 					if(foundOrder.length > 0){
-						connection.query(`updated snackpacks.Orders set status=${status} where id=${orderID}`, function(err, res, fields){
+						connection.query(`update snackpacks.Orders set status=${status} where id=${orderID}`, function(err, res, fields){
+							if(err) reject(err);
 							connection.end(function(err) {
 								if (err) reject(err);
 								resolve(true);
