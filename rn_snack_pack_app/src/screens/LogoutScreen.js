@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, PermissionsAndroid, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../stylesheet";
 import {Auth} from 'aws-amplify';
 import ScreenHeader from "../components/misc/ScreenHeader";
@@ -22,11 +22,13 @@ export default class LogoutScreen extends Component {
     render() {
         return (
             <View style={global_stylesheet.screen_container}>
-                <ScreenHeader title="Logout" navigation={this.props.navigation}
-                              isDefaultScreen={true}/>
-                <TouchableOpacity onPress={this.logout} style={global_stylesheet.full_width_margin_style}>
-                    <Text style={styles.back_style}>Logout</Text>
-                </TouchableOpacity>
+                <View>
+                    <ScreenHeader title="Logout" navigation={this.props.navigation}
+                                  isDefaultScreen={true}/>
+                    <TouchableOpacity onPress={this.logout} style={global_stylesheet.full_width_margin_style}>
+                        <Text style={styles.back_style}>Logout</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
