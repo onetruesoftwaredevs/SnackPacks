@@ -1,11 +1,9 @@
 class Review {
-    constructor(author, title, description, upvotes, downvotes){
+    constructor(author, title, description){
         //Add Time and Status
         this.author = author;
         this.title = title;
         this.description = description;
-        this.upvotes = upvotes;
-        this.downvotes = downvotes;
     }
 
     get author(){ return this._author; }
@@ -16,12 +14,6 @@ class Review {
 
     get description(){ return this._description; }
     set description(value){ this._description = value; }
-
-    get upvotes(){ return this._upvotes; }
-    set upvotes(value){ this._upvotes = value; }
-
-    get downvotes(){ return this._downvotes; }
-    set downvotes(value){ this._downvotes = value; }
 };
 
 module.exports = Review;
