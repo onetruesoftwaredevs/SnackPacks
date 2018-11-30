@@ -13,27 +13,30 @@ export default class BlackList extends Component {
         };
     }
 
-    async componentDidMount() {
+    getData(){
+        let url="https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/blacklist?command=list"
+        fetch(url)
+            .then(response => response.json())
+            .then(responseJson => {
+                this.setState({blacklistedUsers: responseJson});
+                console.log(this.state.blacklistedUsers);
+                this.setState({isLoading: false});
+            });
+    }
 
+    componentDidMount() {
         if (!this.props.isAuthenticated) {
             return;
         }
-
-        //TODO: replace this fetch with what actually fetches the blacklisted users (sets blacklistedUsers to that list)
-        return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers/?command=list")
-            .then(response => response.json())
-            .then(responseJson => this.setState({
-                blacklistedUsers: responseJson
-            }))
-            .then(() => console.log(this.state.blacklistedUsers))
-            .then(() => this.setState({isLoading: false}));
+        this.getData();
     }
 
     renderBlackList() {
+        //[{"_user_id":"69","_reason":"Made way too many refund requests","_status":0},{"_user_id":"5","_reason":"Was very rude to driver.","_status":0},{"_user_id":"5","_reason":"[object Object]","_status":0},{"_user_id":"6","_reason":"Abused refunds","_status":0}]
         return [{}].concat(this.state.blacklistedUsers).map(
             (blacklistUser, i) =>
                 i !== 0
-                    ? <ListGroup>
+                    ? <ListGroup key={i}>
                         <LinkContainer
                             key={i}
                             to={`/blacklist/${i}`}
@@ -41,18 +44,18 @@ export default class BlackList extends Component {
                         >
                             <ListGroupItem className="links"><h3>{"Blacklisted User #"+i+":"}</h3></ListGroupItem>
                         </LinkContainer>
-                        <ListGroupItem className="all" header="Name:">
-                            {blacklistUser._name}
+                        <ListGroupItem className="all" header="User ID:">
+                            {blacklistUser._user_id}
                         </ListGroupItem>
-                        <ListGroupItem className="all" header="Phone Number:">
-                            {blacklistUser._phone}
+                        <ListGroupItem className="all" header="Reason:">
+                            {blacklistUser._reason}
                         </ListGroupItem>
-                        <ListGroupItem className="all" header="Address:">
-                            {blacklistUser._rating}
+                        <ListGroupItem className="all" header="Status:">
+                            {blacklistUser._status}
                         </ListGroupItem>
                     </ListGroup>
                     :
-                    <div>
+                    <div key={i}>
                         <LinkContainer
                             key="new"
                             to="/blacklist/new"
