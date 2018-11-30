@@ -6,6 +6,8 @@
  *
  */
 
+import React from 'react';
+
 let OrderManager = require("./OrderManager");
 
 class Review {
@@ -26,6 +28,23 @@ class Driver {
         this._reviews = JSON.parse(reviews);
         this._current_order = null;
         this._orderManager = null;
+
+        setInterval(() => {
+            // get location
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers";
+                    url += "?command=updateloc&id=" + this._id;
+                    fetch(url, {
+                        method: "POST",
+                        body: JSON.stringify({lat: position.coords.latitude, long: position.coords.longitude})
+                    });
+                },
+                (error) => {
+                },
+                {enableHighAccuracy: false, timeout: 200000, maximumAge: 1000},
+            );
+        }, 60 * 1000);
     }
 
     static setInstance(name, id, phone, car_model, car_make, rating, status, reviews) {
