@@ -46,6 +46,7 @@ class App extends Component {
 
     loadUserData() {
         let user = AWSUser.getInstance();
+        console.log(user.getGroup());
         AsyncStorage.getItem("USER", (err, result) => {
             result = JSON.parse(result);
             if (user.getGroup() === "Users") {
