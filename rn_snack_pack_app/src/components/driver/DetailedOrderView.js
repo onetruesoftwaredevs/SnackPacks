@@ -15,9 +15,32 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
 import Mapbox from "@mapbox/react-native-mapbox-gl";
-import MapboxGL from "@mapbox/react-native-mapbox-gl";
+import {GMAP_API_KEY} from "../../function/Constants";
 
 export default class DetailedOrderView extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {longitude: 0.0, latitude: 0.0};
+    }
+
+    loadCoordinates() {
+        let formatted_address = this.props.navigation.state.params.address;
+        formatted_address.replace(" ", "+");
+        let url = "https://maps.googleapis.com/maps/api/geocode/json";
+        url += "?address=" + formatted_address;
+        url += "&key=" + GMAP_API_KEY;
+        fetch(url, {method: 'GET'})
+            .then(response => response.json())
+            .then(responseJSON => this.setState({
+                longitude: responseJSON.geometry.location.lng,
+                latitude: responseJSON.geometry.location.lat
+            }));
+    }
+
+    componentDidMount() {
+        this.loadCoordinates();
+    }
 
     _viewDriver = () => {
         this.props.navigation.navigate("DriverProfile", {
@@ -57,9 +80,8 @@ export default class DetailedOrderView extends Component {
                 <Mapbox.MapView
                     styleURL={Mapbox.StyleURL.Street}
                     zoomLevel={15}
-                    centerCoordinate={[11.256, 43.770]}
+                    centerCoordinate={[this.state.longitude, this.state.latitude]}
                     showUserLocation={true}
-                    userTrackingMode={MapboxGL.UserTrackingModes.FollowWithHeading}
                     style={styles.container}>
                 </Mapbox.MapView>
                 <Field title={"Subtotal"} value={"$" + subtotal}/>
