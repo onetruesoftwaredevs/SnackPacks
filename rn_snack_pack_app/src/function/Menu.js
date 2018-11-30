@@ -78,11 +78,12 @@ class Menu {
     }
 
     static getAverageRating(item) {
+        let reviews = JSON.parse(item.reviews);
         let rating = 0;
-        for (let i = 0; i < item.reviews.length; i++) {
-            rating += item.reviews[i].rating;
+        for (let i = 0; i < reviews.length; i++) {
+            rating += reviews[i].rating;
         }
-        return rating / item.reviews.length;
+        return rating / reviews.length;
     }
 
     sortByPopularity() {
