@@ -11,9 +11,10 @@ import Menu from "../../function/Menu";
 
 export default class SearchBar extends Component {
 
-    onSearch;       // function
-    onSort;         // function
-    onFilterPrice;  // function
+    onSearch;           // function
+    onSort;             // function
+    onFilterPrice;      // function
+    onFilterAllergy;    // function
 
     constructor(props) {
         super(props);
@@ -22,6 +23,7 @@ export default class SearchBar extends Component {
             selectedSearchOption: 'name',
             selectedSortOption: 'popularity',
             selectedPriceRange: 'none',
+            selectedAllergy: 'none',
             search: 'none'
         };
     }
@@ -91,8 +93,33 @@ export default class SearchBar extends Component {
         }
     };
 
+    _selectNoAllergy = () => {
+        this.setState({selectedAllergy: 'none'});
+        Menu.getInstance().setAllergyFilter('none');
+        if (this.props.onFilterAllergy !== undefined) {
+            this.props.onFilterAllergy();
+        }
+    };
+
+    _selectPeanutAllergy = () => {
+        this.setState({selectedAllergy: 'peanut'});
+        Menu.getInstance().setAllergyFilter('peanut');
+        if (this.props.onFilterAllergy !== undefined) {
+            this.props.onFilterAllergy();
+        }
+    };
+
+    _selectDairyAllergy = () => {
+        this.setState({selectedAllergy: 'dairy'});
+        Menu.getInstance().setAllergyFilter('dairy');
+        if (this.props.onFilterAllergy !== undefined) {
+            this.props.onFilterAllergy();
+        }
+    };
+
     renderFilters() {
         let price_ranges = ["< $5", "< $10"];
+        let allergies = ["peanuts", "dairy"];
 
         let nameStyle = this.state.selectedSearchOption === 'name' ? styles.selected_search_option : styles.not_selected_option;
         let contentsStyle = this.state.selectedSearchOption === 'name' ? styles.not_selected_option : styles.selected_search_option;
@@ -103,6 +130,10 @@ export default class SearchBar extends Component {
         let no_range_style = this.state.selectedPriceRange === 'none' ? styles.selected_price_style : styles.not_selected_option;
         let range_1_style = this.state.selectedPriceRange === 'range1' ? styles.selected_price_style : styles.not_selected_option;
         let range_2_style = this.state.selectedPriceRange === 'range2' ? styles.selected_price_style : styles.not_selected_option;
+
+        let no_allergy_style = this.state.selectedAllergy === 'none' ? styles.selected_allergy_style : styles.not_selected_option;
+        let allergy_1_style = this.state.selectedAllergy === 'peanut' ? styles.selected_allergy_style : styles.not_selected_option;
+        let allergy_2_style = this.state.selectedAllergy === 'dairy' ? styles.selected_allergy_style : styles.not_selected_option;
 
         return this.state.showFilters ? (
             <View>
@@ -132,13 +163,27 @@ export default class SearchBar extends Component {
                     <Text style={global_stylesheet.data_title_style}>Price Range</Text>
                     <View style={global_stylesheet.horizontal_container_tight}>
                         <TouchableOpacity onPress={this._selectNoPriceRange}>
-                            <Text style={no_range_style}>None</Text>
+                            <Text style={no_range_style}>none</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this._selectPriceRange1}>
                             <Text style={range_1_style}>{price_ranges[0]}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this._selectPriceRange2}>
                             <Text style={range_2_style}>{price_ranges[1]}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={global_stylesheet.horizontal_container_loose}>
+                    <Text style={global_stylesheet.data_title_style}>Allergies</Text>
+                    <View style={global_stylesheet.horizontal_container_tight}>
+                        <TouchableOpacity onPress={this._selectNoAllergy}>
+                            <Text style={no_allergy_style}>none</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this._selectPeanutAllergy}>
+                            <Text style={allergy_1_style}>{allergies[0]}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this._selectDairyAllergy}>
+                            <Text style={allergy_2_style}>{allergies[1]}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -200,6 +245,19 @@ const styles = StyleSheet.create({
     selected_price_style: {
         color: '#fff',
         backgroundColor: '#4A4',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
+        padding: 8
+    },
+
+    selected_allergy_style: {
+        color: '#fff',
+        backgroundColor: '#F44',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: 'bold',

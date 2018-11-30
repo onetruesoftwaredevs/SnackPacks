@@ -21,6 +21,7 @@ export default class MenuScreen extends Component {
             search: 'none',
             sort: 'popularity',
             price_filter: 'none',
+            allergy_filter: 'none'
         };
     }
 
@@ -34,6 +35,10 @@ export default class MenuScreen extends Component {
 
     _onFilterPrice = () => {
         this.setState({price_filter: Menu.getInstance().getPriceFilter()});
+    };
+
+    _onFilterAllergy = () => {
+        this.setState({allergy_filter: Menu.getInstance().getAllergyFilter()});
     };
 
     _goToCart = () => {
@@ -73,7 +78,8 @@ export default class MenuScreen extends Component {
         return (
             <View style={global_stylesheet.screen_container}>
                 <ScreenHeader title={"SnackPacks"} navigation={this.props.navigation} isDefaultScreen={true}/>
-                <SearchBar onSearch={this._onSearch} onSort={this._onSort} onFilterPrice={this._onFilterPrice}/>
+                <SearchBar onSearch={this._onSearch} onSort={this._onSort} onFilterPrice={this._onFilterPrice}
+                           onFilterAllergy={this._onFilterAllergy}/>
                 <ScrollView style={global_stylesheet.scroll_container}>
                     {Menu.getInstance().getData().map((item) =>
                         <SnackPackView
