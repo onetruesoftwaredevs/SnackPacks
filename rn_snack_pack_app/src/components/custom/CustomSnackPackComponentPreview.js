@@ -8,6 +8,7 @@ import React, {Component} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import NewQuantityComponent from "../misc/NewQuantityComponent";
 import {global_stylesheet} from "../../stylesheet";
+import User from "../../function/User";
 
 export default class CustomSnackPackComponentPreview extends Component {
     // display
@@ -18,8 +19,10 @@ export default class CustomSnackPackComponentPreview extends Component {
     allergens;  // list (string)
 
     // metadata
-    id;         // number
-    navigation; // object
+    id;             // number
+    navigation;     // object
+    parent_name;    // string
+    parent;         // object
 
     constructor(props) {
         super(props);
@@ -38,7 +41,24 @@ export default class CustomSnackPackComponentPreview extends Component {
     };
 
     _onQuantityChanged = (q) => {
+        // add to custom snackpack here
+        if (q === 0) {
+            // remove
+            User.getInstance().removeSnackFromCustomSnackPack(this.props.parent_name, this.props.name);
+        } else if (q > 0) {
+            // add, auto blocks so it can be called every time
+            User.getInstance().addSnackToCustomSnackPack(this.props.parent_name, {
+                _name: this.props.name,
+                _price: this.props.price,
+                _calories: this.props.calories,
+                _allergens: this.props.allergens,
+            });
+            // set quantity
+            User.getInstance().setSnackQuantityInCustomSnackPack(this.props.parent_name, this.props.name, q);
+        }
+
         this.setState({quantity: q});
+        this.props.parent.forceUpdate();
     };
 
     render() {

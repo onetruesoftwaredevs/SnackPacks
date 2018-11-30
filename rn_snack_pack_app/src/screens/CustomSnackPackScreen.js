@@ -60,7 +60,7 @@ export default class CustomSnackPackScreen extends Component {
                             name={item.name}
                             price={User.getInstance().getCustomSnackPackPrice(item.name)}
                             navigation={this.props.navigation}
-                            components={item.snacks}
+                            components={this.state.components}
                         />)
                     }
 
