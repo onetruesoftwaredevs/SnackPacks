@@ -97,7 +97,7 @@ export default class DetailedSnackPackView extends Component {
                         </View>
 
                     </View>
-                    {JSON.parse(Menu.getInstance().getReviews(props.id)).map((item, index) =>
+                    {Menu.getInstance().getReviews(props.id).map((item, index) =>
                         <Review
                             title={item.title}
                             author={item.author}
