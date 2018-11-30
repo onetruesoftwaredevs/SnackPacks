@@ -3,9 +3,6 @@ import { PageHeader, FormGroup, FormControl} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import "./stylesheets/NewBlackListedUser.css";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
-import AWS from 'aws-sdk';
-
-
 
 export default class NewBlackListedUser extends Component {
     constructor(props) {
