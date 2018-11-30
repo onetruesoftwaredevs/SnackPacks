@@ -85,7 +85,7 @@ export default class MenuScreen extends Component {
                         <SnackPackView
                             spname={item._name}
                             spprice={item._cost}
-                            sprating={3}
+                            sprating={Menu.getAverageRating(item)}
                             spallergylist={item._allergens}
                             spcontentlist={item._contents}
                             spimage={item.image_path}
