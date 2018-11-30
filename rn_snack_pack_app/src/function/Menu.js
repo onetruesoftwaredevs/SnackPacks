@@ -215,6 +215,25 @@ class Menu {
             return data;
         }
 
+        if (this._search_filter === 'allergens') {
+            let data = [];
+            for (let i = 0; i < this._menu.length; i++) {
+                let item = this._menu[i];
+                let allergens = item._allergens;
+                let seen = false;
+                for (let j = 0; j < allergens.length; j++) {
+                    let allergen = allergens[j];
+                    if (allergen === this._search) {
+                        seen = true;
+                    }
+                }
+                if (!seen) {
+                    data.push(item);
+                }
+            }
+            return data;
+        }
+
         return [];
     }
 

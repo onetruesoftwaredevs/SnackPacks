@@ -49,8 +49,13 @@ export default class SearchBar extends Component {
     };
 
     _selectContents = () => {
-        this.setState({selectedSearchOption: 'allergens'});
+        this.setState({selectedSearchOption: 'contents'});
         Menu.getInstance().setSearchFilter('contents');
+    };
+
+    _selectAllergy = () => {
+        this.setState({selectedSearchOption: 'allergens'});
+        Menu.getInstance().setSearchFilter('allergens');
     };
 
     _selectPopularity = () => {
@@ -119,10 +124,11 @@ export default class SearchBar extends Component {
 
     renderFilters() {
         let price_ranges = ["< $5", "< $10"];
-        let allergies = ["peanuts", "dairy"];
+        //let allergies = ["peanuts", "dairy"];
 
         let nameStyle = this.state.selectedSearchOption === 'name' ? styles.selected_search_option : styles.not_selected_option;
-        let contentsStyle = this.state.selectedSearchOption === 'name' ? styles.not_selected_option : styles.selected_search_option;
+        let contentsStyle = this.state.selectedSearchOption === 'contents' ? styles.selected_search_option : styles.not_selected_option;
+        let allergyStyle = this.state.selectedSearchOption === 'allergens' ? styles.selected_allergy_style : styles.not_selected_option;
 
         let popularityStyle = this.state.selectedSortOption === 'popularity' ? styles.selected_sort_option : styles.not_selected_option;
         let reviewStyle = this.state.selectedSortOption === 'popularity' ? styles.not_selected_option : styles.selected_sort_option;
@@ -131,9 +137,9 @@ export default class SearchBar extends Component {
         let range_1_style = this.state.selectedPriceRange === 'range1' ? styles.selected_price_style : styles.not_selected_option;
         let range_2_style = this.state.selectedPriceRange === 'range2' ? styles.selected_price_style : styles.not_selected_option;
 
-        let no_allergy_style = this.state.selectedAllergy === 'none' ? styles.selected_allergy_style : styles.not_selected_option;
-        let allergy_1_style = this.state.selectedAllergy === 'peanut' ? styles.selected_allergy_style : styles.not_selected_option;
-        let allergy_2_style = this.state.selectedAllergy === 'dairy' ? styles.selected_allergy_style : styles.not_selected_option;
+        //let no_allergy_style = this.state.selectedAllergy === 'none' ? styles.selected_allergy_style : styles.not_selected_option;
+        //let allergy_1_style = this.state.selectedAllergy === 'peanut' ? styles.selected_allergy_style : styles.not_selected_option;
+        //let allergy_2_style = this.state.selectedAllergy === 'dairy' ? styles.selected_allergy_style : styles.not_selected_option;
 
         return this.state.showFilters ? (
             <View>
@@ -145,6 +151,9 @@ export default class SearchBar extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this._selectContents}>
                             <Text style={contentsStyle}>contents</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this._selectAllergy}>
+                            <Text style={allergyStyle}>allergies</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -173,26 +182,30 @@ export default class SearchBar extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={global_stylesheet.horizontal_container_loose}>
-                    <Text style={global_stylesheet.data_title_style}>Allergies</Text>
-                    <View style={global_stylesheet.horizontal_container_tight}>
-                        <TouchableOpacity onPress={this._selectNoAllergy}>
-                            <Text style={no_allergy_style}>none</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={this._selectPeanutAllergy}>
-                            <Text style={allergy_1_style}>{allergies[0]}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={this._selectDairyAllergy}>
-                            <Text style={allergy_2_style}>{allergies[1]}</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
             </View>
         ) : (<View/>);
     }
 
+    /*
+    <View style={global_stylesheet.horizontal_container_loose}>
+    <Text style={global_stylesheet.data_title_style}>Allergies</Text>
+    <View style={global_stylesheet.horizontal_container_tight}>
+    <TouchableOpacity onPress={this._selectNoAllergy}>
+    <Text style={no_allergy_style}>none</Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={this._selectPeanutAllergy}>
+    <Text style={allergy_1_style}>{allergies[0]}</Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={this._selectDairyAllergy}>
+    <Text style={allergy_2_style}>{allergies[1]}</Text>
+    </TouchableOpacity>
+    </View>
+    </View>
+    */
     render() {
-        let placeholder = this.state.selectedSearchOption === 'name' ? 'search by name ' : 'search by contents ';
+        let placeholder = this.state.selectedSearchOption === 'name' ?
+            'search by name ' :
+            this.state.selectedSearchOption === 'contents' ? 'search by contents' : "exclude allergy";
 
         return (
             <View style={global_stylesheet.basic_container}>
@@ -201,7 +214,7 @@ export default class SearchBar extends Component {
                         <TouchableOpacity onPress={this._onFilter}>
                             <Text style={styles.icon_style}> = </Text>
                         </TouchableOpacity>
-                        <TextInput style={global_stylesheet.header_style} placeholder={placeholder} editable={true}
+                        <TextInput style={styles.header_style} placeholder={placeholder} editable={true}
                                    multiline={false} onChangeText={(text) => this.setState({search: text})}/>
                     </View>
                     <TouchableOpacity onPress={this._onSearch}>
@@ -290,6 +303,18 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textTransform: 'none',
         paddingHorizontal: 16,
+        padding: 4
+    },
+
+    header_style: {
+        color: '#444',
+        fontSize: 24,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        textAlign: 'justify',
+        textDecorationLine: 'none',
+        textAlignVertical: 'center',
+        textTransform: 'none',
         padding: 4
     },
 });
