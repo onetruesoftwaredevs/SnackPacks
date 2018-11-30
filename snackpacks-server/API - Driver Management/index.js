@@ -18,6 +18,7 @@ exports.handler = function(event, context, callback){
                     let response = {
                         "statusCode": 200,
                         "headers": {
+                            "Access-Control-Allow-Origin" : "*",
                         },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": false
@@ -38,7 +39,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                   let response = {
                       "statusCode": 200,
-                      "headers": {},
+                      "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                       "body": JSON.stringify(result),
                       "isBase64Encoded": "false"
                   };
@@ -57,7 +60,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                       "statusCode": 200,
-                      "headers": {},
+                      "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                       "body": JSON.stringify(result),
                       "isBase64Encoded": "false"
                     };
@@ -78,7 +83,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                       "statusCode": 200,
-                      "headers": {},
+                      "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                       "body": JSON.stringify(result),
                       "isBase64Encoded": "false"
                     };
@@ -92,14 +99,16 @@ exports.handler = function(event, context, callback){
             else if(command.localeCompare("review") === 0) {
                 console.log("Review\n");
                 
-                let review = JSON.parse(event.body)
+                let review = JSON.parse(event.body);
                 
-                let promise = DriverConnector.addReview(queryString.id, review.review);
+                let promise = DriverConnector.addReview(queryString.id, review.rating, review.author, review.title, 0, 0, review.description);
                 
                 promise.then(function(result) {
                     let response = {
                       "statusCode": 200,
-                      "headers": {},
+                      "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                       "body": JSON.stringify(result),
                       "isBase64Encoded": "false"
                     };
@@ -115,7 +124,9 @@ exports.handler = function(event, context, callback){
                 
                 let response = {
                     "statusCode": 200,
-                    "headers": {},
+                    "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                     "body": JSON.stringify("Invalid Request Type"),
                     "isBase64Encoded": false
                 };
@@ -126,7 +137,9 @@ exports.handler = function(event, context, callback){
             
             let response = {
                 "statusCode": 200,
-                "headers": {},
+                "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                 "body": JSON.stringify("Unknown Query String"),
                 "isBase64Encoded": false
             };
@@ -138,10 +151,13 @@ exports.handler = function(event, context, callback){
         let response = {
             "statusCode": 200,
             "headers": {
-            },
+                            "Access-Control-Allow-Origin" : "*",
+                        },
             "body": JSON.stringify("QueryString is null"),
             "isBase64Encoded": false
         };
         callback(null, response);
     }
 };
+
+

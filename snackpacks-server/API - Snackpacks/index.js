@@ -19,7 +19,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -58,7 +60,8 @@ exports.handler = function(event, context, callback){
             else if(command.localeCompare("review") === 0) {
                 console.log("Review\n");
                 
-                let review = JSON.parse(event.body)
+                let review = JSON.parse(event.body);
+                console.log(body);
 
                 let promise = SnackConnector.addReview(queryString.id, review.rating, review.author, review.title, 0, 0, review.review);
                 
@@ -138,3 +141,5 @@ exports.handler = function(event, context, callback){
         callback(null, response);
     }
 };
+
+
