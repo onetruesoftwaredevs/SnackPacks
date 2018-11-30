@@ -19,7 +19,7 @@ export default class OrdersView extends Component {
     orderManager; //object
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             isLoading: true,
         }
