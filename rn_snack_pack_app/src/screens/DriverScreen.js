@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, PermissionsAndroid, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import OrderPreview from "../components/driver/OrderPreview";
 import Driver from "../function/Driver";
 import OrderManager from "../function/OrderManager";
@@ -15,6 +15,7 @@ import ScreenHeader from "../components/misc/ScreenHeader";
 import {global_stylesheet} from "../stylesheet";
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import {GMAP_API_KEY} from "../function/Constants";
 
 Mapbox.setAccessToken('pk.eyJ1Ijoic3RlcGhlbmQwMTciLCJhIjoiY2pvZXpzNDh6MWRmMzNxbzRjaGwzcHIzMCJ9.EILVrZZjETyxqQVPk_h8Cg');
 
@@ -24,7 +25,7 @@ export default class DriverScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {previousOrder: null}
+        this.state = {previousOrder: null, lng: 0.0, lat: 0.0}
     }
 
     loadData(responseJson) {
@@ -34,6 +35,20 @@ export default class DriverScreen extends Component {
         this.setState({
             previousOrder: null,
         });
+    }
+
+    loadCoordinates(address) {
+        let formatted_address = address;
+        formatted_address.replace(" ", "+");
+        let url = "https://maps.googleapis.com/maps/api/geocode/json";
+        url += "?address=" + formatted_address;
+        url += "&key=" + GMAP_API_KEY;
+        fetch(url, {method: 'GET'})
+            .then(response => response.json())
+            .then(responseJSON => this.setState({
+                lng: responseJSON.geometry.location.lng,
+                lat: responseJSON.geometry.location.lat
+            }));
     }
 
     setNextOrder() {
@@ -48,6 +63,7 @@ export default class DriverScreen extends Component {
                     method: "POST", body: JSON.stringify({"status": 1})
                 });
                 this.currentOrder._status = 1;
+                this.loadCoordinates(this.currentOrder._address);
             }
         }
     }
@@ -55,21 +71,6 @@ export default class DriverScreen extends Component {
     componentDidMount() {
         this.props.navigation.addListener('willFocus', () => {
             this.setState({previousOrder: null});
-        });
-
-        PermissionsAndroid.requestMultiple(
-            [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION],
-            {
-                title: 'Give Location Permission',
-                message: 'App needs location permission to find your position.'
-            }
-        ).then(granted => {
-            console.log(granted);
-            resolve();
-        }).catch(err => {
-            console.warn(err);
-            reject(err);
         });
 
         this.forceUpdate();
@@ -126,9 +127,24 @@ export default class DriverScreen extends Component {
         });
     };
 
+    renderAnnotations() {
+        return (
+            <Mapbox.PointAnnotation
+                key='pointAnnotation'
+                id='pointAnnotation'
+                coordinate={[this.state.lng, this.state.lat]}>
+
+                <View style={styles.annotationContainer}>
+                    <View style={styles.annotationFill}/>
+                </View>
+                <Mapbox.Callout title='Look! An annotation!'/>
+            </Mapbox.PointAnnotation>
+        )
+    }
+
     render() {
         let currentOrder = this.currentOrder;
-        let display = (currentOrder === undefined) ? (
+        let display = (!currentOrder) ? (
             <View>
                 <Text style={global_stylesheet.error_message_style}>No current orders :(</Text>
             </View>
@@ -166,6 +182,7 @@ export default class DriverScreen extends Component {
                     showUserLocation={true}
                     userTrackingMode={MapboxGL.UserTrackingModes.FollowWithHeading}
                     style={styles.container}>
+                    {this.renderAnnotations()}
                 </Mapbox.MapView>
                 <TouchableOpacity style={global_stylesheet.full_width_margin_style} onPress={this.showMyOrders}>
                     <Text style={styles.my_order_style}> My Orders</Text>
@@ -215,5 +232,21 @@ const styles = StyleSheet.create({
         marginBottom: 6,
 
     },
+
+    annotationContainer: {
+        width: 30,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderRadius: 15,
+    },
+    annotationFill: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: 'orange',
+        transform: [{scale: 0.6}],
+    }
 });
 

@@ -1,12 +1,10 @@
-import {Platform, StyleSheet, Text, TextInput, TouchableOpacity, View, WebView} from 'react-native';
+import {Platform, StyleSheet, TextInput, View, WebView} from 'react-native';
 import React, {Component} from "react";
 import PaymentView from "../components/cart/PaymentView";
 import Cart from "../function/Cart";
-import {global_stylesheet} from "../stylesheet";
 import ScreenHeader from "../components/misc/ScreenHeader";
 
 const payment = require('./payment.html');
-import AWSUser from "../cognito/awsUser";
 
 export default class CheckoutView extends Component {
     constructor(props) {

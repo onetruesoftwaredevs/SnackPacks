@@ -15,9 +15,47 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
 import Mapbox from "@mapbox/react-native-mapbox-gl";
-import MapboxGL from "@mapbox/react-native-mapbox-gl";
+import {GMAP_API_KEY} from "../../function/Constants";
 
 export default class DetailedOrderView extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {longitude: 0.0, latitude: 0.0};
+    }
+
+    loadCoordinates() {
+        let formatted_address = this.props.navigation.state.params.address;
+        formatted_address.replace(" ", "+");
+        let url = "https://maps.googleapis.com/maps/api/geocode/json";
+        url += "?address=" + formatted_address;
+        url += "&key=" + GMAP_API_KEY;
+        fetch(url, {method: 'GET'})
+            .then(response => response.json())
+            .then(responseJSON => this.setState({
+                longitude: responseJSON.geometry.location.lng,
+                latitude: responseJSON.geometry.location.lat
+            }));
+    }
+
+    renderAnnotations() {
+        return (
+            <Mapbox.PointAnnotation
+                key='pointAnnotation'
+                id='pointAnnotation'
+                coordinate={[this.state.longitude, this.state.latitude]}>
+
+                <View style={styles.annotationContainer}>
+                    <View style={styles.annotationFill}/>
+                </View>
+                <Mapbox.Callout title='Look! An annotation!'/>
+            </Mapbox.PointAnnotation>
+        )
+    }
+
+    componentDidMount() {
+        this.loadCoordinates();
+    }
 
     _viewDriver = () => {
         this.props.navigation.navigate("DriverProfile", {
@@ -57,10 +95,10 @@ export default class DetailedOrderView extends Component {
                 <Mapbox.MapView
                     styleURL={Mapbox.StyleURL.Street}
                     zoomLevel={15}
-                    centerCoordinate={[11.256, 43.770]}
+                    centerCoordinate={[this.state.longitude, this.state.latitude]}
                     showUserLocation={true}
-                    userTrackingMode={MapboxGL.UserTrackingModes.FollowWithHeading}
                     style={styles.container}>
+                    {this.renderAnnotations()}
                 </Mapbox.MapView>
                 <Field title={"Subtotal"} value={"$" + subtotal}/>
                 <Field title={"Tax"} value={"$" + tax}/>
@@ -109,4 +147,19 @@ const styles = StyleSheet.create({
     data_button_style: {
         backgroundColor: '#44AAff',
     },
+    annotationContainer: {
+        width: 30,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderRadius: 15,
+    },
+    annotationFill: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: 'orange',
+        transform: [{scale: 0.6}],
+    }
 });

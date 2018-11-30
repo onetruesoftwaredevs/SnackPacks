@@ -36,7 +36,7 @@ export default class OrderPreview extends Component {
     is_reviewable;          // boolean
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {order: null};
     }
 
