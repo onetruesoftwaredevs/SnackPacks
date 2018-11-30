@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AsyncStorage, StyleSheet, Text, View} from 'react-native';
+import {AsyncStorage, PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
 //ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
 import Amplify, {Auth} from 'aws-amplify';
 import MySignIn from "./src/cognito/mySignIn";
@@ -42,6 +42,20 @@ class App extends Component {
     }
 
     componentDidMount() {
+        PermissionsAndroid.requestMultiple(
+            [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION],
+            {
+                title: 'Give Location Permission',
+                message: 'App needs location permission to find your position.'
+            }
+        ).then(granted => {
+            console.log(granted);
+            resolve();
+        }).catch(err => {
+            console.warn(err);
+            reject(err);
+        });
     }
 
     loadUserData() {

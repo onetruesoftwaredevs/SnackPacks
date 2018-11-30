@@ -38,6 +38,21 @@ export default class DetailedOrderView extends Component {
             }));
     }
 
+    renderAnnotations() {
+        return (
+            <Mapbox.PointAnnotation
+                key='pointAnnotation'
+                id='pointAnnotation'
+                coordinate={[this.state.longitude, this.state.latitude]}>
+
+                <View style={styles.annotationContainer}>
+                    <View style={styles.annotationFill}/>
+                </View>
+                <Mapbox.Callout title='Look! An annotation!'/>
+            </Mapbox.PointAnnotation>
+        )
+    }
+
     componentDidMount() {
         this.loadCoordinates();
     }
@@ -83,6 +98,7 @@ export default class DetailedOrderView extends Component {
                     centerCoordinate={[this.state.longitude, this.state.latitude]}
                     showUserLocation={true}
                     style={styles.container}>
+                    {this.renderAnnotations()}
                 </Mapbox.MapView>
                 <Field title={"Subtotal"} value={"$" + subtotal}/>
                 <Field title={"Tax"} value={"$" + tax}/>
@@ -131,4 +147,19 @@ const styles = StyleSheet.create({
     data_button_style: {
         backgroundColor: '#44AAff',
     },
+    annotationContainer: {
+        width: 30,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderRadius: 15,
+    },
+    annotationFill: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: 'orange',
+        transform: [{scale: 0.6}],
+    }
 });
