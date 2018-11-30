@@ -134,28 +134,17 @@ exports.handler=function(event,context,callback){
                     callback(null,response);
                 }
             }else if(command.localeCompare("checkout")===0){//API CALL POST to checkout with payment_nonce
-                //{"nonce":"nonce","tip":0,"cart":[{"key":0,"quantity":6},{"key":3,"quantity":10}]}
-                let transactionErrors;
                 //Declare variables (initialized to undefined)
-                let tip,nonce,cart,amount,street,city,state,zip,recipient;
+                let transactionErrors,tip,nonce,cart,amount,street,city,state,zip,recipient;
                 let serviceFee=1; //Declare serviceFee variable
 
-                //OLD: event.body="{\"nonce\":\"tokencc_bc_9k6r9p_dcg5w3_2sfgn8_p5vgj7_52z\",\"tip\":0,\"cart\":[{\"key\":0,\"quantity\":1}]}";
                 console.log("EVENT BODY: "+JSON.stringify(event.body));
-                /*try{
+                //Query from app is a string data from lambda is already a JSON object
+                try{
                     event.body=JSON.parse(event.body);
+                }catch(e){
+                    console.log("catch!")
                 }
-                catch(e){
-                    console.log("INTO PARSE JSON ERROR");
-                    let response={
-                        "statusCode":500,
-                        "headers":{},
-                        "body":"bad body",
-                        "isBase64Encoded":"false"
-                    };
-                    callback(null,response);
-                    return;
-                }*/
 
                 if(event.body!=null&&event.body!==undefined){
                     //Get variables from event.body
@@ -167,7 +156,7 @@ exports.handler=function(event,context,callback){
                     zip=event.body.address.zip;
                     recipient=event.body.recipient;
 
-                    //Get value of tip in float
+                    //Get absolute value of tip in float
                     if(event.body.tip==parseFloat(event.body.tip,10)&&event.body.tip!=null&&event.body.tip!==undefined) tip=Math.abs(event.body.tip);
                     else tip=0;
 
@@ -250,17 +239,19 @@ exports.handler=function(event,context,callback){
 
                         if(amount!==undefined){
                             let tax=Number(Number(amount*0.06).toFixed(2)); //Calculate tax
-                            console.log("amount: "+amount+"\ntip: "+tip+"\nservice fee: "+serviceFee+"\ntax: "+tax+"\ntotal: "+Number(amount+tip+serviceFee+tax));//Logging
+                            console.log("amount: "+amount+"\ntip: "+tip+"\nservice fee: "+serviceFee+"\ntax: "+tax+"\ntotal: "+Number(Number(amount)+Number(tip)+Number(serviceFee)+Number(tax)));//Logging
 
                             //Use Braintree gateway to complete the transaction
                             gateway.transaction.sale({
-                                amount:Number(amount+tip+serviceFee+tax), //Calculate final cost
+                                amount:Number(Number(amount)+Number(tip)+Number(serviceFee)+Number(tax)), //Calculate final cost
                                 paymentMethodNonce:nonce, //Nonce from request
                                 options:{
                                     submitForSettlement:true //Send payment
                                 }
                             }).then(function(result){
-                                if(result.success||result.transaction){//SUCCESS
+                                console.log("braintree result:");
+                                console.log(result);
+                                if(result.success||result.transaction){//Payment submitted to braintree successfully
                                     //Submit order to server
                                     let orderConnector=new OrderConnector();
 
@@ -281,28 +272,30 @@ exports.handler=function(event,context,callback){
                                     let total=Number(amount)+Number(tip)+Number(serviceFee)+Number(tax);
                                     //status (done)
                                     let dbStatus="0";
-
-                                    let dbResult=orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,dbStatus);
-                                    if(dbResult){
-                                        let response={
-                                            "statusCode":200,
-                                            "headers":{},
-                                            "body":result,
-                                            "isBase64Encoded":"false"
-                                        };
-                                    callback(null,response);
-                                    }else{
-                                        //db err
-                                        console.log("INTO CREATE ORDER ERROR");
-                                        let response={
-                                            "statusCode":500,
-                                            "headers":{},
-                                            "body":JSON.stringify(dbResult),
-                                            "isBase64Encoded":"false"
-                                        };
-                                        callback(null,response);
-                                    }
-                                }else{//ERROR
+                                    //console.log("id: "+id+", cart: "+cart+", recipient: "+recipient+", paymentInfo: "+paymentInfo+", address: "+address+", driver: "+driver+", subtotal: "+subtotal+", tax: "+tax+", total: "+total+", dbstatus: "+dbstatus);
+                                    orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,dbStatus)
+                                        .then(dbResult => {
+                                                console.log(result);
+                                                var response={
+                                                    "statusCode":200,
+                                                    "headers":{},
+                                                    "body":JSON.stringify(result),
+                                                    "isBase64Encoded":"false"
+                                                };
+                                                console.log(response);
+                                                callback(null,response);
+                                        }).catch(err => {
+                                            console.log(err)
+                                            console.log("INTO CREATE ORDER CATCH");
+                                                let response={
+                                                    "statusCode":500,
+                                                    "headers":{},
+                                                    "body":JSON.stringify(err),
+                                                    "isBase64Encoded":"false"
+                                                };
+                                                callback(null,response);
+                                        });
+                                }else{//Error submitting payment to braintree
                                     transactionErrors=result.errors.deepErrors();
                                     console.log("INTO CHECKOUT ERROR");
                                     let response={
@@ -341,22 +334,16 @@ exports.handler=function(event,context,callback){
                 let serviceFee=1; //Declare serviceFee variable
 
                 console.log("EVENT BODY: "+JSON.stringify(event.body));
-                /*try{
+                //Query from app is a string data from lambda is already a JSON object
+                try{
                     event.body=JSON.parse(event.body);
                 }
                 catch(e){
-                    console.log("INTO PARSE JSON ERROR");
-                    let response={
-                        "statusCode":500,
-                        "headers":{},
-                        "body":"bad body",
-                        "isBase64Encoded":"false"
-                    };
-                    callback(null,response);
-                    return;
-                }*/
+                    console.log("catch!")
+                }
 
                 if(event.body!=null&&event.body!==undefined){
+                    //Get variables from body
                     cart=event.body.cart;
                     street=event.body.address.street;
                     city=event.body.address.city;
@@ -453,8 +440,8 @@ exports.handler=function(event,context,callback){
                             let dbStatus="0";
 
                             //Submit order to server
-                            let dbResult=orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,dbStatus);
-                            if(dbResult){
+                            orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,dbStatus)
+                            .then(dbResult => {
                                 let response={
                                     "statusCode":200,
                                     "headers":{},
@@ -462,8 +449,7 @@ exports.handler=function(event,context,callback){
                                     "isBase64Encoded":"false"
                                 };
                                 callback(null,response);
-                            }else{
-                                //db err
+                            }).catch(=>{
                                 console.log("INTO CREATE ORDER ERROR");
                                 let response={
                                     "statusCode":500,
@@ -472,7 +458,16 @@ exports.handler=function(event,context,callback){
                                     "isBase64Encoded":"false"
                                 };
                                 callback(null,response);
-                            }
+                            });
+                        }else{
+                            console.log("INTO NO AMOUNT ERROR");
+                            let response={
+                                "statusCode":500,
+                                "headers":{},
+                                "body":"no amount",
+                                "isBase64Encoded":"false"
+                            };
+                            callback(null,response);
                         }
                     });
                 }
@@ -510,3 +505,4 @@ exports.handler=function(event,context,callback){
         callback(null,response);
     }
 };
+
