@@ -3,6 +3,9 @@ import { PageHeader, FormGroup, FormControl} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import "./stylesheets/NewBlackListedUser.css";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
+import AWS from 'aws-sdk';
+
+
 
 export default class NewBlackListedUser extends Component {
     constructor(props) {
@@ -10,14 +13,13 @@ export default class NewBlackListedUser extends Component {
 
         this.state = {
             isLoading: null,
-            name: "",
-            phoneNum: "",
-            addr: ""
+            id: "",
+            reason: "",
         };
     }
 
     validateForm() {
-        if(this.state.name && this.state.addr && this.state.phoneNum) {
+        if(this.state.id && this.state.reason) {
             return true;
         }else{
             return false;
@@ -45,7 +47,27 @@ export default class NewBlackListedUser extends Component {
     }
 
     addNewBLUser() { // This is the method that is used to add a user to the blacklist (disable them)
-        //TODO: make this function such that it disables the user whose info is in this.state.<name/phoneNum/addr>
+        let url=`https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/blacklist?command=addReport&id=${this.state.id}`;
+        //console.log("url: "+url+" reason: "+this.state.reason);
+        //console.log(JSON.stringify({"reason":this.state.reason}));
+        (async () => {
+            const rawResponse = await fetch(url, {
+                method: 'POST',
+                body:JSON.stringify({"reason":this.state.reason}),
+            });
+            const content = await rawResponse;
+
+            console.log(content);
+            //Disable
+            /*var params = {
+                  UserPoolId: 'us-east-2_uJ9lx0oC2',
+                  Username: 'Test'
+            };
+            AWS.CognitoIdentityServiceProvider.adminDisableUser(params, function(err, data) {
+                  if (err) console.log(err, err.stack); // an error occurred
+                  else     console.log(data);           // successful response
+            });*/
+        })();
     }
 
     render() {
@@ -55,31 +77,22 @@ export default class NewBlackListedUser extends Component {
                 <br></br>
                 <form onSubmit={this.handleSubmit}>
                     <div className="blacklisted">
-                        <FormGroup controlId="name">
-                            <ControlLabel>Blacklisted user's name: </ControlLabel>
+                        <FormGroup controlId="id">
+                            <ControlLabel>Blacklisted user's ID: </ControlLabel>
                             <FormControl
                                 type="text"
-                                placeholder="Enter user's name"
+                                placeholder="Enter user's ID"
                                 onChange={this.handleChange}
                                 value={this.state.name}
                             />
                         </FormGroup>
-                        <FormGroup controlId="phoneNum">
-                            <ControlLabel>Blacklisted user's phone number: </ControlLabel>
+                        <FormGroup controlId="reason">
+                            <ControlLabel>Reason for blacklisting: </ControlLabel>
                             <FormControl
                                 type="text"
-                                placeholder="Enter user's phone number"
+                                placeholder="Enter reason"
                                 onChange={this.handleChange}
-                                value={this.state.phoneNum}
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="addr">
-                            <ControlLabel>Blacklisted user's address: </ControlLabel>
-                            <FormControl
-                                type="text"
-                                placeholder="Enter user's address"
-                                onChange={this.handleChange}
-                                value={this.state.carModel}
+                                value={this.state.reason}
                             />
                         </FormGroup>
                     </div>
