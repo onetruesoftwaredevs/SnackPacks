@@ -145,7 +145,7 @@ export default class OrderPreview extends Component {
         let order = User.getInstance().getOrderById(this.props.number);
         let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers";
         url += "?command=edit";
-        url += "&id=" + order;
+        url += "&id=" + order._id;
         fetch(url, {
             method: "POST", body: JSON.stringify({"status": status})
         });
