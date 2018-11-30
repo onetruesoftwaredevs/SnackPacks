@@ -124,6 +124,9 @@ export const Users = DrawerNavigator({
     Orders: {
         screen: OrderNavigation,
     },
+    Drivers: {
+        screen: DriverNavigation,
+    }
 });
 
 export const Drivers = DrawerNavigator({

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, AsyncStorage, StyleSheet, Text, View} from 'react-native';
+import {AsyncStorage, StyleSheet, Text, View} from 'react-native';
 //ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
 import Amplify, {Auth} from 'aws-amplify';
 import MySignIn from "./src/cognito/mySignIn";
@@ -51,11 +51,10 @@ class App extends Component {
             if (user.getGroup() === "Users") {
                 if (result !== null) {
                     // returning user
-                    Alert.alert('', '' + result.custom_snackpacks);
-                    User.setInstance(user.name, result.custom_snackpacks);
+                    User.setInstance(user.getUser(), result.custom_snackpacks);
                 } else {
                     // new user
-                    User.setInstance(user.getName(), []);
+                    User.setInstance(user.getUser(), []);
                 }
                 this.setState({isLoading: false});
             } else {
@@ -63,10 +62,9 @@ class App extends Component {
                 let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers?command=list";
                 fetch(url, {method: "GET"})
                     .then(response => response.json())
-                    .then(responseJson => this.loadData(responseJson, user.getName()));
+                    .then(responseJson => this.loadData(responseJson, user.getUser()));
             }
         });
-
     }
 
 
