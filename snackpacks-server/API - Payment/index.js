@@ -1,4 +1,5 @@
 'use strict';
+
 let braintree=require('braintree');
 let gateway=require('./src/gateway');
 let PaymentConnector=require('./src/paymentConnect');
@@ -238,7 +239,6 @@ exports.handler=function(event,context,callback){
 
                         if(amount!==undefined){
                             let tax=Number(Number(amount*0.06).toFixed(2)); //Calculate tax
-                            console.log("amount: "+amount+"\ntip: "+tip+"\nservice fee: "+serviceFee+"\ntax: "+tax+"\ntotal: "+Number(Number(amount)+Number(tip)+Number(serviceFee)+Number(tax)));//Logging
 
                             //Use Braintree gateway to complete the transaction
                             gateway.transaction.sale({
@@ -261,7 +261,7 @@ exports.handler=function(event,context,callback){
                                     //cart (done)
                                     //recipient (done)
                                     //paymentInfo (cash, card)
-                                    let paymentInfo="card"+","+result.transaction.id;
+                                    let paymentInfo=result.transaction.id;
                                     //address (done)
                                     let address=""+street+", "+city+", "+state+", "+zip;
                                     //driver (done)
@@ -273,8 +273,6 @@ exports.handler=function(event,context,callback){
                                     let total=Number(amount)+Number(tip)+Number(serviceFee)+Number(tax);
                                     //status (done)
                                     let dbStatus="0";
-                                    console.log("id: "+id+", cart: "+cart+", recipient: "+recipient+", paymentInfo: "+paymentInfo+", address: "+address+", driver: "+driver+", subtotal: "+subtotal+", tax: "+tax+", total: "+total+", dbstatus: "+dbStatus);
-                                    orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,dbStatus)
                                         .then(dbResult => {
                                             console.log(result.success);
                                             console.log(result.transaction.id);
@@ -481,6 +479,60 @@ exports.handler=function(event,context,callback){
                         }
                     });
                 }
+            }else if(command.localeCompare("refund")==0){
+                console.log("REFUND");
+                console.log(JSON.stringify(event.body));
+                try{
+                    event.body=JSON.parse(event.body);
+                }
+                catch(e){
+                    console.log("catch!")
+                }
+                var transactionID=event.body.transactionID;
+                if(transactionID===undefined){
+                    console.log("INTO NO ID ERROR");
+                    let response={
+                        "statusCode":400,
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
+                        "body":"no transactionID received",
+                        "isBase64Encoded":"false"
+                    };
+                    callback(null,response);
+                    return;
+                }
+                
+                console.log(transactionID);
+                
+                
+                gateway.transaction.refund(transactionID, function (err, result) {
+                    if(err){
+                        console.log("ERROR");
+                        console.log(err);
+                        let response={
+                                "statusCode":500,
+                                "headers": {
+                                    "Access-Control-Allow-Origin" : "*",
+                                },
+                                "body":JSON.stringify(err),
+                                "isBase64Encoded":"false"
+                            };
+                            callback(null,response);
+                    }else{
+                        console.log("result");
+                        console.log(result);
+                        let response={
+                                "statusCode":500,
+                                "headers": {
+                                    "Access-Control-Allow-Origin" : "*",
+                                },
+                                "body":JSON.stringify(result.success),
+                                "isBase64Encoded":"false"
+                            };
+                            callback(null,response);
+                    }
+                });
             }else if(command.localeCompare("client")===0){
                 //Testing client functionality for transaction
                 gateway.requestPaymentMethod(function(requestPaymentMethodErr,payload){
@@ -515,4 +567,5 @@ exports.handler=function(event,context,callback){
         callback(null,response);
     }
 };
+
 
