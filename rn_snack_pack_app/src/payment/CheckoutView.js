@@ -51,6 +51,8 @@ export default class CheckoutView extends Component{
                 });
                 const content = await rawResponse;
 
+                //TODO: check status of payment
+
                 console.log(content);
             })();
         }

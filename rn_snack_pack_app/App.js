@@ -1,6 +1,11 @@
+<<<<<<< Updated upstream
 import React,{Component} from 'react';
 import {Button,StyleSheet,Text,View} from 'react-native';
 
+=======
+import React, {Component} from 'react';
+import {AsyncStorage, PermissionsAndroid, StyleSheet, Text, View,Button} from 'react-native';
+>>>>>>> Stashed changes
 //ref: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/mobile-hub-react-native-getting-started.html#mobile-hub-react-native-getting-started-configure-aws-amplify
 import Amplify,{API,Analytics,Storage} from 'aws-amplify';
 import MySignIn from "./src/cognito/mySignIn";
@@ -65,6 +70,7 @@ class App extends Component{
     test(){
         let user=AWSUser.getInstance();
         console.log("AWSUSER:");
+        /*console.log("AWSUSER:");
         console.log(user.getUser());
         console.log("Group:");
         console.log(user.getGroup());
@@ -72,6 +78,9 @@ class App extends Component{
         console.log(user.getEmail());
         console.log("Phone:");
         console.log(user.getPhone());
+        */
+        user.getNumOfOrders();
+        console.log(user);
     }
 
     render() {
