@@ -16,16 +16,25 @@ import {global_stylesheet} from "../../stylesheet";
 import ScreenHeader from "../misc/ScreenHeader";
 import Mapbox from "@mapbox/react-native-mapbox-gl";
 import StatusManager from "../../function/StatusManager";
+import ETAModule from "../../function/ETAModule";
+import {GMAP_API_KEY} from "../../function/Constants";
+
 
 export default class DetailedOrderView extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {longitude: 0.0, latitude: 0.0};
+        this.state = {
+            driver_longitude: 0.0,
+            driver_latitude: 0.0,
+            address_longitude: 0.0,
+            address_latitude: 0.0,
+            time: "unknown"
+        };
     }
 
     loadCoordinates() {
-        /*let formatted_address = this.props.navigation.state.params.address;
+        let formatted_address = this.props.navigation.state.params.address;
         formatted_address.replace(" ", "+");
         let url = "https://maps.googleapis.com/maps/api/geocode/json";
         url += "?address=" + formatted_address;
@@ -33,18 +42,25 @@ export default class DetailedOrderView extends Component {
         fetch(url, {method: 'GET'})
             .then(response => response.json())
             .then(responseJSON => this.setState({
-                longitude: responseJSON.geometry.location.lng,
-                latitude: responseJSON.geometry.location.lat
-            }));*/
-        let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers";
+                address_longitude: responseJSON.geometry.location.lng,
+                address_latitude: responseJSON.geometry.location.lat
+            }));
+
+        url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/drivers";
         url += "?command=getloc";
         url += "&id=" + this.props.navigation.state.params.number;
         fetch(url, {method: 'GET'})
             .then(response => response.json())
             .then(responseJSON => this.setState({
-                longitude: responseJSON.long,
-                latitude: responseJSON.lat
+                driver_longitude: responseJSON.long,
+                driver_latitude: responseJSON.lat
             }));
+        ETAModule.getTime(this.state.driver_latitude, this.state.driver_longitude, this.state.address_latitude, this.state.address_longitude);
+        if (!ETAModule.time) {
+            ETAModule.time = "unknown";
+        }
+        this.setState({time: ETAModule.time});
+
     }
 
     renderAnnotations() {
@@ -52,7 +68,7 @@ export default class DetailedOrderView extends Component {
             <Mapbox.PointAnnotation
                 key='pointAnnotation'
                 id='pointAnnotation'
-                coordinate={[this.state.longitude, this.state.latitude]}>
+                coordinate={[this.state.driver_longitude, this.state.driver_latitude]}>
 
                 <View style={styles.annotationContainer}>
                     <View style={styles.annotationFill}/>
@@ -63,6 +79,9 @@ export default class DetailedOrderView extends Component {
     }
 
     componentDidMount() {
+        this.props.navigation.addListener("willFocus", () => {
+            this.loadCoordinates();
+        });
         this.loadCoordinates();
     }
 
@@ -98,13 +117,13 @@ export default class DetailedOrderView extends Component {
                 </View>
 
                 <Field title={"Status"} value={StatusManager.getString(params.order_status)}/>
-                <Field title={"ETA"} value={params.delivery_time}/>
+                <Field title={"ETA"} value={this.state.time}/>
                 <Field title={"Payment Information"} value={params.payment_info}/>
                 <Field title={"Address"} value={params.address}/>
                 <Mapbox.MapView
                     styleURL={Mapbox.StyleURL.Street}
                     zoomLevel={15}
-                    centerCoordinate={[this.state.longitude, this.state.latitude]}
+                    centerCoordinate={[this.state.driver_longitude, this.state.driver_latitude]}
                     showUserLocation={true}
                     style={styles.container}>
                     {this.renderAnnotations()}
