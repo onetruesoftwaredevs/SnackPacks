@@ -1,5 +1,4 @@
 'use strict';
-
 let braintree=require('braintree');
 let gateway=require('./src/gateway');
 let PaymentConnector=require('./src/paymentConnect');
@@ -252,6 +251,8 @@ exports.handler=function(event,context,callback){
                                 console.log("braintree result:");
                                 console.log(result);
                                 if(result.success||result.transaction){//Payment submitted to braintree successfully
+                                    console.log("success: "+result.success);
+                                    console.log(result.transaction.id);
                                     //Submit order to server
                                     let orderConnector=new OrderConnector();
 
@@ -260,7 +261,7 @@ exports.handler=function(event,context,callback){
                                     //cart (done)
                                     //recipient (done)
                                     //paymentInfo (cash, card)
-                                    let paymentInfo="card";
+                                    let paymentInfo="card"+","+result.transaction.id;
                                     //address (done)
                                     let address=""+street+", "+city+", "+state+", "+zip;
                                     //driver (done)
@@ -272,19 +273,28 @@ exports.handler=function(event,context,callback){
                                     let total=Number(amount)+Number(tip)+Number(serviceFee)+Number(tax);
                                     //status (done)
                                     let dbStatus="0";
-                                    //console.log("id: "+id+", cart: "+cart+", recipient: "+recipient+", paymentInfo: "+paymentInfo+", address: "+address+", driver: "+driver+", subtotal: "+subtotal+", tax: "+tax+", total: "+total+", dbstatus: "+dbstatus);
+                                    console.log("id: "+id+", cart: "+cart+", recipient: "+recipient+", paymentInfo: "+paymentInfo+", address: "+address+", driver: "+driver+", subtotal: "+subtotal+", tax: "+tax+", total: "+total+", dbstatus: "+dbStatus);
                                     orderConnector.createOrder(id,cart,recipient,paymentInfo,address,driver,subtotal,tax,total,dbStatus)
                                         .then(dbResult => {
-                                                console.log(result);
-                                                var response={
-                                                    "statusCode":200,
-                                                    "headers":{},
-                                                    "body":JSON.stringify(result),
-                                                    "isBase64Encoded":"false"
-                                                };
-                                                console.log(response);
-                                                callback(null,response);
-                                        }).catch(err => {
+                                            console.log(result.success);
+                                            console.log(result.transaction.id);
+                                            console.log(result.transaction.creditCard.maskedNumber);
+                                            console.log(result.transaction.processorResponseType);
+                                            var bResult={
+                                                "success":result.success,
+                                                "id":result.transaction.id,
+                                                "maskedNumber":result.transaction.creditCard.maskedNumber,
+                                                "processorResponse":result.transaction.processorResponseType,
+                                            }
+                                            var response={
+                                                "statusCode":200,
+                                                "headers":{},
+                                                "body":JSON.stringify(bResult),
+                                                "isBase64Encoded":"false"
+                                            };
+                                            console.log(response);
+                                            callback(null,response);
+                                        }).catch((err) => {
                                             console.log(err)
                                             console.log("INTO CREATE ORDER CATCH");
                                                 let response={
@@ -449,7 +459,7 @@ exports.handler=function(event,context,callback){
                                     "isBase64Encoded":"false"
                                 };
                                 callback(null,response);
-                            }).catch(=>{
+                            }).catch(err =>{
                                 console.log("INTO CREATE ORDER ERROR");
                                 let response={
                                     "statusCode":500,
