@@ -7,6 +7,7 @@ import ScreenHeader from "../components/misc/ScreenHeader";
 import AWSUser from "../cognito/awsUser";
 
 const payment = require('./payment.html');
+import AWSUser from "../cognito/awsUser";
 
 export default class CheckoutView extends Component {
     constructor(props) {
@@ -70,7 +71,6 @@ export default class CheckoutView extends Component {
             //  ],
             //}
             let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/lambdaIntegration/payment?command=checkout";
-
             (async () => {
                 const rawResponse = await fetch(url, {
                     method: 'POST',
@@ -102,7 +102,6 @@ export default class CheckoutView extends Component {
 
     test = () => {
         let cart = Cart.getInstance().getItemsInCart();
-        console.log("CART: " + "key: " + cart[0].spkey + " quantity: " + cart[0].spquantity);
 
         let cartKQ = [];
         cart.forEach(function (item) {
@@ -110,14 +109,25 @@ export default class CheckoutView extends Component {
         });
 
         let nonce = "nonce";
-        console.log(cartKQ);
-        console.log("body: " + JSON.stringify({"nonce": nonce, "tip": this.state.tip, "cart": JSON.stringify(cartKQ)}));
+        let user=AWSUser.getInstance().getUser();
+        console.log("body: " + JSON.stringify({
+                        "nonce": nonce,
+                        "tip": Number(this.state.tip),
+                        "recipient":user,
+                        "address":{
+                            "street":this.props.navigation.state.params.street,
+                            "city":this.props.navigation.state.params.city,
+                            "state":this.props.navigation.state.params.state,
+                            "zip":this.props.navigation.state.params.zip,
+                        },
+                        "cart": cartKQ,
+                    }));
         // console.log(JSON.stringify({"nonce":"nonce","tip":this.state.tip,"cart":cartKQ}));
-        console.log(this.props.navigation.state.params.subtotal);
-        console.log(this.props.navigation.state.params.street);
-        console.log(this.props.navigation.state.params.city);
-        console.log(this.props.navigation.state.params.state);
-        console.log(this.props.navigation.state.params.zip);
+        //console.log(this.props.navigation.state.params.subtotal);
+        //console.log(this.props.navigation.state.params.street);
+        //console.log(this.props.navigation.state.params.city);
+        //console.log(this.props.navigation.state.params.state);
+        //console.log(this.props.navigation.state.params.zip);
     };
 
     render() {
@@ -141,11 +151,11 @@ export default class CheckoutView extends Component {
                 <PaymentView subtotal={this.props.navigation.state.params.subtotal} tip={this.state.tip}
                              serviceFee={1.00}
                              navigator={this.props.navigation} checkout={false}/>
-                <View style={{marginBottom: 6}}>
+            {/*<View style={{marginBottom: 6}}>
                     <TouchableOpacity onPress={this.test} style={global_stylesheet.full_width_margin_style}>
                         <Text style={styles.back_style}>Test</Text>
                     </TouchableOpacity>
-                </View>
+                </View>*/}
             </View>
         );
     }
