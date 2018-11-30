@@ -9,6 +9,7 @@ import {ScrollView, View} from 'react-native';
 import ScreenHeader from "../misc/ScreenHeader";
 import CustomSnackPackComponentPreview from "./CustomSnackPackComponentPreview";
 import {global_stylesheet} from "../../stylesheet";
+import User from "../../function/User";
 
 export default class CustomSnackPackComponentView extends Component {
     // display
@@ -27,8 +28,10 @@ export default class CustomSnackPackComponentView extends Component {
                             price={Number(item._price)}
                             calories={Number(item._calories)}
                             allergens={item._allergens}
-                            quantity={0}
+                            quantity={User.getInstance().getSnackQuantityFromCustomSnackPack(this.props.navigation.state.params.parent_name, item._name)}
                             navigation={this.props.navigation}
+                            parent_name={this.props.navigation.state.params.parent_name}
+                            parent={this}
                         />
                     )}
                 </ScrollView>

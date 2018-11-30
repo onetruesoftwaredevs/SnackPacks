@@ -37,12 +37,13 @@ class User {
         }
         return null;
     }
-/*
-    static saveLocal() {
-        AsyncStorage.setItem("USER", this.getInstance().getUserLocalDataJSON(), (error) => {
-            Alert.alert('', error);
-        });
-    }*/
+
+    /*
+        static saveLocal() {
+            AsyncStorage.setItem("USER", this.getInstance().getUserLocalDataJSON(), (error) => {
+                Alert.alert('', error);
+            });
+        }*/
 
     saveLocal = async () => {
         try {
@@ -102,14 +103,87 @@ class User {
         this.saveLocal();
     }
 
-    updateCustomSnackPack(name, snacks) {
+    addSnackToCustomSnackPack(name, snack) {
         for (let i = 0; i < this._custom_snackpacks.length; i++) {
             let csp = this._custom_snackpacks[i];
             if (csp.name === name) {
-                csp.snacks = snacks;
+                for (let j = 0; j < csp.snacks.length; j++) {
+                    let _snack = csp.snacks[j];
+                    if (_snack._name === snack._name) {
+                        // already exists
+                        return;
+                    }
+                }
+                let _snack = {
+                    _name: snack._name,
+                    _price: snack._price,
+                    _calories: snack._calories,
+                    _allergens: snack._allergens,
+                    _quantity: 1
+                };
+                csp.snacks.push(_snack);
             }
         }
         this.saveLocal();
+    }
+
+    setSnackQuantityInCustomSnackPack(name, snack_name, quantity) {
+        for (let i = 0; i < this._custom_snackpacks.length; i++) {
+            let csp = this._custom_snackpacks[i];
+            if (csp.name === name) {
+                for (let j = 0; j < csp.snacks.length; j++) {
+                    let _snack = csp.snacks[j];
+                    if (_snack._name === snack_name) {
+                        _snack._quantity = quantity;
+                    }
+                }
+            }
+        }
+        this.saveLocal();
+    }
+
+    getSnackQuantityFromCustomSnackPack(name, snack_name) {
+        for (let i = 0; i < this._custom_snackpacks.length; i++) {
+            let csp = this._custom_snackpacks[i];
+            if (csp.name === name) {
+                for (let j = 0; j < csp.snacks.length; j++) {
+                    let _snack = csp.snacks[j];
+                    if (_snack._name === snack_name) {
+                        return _snack._quantity;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    removeSnackFromCustomSnackPack(name, snack_name) {
+        for (let i = 0; i < this._custom_snackpacks.length; i++) {
+            let csp = this._custom_snackpacks[i];
+            if (csp.name === name) {
+                for (let j = 0; j < csp.snacks.length; j++) {
+                    let _snack = csp.snacks[j];
+                    if (_snack._name === snack_name) {
+                        csp.snacks.splice(j, 1);
+                    }
+                }
+            }
+        }
+        this.saveLocal();
+    }
+
+    getCustomSnackPackPrice(name) {
+        let price = 0.0;
+        for (let i = 0; i < this._custom_snackpacks.length; i++) {
+            let csp = this._custom_snackpacks[i];
+            if (csp.name === name) {
+                for (let j = 0; j < csp.snacks.length; j++) {
+                    let _snack = csp.snacks[j];
+                    price += _snack._price * _snack._quantity;
+                }
+            }
+        }
+        return price;
     }
 
     getCustomSnackPacks() {
@@ -128,20 +202,6 @@ class User {
         }
     }
 
-    getCustomSnackPackPrice(name) {
-        for (let i = 0; i < this._custom_snackpacks.length; i++) {
-            let csp = this._custom_snackpacks[i];
-            if (csp.name === name) {
-                let price = 0.0;
-                for (let j = 0; j < csp.snacks.length; j++) {
-                    let snack = csp.snacks[j];
-                    price += snack._price;
-                }
-                return price;
-            }
-        }
-
-    }
 }
 
 module.exports = User;
