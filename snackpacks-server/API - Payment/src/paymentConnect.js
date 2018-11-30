@@ -16,6 +16,8 @@ class PaymentConnector{
 
     getCartCost(cart){
         //"cart":[{"key":0,"quantity":6},{"key":3,"quantity":10}]}
+        console.log("in createOrder");
+
         return new Promise((resolve,reject)=>{
             var connection=mysql.createConnection({
                 host:this.host,
@@ -23,7 +25,8 @@ class PaymentConnector{
                 password:this.password,
                 port:this.port
             });
-
+            console.log("cart");
+            console.log(JSON.stringify(cart));
             //Create the cart string used for the SQL command
             var cartString="(";
 
@@ -71,3 +74,4 @@ class PaymentConnector{
 
 //Allows module to be exposed
 module.exports=PaymentConnector;
+
