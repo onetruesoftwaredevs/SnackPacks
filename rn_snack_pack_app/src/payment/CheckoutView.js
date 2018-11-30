@@ -4,7 +4,6 @@ import PaymentView from "../components/cart/PaymentView";
 import Cart from "../function/Cart";
 import {global_stylesheet} from "../stylesheet";
 import ScreenHeader from "../components/misc/ScreenHeader";
-import AWSUser from "../cognito/awsUser";
 
 const payment = require('./payment.html');
 import AWSUser from "../cognito/awsUser";

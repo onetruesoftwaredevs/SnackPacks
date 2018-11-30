@@ -46,6 +46,7 @@ class App extends Component {
 
     loadUserData() {
         let user = AWSUser.getInstance();
+        console.log(user.getGroup());
         AsyncStorage.getItem("USER", (err, result) => {
             result = JSON.parse(result);
             if (user.getGroup() === "Users") {
@@ -55,7 +56,7 @@ class App extends Component {
                     User.setInstance(user.name, result.custom_snackpacks);
                 } else {
                     // new user
-                    User.setInstance(user.getName(), []);
+                    User.setInstance(user.getUser(), []);
                 }
                 this.setState({isLoading: false});
             } else {
@@ -63,7 +64,7 @@ class App extends Component {
                 let url = "https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/admin/drivers?command=list";
                 fetch(url, {method: "GET"})
                     .then(response => response.json())
-                    .then(responseJson => this.loadData(responseJson, user.getName()));
+                    .then(responseJson => this.loadData(responseJson, user.getUser()));
             }
         });
 

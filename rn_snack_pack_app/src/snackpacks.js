@@ -18,6 +18,7 @@ import PaymentView from "./components/cart/PaymentView";
 import CustomSnackPackCreatorView from "./components/custom/CustomSnackPackCreatorView";
 import ReviewBuilder from "./components/misc/ReviewBuilder";
 import AddressBuilder from "./components/cart/AddressBuilder";
+import { Auth } from 'aws-amplify';
 
 const DriverNavigation = StackNavigator({
     DriversScreen: {
@@ -131,6 +132,12 @@ export const Drivers = DrawerNavigator({
         screen: DriverNavigation,
     }
 });
+
+export function logout(){
+    Auth.signOut()
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+}
 
 
 // legacy code
