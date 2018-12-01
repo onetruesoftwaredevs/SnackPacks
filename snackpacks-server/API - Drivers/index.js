@@ -20,10 +20,13 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
+                    console.log(response);
                     callback(null, response);
                     console.log("Callback sent");
                 }, function(err) {
@@ -46,7 +49,9 @@ exports.handler = function(event, context, callback){
                     }
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -71,7 +76,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -93,7 +100,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -114,7 +123,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -133,7 +144,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -152,7 +165,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -171,7 +186,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -192,7 +209,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -213,7 +232,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -234,7 +255,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -250,7 +273,9 @@ exports.handler = function(event, context, callback){
                 
                 let response = {
                     "statusCode": 200,
-                    "headers": {},
+                    "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                     "body": JSON.stringify("Invalid Request Type"),
                     "isBase64Encoded": false
                 };
@@ -261,7 +286,9 @@ exports.handler = function(event, context, callback){
             
             let response = {
                 "statusCode": 200,
-                "headers": {},
+                "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                 "body": JSON.stringify("Unknown Query String"),
                 "isBase64Encoded": false
             };
@@ -272,10 +299,14 @@ exports.handler = function(event, context, callback){
         
         let response = {
             "statusCode": 200,
-            "headers": {},
+            "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
             "body": JSON.stringify("Query String is Null"),
             "isBase64Encoded": "false"
         };
         callback(null, response);
     }
 };
+
+
