@@ -94,9 +94,11 @@ class refundConnector{
 	// Sets the status of the refund
 	setRefundStatus(orderID, status){
 		return new Promise((resolve, reject) => {
-            if(isNaN(status) || (status != 0 && status != 1)){
-                reject("ERROR: Inputted value is NaN or value is not 0 or 1!");
+			status=Number(status);
+            if(isNaN(status)){
+                reject("ERROR: Inputted value is NaN!");
             }
+            console.log("Is a number");
 			var connection = mysql.createConnection({host:this.host, user:this.user, password: this.password, port: this.port});
 			connection.connect(function(err){
 				if(err) reject(err);

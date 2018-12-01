@@ -28,7 +28,7 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: NA
 
     * Return: JSON Array of SnackPack JSON Objects
-    
+
 ##### Rate SnackPacks
     * Method: POST
     * QueryString: command=rate&id={SNACKPACK_ID}
@@ -36,38 +36,38 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: JSON with key "rating" and int value between 1 - 5.
 
     * Return: true/false
-    
+
 ##### Review SnackPacks
     * Method: POST
     * QueryString: command=review&id={SNACKPACK_ID}
     * Header: NA
     * Body: JSON with key "name", "rating", "title", and "review" keys.
-    
+
     "body": {
       "name": "Steve",
       "rating": 3,
       "title": "This could've been better",
       "review": "He was aight"
     }
-    
+
     * Please note that this rating does not influence SnackPack rating
 
     * Return: true/false
-    
+
 ##### Upvote
     * Method: GET
     * QueryString: command=upvote&id={SNACKPACK_ID}&rev={REVIEW_INDEX}
     * Header: NA
 
     * Return: true/false
-    
+
 ##### Downvote
     * Method: GET
     * QueryString: command=downvote&id={SNACKPACK_ID}&rev={REVIEW_INDEX}
     * Header: NA
 
     * Return: true/false
-    
+
 ### __/snacks__
 ##### Get Snacks
     * Method: GET
@@ -111,7 +111,7 @@ For POST and PATCH, the body is used to send additional information in the form 
       }
 
     * Return: true/false
-    
+
 ##### Create Order
     * Method: POST
     * QueryString: command=add
@@ -132,7 +132,7 @@ For POST and PATCH, the body is used to send additional information in the form 
         "_recipient": "meep",
         "_paymentInfo": null,
         "_
-        
+
       ress": "Alpher Sigmer Per",
         "_driver": "0",
         "_subtotal": null,
@@ -157,7 +157,7 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: longitude, latitude
 
     * Return: Stringified JSON with keys lat and long
-    
+
 ##### Get Location
     * Method: GET
     * QueryString: command=getloc&id={ORDER_ID}
@@ -209,7 +209,7 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: NA
 
     * Return: true/false
-    
+
 ##### Rate Drivers
     * Method: POST
     * QueryString: command=rate&id={DRIVER_ID}
@@ -217,25 +217,25 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: JSON with key "rating" and int value between 1 - 5.
 
     * Return: true/false
-    
+
 ##### Review Drivers
     * Method: POST
     * QueryString: command=review&id={DRIVER_ID}
     * Header: NA
     * Body: JSON with key "name", "rating", "title", and "review" keys.
-    
+
     "body": {
       "author": "Steve",
       "rating": 3,
       "title": "This could've been better",
       "description": "He was aight"
     }
-    
+
     * Please note that this rating does not influence driver rating
 
     * Return: true/false
-    
- ### __/blacklist__
+
+### __/blacklist__
 ##### List Banned Users
     * Method: GET
     * QueryString: command=list
@@ -243,7 +243,7 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: NA
 
     * Return: JSON Array of Blacklist User JSON Objects
-    
+
 ##### List Banned User by ID
     * Method: GET
     * QueryString: command=listById&id={USER_ID}
@@ -251,10 +251,10 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: NA
 
     * Return: JSON of Blacklist User JSON Object or null if no user exists
-    
+
 ##### Add Report
     * Method: POST
-    * QueryString: command=addReport
+    * QueryString: command=addReport&id={USER_ID}
     * Header: NA
     * Body: JSON with key "reason" with string value
 
@@ -267,7 +267,7 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: NA
 
     * Return: true/false
-    
+
 ##### Get Status
     * Method: GET
     * QueryString: command=checkStatus&id={INT}
@@ -275,7 +275,7 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: NA
 
     * Return: true/false
-   
+
 ##### Clear Blacklisted Users
     * Method: GET
     * QueryString: command=clear
@@ -283,3 +283,45 @@ For POST and PATCH, the body is used to send additional information in the form 
     * Body: NA
 
     * Return: true/false
+
+### __/refund__
+##### List Refunds
+     * Method: GET
+     * QueryString: command=list
+     * Header: NA
+     * Body: NA
+
+     * Return: JSON Array of Refund JSON Objects
+
+##### List Refunds by ID
+    * Method: GET
+    * QueryString: command=listById&id={REFUND_ID}
+    * Header: NA
+    * Body: NA
+
+    * Return: JSON of Refund JSON Object
+
+##### Add Refund
+    * Method: POST
+    * QueryString: command=add
+    * Header: NA
+    * Body: JSON with keys orderId (int), userId (int),
+      reason (string), and amount (double)
+
+    * Return: true/false
+
+##### Set Status
+    * Method: GET
+    * QueryString: command=setStatus&id={REFUND_ID}&status={STATUS}
+    * Header: NA
+    * Body: NA
+
+    * Return: true/false
+
+##### Check Status
+    * Method: GET
+    * QueryString: command=checkStatus&id={REFUND_ID}
+    * Header: NA
+    * Body: NA
+
+    * Return: returns Status of Refund
