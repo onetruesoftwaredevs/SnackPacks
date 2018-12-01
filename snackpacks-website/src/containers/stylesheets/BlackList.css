@@ -1,0 +1,55 @@
+.BlackList h4 {
+    font-family: "Ebrima", sans-serif;
+    color: #1D597F;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.3;
+    margin: 10px 5px 5px;
+}
+
+.BlackList h1 {
+    font-family: "Ebrima", sans-serif;
+    color: #8B0000;
+    font-weight: 600;
+    margin-bottom: 0;
+    line-height: .8;
+}
+
+.BlackList .links {
+    text-decoration-color: #1A2855;
+}
+
+.BlackList .links h3 {
+    margin-top: 45px;
+    margin-bottom: 10px;
+    font-family: "Ebrima", sans-serif;
+    color: #1A2855;
+    font-weight: bold;
+}
+
+.BlackList p {
+    font-family: "Ebrima", sans-serif;
+    color: #92483D;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    margin: 10px;
+}
+
+.BlackList .list-group {
+    display: inline-block;
+    vertical-align: top;
+    align-self: center;
+    margin-left: 1.2em;
+    margin-right: 1.2em;
+}
+
+.BlackList .all {
+    display: inline-block;
+    vertical-align: top;
+    align-self: center;
+    margin-left: 0;
+    width: 15vw;
+}
+.BlackList .all:nth-child(1){
+    margin-left: 0em;
+}

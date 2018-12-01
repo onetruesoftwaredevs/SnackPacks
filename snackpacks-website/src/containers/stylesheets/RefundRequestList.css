@@ -1,0 +1,72 @@
+.RefundRequests h4 {
+    font-family: "Ebrima", sans-serif;
+    color: #1D597F;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.3;
+    margin: 10px 5px 5px;
+}
+
+.RefundRequests h1 {
+    font-family: "Ebrima", sans-serif;
+    color: #8B0000;
+    font-weight: 600;
+    margin-bottom: 0;
+    line-height: .8;
+}
+
+.RefundRequests .links {
+    text-decoration-color: #1A2855;
+}
+
+.RefundRequests h3 {
+    margin-top: 45px;
+    margin-bottom: 10px;
+    font-family: "Ebrima", sans-serif;
+    color: #1D597F;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.RefundRequests .links h3 {
+    margin-top: 45px;
+    margin-bottom: 10px;
+    font-family: "Ebrima", sans-serif;
+    color: #1A2855;
+    font-weight: bold;
+}
+
+.RefundRequests p {
+    font-family: "Ebrima", sans-serif;
+    color: #92483D;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    margin: 10px;
+}
+
+.RefundRequests .list-group {
+    margin: 0px;
+}
+
+.RefundRequests .listed {
+    display: inline-block;
+    vertical-align: top;
+    align-self: center;
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+.RefundRequests .right {
+    display: inline-block;
+    vertical-align: top;
+    align-self: center;
+    margin-left: 1vw;
+    width: 14vw;
+}
+.RefundRequests .left{
+    display: inline-block;
+    vertical-align: top;
+    align-self: center;
+    margin-left: 0em;
+    width: 10vw;
+}

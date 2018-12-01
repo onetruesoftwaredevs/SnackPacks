@@ -1,0 +1,55 @@
+body{
+    background-color: #ADD2E9;
+    red: #8B0000;
+    navy: #1D597F;
+    darkNavy: #1A2855;
+    yellow: #6F662C;
+    brown: #422E21;
+    orange: #92483D;
+}
+
+.App {
+  font-family: "Ebrima", sans-serif;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.App .navbar-brand{
+  font-weight: bold;
+}
+
+.App .options {
+    margin-bottom: 38px;
+}
+
+.App nav {
+    margin-bottom: 25px;
+}
+
+.App h3{
+    line-height: 0;
+    text-decoration: none;
+    margin-bottom: 25px;
+}
+
+.App .image {
+    max-width: 450px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.App .menu{
+    color: #1D597F;
+    text-decoration: none;
+}
+
+.App .menuSelect{
+    color: #8B0000;
+    text-decoration: none;
+}
+
+.App Button{
+    color: white;
+    background-color: #92483D;
+    border-color: #92483D;
+}
