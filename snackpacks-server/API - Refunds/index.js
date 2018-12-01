@@ -19,7 +19,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -44,7 +46,9 @@ exports.handler = function(event, context, callback){
                     }
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -65,7 +69,9 @@ exports.handler = function(event, context, callback){
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -78,13 +84,15 @@ exports.handler = function(event, context, callback){
 
             else if(command.localeCompare("setStatus") == 0) {
                 console.log("Setting Status\n");
-
+                console.log("id: "+queryString.id+" status: "+queryString.status);
                 let promise = RefundConnector.setRefundStatus(queryString.id, queryString.status);
 
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -98,14 +106,14 @@ exports.handler = function(event, context, callback){
             else if(command.localeCompare("checkStatus") == 0) {
                 console.log("Check Status\n");
 
-                let order = JSON.parse(event.body);
-
-                let promise = RefundConnector.checkRefundStatus(queryString.orderId);
+                let promise = RefundConnector.checkRefundStatus(queryString.id);
 
                 promise.then(function(result) {
                     let response = {
                         "statusCode": 200,
-                        "headers": {},
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": "false"
                     };
@@ -121,7 +129,9 @@ exports.handler = function(event, context, callback){
                 
                 let response = {
                     "statusCode": 200,
-                    "headers": {},
+                    "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                     "body": JSON.stringify("Invalid Request Type"),
                     "isBase64Encoded": false
                 };
@@ -132,7 +142,9 @@ exports.handler = function(event, context, callback){
 
             let response = {
                 "statusCode": 200,
-                "headers": {},
+                "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                 "body": JSON.stringify("Unknown Query String"),
                 "isBase64Encoded": false
             };
@@ -143,7 +155,9 @@ exports.handler = function(event, context, callback){
 
         let response = {
             "statusCode": 200,
-            "headers": {},
+            "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
             "body": JSON.stringify("Query String is Null"),
             "isBase64Encoded": "false"
         };
