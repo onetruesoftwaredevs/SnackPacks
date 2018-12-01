@@ -5,30 +5,60 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, Alert, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import SnackPackView from "../components/menu/SnackPackView";
 import Menu from "../function/Menu";
+import ScreenHeader from "../components/misc/ScreenHeader";
+import {global_stylesheet} from "../stylesheet";
+import SearchBar from "../components/menu/SearchBar";
 
 export default class MenuScreen extends Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             isLoading: true,
             dataSource: [],
+            search: 'none',
+            sort: 'popularity',
+            price_filter: 'none',
+            allergy_filter: 'none'
         };
     }
 
-    loadData(responseJson) {
+    _onSearch = () => {
+        this.setState({search: Menu.getInstance().getSearchTerm()});
+    };
+
+    _onSort = () => {
+        this.setState({sort: Menu.getInstance().getSortFilter()});
+    };
+
+    _onFilterPrice = () => {
+        this.setState({price_filter: Menu.getInstance().getPriceFilter()});
+    };
+
+    _onFilterAllergy = () => {
+        this.setState({allergy_filter: Menu.getInstance().getAllergyFilter()});
+    };
+
+    _goToCart = () => {
+        this.props.navigation.navigate("Cart");
+    };
+
+    loadData = (responseJson) => {
         Menu.getInstance().setData(responseJson);
         this.setState({
             isLoading: false,
             dataSource: responseJson
         });
-    }
+    };
 
     componentDidMount() {
         this.props.navigation.addListener('willFocus', () => {
-            this.setState({dataSource: this.state.dataSource});
+            this.setState({isLoading: true});
+            fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
+                .then(response => response.json())
+                .then(responseJson => this.loadData(responseJson));
         });
 
         return fetch("https://hz08tdry07.execute-api.us-east-2.amazonaws.com/prod/snackpacks?command=list", {method: 'GET'})
@@ -39,66 +69,38 @@ export default class MenuScreen extends Component {
     render() {
         if (this.state.isLoading) {
             return (
-                <View style={styles.container}>
-                    <Text style={styles.loading_text}>Loading Screen</Text>
+                <View style={global_stylesheet.screen_container}>
+                    <Text style={global_stylesheet.loading_text}>Loading Screen</Text>
                 </View>
             );
         }
 
         return (
-            <View style={styles.container}>
-                <Text style={styles.title_style}>Snack Packs</Text>
-                <FlatList
-                    style={styles.flatlist_style}
-                    data={Menu.getInstance().getData()}
-                    renderItem={({item}) => <SnackPackView
-                        spname={item._name}
-                        spprice={item._cost}
-                        sprating={3}
-                        spallergylist={item._allergens}
-                        spimage={item.image_path}
-                    />}
-                    extraData={this.state}
-                    keyExtractor={(item) => item._name}
-                />
+            <View style={global_stylesheet.screen_container}>
+                <ScreenHeader title={"SnackPacks"} navigation={this.props.navigation} isDefaultScreen={true}/>
+                <SearchBar onSearch={this._onSearch} onSort={this._onSort} onFilterPrice={this._onFilterPrice}
+                           onFilterAllergy={this._onFilterAllergy}/>
+                <ScrollView style={global_stylesheet.scroll_container}>
+                    {Menu.getInstance().getData().map((item) =>
+                        <SnackPackView
+                            spname={item._name}
+                            spprice={item._cost}
+                            sprating={Menu.getAverageRating(item)}
+                            spallergylist={item._allergens}
+                            spcontentlist={item._contents}
+                            spimage={item.image_path}
+                            spkey={item._key}
+                            spreviews={JSON.parse(item.reviews)}
+                            navigation={this.props.navigation}
+                            parent={this}
+                        />)
+                    }
+                    <TouchableOpacity style={global_stylesheet.full_width_margin_style} onPress={this._goToCart}>
+                        <Text style={global_stylesheet.blue_button_style}>Go to Cart</Text>
+                    </TouchableOpacity>
+                </ScrollView>
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 0,
-        width: '100%',
-        height: '100%',
-    },
-
-    flatlist_style: {
-        height: '45%'
-    },
-
-    title_style: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-
-    loading_text: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-});

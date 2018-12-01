@@ -7,28 +7,19 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import OrderPreview from "./OrderPreview";
 import OrderManager from '../../function/OrderManager'
 import Driver from "../../function/Driver";
+import ScreenHeader from "../misc/ScreenHeader";
+import {global_stylesheet} from "../../stylesheet";
 
 export default class OrdersView extends Component {
 
     orderManager; //object
 
-    available_option = {
-        text: 'Take Order',
-        style: {
-            backgroundColor: '#44aa44',
-            padding: 2,
-        },
-        onPress: () => {
-            Alert.alert('Order added to list', '');
-        },
-    };
-
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             isLoading: true,
         }
@@ -61,105 +52,52 @@ export default class OrdersView extends Component {
     render() {
         if (this.state.isLoading) {
             return (
-                <View style={styles.container}>
-                    <Text style={styles.loading_text}>Loading</Text>
+                <View style={global_stylesheet.screen_container}>
+                    <Text style={global_stylesheet.loading_text}>Loading</Text>
                 </View>
             );
         }
 
-        let swipe_option = null;
-        if (!this.props.navigation.state.params.isDriver) {
-            swipe_option = this.available_option;
-        }
+        let swipe_option = this.props.navigation.state.params.isDriver ? "none" : "available_option";
+        let message = this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getId()).length === 0 ?
+            <View>
+                <Text style={global_stylesheet.error_message_style}>No orders to display</Text>
+            </View> : <View/>;
 
         return (
-            <View style={styles.container}>
-                <Text style={styles.name_style}>{this.props.navigation.state.params.title}</Text>
-                <FlatList
-                    horizontal={false}
-                    data={this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getId())}
-                    keyExtractor={(item) => item}
-                    extraData={this.state}
-                    renderItem={({item}) =>
-                        <OrderPreview
-                            name={item._recipient}
-                            number={item._id}
-                            order_status={"not delivered"}
-                            payment_info={item._paymentInfo}
-                            address={item._address}
-                            subtotal={item._subtotal}
-                            tax={item._tax}
-                            total={item._total}
-                            last_screen={'OrdersView'}
-                            navigation={this.props.navigation}
-                            swipe_handler={swipe_option}
-                        />
-                    }
-                />
-                <TouchableOpacity style={styles.button_style} onPress={this._goBack}>
-                    <Text style={styles.back_style}>Back</Text>
-                </TouchableOpacity>
+            <View style={global_stylesheet.screen_container}>
+                <View>
+                    <ScreenHeader title={this.props.navigation.state.params.title} navigation={this.props.navigation}
+                                  isDefaultScreen={false}/>
+                    <FlatList
+                        horizontal={false}
+                        data={this.orderManager.getOrders(this.props.navigation.state.params.isDriver, Driver.getInstance().getId())}
+                        keyExtractor={(item) => item}
+                        extraData={this.state}
+                        renderItem={({item}) =>
+                            <OrderPreview
+                                name={item._recipient}
+                                number={item._id}
+                                driver={item._driver}
+                                order_status={item._status}
+                                delivery_time={item._time}
+                                payment_info={item._paymentInfo}
+                                address={item._address}
+                                subtotal={item._subtotal}
+                                tax={item._tax}
+                                total={item._total}
+                                last_screen={'OrdersView'}
+                                navigation={this.props.navigation}
+                                swipe_handler={swipe_option}
+                                order_manager={this.orderManager}
+                                parent={this}
+                                is_reviewable={false}
+                            />
+                        }
+                    />
+                    {message}
+                </View>
             </View>
         );
     }
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        justifyContent: 'space-between'
-    },
-
-    horizontal_container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-    loading_text: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    name_style: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4
-    },
-
-    map_style: {
-        height: '75%',
-    },
-
-    button_style: {
-        width: '100%',
-    },
-
-    back_style: {
-        color: '#fdfdfd',
-        backgroundColor: '#44AAff',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 8
-    },
-});
-

@@ -6,102 +6,77 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, TouchableOpacity, Platform, StyleSheet, Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import NumberFormat from 'react-number-format'
+import {global_stylesheet} from "../../stylesheet";
 
 export default class PaymentView extends Component {
     subtotal;
-    tax;
-    deliveryFee;
+    tip;
+    serviceFee;
 
-    _handlePayment()
-    {
-        Alert.alert("Payment button pressed", "test");
-    }
+    _handlePayment = () => {
+        this.props.navigation.navigate('AddressBuilder', {
+            subtotal: this.props.subtotal,
+        });
+    };
 
     render() {
-        let roundedTotal = Number(Number(this.props.subtotal) + Number(this.props.tax) + Number(this.props.deliveryFee)).toFixed(2);
+        let serviceFee = Number(this.props.serviceFee).toFixed(2);
+        let tax = Number(Number(Number(this.props.subtotal) * 0.06).toFixed(2));
 
+        if (this.props.checkout) {
+            let roundedTotal = Number(Number(this.props.subtotal) + Number(tax) + Number(this.props.serviceFee)).toFixed(2);
+            return (
+                <View>
+                    <View style={global_stylesheet.basic_container}>
+                        <Field title={"Subtotal"} value={this.props.subtotal}/>
+                        <Field title={"Tax"} value={tax}/>
+                        <Field title={"Service Fee"} value={serviceFee}/>
+                        <Field title={"Total"} value={roundedTotal}/>
+                    </View>
+
+                    <View style={{marginBottom: 6}}>
+                        <TouchableOpacity onPress={this._handlePayment}
+                                          style={global_stylesheet.full_width_margin_style}>
+                            <Text style={global_stylesheet.green_button_style}>Checkout</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            );
+        } else {
+            let roundedTotal = Number(Number(this.props.subtotal) + Number(tax) + Number(this.props.serviceFee) + Number(this.props.tip)).toFixed(2);
+            return (
+                <View>
+                    <View style={global_stylesheet.basic_container}>
+                        <Field title={"Subtotal"} value={this.props.subtotal}/>
+                        <Field title={"Tax"} value={tax}/>
+                        <Field title={"Tip"} value={this.props.tip}/>
+                        <Field title={"Service Fee"} value={serviceFee}/>
+                        <Field title={"Total"} value={roundedTotal}/>
+                    </View>
+                </View>
+            );
+        }
+    }
+}
+
+class Field extends Component {
+    title;  // string
+    value;  // number
+
+    render() {
         return (
-            <View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.price_style}>Subtotal:</Text>
-                    <NumberFormat
-                        value={this.props.subtotal}
-                        displayType={'text'}
-                        prefix={'$'}
-                        renderText={value =><Text style={styles.price_style}>{value}</Text>}
-                    />
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.price_style}>Tax:</Text>
-                    <NumberFormat
-                        value={this.props.tax}
-                        displayType={'text'}
-                        prefix={'$'}
-                        renderText={value =><Text style={styles.price_style}>{value}</Text>}
-                    />
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.price_style}>Delivery Fee:</Text>
-                    <NumberFormat
-                        value={this.props.deliveryFee}
-                        displayType={'text'}
-                        prefix={'$'}
-                        renderText={value =><Text style={styles.price_style}>{value}</Text>}
-                    />
-                </View>
-                <View style={styles.horizontal_container}>
-                    <Text style={styles.price_style}>Total:</Text>
-                    <NumberFormat
-                        value={roundedTotal}
-                        displayType={'text'}
-                        prefix={'$'}
-                        renderText={value => <Text style={styles.price_style}>{value}</Text>}
-                    />
-                </View>
-                <TouchableOpacity onPress={this._handlePayment} style={styles.button_style}>
-                    <Text style={styles.button_text_style}>Checkout</Text>
-                </TouchableOpacity>
+            <View style={global_stylesheet.horizontal_container_loose}>
+                <Text style={global_stylesheet.data_title_style}>{this.props.title}</Text>
+                <NumberFormat
+                    value={this.props.value}
+                    displayType={'text'}
+                    prefix={'$'}
+                    renderText={value => <Text style={global_stylesheet.data_style}>{value}</Text>}
+                />
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    horizontal_container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#DEDEDE'
-    },
-
-    price_style: {
-        color: '#444',
-        fontSize: 16,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    },
-
-
-    button_style: {
-        backgroundColor: '#008844',
-    },
-
-    button_text_style: {
-        color: '#FFF',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 8,
-    }
-
-});

@@ -6,122 +6,63 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import Cart from '../../function/Cart.js'
-import QuantityComponent from "../misc/QuantityComponent";
+import NewQuantityComponent from "../misc/NewQuantityComponent";
+import {global_stylesheet} from "../../stylesheet";
 
 export default class OrderItemView extends Component {
-    spname;     // the name of the snack-pack
-    spprice;    // the value of the price
+    name;       // string
+    price;      // number
+    spkey;      // key for item
+    parent;     // object
+    is_custom;  // boolean
 
-    parent;
+    constructor(props) {
+        super(props);
+        this.state = {quantity: Cart.getInstance().getQuantity(props.name, props.is_custom)};
+    }
 
-    removeFromCartFunction; // callback function for removing snack-packs
+    _onIncrease = (quantity) => {
+        if (quantity === 1) {
+            // item was added to the cart
+            Cart.getInstance().addToCart(this.props.name, this.props.price, this.props.spkey, this.props.is_custom);
+        } else {
+            // item is already inside the cart
+            Cart.getInstance().setQuantity(this.props.name, quantity, this.props.is_custom);
+        }
+
+        // set the state to force an update
+        this.setState({quantity: quantity});
+        this.props.parent.forceUpdate();
+    };
+
+    _onDecrease = (quantity) => {
+        if (quantity < 1) {
+            // item was removed from the cart
+            Cart.getInstance().removeFromCart(this.props.name, this.props.is_custom);
+        } else {
+            Cart.getInstance().setQuantity(this.props.name, quantity, this.props.is_custom);
+        }
+        // set the state to force an update
+        this.setState({quantity: quantity});
+        this.props.parent.forceUpdate();
+    };
 
     render() {
-        this.props.parent.forceUpdate();
-        let quantity = Cart.getInstance().getQuantity(this.props.spname);
+        let price = Number(this.props.price).toFixed(2);
 
         return (
-            <View style={styles.container}>
-                <View style={styles.horizontal_container}>
-                    <View>
-                        <Text style={styles.name_style}>{this.props.spname}</Text>
-                        <View style={styles.horizontal_button_container}>
-                            <QuantityComponent
-                                spname={this.props.spname}
-                                spprice={this.props.spprice}
-                                defaultText={'Modify'}
-                                defaultTextSize={12}
-                                parent={this}
-                            />
-                            <TouchableOpacity
-                                style={styles.remove_button_style}
-                                onPress={() => this.props.removeFromCartFunction(this.props.spname)}
-                            >
-                                <Text style={styles.button_text_style}>Remove</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={styles.horizontal_container}>
-                        <View>
-                            <View style={styles.horizontal_container}>
-                                <Text style={styles.information_style}>Quantity: </Text>
-                                <Text style={styles.information_style}>{quantity}</Text>
-                            </View>
-                            <View style={styles.horizontal_container}>
-                                <Text style={styles.information_style}>Price: </Text>
-                                <Text style={styles.information_style}>${this.props.spprice}</Text>
-                            </View>
-                        </View>
-                    </View>
+            <View style={global_stylesheet.basic_container}>
+                <View style={global_stylesheet.horizontal_container_loose}>
+                    <Text style={global_stylesheet.header_style}>{this.props.name}</Text>
+                    <Text style={global_stylesheet.data_style}>${price}</Text>
                 </View>
+                <NewQuantityComponent quantity={this.state.quantity} onIncrease={this._onIncrease}
+                                      onDecrease={this._onDecrease}/>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 0,
-        padding: 4,
-    },
-
-    horizontal_container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#DEDEDE'
-    },
-
-    horizontal_button_container: {
-        flexDirection: 'row',
-        backgroundColor: '#DEDEDE'
-    },
-
-    name_style: {
-        color: '#444',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 2
-    },
-
-    information_style: {
-        color: '#444',
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 2,
-    },
-
-    modify_button_style: {
-        backgroundColor: '#4488AA'
-    },
-
-    remove_button_style: {
-        backgroundColor: '#FF4444'
-    },
-
-    button_text_style: {
-        color: '#FFF',
-        fontSize: 12,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        padding: 4,
-    }
-
-});
 
 

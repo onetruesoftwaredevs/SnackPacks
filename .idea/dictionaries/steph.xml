@@ -2,20 +2,34 @@
   <dictionary name="steph">
     <words>
       <w>dname</w>
+      <w>downstyle</w>
+      <w>downvote</w>
+      <w>downvotes</w>
       <w>fcff</w>
       <w>flatlist</w>
+      <w>geocoder</w>
+      <w>geocoding</w>
+      <w>gmap</w>
+      <w>mapbox</w>
       <w>meriem</w>
       <w>snackpack</w>
       <w>snackpacks</w>
       <w>spallergylist</w>
+      <w>spcontentlist</w>
       <w>spdata</w>
       <w>spimage</w>
+      <w>spkey</w>
       <w>spname</w>
       <w>spprice</w>
       <w>spquantity</w>
       <w>sprating</w>
+      <w>spreviews</w>
       <w>swipeout</w>
       <w>swiper</w>
+      <w>updateloc</w>
+      <w>upstyle</w>
+      <w>upvote</w>
+      <w>upvotes</w>
     </words>
   </dictionary>
 </component>

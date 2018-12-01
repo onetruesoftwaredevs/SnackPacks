@@ -7,123 +7,92 @@
  */
 
 import React, {Component} from 'react';
-import {TouchableOpacity, Alert, StyleSheet, Text, View, Image, FlatList} from 'react-native';
-import NutritionView from "./NutritionView";
-import PriceView from "./PriceView";
-import Rating from "./Rating";
-import QuantityComponent from "../misc/QuantityComponent";
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import Cart from "../../function/Cart";
-import { Dimensions } from "react-native";
+import {global_stylesheet} from "../../stylesheet";
+import AllergyView from "../misc/AllergyView";
+import NewQuantityComponent from "../misc/NewQuantityComponent";
+import NewRating from "../misc/NewRating";
 
 export default class SnackPackView extends Component {
-    spname;         // the name of the snack-pack
-    sprating;       // the rating of the snack-pack
-    spprice;        // the price of the snack-pack
-    spallergylist;  // a the list of allergies contained in this snack-pack
-    spimage;
+    spname;         // string
+    sprating;       // number
+    spprice;        // number
+    spallergylist;  // list(string)
+    spcontentlist;  // list(string)
+    spimage;        // string
+    spkey;          // the key of the snack-pack
+    spreviews;      // list(object)
+    navigation;     // object
+    parent;
 
-    _onImagePressed() {
-        Alert.alert('image was pressed', 'test')
+    constructor(props) {
+        super(props);
+        this.state = {quantity: Cart.getInstance().getQuantity(props.spname, false)};
     }
 
-    _onRatingPressed() {
-        Alert.alert('rating was pressed', 'test')
-    }
+    _pressed = () => {
+        this.props.navigation.navigate("DetailedSnackPackView", {
+            name: this.props.spname,
+            price: this.props.spprice,
+            image: this.props.spimage,
+            quantity: this.state.quantity,
+            allergens: this.props.spallergylist,
+            contents: this.props.spcontentlist,
+            reviews: this.props.spreviews,
+            parent: this.props.parent,
+            id: this.props.spkey
+        })
+    };
 
-    _onNutritionPressed() {
-        Alert.alert('nutrition was pressed', 'test')
-    }
+    _onIncrease = (quantity) => {
+        if (quantity === 1) {
+            // item was added to the cart
+            Cart.getInstance().addToCart(this.props.spname, this.props.spprice, this.props.spkey, false);
+        } else {
+            // item is already inside the cart
+            Cart.getInstance().setQuantity(this.props.spname, quantity, false);
+        }
 
-    _onNamePressed() {
-        Alert.alert('name was pressed', 'test')
-    }
+        // set the state to force an update
+        this.setState({quantity: quantity});
+    };
+
+    _onDecrease = (quantity) => {
+        if (quantity < 1) {
+            // item was removed from the cart
+            Cart.getInstance().removeFromCart(this.props.spname, false);
+        } else {
+            Cart.getInstance().setQuantity(this.props.spname, quantity, false);
+        }
+        // set the state to force an update
+        this.setState({quantity: quantity});
+    };
 
     render() {
+        let price = Number(this.props.spprice).toFixed(2);
         return (
-            <View style={styles.container}>
-                <TouchableOpacity onPress={this._onImagePressed}>
-                    <Image style={styles.image_style} source={{uri: this.props.spimage}}></Image>
-                </TouchableOpacity>
-                <View style={styles.information_bar}>
-                    <TouchableOpacity onPress={this._onNamePressed}>
-                        <Text style={styles.name_style}>{this.props.spname}</Text>
-                    </TouchableOpacity>
-                    <View style={styles.rating_style}>
-                        <TouchableOpacity onPress={this._onRatingPressed}>
-                            <Rating starCount={this.props.sprating}/>
-                        </TouchableOpacity>
+            <View style={global_stylesheet.basic_container}>
+                <TouchableOpacity onPress={this._pressed}>
+                    <View style={global_stylesheet.horizontal_container_loose}>
+                        <Text style={global_stylesheet.data_title_style}>{this.props.spname}</Text>
+                        <Text style={global_stylesheet.data_style}>${price}</Text>
                     </View>
-                </View>
-                <View style={styles.information_bar}>
-                    <FlatList
-                        horizontal={true}
-                        data={this.props.spallergylist}
-                        renderItem={({item}) => <NutritionView allergy={item}/>}
-                        keyExtractor={(item) => item}
-                    />
-                    <PriceView price={this.props.spprice}/>
-                </View>
-                <QuantityComponent
-                    spname={this.props.spname}
-                    spprice={this.props.spprice}
-                    defaultText={'Add to Cart'}
-                    defaultTextSize={18}
-                    parent={this}
-                />
+                    <Image style={global_stylesheet.image_style} source={{uri: this.props.spimage}}/>
+                    <View style={global_stylesheet.horizontal_container_loose}>
+                        <FlatList
+                            horizontal={true}
+                            extraData={this.state}
+                            data={this.props.spallergylist}
+                            renderItem={({item}) => <AllergyView allergy={item}/>}
+                            keyExtractor={(item) => item}
+                        />
+                        <NewRating size={12} rating={this.props.sprating} enabled={false}/>
+                    </View>
+                </TouchableOpacity>
+                <NewQuantityComponent quantity={this.state.quantity} navigation={this.props.navigation}
+                                      onIncrease={this._onIncrease} onDecrease={this._onDecrease}/>
             </View>
         );
     }
 }
-
-const window = Dimensions.get('window');
-const width = window.width;
-const height = width * 9 / 16;
-
-const styles = StyleSheet.create({
-    container: {
-        paddingBottom: 8,
-        borderWidth: 0,
-    },
-
-    image_style: {
-        width: width,
-        height: height,
-    },
-
-    information_bar: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#EEEEEE',
-    },
-
-    name_style: {
-        color: '#444',
-        fontSize: 24,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'justify',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        paddingTop: 4,
-        paddingBottom: 4,
-    },
-
-    rating_style: {
-        justifyContent: 'center'
-    },
-
-    add_to_cart_style: {
-        color: '#FFF',
-        backgroundColor: '#4488AA',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        textDecorationLine: 'none',
-        textAlignVertical: 'center',
-        textTransform: 'none',
-        paddingTop: 8,
-        paddingBottom: 8,
-    }
-});
