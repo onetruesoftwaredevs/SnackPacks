@@ -18,6 +18,7 @@ exports.handler = function(event, context, callback){
                     let response = {
                         "statusCode": 200,
                         "headers": {
+                            "Access-Control-Allow-Origin" : "*",
                         },
                         "body": JSON.stringify(result),
                         "isBase64Encoded": false
@@ -47,17 +48,49 @@ exports.handler = function(event, context, callback){
               });
             }
 
+            else if(command.localeCompare("removeById") == 0){
+                console.log("Remove by ID\n");
+
+                let promise = blacklistConnector.removeBlackListedUserByID(queryString.id);
+
+                promise.then((result)=> {
+                    let response = {
+                        "statusCode": 200,
+                        "headers": {
+                        "Access-Control-Allow-Origin" : "*",
+                        },
+                        "body": JSON.stringify(result),
+                        "isBase64Encoded": "false"
+                    };
+                    callback(null, response);
+              }).catch((err)=> {
+                console.log(err);
+                let response = {
+                    "statusCode": 200,
+                    "headers": {
+                        "Access-Control-Allow-Origin" : "*",
+                    },
+                    "body": JSON.stringify(err),
+                    "isBase64Encoded": "false"
+                };
+                callback(null, response)
+              });
+            }
+
             else if(command.localeCompare("addReport") === 0) {
                 console.log("Add Report\n");
 
-                let reason = JSON.parse(body);
+                let reason = JSON.parse(event.body);
+                console.log(reason);
 
-                let promise = blacklistConnector.reportBlackListedUser(queryString.id, reason);
+                let promise = blacklistConnector.reportBlackListedUser(queryString.id, reason.reason);
 
                 promise.then(function(result) {
                     let response = {
                       "statusCode": 200,
-                      "headers": {},
+                      "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                        },
                       "body": JSON.stringify(result),
                       "isBase64Encoded": "false"
                     };
@@ -72,7 +105,6 @@ exports.handler = function(event, context, callback){
                 console.log("Set Status\n");
 
                 let promise = blacklistConnector.setBlackListUserStatus(queryString.id, queryString.status);
-
                 promise.then(function(result) {
                     let response = {
                       "statusCode": 200,
@@ -91,25 +123,6 @@ exports.handler = function(event, context, callback){
                 console.log("Check Status\n");
 
                 let promise = blacklistConnector.checkUserStatus(queryString.id);
-
-                promise.then(function(result) {
-                    let response = {
-                      "statusCode": 200,
-                      "headers": {},
-                      "body": JSON.stringify(result),
-                      "isBase64Encoded": "false"
-                    };
-                    callback(null, response);
-                    console.log("Callback sent");
-                }, function(err) {
-                console.log(err);
-              });
-            }
-
-            else if(command.localeCompare("clear") === 0) {
-                console.log("Clear\n");
-
-                let promise = blacklistConnector.cleanDatabase();
 
                 promise.then(function(result) {
                     let response = {
@@ -160,3 +173,5 @@ exports.handler = function(event, context, callback){
         callback(null, response);
     }
 };
+
+
