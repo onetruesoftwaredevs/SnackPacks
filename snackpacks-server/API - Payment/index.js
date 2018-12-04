@@ -261,7 +261,7 @@ exports.handler=function(event,context,callback){
                                     //cart (done)
                                     //recipient (done)
                                     //paymentInfo (cash, card)
-                                    let paymentInfo=result.transaction.id;
+                                    let paymentInfo=""+result.transaction.id;
                                     //address (done)
                                     let address=""+street+", "+city+", "+state+", "+zip;
                                     //driver (done)
