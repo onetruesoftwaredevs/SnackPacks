@@ -145,7 +145,6 @@ class App extends Component {
         //return <SnackPacks/>//<Button onPress={this.test} title="AWSUser Test"/>
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -178,4 +177,14 @@ export default withAuthenticator(App, false, [
     <ForgotPassword/>
 ]);
 
+
+const styles = StyleSheet.create({
+
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+});
 
