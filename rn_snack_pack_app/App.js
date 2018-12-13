@@ -145,6 +145,7 @@ class App extends Component {
         //return <SnackPacks/>//<Button onPress={this.test} title="AWSUser Test"/>
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
